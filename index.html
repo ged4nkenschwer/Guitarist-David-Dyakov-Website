@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional classical guitarist portfolio website featuring biography, concerts, gallery, videos, and masterclasses">
+    <title>Classical Guitarist | Spanish Guitar Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <div class="logo">
+                <a href="#home">Guitarist Name</a>
+            </div>
+            <nav>
+                <div class="language-switcher">
+                    <button id="lang-de" class="lang-btn">DE</button>
+                    <button id="lang-en" class="lang-btn active">EN</button>
+                </div>
+                <div class="menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link" data-en="Home" data-de="Start">Home</a></li>
+                    <li><a href="#biography" class="nav-link" data-en="Biography" data-de="Biografie">Biography</a></li>
+                    <li><a href="#gallery" class="nav-link" data-en="Gallery" data-de="Galerie">Gallery</a></li>
+                    <li><a href="#concerts" class="nav-link" data-en="Concerts" data-de="Konzerte">Concerts</a></li>
+                    <li><a href="#videos" class="nav-link" data-en="Videos" data-de="Videos">Videos</a></li>
+                    <li><a href="#masterclasses" class="nav-link" data-en="Masterclasses" data-de="Meisterkurse">Masterclasses</a></li>
+                    <li><a href="#contact" class="nav-link" data-en="Contact" data-de="Kontakt">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Home Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="animate-on-scroll" data-en="Classical Guitarist" data-de="Klassischer Gitarrist">Classical Guitarist</h1>
+                <p class="tagline animate-on-scroll" data-en="Bringing timeless Spanish guitar music to life with passion and precision" data-de="Zeitlose spanische Gitarrenmusik mit Leidenschaft und Präzision zum Leben erwecken">Bringing timeless Spanish guitar music to life with passion and precision</p>
+                <a href="#contact" class="btn animate-on-scroll" data-en="Book Now" data-de="Jetzt Buchen">Book Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Biography Section -->
+    <section id="biography" class="section">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll" data-en="Biography" data-de="Biografie">Biography</h2>
+            <div class="biography-content">
+                <div class="bio-image animate-on-scroll">
+                    <img src="https://via.placeholder.com/400x500" alt="Guitarist Portrait">
+                </div>
+                <div class="bio-text animate-on-scroll">
+                    <div class="en-content">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.</p>
+                        <p>Suspendisse in orci enim. Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.</p>
+                    </div>
+                    <div class="de-content" style="display: none;">
+                        <p>Deutsch: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.</p>
+                        <p>Deutsch: Suspendisse in orci enim. Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Spanish Guitar Quote Section -->
+    <section id="quote" class="section quote-section">
+        <div class="container">
+            <div class="quote-container animate-on-scroll">
+                <blockquote>
+                    <p data-en="The guitar is a small orchestra. It is polyphonic. Every string is a different color, a different voice." 
+                       data-de="Die Gitarre ist ein kleines Orchester. Sie ist polyphon. Jede Saite ist eine andere Farbe, eine andere Stimme.">
+                       The guitar is a small orchestra. It is polyphonic. Every string is a different color, a different voice.
+                    </p>
+                    <cite>— Andrés Segovia</cite>
+                </blockquote>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="section">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll" data-en="Gallery" data-de="Galerie">Gallery</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item animate-on-scroll" data-caption="Concert in Vienna">
+                    <img src="https://via.placeholder.com/800x600" alt="Concert in Vienna">
+                </div>
+                <div class="gallery-item animate-on-scroll" data-caption="Studio Recording Session">
+                    <img src="https://via.placeholder.com/800x600" alt="Studio Recording">
+                </div>
+                <div class="gallery-item animate-on-scroll" data-caption="International Guitar Festival">
+                    <img src="https://via.placeholder.com/800x600" alt="Guitar Festival">
+                </div>
+                <div class="gallery-item animate-on-scroll" data-caption="Masterclass in Madrid">
+                    <img src="https://via.placeholder.com/800x600" alt="Masterclass">
+                </div>
+                <div class="gallery-item animate-on-scroll" data-caption="Backstage Moment">
+                    <img src="https://via.placeholder.com/800x600" alt="Backstage">
+                </div>
+                <div class="gallery-item animate-on-scroll" data-caption="Concert Hall Performance">
+                    <img src="https://via.placeholder.com/800x600" alt="Concert Hall">
+                </div>
+            </div>
+        </div>
+        <!-- Lightbox -->
+        <div id="lightbox" class="lightbox">
+            <span class="close-lightbox">&times;</span>
+            <img class="lightbox-content" id="lightbox-img">
+            <div id="lightbox-caption"></div>
+        </div>
+    </section>
+
+    <!-- Concerts Section -->
+    <section id="concerts" class="section">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll" data-en="Concerts & Events" data-de="Konzerte & Veranstaltungen">Concerts & Events</h2>
+            <div class="concerts-list">
+                <div class="concert-card animate-on-scroll">
+                    <div class="concert-date">
+                        <span class="day">15</span>
+                        <span class="month">JUN</span>
+                        <span class="year">2023</span>
+                    </div>
+                    <div class="concert-details">
+                        <h3 class="concert-title">Vienna Concert Hall</h3>
+                        <p class="concert-location">Vienna, Austria</p>
+                        <p class="concert-info" data-en="Solo Recital featuring works by Bach and Tarrega" data-de="Solo-Recital mit Werken von Bach und Tarrega">Solo Recital featuring works by Bach and Tarrega</p>
+                        <a href="#" class="btn-small" data-en="Tickets" data-de="Karten">Tickets</a>
+                    </div>
+                </div>
+                
+                <div class="concert-card animate-on-scroll">
+                    <div class="concert-date">
+                        <span class="day">22</span>
+                        <span class="month">JUL</span>
+                        <span class="year">2023</span>
+                    </div>
+                    <div class="concert-details">
+                        <h3 class="concert-title">Berlin Philharmonic</h3>
+                        <p class="concert-location">Berlin, Germany</p>
+                        <p class="concert-info" data-en="Chamber Music Concert with String Quartet" data-de="Kammermusikkonzert mit Streichquartett">Chamber Music Concert with String Quartet</p>
+                        <a href="#" class="btn-small" data-en="Tickets" data-de="Karten">Tickets</a>
+                    </div>
+                </div>
+                
+                <div class="concert-card animate-on-scroll">
+                    <div class="concert-date">
+                        <span class="day">10</span>
+                        <span class="month">SEP</span>
+                        <span class="year">2023</span>
+                    </div>
+                    <div class="concert-details">
+                        <h3 class="concert-title">Madrid Royal Conservatory</h3>
+                        <p class="concert-location">Madrid, Spain</p>
+                        <p class="concert-info" data-en="International Guitar Festival Opening Concert" data-de="Eröffnungskonzert des Internationalen Gitarrenfestivals">International Guitar Festival Opening Concert</p>
+                        <a href="#" class="btn-small" data-en="Tickets" data-de="Karten">Tickets</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Press & Quotes Section -->
+    <section id="press" class="section press-section">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll" data-en="Press & Quotes" data-de="Presse & Zitate">Press & Quotes</h2>
+            
+            <div class="main-quote quote-fade">
+                <h3 data-en="&ldquo;Gibt es ein Paganini der Gitarre? Ja!&rdquo;" 
+                    data-de="&ldquo;Gibt es ein Paganini der Gitarre? Ja!&rdquo;">
+                    &ldquo;Gibt es ein Paganini der Gitarre? Ja!&rdquo;
+                </h3>
+                <p class="quote-source">— Süddeutsche Zeitung</p>
+            </div>
+            
+            <div class="quotes-grid">
+                <div class="quote-item quote-fade">
+                    <blockquote data-en="&ldquo;A magnificent performer with extraordinary technical and musical gifts bringing fresh insights to the guitar repertoire. His charisma and his emotional communication go straight to the hearts of the audience.&rdquo;"
+                                data-de="&ldquo;Ein großartiger Künstler mit außergewöhnlichen technischen und musikalischen Gaben, der frische Einblicke in das Gitarrenrepertoire bringt. Sein Charisma und seine emotionale Kommunikation gehen direkt zu den Herzen des Publikums.&rdquo;">
+                        &ldquo;A magnificent performer with extraordinary technical and musical gifts bringing fresh insights to the guitar repertoire. His charisma and his emotional communication go straight to the hearts of the audience.&rdquo;
+                    </blockquote>
+                    <cite>— BBC Music Magazine</cite>
+                </div>
+                
+                <div class="quote-item quote-fade">
+                    <blockquote data-en="&ldquo;His interpretation of Spanish classical guitar music remains unmatched, with a rare combination of technical brilliance and profound emotionality that captivates audiences worldwide.&rdquo;"
+                                data-de="&ldquo;Seine Interpretation spanischer klassischer Gitarrenmusik bleibt unübertroffen, mit einer seltenen Kombination aus technischer Brillanz und tiefer Emotionalität, die das Publikum weltweit fesselt.&rdquo;">
+                        &ldquo;His interpretation of Spanish classical guitar music remains unmatched, with a rare combination of technical brilliance and profound emotionality that captivates audiences worldwide.&rdquo;
+                    </blockquote>
+                    <cite>— The Guardian</cite>
+                </div>
+                
+                <div class="quote-item quote-fade">
+                    <blockquote data-en="&ldquo;The evening's performance demonstrated once again why he is considered one of the most important guitarists of our time. His mastery of the instrument and musical sensitivity create moments of transcendent beauty.&rdquo;"
+                                data-de="&ldquo;Die Darbietung des Abends zeigte erneut, warum er als einer der wichtigsten Gitarristen unserer Zeit gilt. Seine Beherrschung des Instruments und seine musikalische Sensibilität schaffen Momente von transzendenter Schönheit.&rdquo;">
+                        &ldquo;The evening's performance demonstrated once again why he is considered one of the most important guitarists of our time. His mastery of the instrument and musical sensitivity create moments of transcendent beauty.&rdquo;
+                    </blockquote>
+                    <cite>— El País</cite>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Videos Section -->
+    <section id="videos" class="section">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll" data-en="Videos" data-de="Videos">Videos</h2>
+            <div class="videos-grid">
+                <div class="video-item animate-on-scroll">
+                    <div class="video-container">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h3 class="video-title" data-en="Bach: Chaconne in D minor" data-de="Bach: Chaconne in d-Moll">Bach: Chaconne in D minor</h3>
+                </div>
+                <div class="video-item animate-on-scroll">
+                    <div class="video-container">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h3 class="video-title" data-en="Tarrega: Recuerdos de la Alhambra" data-de="Tarrega: Recuerdos de la Alhambra">Tarrega: Recuerdos de la Alhambra</h3>
+                </div>
+                <div class="video-item animate-on-scroll">
+                    <div class="video-container">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h3 class="video-title" data-en="Albeniz: Asturias" data-de="Albeniz: Asturias">Albeniz: Asturias</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Spanish Guitar Techniques Section -->
+    <section id="techniques" class="section techniques-section">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll" data-en="Guitar Techniques" data-de="Gitarrentechniken">Guitar Techniques</h2>
+            <div class="techniques-grid">
+                <div class="technique-item animate-on-scroll">
+                    <div class="technique-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h3 data-en="Flamenco Rasgueado" data-de="Flamenco Rasgueado">Flamenco Rasgueado</h3>
+                    <p data-en="Traditional Spanish technique for strumming where individual fingers fan out rapidly." 
+                       data-de="Traditionelle spanische Technik zum Anschlagen, bei der sich einzelne Finger schnell ausbreiten.">
+                       Traditional Spanish technique for strumming where individual fingers fan out rapidly.
+                    </p>
+                </div>
+                <div class="technique-item animate-on-scroll">
+                    <div class="technique-icon">
+                        <i class="fas fa-hand-point-right"></i>
+                    </div>
+                    <h3 data-en="Picado" data-de="Picado">Picado</h3>
+                    <p data-en="A technique for playing rapid single-note runs with alternating fingers." 
+                       data-de="Eine Technik zum Spielen schneller Einzelton-Läufe mit abwechselnden Fingern.">
+                       A technique for playing rapid single-note runs with alternating fingers.
+                    </p>
+                </div>
+                <div class="technique-item animate-on-scroll">
+                    <div class="technique-icon">
+                        <i class="fas fa-drum"></i>
+                    </div>
+                    <h3 data-en="Golpe" data-de="Golpe">Golpe</h3>
+                    <p data-en="Percussive tapping on the soundboard of the guitar for rhythmic effect." 
+                       data-de="Perkussives Klopfen auf dem Resonanzboden der Gitarre für rhythmische Effekte.">
+                       Percussive tapping on the soundboard of the guitar for rhythmic effect.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Masterclasses Section -->
+    <section id="masterclasses" class="section">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll" data-en="Masterclasses" data-de="Meisterkurse">Masterclasses</h2>
+            <div class="masterclasses-content">
+                <div class="masterclass-image animate-on-scroll">
+                    <img src="https://via.placeholder.com/600x400" alt="Masterclass">
+                </div>
+                <div class="masterclass-info animate-on-scroll">
+                    <h3 data-en="Upcoming Masterclasses" data-de="Kommende Meisterkurse">Upcoming Masterclasses</h3>
+                    <div class="en-content">
+                        <p>I offer masterclasses for students of all levels, from beginners to advanced players. My teaching philosophy focuses on developing technical foundations, musical expression, and historical understanding of repertoire.</p>
+                        <p>Masterclasses are available for individual students and groups. I also offer online sessions for those unable to attend in person.</p>
+                        <p>For more information about upcoming masterclasses or to arrange a private session, please contact me using the form below.</p>
+                    </div>
+                    <div class="de-content" style="display: none;">
+                        <p>Ich biete Meisterkurse für Schüler aller Niveaus an, von Anfängern bis zu fortgeschrittenen Spielern. Meine Unterrichtsphilosophie konzentriert sich auf die Entwicklung technischer Grundlagen, musikalischen Ausdrucks und historisches Verständnis des Repertoires.</p>
+                        <p>Meisterkurse sind für Einzelpersonen und Gruppen verfügbar. Ich biete auch Online-Sitzungen für diejenigen an, die nicht persönlich teilnehmen können.</p>
+                        <p>Für weitere Informationen zu bevorstehenden Meisterkursen oder um eine private Sitzung zu vereinbaren, kontaktieren Sie mich bitte über das untenstehende Formular.</p>
+                    </div>
+                    <a href="#contact" class="btn" data-en="Inquire Now" data-de="Jetzt Anfragen">Inquire Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Newsletter Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll" data-en="Contact & Updates" data-de="Kontakt & Updates">Contact & Updates</h2>
+            
+            <!-- Thank you message (hidden by default) -->
+            <div id="form-thanks" class="form-thanks animate-on-scroll" style="display: none;">
+                <p data-en="Thank you for your message! I'll get back to you soon. If you subscribed to updates, you'll receive a confirmation email shortly." 
+                   data-de="Vielen Dank für Ihre Nachricht! Ich werde mich bald bei Ihnen melden. Wenn Sie Updates abonniert haben, erhalten Sie in Kürze eine Bestätigungs-E-Mail.">
+                   Thank you for your message! I'll get back to you soon. If you subscribed to updates, you'll receive a confirmation email shortly.
+                </p>
+            </div>
+            
+            <div class="contact-content">
+                <div class="contact-info animate-on-scroll">
+                    <h3 data-en="Get in Touch" data-de="Kontaktieren Sie mich">Get in Touch</h3>
+                    <p data-en="Use this form to send me a message or subscribe to my newsletter for updates on upcoming concerts, new releases, and more." 
+                       data-de="Nutzen Sie dieses Formular, um mir eine Nachricht zu senden oder meinen Newsletter zu abonnieren, um Updates zu kommenden Konzerten, neuen Veröffentlichungen und mehr zu erhalten.">
+                       Use this form to send me a message or subscribe to my newsletter for updates on upcoming concerts, new releases, and more.
+                    </p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>info@guitarist.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+49 123 456 7890</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Berlin, Germany</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Combined Contact and Newsletter Form -->
+                <form id="combinedForm" class="combined-form animate-on-scroll" method="POST" action="https://your-form-endpoint">
+                    <!-- Name Field (Optional) -->
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" placeholder="Your Name">
+                    </div>
+                    
+                    <!-- Email Field (Required) -->
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" placeholder="Your Email" required>
+                    </div>
+                    
+                    <!-- Location Field (Optional) -->
+                    <div class="form-group">
+                        <label for="location">City or Region</label>
+                        <input type="text" id="location" name="location" placeholder="Your City or Region">
+                    </div>
+                    
+                    <!-- Message Field (Optional) -->
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" placeholder="Your Message"></textarea>
+                    </div>
+                    
+                    <!-- Newsletter Subscription Option -->
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="subscribe" name="subscribe" value="yes">
+                        <label for="subscribe" data-en="I want to receive concert updates and news." 
+                               data-de="Ich möchte Konzert-Updates und Neuigkeiten erhalten.">
+                            I want to receive concert updates and news.
+                        </label>
+                    </div>
+                    
+                    <!-- Hidden fields for service integration -->
+                    <input type="hidden" name="form_type" value="combined">
+                    <input type="hidden" name="source" value="website">
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn" data-en="Send" data-de="Senden">Send</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <div class="footer-logo">Guitarist Name</div>
+                    <div class="social-links">
+                        <a href="https://instagram.com/" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="https://open.spotify.com/" target="_blank" class="social-link"><i class="fab fa-spotify"></i></a>
+                    </div>
+                </div>
+                <div class="spotify-player">
+                    <iframe src="https://open.spotify.com/embed/artist/3WrFJ7ztbogyGnTHbHJFl2" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; <span id="year"></span> Classical Guitarist. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <a href="#" id="back-to-top" title="Back to Top"><i class="fas fa-arrow-up"></i></a>
+
+    <!-- Scripts -->
+    <script src="scripts.js"></script>
+</body>
+</html> 
