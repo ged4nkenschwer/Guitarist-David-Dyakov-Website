@@ -1002,15 +1002,26 @@
                     if (this.userInteracted) return;
                     this.userInteracted = true;
                     
-                    // Preload critical gallery images in batches
-                    const galleryImages = [
-                        './on-stage-1-china.JPG', './on-stage-2-china.JPG', './on-stage-3-china.JPG',
+                    // Preload visible gallery images immediately
+                    const galleryImgs = document.querySelectorAll('.gallery-image');
+                    const visibleImages = Array.from(galleryImgs).slice(0, 4); // First 4 images
+                    
+                    visibleImages.forEach(img => {
+                        if (img.tagName === 'IMG' && !img.complete) {
+                            img.style.opacity = '1';
+                            img.style.transition = 'opacity 0.3s ease';
+                        }
+                    });
+                    
+                    // Then preload the rest in batches
+                    const remainingImages = [
                         './on-stage-4-.JPG', './on-stage-5-cyprus.jpg', './on-stage-6-china.JPG',
+                        './on-stage-7-china.JPG', './on-stage-8-.jpg', './on-stage-9-.jpg',
                         './off-stage-1-italy.jpeg', './off-stage-2-italy.jpeg', './off-stage-3-italy.jpeg',
                         './teaching-guitar.jpg', './david-portrait.jpg'
                     ];
                     
-                    this.loadImageBatch(galleryImages, 2);
+                    this.loadImageBatch(remainingImages, 2);
                     
                     // Remove event listeners after first interaction
                     ['click', 'scroll', 'keydown', 'touchstart'].forEach(event => {

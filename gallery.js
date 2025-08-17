@@ -15,6 +15,8 @@ class EnhancedGallery {
     init() {
         this.collectImages();
         this.bindEvents();
+        this.setupLazyLoading();
+        this.preloadFirstImages();
     }
     
     collectImages() {
@@ -24,16 +26,119 @@ class EnhancedGallery {
             const galleryItems = section.querySelectorAll('.gallery-item');
             galleryItems.forEach((item, index) => {
                 const caption = item.getAttribute('data-caption');
-                const imageDiv = item.querySelector('.gallery-image');
-                if (imageDiv) {
-                    const backgroundImage = imageDiv.style.backgroundImage;
-                    const imageUrl = backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/, '$1');
+                const imageElement = item.querySelector('.gallery-image');
+                if (imageElement) {
+                    let imageUrl;
+                    // Handle both img tags and div with background-image
+                    if (imageElement.tagName === 'IMG') {
+                        imageUrl = imageElement.src;
+                    } else {
+                        const backgroundImage = imageElement.style.backgroundImage;
+                        imageUrl = backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/, '$1');
+                    }
                     this.images.push({
                         url: imageUrl,
                         caption: caption
                     });
                 }
             });
+        });
+    }
+    
+    setupLazyLoading() {
+        // Enhanced lazy loading for gallery images
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        
+                        // Add performance optimizations
+                        img.style.willChange = 'transform';
+                        img.decode().then(() => {
+                            img.style.opacity = '1';
+                            img.style.willChange = 'auto';
+                        }).catch(() => {
+                            // Fallback if decode fails
+                            img.style.opacity = '1';
+                            img.style.willChange = 'auto';
+                        });
+                        
+                        observer.unobserve(img);
+                    }
+                });
+            }, {
+                root: null,
+                rootMargin: '50px',
+                threshold: 0.1
+            });
+            
+            // Observe all gallery images
+            document.querySelectorAll('.gallery-image').forEach(img => {
+                if (img.tagName === 'IMG') {
+                    // Initial setup for smooth loading
+                    img.style.opacity = '0';
+                    img.style.transition = 'opacity 0.3s ease';
+                    
+                    // Only observe if image isn't already loaded
+                    if (!img.complete) {
+                        imageObserver.observe(img);
+                    } else {
+                        img.style.opacity = '1';
+                    }
+                }
+            });
+            
+            // Preload next few images when user scrolls to gallery
+            const gallerySection = document.getElementById('gallery');
+            if (gallerySection) {
+                const galleryObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // Preload first few gallery images immediately
+                            const galleryImages = document.querySelectorAll('.gallery-image');
+                            galleryImages.forEach((img, index) => {
+                                if (index < 6 && img.tagName === 'IMG') { // Preload first 6 images
+                                    const tempImage = new Image();
+                                    tempImage.src = img.src;
+                                }
+                            });
+                            galleryObserver.unobserve(gallerySection);
+                        }
+                    });
+                }, { rootMargin: '100px' });
+                
+                galleryObserver.observe(gallerySection);
+            }
+        } else {
+            // Fallback for browsers without IntersectionObserver
+            document.querySelectorAll('.gallery-image').forEach(img => {
+                if (img.tagName === 'IMG') {
+                    img.style.opacity = '1';
+                }
+            });
+        }
+    }
+    
+    preloadFirstImages() {
+        // Immediately show and preload the first 4 gallery images for faster loading
+        const galleryImages = document.querySelectorAll('.gallery-image');
+        galleryImages.forEach((img, index) => {
+            if (img.tagName === 'IMG' && index < 4) {
+                // Make first 4 images visible immediately
+                img.style.opacity = '1';
+                img.removeAttribute('loading'); // Remove lazy loading from first 4
+                
+                // Preload them
+                if (!img.complete) {
+                    const preloadImg = new Image();
+                    preloadImg.onload = () => {
+                        img.src = preloadImg.src;
+                        img.style.opacity = '1';
+                    };
+                    preloadImg.src = img.src;
+                }
+            }
         });
     }
     
