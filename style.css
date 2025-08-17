@@ -2542,4 +2542,48 @@ textarea {
         transition: none !important;
         animation: none !important;
     }
+}
+
+/* Spotify Widget in Follow Me Section */
+.spotify-widget-container {
+    margin-top: 3rem;
+    text-align: center;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.spotify-widget-container h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.spotify-widget {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(139, 90, 43, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.spotify-widget iframe {
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Responsive Spotify Widget */
+@media (max-width: 768px) {
+    .spotify-widget-container {
+        max-width: 100%;
+        padding: 0 1rem;
+    }
+    
+    .spotify-widget-container h3 {
+        font-size: 1.3rem;
+    }
 } 
