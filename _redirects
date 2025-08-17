@@ -1,0 +1,9 @@
+# Netlify redirects file
+# Handle thank-you page redirect
+/thank-you /thank-you.html 200
+/thank-you/ /thank-you.html 200
+
+# General redirect rule for clean URLs (optional)
+# If you want to support URLs without .html extension for all pages
+# /contact /index.html#contact 301
+# /gallery /index.html#gallery 301
