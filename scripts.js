@@ -225,9 +225,34 @@ function setLanguage(lang) {
     // Save language preference to localStorage
     localStorage.setItem('language', lang);
     
-    // Update all elements with language data attributes
+    // Update all elements with language data attributes (except reveal triggers which need special handling)
     document.querySelectorAll('[data-en][data-de]').forEach(element => {
-        element.textContent = element.getAttribute(`data-${lang}`);
+        // Skip reveal trigger buttons - they need special handling based on their state
+        if (!element.classList.contains('reveal-trigger')) {
+            element.textContent = element.getAttribute(`data-${lang}`);
+        }
+    });
+    
+    // Handle reveal trigger buttons based on their current state
+    document.querySelectorAll('.reveal-trigger').forEach(trigger => {
+        const triggerText = trigger.querySelector('.trigger-text');
+        const isActive = trigger.classList.contains('active');
+        
+        if (isActive) {
+            // Button is in "fold" state
+            const foldTextEn = trigger.getAttribute('data-en-fold');
+            const foldTextDe = trigger.getAttribute('data-de-fold');
+            if (foldTextEn && foldTextDe) {
+                triggerText.textContent = lang === 'de' ? foldTextDe : foldTextEn;
+            }
+        } else {
+            // Button is in "unfold" state
+            const unfoldTextEn = trigger.getAttribute('data-en');
+            const unfoldTextDe = trigger.getAttribute('data-de');
+            if (unfoldTextEn && unfoldTextDe) {
+                triggerText.textContent = lang === 'de' ? unfoldTextDe : unfoldTextEn;
+            }
+        }
     });
     
     // Update content blocks that have language specific versions

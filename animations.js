@@ -621,15 +621,10 @@ function initAchievementReveal() {
                 
                 // Update button state
                 trigger.classList.add('active');
-                const buttonData = trigger.getAttribute('data-en');
-                if (buttonData === 'Unfold Teaching') {
-                    triggerText.textContent = currentLang === 'de' ? 'Unterricht falten' : 'Fold Teaching';
-                } else if (buttonData === 'Unfold On Stage') {
-                    triggerText.textContent = currentLang === 'de' ? 'Auf der Bühne falten' : 'Fold On Stage';
-                } else if (buttonData === 'Unfold Off Stage') {
-                    triggerText.textContent = currentLang === 'de' ? 'Hinter den Kulissen falten' : 'Fold Off Stage';
-                } else {
-                    triggerText.textContent = currentLang === 'de' ? 'Geschichte falten' : 'Fold Story';
+                const foldTextEn = trigger.getAttribute('data-en-fold');
+                const foldTextDe = trigger.getAttribute('data-de-fold');
+                if (foldTextEn && foldTextDe) {
+                    triggerText.textContent = currentLang === 'de' ? foldTextDe : foldTextEn;
                 }
                 isRevealed = true;
                 
@@ -675,15 +670,10 @@ function initAchievementReveal() {
                 
                 // Update button state
                 trigger.classList.remove('active');
-                const buttonData = trigger.getAttribute('data-en');
-                if (buttonData === 'Unfold Teaching') {
-                    triggerText.textContent = currentLang === 'de' ? 'Unterricht entfalten' : 'Unfold Teaching';
-                } else if (buttonData === 'Unfold On Stage') {
-                    triggerText.textContent = currentLang === 'de' ? 'Auf der Bühne entfalten' : 'Unfold On Stage';
-                } else if (buttonData === 'Unfold Off Stage') {
-                    triggerText.textContent = currentLang === 'de' ? 'Hinter den Kulissen entfalten' : 'Unfold Off Stage';
-                } else {
-                    triggerText.textContent = currentLang === 'de' ? 'Geschichte entfalten' : 'Unfold Story';
+                const unfoldTextEn = trigger.getAttribute('data-en');
+                const unfoldTextDe = trigger.getAttribute('data-de');
+                if (unfoldTextEn && unfoldTextDe) {
+                    triggerText.textContent = currentLang === 'de' ? unfoldTextDe : unfoldTextEn;
                 }
                 isRevealed = false;
             }
