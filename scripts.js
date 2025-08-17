@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initBackToTop();
 
     // Initialize lightbox gallery
-    initLightbox();
+    // initLightbox(); // Now handled by gallery.js
 
     // Form submission handlers
     initFormSubmissions();
@@ -359,51 +359,8 @@ function initBackToTop() {
 }
 
 /**
- * Initialize Lightbox Gallery
+ * Gallery lightbox functionality is now handled by gallery.js
  */
-function initLightbox() {
-    const galleryItems = document.querySelectorAll('.gallery-item');
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-    const lightboxCaption = document.getElementById('lightbox-caption');
-    const closeLightbox = document.querySelector('.close-lightbox');
-    
-    galleryItems.forEach(item => {
-        item.addEventListener('click', function() {
-            const imgSrc = this.querySelector('img').getAttribute('src');
-            const imgCaption = this.getAttribute('data-caption');
-            
-            lightboxImg.setAttribute('src', imgSrc);
-            lightboxCaption.textContent = imgCaption;
-            lightbox.style.display = 'block';
-            
-            // Prevent scrolling of the body when lightbox is open
-            document.body.style.overflow = 'hidden';
-        });
-    });
-    
-    // Close lightbox when clicking the close button
-    closeLightbox.addEventListener('click', function() {
-        lightbox.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    });
-    
-    // Close lightbox when clicking outside the image
-    lightbox.addEventListener('click', function(e) {
-        if (e.target === lightbox) {
-            lightbox.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-    });
-    
-    // Close lightbox when pressing Escape key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && lightbox.style.display === 'block') {
-            lightbox.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-    });
-}
 
 /**
  * Initialize form submissions

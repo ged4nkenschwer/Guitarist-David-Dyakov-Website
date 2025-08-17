@@ -143,10 +143,21 @@ class EnhancedGallery {
     }
     
     bindEvents() {
-        // Bind click events to gallery items
-        const galleryItems = document.querySelectorAll('#gallery .gallery-item');
-        galleryItems.forEach((item, index) => {
-            item.addEventListener('click', () => this.openLightbox(index));
+        // Bind click events to gallery items with proper index mapping
+        const gallerySections = document.querySelectorAll('#gallery .achievement-content .gallery-grid');
+        let imageIndex = 0;
+        
+        gallerySections.forEach((section) => {
+            const galleryItems = section.querySelectorAll('.gallery-item');
+            galleryItems.forEach((item) => {
+                const currentIndex = imageIndex;
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.openLightbox(currentIndex);
+                });
+                imageIndex++;
+            });
         });
         
         // Bind lightbox events
@@ -277,8 +288,10 @@ class EnhancedGallery {
                 easing: 'easeOutQuad'
             });
             
-            // Prevent body scroll
+            // Prevent body scroll but allow lightbox scrolling
             document.body.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.width = '100%';
         }
     }
     
@@ -294,7 +307,10 @@ class EnhancedGallery {
                 easing: 'easeInQuad',
                 complete: () => {
                     lightbox.style.display = 'none';
+                    // Restore normal body scroll
                     document.body.style.overflow = '';
+                    document.body.style.position = '';
+                    document.body.style.width = '';
                 }
             });
         }
