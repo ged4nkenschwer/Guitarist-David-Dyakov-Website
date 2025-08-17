@@ -1393,24 +1393,54 @@ textarea {
 
 /* ---------- Contact Section ---------- */
 .contact-content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 3rem;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
 }
 
-.contact-info, .combined-form {
-    flex: 1;
-    min-width: 300px;
+.contact-info {
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.contact-info h3 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--gold);
+    margin-bottom: 1rem;
+}
+
+.contact-info p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-light);
+    margin-bottom: 2rem;
+}
+
+.combined-form {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
 }
 
 .contact-details {
     margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 }
 
 .contact-item {
     display: flex;
     align-items: center;
+    justify-content: center;
     margin-bottom: 1rem;
+    padding: 0.75rem 1.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    transition: var(--transition);
+    min-width: 250px;
 }
 
   .contact-item i {
@@ -1461,10 +1491,34 @@ textarea {
 /* Combined form styles */
 .combined-form {
     text-align: left;
-    background-color: rgba(0, 31, 63, 0.2);
-    padding: 2rem;
-    border-radius: 5px;
-    border-top: 3px solid var(--gold);
+    background: linear-gradient(135deg, rgba(0, 31, 63, 0.3), rgba(139, 90, 43, 0.1));
+    padding: 3rem;
+    border-radius: 15px;
+    border: 1px solid rgba(139, 90, 43, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.combined-form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--guitar-wood), var(--gold), var(--guitar-wood));
+}
+
+/* Ensure all form elements stack vertically */
+
+.combined-form .form-group {
+    display: block;
+    width: 100%;
+    flex: none;
 }
 
 .form-group {
@@ -1484,21 +1538,51 @@ textarea {
 .combined-form input, 
 .combined-form textarea {
     width: 100%;
-    padding: 0.8rem;
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 2px solid rgba(139, 90, 43, 0.3);
     color: var(--text-light);
-    border-radius: 3px;
-    transition: var(--transition);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-family: var(--font-ui);
+    font-size: 1rem;
 }
 
 .combined-form input:focus, 
-  .combined-form textarea:focus {
-      outline: none;
-      border-color: var(--guitar-wood);
-      background-color: rgba(255, 255, 255, 0.1);
-      box-shadow: 0 0 10px rgba(139, 90, 43, 0.3);
-  }
+.combined-form textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    background-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Submit button styling */
+.combined-form .btn {
+    width: 100%;
+    padding: 1.2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background: linear-gradient(45deg, var(--guitar-wood), var(--gold));
+    border: none;
+    border-radius: 8px;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 1rem;
+}
+
+.combined-form .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(139, 90, 43, 0.5);
+    background: linear-gradient(45deg, var(--gold), var(--guitar-wood));
+}
+
+.combined-form .btn:active {
+    transform: translateY(-1px);
+}
 
 /* Form validation styles */
 .combined-form input.error,
@@ -1540,6 +1624,8 @@ textarea {
     display: flex;
     align-items: flex-start;
     text-align: left;
+    width: 100%;
+    margin-bottom: 1.5rem;
 }
 
 .checkbox-group input[type="checkbox"] {
@@ -1602,8 +1688,22 @@ textarea {
 /* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
     .contact-content {
-        flex-direction: column;
-        gap: 2rem;
+        max-width: 100%;
+        padding: 0 1rem;
+    }
+    
+    .combined-form {
+        padding: 2rem;
+        max-width: 100%;
+    }
+    
+    .contact-info h3 {
+        font-size: 1.8rem;
+    }
+    
+    .contact-item {
+        min-width: 200px;
+        padding: 0.75rem 1rem;
     }
     
     .form-group {
@@ -1612,9 +1712,30 @@ textarea {
 }
 
 @media (max-width: 576px) {
+    .combined-form {
+        padding: 1.5rem;
+    }
+    
     .combined-form input, 
     .combined-form textarea {
-        padding: 0.7rem;
+        padding: 0.8rem;
+        font-size: 0.95rem;
+    }
+    
+    .contact-info h3 {
+        font-size: 1.6rem;
+    }
+    
+    .contact-item {
+        min-width: 180px;
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+    
+    .contact-item i {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
     }
 }
 
@@ -1811,10 +1932,14 @@ body {
     }
 
     .biography-content,
-    .masterclasses-content,
-    .contact-content {
+    .masterclasses-content {
         flex-direction: column;
         gap: 2rem;
+    }
+    
+    .contact-content {
+        max-width: 100%;
+        padding: 0 1rem;
     }
 
     .concert-card {
