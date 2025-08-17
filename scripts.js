@@ -510,4 +510,31 @@ window.addEventListener('scroll', function() {
         header.style.padding = '1rem 0';
         header.style.boxShadow = 'none';
     }
+});
+
+/**
+ * Fix navigation scroll issues - EXCLUDE nav-link to avoid conflict with gallery.js
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    // Override navigation links but EXCLUDE .nav-link elements (handled by gallery.js)
+    const navLinks = document.querySelectorAll('a[href^="#"]:not(.nav-link)');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                const headerHeight = 100; // Account for fixed header
+                const targetPosition = targetElement.offsetTop - headerHeight;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
 }); 

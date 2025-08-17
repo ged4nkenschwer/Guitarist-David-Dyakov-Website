@@ -33,7 +33,6 @@
 
 html {
     scroll-behavior: smooth;
-    scroll-padding-top: 100px;
     font-size: 16px;
 }
 
@@ -1841,6 +1840,13 @@ textarea {
     margin-top: 2rem;
 }
 
+/* Fix navigation scroll issues */
+#contact {
+    scroll-margin-top: 80px;
+    position: relative;
+    z-index: 1;
+}
+
 /* Special spacing for main content sections */
 #biography, #repertoire, #masterclasses, #gallery, #videos, #concerts, #follow-me {
     margin-bottom: 3rem;
@@ -1853,14 +1859,14 @@ textarea {
     transition: all 0.5s ease;
 }
 
-/* Enhanced scroll snap for better section alignment */
-body {
+/* Enhanced scroll snap for better section alignment - DISABLED to fix navigation issues */
+/* body {
     scroll-snap-type: y proximity;
-}
+} */
 
 .section {
-    scroll-snap-align: start;
-    scroll-margin-top: 100px;
+    /* scroll-snap-align: start; */
+    /* scroll-margin-top: 100px; */ /* Temporarily disabled to fix navigation */
 }
 
 /* ---------- Responsive Styles ---------- */
@@ -2362,10 +2368,10 @@ body {
     transition: transform 0.2s ease-out;
 }
 
-/* Smooth scroll support */
-html {
+/* Smooth scroll support - REMOVED DUPLICATE */
+/* html {
     scroll-behavior: smooth;
-}
+} */
 
 /* Performance optimizations */
 * {

@@ -54,10 +54,12 @@ class EnhancedGallery {
         if (prevBtn) prevBtn.addEventListener('click', () => this.previousImage());
         if (nextBtn) nextBtn.addEventListener('click', () => this.nextImage());
         
-        // Close lightbox when navigation links are clicked
+        // Handle navigation links - close lightbox if open, then navigate
         const navLinks = document.querySelectorAll('.nav-link');
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                
                 if (this.isOpen) {
                     // Prevent the default navigation briefly to close lightbox first
                     e.preventDefault();
@@ -66,14 +68,32 @@ class EnhancedGallery {
                     // Allow navigation to proceed after lightbox animation completes
                     setTimeout(() => {
                         // Trigger the navigation manually
-                        const href = link.getAttribute('href');
                         if (href && href.startsWith('#')) {
                             const target = document.querySelector(href);
                             if (target) {
-                                target.scrollIntoView({ behavior: 'smooth' });
+                                const headerHeight = 100; // Account for fixed header
+                                const targetPosition = target.offsetTop - headerHeight;
+                                
+                                window.scrollTo({
+                                    top: targetPosition,
+                                    behavior: 'smooth'
+                                });
                             }
                         }
                     }, 350); // Wait for lightbox close animation (300ms) + small buffer
+                } else if (href && href.startsWith('#')) {
+                    // Lightbox is not open, handle navigation normally with proper header offset
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        const headerHeight = 100; // Account for fixed header
+                        const targetPosition = target.offsetTop - headerHeight;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
                 }
             });
         });
