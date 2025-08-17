@@ -37,88 +37,63 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize Press Quotes animations
     initPressQuotesAnimations();
 
-    // Combined Form Handling with Enhanced Validation
+    // Enhanced Combined Form Handling for Netlify Forms
     const combinedForm = document.getElementById('combinedForm');
     const formThanks = document.getElementById('form-thanks');
     
     if (combinedForm) {
+        // Add client-side validation
         combinedForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+            // Validate required fields
+            const email = combinedForm.querySelector('#email');
+            let isValid = true;
             
-            // Validate form
-            if (!validateForm(combinedForm)) {
-                return;
+            // Clear previous error messages
+            clearErrorMessages();
+            
+            // Validate email field
+            if (!email.value.trim()) {
+                showFieldError(email, 'Email is required');
+                isValid = false;
+            } else if (!isValidEmail(email.value)) {
+                showFieldError(email, 'Please enter a valid email address');
+                isValid = false;
             }
             
-            // Show loading state
-            const submitButton = combinedForm.querySelector('button[type="submit"]');
-            const originalText = submitButton.textContent;
-            submitButton.textContent = 'Sending...';
-            submitButton.disabled = true;
+            // If validation fails, prevent submission
+            if (!isValid) {
+                e.preventDefault();
+                return false;
+            }
             
-            // Get form data
-            const formData = new FormData(combinedForm);
+            // If validation passes, show loading state and let Netlify handle the rest
+            showLoadingState();
             
-            // Send to Formspree
-            fetch(combinedForm.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
+            // Don't prevent default - let Netlify Forms handle the submission
+            // The form will redirect to the thank-you page on success
+        });
+        
+        // Add real-time validation feedback
+        const inputs = combinedForm.querySelectorAll('input, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                validateField(this);
+            });
+            
+            input.addEventListener('input', function() {
+                // Remove error styling when user starts typing
+                if (this.classList.contains('error')) {
+                    this.classList.remove('error');
+                    const errorMsg = this.parentNode.querySelector('.error-message');
+                    if (errorMsg) {
+                        errorMsg.remove();
+                    }
                 }
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Network response was not ok');
-                }
-            })
-            .then(data => {
-                console.log('Success:', data);
-                showThankYouMessage();
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                showErrorMessage();
-            })
-            .finally(() => {
-                // Reset button
-                submitButton.textContent = originalText;
-                submitButton.disabled = false;
             });
         });
     }
     
-    function validateForm(form) {
-        const emailInput = form.querySelector('#email');
-        const nameInput = form.querySelector('#name');
-        const messageInput = form.querySelector('#message');
-        
-        // Clear previous error styles
-        clearFormErrors(form);
-        
-        let isValid = true;
-        
-        // Validate email (required)
-        if (!emailInput.value.trim()) {
-            showFieldError(emailInput, 'Email is required');
-            isValid = false;
-        } else if (!isValidEmail(emailInput.value)) {
-            showFieldError(emailInput, 'Please enter a valid email address');
-            isValid = false;
-        }
-        
-        // If neither name nor message is provided, show error
-        if (!nameInput.value.trim() && !messageInput.value.trim()) {
-            showFieldError(nameInput, 'Please provide your name or message');
-            showFieldError(messageInput, 'Please provide your name or message');
-            isValid = false;
-        }
-        
-        return isValid;
-    }
-    
+    // Validation helper functions for Netlify Forms
     function isValidEmail(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
@@ -134,40 +109,37 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Add new error message
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'error-message';
-        errorDiv.textContent = message;
-        field.parentNode.appendChild(errorDiv);
+        const errorElement = document.createElement('span');
+        errorElement.className = 'error-message';
+        errorElement.textContent = message;
+        field.parentNode.appendChild(errorElement);
     }
     
-    function clearFormErrors(form) {
-        const errorFields = form.querySelectorAll('.error');
-        const errorMessages = form.querySelectorAll('.error-message');
+    function clearErrorMessages() {
+        const errorMessages = combinedForm.querySelectorAll('.error-message');
+        errorMessages.forEach(error => error.remove());
         
+        const errorFields = combinedForm.querySelectorAll('.error');
         errorFields.forEach(field => field.classList.remove('error'));
-        errorMessages.forEach(msg => msg.remove());
     }
     
-    function showThankYouMessage() {
-        // Hide the form
-        combinedForm.style.display = 'none';
-        
-        // Show the thank you message
-        if (formThanks) {
-            formThanks.style.display = 'block';
-            
-            // Scroll to thank you message
-            formThanks.scrollIntoView({ behavior: 'smooth' });
+    function validateField(field) {
+        if (field.id === 'email' && field.value.trim()) {
+            if (!isValidEmail(field.value)) {
+                showFieldError(field, 'Please enter a valid email address');
+                return false;
+            }
         }
-        
-        // Reset form for future use
-        setTimeout(() => {
-            combinedForm.reset();
-        }, 1000);
+        return true;
     }
     
-    function showErrorMessage() {
-        alert('There was an error sending your message. Please try again or contact us directly via email.');
+    function showLoadingState() {
+        const submitBtn = combinedForm.querySelector('button[type="submit"]');
+        if (submitBtn) {
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.7';
+        }
     }
 });
 

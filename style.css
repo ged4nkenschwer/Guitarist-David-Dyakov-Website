@@ -1413,12 +1413,22 @@ textarea {
     margin-bottom: 1rem;
 }
 
-.contact-item i {
-    color: var(--gold);
-    margin-right: 1rem;
-    font-size: 1.2rem;
-    width: 20px;
-    text-align: center;
+  .contact-item i {
+      color: var(--guitar-wood);
+      margin-right: 1rem;
+      font-size: 1.2rem;
+  }
+
+/* Netlify Forms Styling */
+.hidden {
+    display: none !important;
+}
+
+/* reCAPTCHA Styling */
+[data-netlify-recaptcha="true"] {
+    margin: 1.5rem 0;
+    display: flex;
+    justify-content: center;
 }
 
 /* Enhanced contact item styling */
@@ -1433,18 +1443,18 @@ textarea {
 }
 
 .contact-item:hover {
-    background: rgba(212, 175, 55, 0.1);
+    background: rgba(139, 90, 43, 0.1);
     transform: translateX(5px);
 }
 
 .contact-link {
-    color: var(--gold);
+    color: var(--guitar-wood);
     text-decoration: none;
     transition: var(--transition);
 }
 
 .contact-link:hover {
-    color: var(--rich-gold);
+    color: var(--gold);
     text-decoration: underline;
 }
 
@@ -1483,12 +1493,12 @@ textarea {
 }
 
 .combined-form input:focus, 
-.combined-form textarea:focus {
-    outline: none;
-    border-color: var(--gold);
-    background-color: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
-}
+  .combined-form textarea:focus {
+      outline: none;
+      border-color: var(--guitar-wood);
+      background-color: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 10px rgba(139, 90, 43, 0.3);
+  }
 
 /* Form validation styles */
 .combined-form input.error,
@@ -1506,10 +1516,10 @@ textarea {
 
 /* Success message styling */
 .form-thanks {
-    background: linear-gradient(135deg, var(--deep-blue), rgba(212, 175, 55, 0.1));
+    background: linear-gradient(135deg, var(--deep-blue), rgba(139, 90, 43, 0.1));
     padding: 2rem;
     border-radius: 10px;
-    border: 1px solid var(--gold);
+    border: 1px solid var(--guitar-wood);
     text-align: center;
     margin-top: 2rem;
 }

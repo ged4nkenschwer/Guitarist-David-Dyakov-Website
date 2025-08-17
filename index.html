@@ -673,23 +673,29 @@
                     <div class="contact-details">
                         <div class="contact-item">
                             <i class="fas fa-envelope"></i>
-                            <a href="mailto:david.dyakov@capricciodiabolico.com" class="contact-link">
-                                <span data-en="david.dyakov@capricciodiabolico.com" data-de="david.dyakov@capricciodiabolico.com">david.dyakov@capricciodiabolico.com</span>
-                            </a>
+                            <span data-en="[Your email address]" data-de="[Ihre E-Mail-Adresse]">[Your email address]</span>
                         </div>
                         <div class="contact-item">
                             <i class="fas fa-map-marker-alt"></i>
-                            <span data-en="Europe" data-de="Europa">Europe</span>
+                            <span data-en="[Your location]" data-de="[Ihr Standort]">[Your location]</span>
                         </div>
                         <div class="contact-item">
-                            <i class="fas fa-music"></i>
-                            <span data-en="Available for concerts, masterclasses & recordings" data-de="Verfügbar für Konzerte, Meisterkurse & Aufnahmen">Available for concerts, masterclasses & recordings</span>
+                            <i class="fas fa-phone"></i>
+                            <span data-en="[Phone number, if desired]" data-de="[Telefonnummer, falls gewünscht]">[Phone number, if desired]</span>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Combined Contact and Newsletter Form -->
-                <form id="combinedForm" class="combined-form animate-on-scroll" method="POST" action="https://formspree.io/f/xpwzgdkn">
+                <form name="contact" id="combinedForm" class="combined-form animate-on-scroll" method="POST" data-netlify="true" data-netlify-recaptcha="true" netlify-honeypot="bot-field" action="/thank-you">
+                    <!-- Netlify Forms Required Fields -->
+                    <input type="hidden" name="form-name" value="contact" />
+                    
+                    <!-- Honeypot Spam Protection (Hidden) -->
+                    <p class="hidden">
+                        <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+                    </p>
+                    
                     <!-- Name Field (Optional) -->
                     <div class="form-group">
                         <label for="name">Name</label>
@@ -727,8 +733,11 @@
                     <input type="hidden" name="form_type" value="combined">
                     <input type="hidden" name="source" value="website">
                     
+                    <!-- reCAPTCHA -->
+                    <div data-netlify-recaptcha="true"></div>
+                    
                     <!-- Submit Button -->
-                    <button type="submit" class="btn" data-en="Send" data-de="Senden">Send</button>
+                    <button type="submit" class="btn" data-en="Send Message" data-de="Nachricht senden">Send Message</button>
                 </form>
             </div>
         </div>
@@ -747,7 +756,7 @@
                     </div>
                 </div>
                 <div class="spotify-player">
-                    <iframe src="https://open.spotify.com/embed/artist/3WrFJ7ztbogyGnTHbHJFl2" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media" title="David Dyakov Spotify Player"></iframe>
+                    <iframe src="https://open.spotify.com/embed/artist/5Y4rHZVGuvUib8wAHd7g4h" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media" title="David Dyakov Spotify Player"></iframe>
                 </div>
             </div>
             <div class="copyright">

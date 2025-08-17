@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You - Capriccio Diabolico</title>
+    
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Critical CSS (inlined for faster rendering) -->
+    <style>
+        body{margin:0;font-family:'Roboto',Arial,sans-serif;background:#0b0c10;color:#c5c6c7;overflow-x:hidden}
+        .hero{min-height:100vh;background:linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.6)),url('./hero-guitarist.JPG') center/cover;display:flex;align-items:center;justify-content:center;position:relative}
+        .hero-content{text-align:center;max-width:800px;animation:fadeInUp 1s ease}
+        .hero h1{font-size:3.5rem;margin-bottom:1rem;color:#d4af37;font-family:'Playfair Display',serif}
+        .tagline{font-size:1.4rem;margin-bottom:2rem;color:#c5c6c7}
+        .btn{display:inline-block;padding:1rem 2rem;background:linear-gradient(45deg,#d4af37,#b8941f);color:#fff;text-decoration:none;border-radius:50px;transition:all 0.3s ease}
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+        .thank-you-container{max-width:800px;margin:0 auto;padding:2rem;text-align:center}
+        .success-icon{font-size:4rem;color:#8B5A2B;margin-bottom:2rem}
+        .back-btn{margin-top:2rem}
+    </style>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">Capriccio Diabolico</a>
+            </div>
+            <nav>
+                <div class="language-switcher">
+                    <button id="lang-de" class="lang-btn">DE</button>
+                    <button id="lang-en" class="lang-btn active">EN</button>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html#home" class="nav-link">Home</a></li>
+                    <li><a href="index.html#biography" class="nav-link">Biography</a></li>
+                    <li><a href="index.html#repertoire" class="nav-link">Repertoire</a></li>
+                    <li><a href="index.html#gallery" class="nav-link">Gallery</a></li>
+                    <li><a href="index.html#videos" class="nav-link">Videos</a></li>
+                    <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+                </ul>
+                <div class="menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Thank You Section -->
+    <section class="section" style="padding-top: 120px;">
+        <div class="container">
+            <div class="thank-you-container">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                
+                <h1 class="section-title" data-en="Thank You!" data-de="Vielen Dank!">Thank You!</h1>
+                
+                <div class="content">
+                    <p data-en="Your message has been successfully sent. I appreciate you reaching out and will respond to your inquiry as soon as possible." 
+                       data-de="Ihre Nachricht wurde erfolgreich gesendet. Ich schätze Ihre Kontaktaufnahme und werde so bald wie möglich auf Ihre Anfrage antworten.">
+                       Your message has been successfully sent. I appreciate you reaching out and will respond to your inquiry as soon as possible.
+                    </p>
+                    
+                    <p data-en="If you subscribed to updates, you'll receive a confirmation email shortly with information about upcoming concerts and musical events." 
+                       data-de="Wenn Sie Updates abonniert haben, erhalten Sie in Kürze eine Bestätigungs-E-Mail mit Informationen zu bevorstehenden Konzerten und musikalischen Veranstaltungen.">
+                       If you subscribed to updates, you'll receive a confirmation email shortly with information about upcoming concerts and musical events.
+                    </p>
+                    
+                    <div class="back-btn">
+                        <a href="index.html" class="btn" data-en="Return to Homepage" data-de="Zur Startseite zurückkehren">Return to Homepage</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>&copy; 2024 Capriccio Diabolico. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html#contact" data-en="Contact" data-de="Kontakt">Contact</a>
+                    <a href="index.html#follow-me" data-en="Follow" data-de="Folgen">Follow</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="scripts.js" defer></script>
+    
+    <!-- Auto-redirect after 10 seconds -->
+    <script>
+        setTimeout(function() {
+            if (window.location.pathname.includes('thank-you')) {
+                window.location.href = 'index.html';
+            }
+        }, 10000);
+    </script>
+</body>
+</html>
