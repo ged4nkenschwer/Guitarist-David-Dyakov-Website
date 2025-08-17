@@ -1,0 +1,46 @@
+# Robots.txt for David Dyakov - Classical Guitarist
+# Allow all search engines to index the website
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://daviddyakov.com/sitemap.xml
+
+# Block access to system files
+Disallow: /*.js$
+Disallow: /*.css$
+Disallow: /scripts.js
+Disallow: /animations.js
+Disallow: /gallery.js
+
+# Allow crawling of video and image files for rich snippets
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.gif$
+Allow: /*.webp$
+Allow: /*.mov$
+Allow: /*.mp4$
+
+# Crawl delay to be respectful to server resources
+Crawl-delay: 1
+
+# Block common bot traps and admin areas
+Disallow: /admin/
+Disallow: /private/
+Disallow: /temp/
+Disallow: /.well-known/
+
+# Allow social media crawlers for Open Graph
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /

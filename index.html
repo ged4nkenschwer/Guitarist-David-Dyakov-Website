@@ -38,6 +38,31 @@
     <meta name="revisit-after" content="7 days">
     <meta name="distribution" content="global">
     <meta name="rating" content="general">
+    <meta name="geo.region" content="EU">
+    <meta name="geo.country" content="DE">
+    <meta name="geo.placename" content="Germany">
+    
+    <!-- Additional language tags -->
+    <link rel="alternate" hreflang="en" href="https://daviddyakov.com/?lang=en">
+    <link rel="alternate" hreflang="de" href="https://daviddyakov.com/?lang=de">
+    <link rel="alternate" hreflang="x-default" href="https://daviddyakov.com/">
+    
+    <!-- Performance and SEO optimization meta -->
+    <meta name="theme-color" content="#d4af37">
+    <meta name="msapplication-TileColor" content="#d4af37">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="David Dyakov">
+    
+    <!-- Rich snippets for events -->
+    <meta property="article:author" content="David Dyakov">
+    <meta property="article:section" content="Music">
+    <meta property="article:tag" content="Classical Guitar, Spanish Guitar, Concert Performance, Guitar Masterclasses">
+    
+    <!-- Enhanced security -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -120,28 +145,143 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet"></noscript>
     
-    <!-- Structured Data for Musician -->
+    <!-- Enhanced Structured Data for Musician -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "Person",
+        "@type": ["Person", "MusicGroup"],
         "name": "David Dyakov",
+        "alternateName": "David Djakov",
         "jobTitle": "Classical Guitarist",
-        "description": "Renowned classical guitarist specializing in Spanish guitar repertoire and classical guitar music",
+        "description": "Internationally celebrated classical guitarist with 24+ years of performance experience, 25+ international competition wins, and 500+ solo concerts worldwide",
         "url": "https://daviddyakov.com",
-        "image": "https://daviddyakov.com/images/david-dyakov-guitarist.jpg",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://daviddyakov.com/david-portrait.jpg",
+            "caption": "David Dyakov - Classical Guitarist Portrait",
+            "width": 800,
+            "height": 1000
+        },
         "sameAs": [
-            "https://instagram.com/daviddyakovguitar",
-            "https://open.spotify.com/artist/daviddyakov"
+            "https://www.instagram.com/daviddyakow/",
+            "https://open.spotify.com/intl-de/artist/5Y4rHZVGuvUib8wAHd7g4h",
+            "https://www.youtube.com/channel/UCuKCWTJrEbm7ESpuwibO_hQ",
+            "https://www.facebook.com/david.dyakov"
         ],
-        "knowsAbout": ["Classical Guitar", "Spanish Guitar Repertoire", "Guitar Performance", "Guitar Masterclasses"],
-        "worksFor": {
+        "knowsAbout": [
+            "Classical Guitar",
+            "Spanish Guitar Repertoire", 
+            "Guitar Performance",
+            "Guitar Masterclasses",
+            "Music Education",
+            "Guitar Technique",
+            "Classical Music Performance",
+            "Concert Performance"
+        ],
+        "hasOccupation": {
+            "@type": "Occupation",
+            "name": "Classical Guitarist",
+            "occupationLocation": {
+                "@type": "Place",
+                "name": "International"
+            },
+            "skills": ["Classical Guitar Performance", "Music Education", "Concert Performance", "Guitar Masterclasses"]
+        },
+        "awards": [
+            "Koblenz International Guitar Competition - First Prize",
+            "Forum Gitarre Wien - First Prize", 
+            "Deajeon International Guitar Competition - First Prize",
+            "25+ International Competition First Prizes",
+            "Musician of the Year - Classic FM Radio Bulgaria"
+        ],
+        "memberOf": {
             "@type": "Organization",
-            "name": "David Dyakov Guitar Studio"
+            "name": "Cologne Guitar Society",
+            "description": "Founding Chairman"
         },
         "performerIn": {
             "@type": "MusicGroup",
-            "name": "Classical Guitar Ensemble"
+            "name": "Duo Abendstern",
+            "description": "Crossover ensemble for flute and guitar"
+        },
+        "genre": [
+            "Classical Music",
+            "Spanish Classical Guitar",
+            "Baroque Music",
+            "Romantic Music"
+        ],
+        "instrument": "Classical Guitar",
+        "birthPlace": {
+            "@type": "Place",
+            "name": "Bulgaria"
+        },
+        "nationality": "Bulgarian",
+        "alumniOf": [
+            {
+                "@type": "EducationalOrganization",
+                "name": "Music Conservatory"
+            }
+        ],
+        "hasCredential": "24+ years professional performance experience"
+    }
+    </script>
+
+    <!-- Additional Structured Data for Concerts/Events -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "MusicEvent",
+        "name": "David Dyakov Classical Guitar Concerts",
+        "description": "Classical guitar concerts and performances by internationally acclaimed guitarist David Dyakov",
+        "performer": {
+            "@type": "Person",
+            "name": "David Dyakov",
+            "sameAs": "https://daviddyakov.com"
+        },
+        "offers": {
+            "@type": "Offer",
+            "url": "https://daviddyakov.com/#contact",
+            "description": "Contact for concert bookings and performance inquiries"
+        }
+    }
+    </script>
+
+    <!-- Structured Data for Teaching/Masterclasses -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        "name": "David Dyakov Guitar Studio",
+        "description": "Classical guitar lessons and masterclasses by internationally acclaimed guitarist David Dyakov",
+        "url": "https://daviddyakov.com/#masterclasses",
+        "founder": {
+            "@type": "Person",
+            "name": "David Dyakov"
+        },
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Classical Guitar Education",
+            "itemListElement": [
+                {
+                    "@type": "Course",
+                    "name": "Classical Guitar Lessons",
+                    "description": "Individual classical guitar lessons for children, teens, and adults",
+                    "provider": {
+                        "@type": "Person", 
+                        "name": "David Dyakov"
+                    },
+                    "inLanguage": ["en", "de", "bg"]
+                },
+                {
+                    "@type": "Course",
+                    "name": "Guitar Masterclasses",
+                    "description": "Advanced masterclasses for classical guitar performance and technique",
+                    "provider": {
+                        "@type": "Person",
+                        "name": "David Dyakov"
+                    }
+                }
+            ]
         }
     }
     </script>
@@ -350,35 +490,35 @@
                         <div class="achievement-content">
                             <h3 data-en="On Stage" data-de="Auf der Bühne">On Stage</h3>
             <div class="gallery-grid">
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing in China - Classical guitar concert performance">
-                                    <div class="gallery-image" style="background-image: url('./on-stage-1-china.JPG')"></div>
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing classical guitar in China - International concert performance showcasing Spanish repertoire">
+                                    <img src="./on-stage-1-china.JPG" alt="David Dyakov performing classical guitar on stage in China, wearing formal concert attire" class="gallery-image" loading="lazy" width="800" height="600">
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing in China - Classical guitar concert performance">
-                                    <div class="gallery-image" style="background-image: url('./on-stage-2-china.JPG')"></div>
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing classical guitar in China - Intimate concert hall performance">
+                                    <img src="./on-stage-2-china.JPG" alt="David Dyakov classical guitarist performing in China concert hall, focused on musical expression" class="gallery-image" loading="lazy" width="800" height="600">
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing in China - Classical guitar concert performance">
-                                    <div class="gallery-image" style="background-image: url('./on-stage-3-china.JPG')"></div>
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing classical guitar in China - Professional concert performance">
+                                    <img src="./on-stage-3-china.JPG" alt="David Dyakov classical guitarist performing Spanish guitar repertoire on stage in China" class="gallery-image" loading="lazy" width="800" height="600">
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing on stage - Classical guitar concert performance">
-                                    <div class="gallery-image" style="background-image: url('./on-stage-4-.JPG')"></div>
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing classical guitar on stage - International concert performance">
+                                    <img src="./on-stage-4-.JPG" alt="David Dyakov classical guitarist performing on international concert stage with professional lighting" class="gallery-image" loading="lazy" width="800" height="600">
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing in Cyprus - Classical guitar concert performance">
-                                    <div class="gallery-image" style="background-image: url('./on-stage-5-cyprus.jpg')"></div>
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing classical guitar in Cyprus - Mediterranean concert series">
+                                    <img src="./on-stage-5-cyprus.jpg" alt="David Dyakov classical guitarist performing in Cyprus, demonstrating technical mastery and musical expression" class="gallery-image" loading="lazy" width="800" height="600">
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing in China - Classical guitar concert performance">
-                                    <div class="gallery-image" style="background-image: url('./on-stage-6-china.JPG')"></div>
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing classical guitar in China - International tour performance">
+                                    <img src="./on-stage-6-china.JPG" alt="David Dyakov classical guitarist performing during international tour in China, showcasing classical guitar technique" class="gallery-image" loading="lazy" width="800" height="600">
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing in China - Classical guitar concert performance">
-                                    <div class="gallery-image" style="background-image: url('./on-stage-7-china.JPG')"></div>
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing classical guitar in China - Concert hall performance">
+                                    <img src="./on-stage-7-china.JPG" alt="David Dyakov classical guitarist performing in Chinese concert hall, demonstrating professional stage presence" class="gallery-image" loading="lazy" width="800" height="600">
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing on stage - Classical guitar concert performance">
-                                    <div class="gallery-image" style="background-image: url('./on-stage-8-.jpg')"></div>
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing classical guitar on stage - Professional concert performance">
+                                    <img src="./on-stage-8-.jpg" alt="David Dyakov classical guitarist performing on stage, showcasing classical guitar performance artistry" class="gallery-image" loading="lazy" width="800" height="600">
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing on stage - Classical guitar concert performance">
-                                    <div class="gallery-image" style="background-image: url('./on-stage-9-.jpg')"></div>
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing classical guitar on stage - International performance">
+                                    <img src="./on-stage-9-.jpg" alt="David Dyakov classical guitarist performing international concert, demonstrating musical expertise and stage presence" class="gallery-image" loading="lazy" width="800" height="600">
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing on stage - Classical guitar concert performance">
-                                    <div class="gallery-image" style="background-image: url('./on-stage-10-.JPG')"></div>
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing classical guitar on stage - Concert performance">
+                                    <img src="./on-stage-10-.JPG" alt="David Dyakov classical guitarist performing on stage, showcasing professional classical guitar performance skills" class="gallery-image" loading="lazy" width="800" height="600">
                                 </div>
                             </div>
                         </div>
@@ -395,36 +535,36 @@
                         <div class="achievement-content">
                             <h3 data-en="Off Stage" data-de="Hinter den Kulissen">Off Stage</h3>
                             <div class="gallery-grid">
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov in Italy - Behind the scenes moments">
-                                    <div class="gallery-image" style="background-image: url('./off-stage-1-italy.jpeg')"></div>
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov in Italy - Behind the scenes moments during concert tour">
+                                    <img src="./off-stage-1-italy.jpeg" alt="David Dyakov classical guitarist behind the scenes in Italy, showing personal moments during concert tour" class="gallery-image" loading="lazy" width="800" height="600">
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov in Italy - Behind the scenes moments">
-                                    <div class="gallery-image" style="background-image: url('./off-stage-2-italy.jpeg')"></div>
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov in Italy - Casual moments away from the concert stage">
+                                    <img src="./off-stage-2-italy.jpeg" alt="David Dyakov classical guitarist relaxing in Italy, personal moments between concert performances" class="gallery-image" loading="lazy" width="800" height="600">
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov in Italy - Behind the scenes moments">
-                                    <div class="gallery-image" style="background-image: url('./off-stage-3-italy.jpeg')"></div>
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov in Italy - Behind the scenes during Italian concert tour">
+                                    <img src="./off-stage-3-italy.jpeg" alt="David Dyakov classical guitarist behind the scenes in Italy, intimate moments during musical tour" class="gallery-image" loading="lazy" width="800" height="600">
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov in Italy - Behind the scenes moments">
-                                    <div class="gallery-image" style="background-image: url('./off-stage-4-italy.jpeg')"></div>
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov in Italy - Personal moments during concert series">
+                                    <img src="./off-stage-4-italy.jpeg" alt="David Dyakov classical guitarist enjoying personal time in Italy during concert tour" class="gallery-image" loading="lazy" width="800" height="600">
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov in Italy - Behind the scenes moments">
-                                    <div class="gallery-image" style="background-image: url('./off-stage-5-italy.jpeg')"></div>
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov in Italy - Behind the scenes concert tour photography">
+                                    <img src="./off-stage-5-italy.jpeg" alt="David Dyakov classical guitarist behind the scenes in Italy, candid moments during performance tour" class="gallery-image" loading="lazy" width="800" height="600">
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov in Italy - Behind the scenes moments">
-                                    <div class="gallery-image" style="background-image: url('./off-stage-italy.jpeg')"></div>
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov in Italy - Personal moments during Italian concert series">
+                                    <img src="./off-stage-italy.jpeg" alt="David Dyakov classical guitarist in Italy, personal photography during concert performances" class="gallery-image" loading="lazy" width="800" height="600">
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov with students - Teaching moments">
-                                    <div class="gallery-image" style="background-image: url('./off-stage-student-1.JPG')"></div>
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov teaching classical guitar - Educational moments with students">
+                                    <img src="./off-stage-student-1.JPG" alt="David Dyakov classical guitarist teaching students, demonstrating guitar technique and musical education" class="gallery-image" loading="lazy" width="800" height="600">
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov with students - Teaching moments">
-                                    <div class="gallery-image" style="background-image: url('./off-stage-student-2.JPG')"></div>
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov with students - Classical guitar masterclass sessions">
+                                    <img src="./off-stage-student-2.JPG" alt="David Dyakov classical guitarist conducting masterclass, teaching advanced guitar techniques to students" class="gallery-image" loading="lazy" width="800" height="600">
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov with students - Teaching moments">
-                                    <div class="gallery-image" style="background-image: url('./off-stage-student-3.jpg')"></div>
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov teaching students - Guitar education and mentorship">
+                                    <img src="./off-stage-student-3.jpg" alt="David Dyakov classical guitarist mentoring students, sharing expertise in classical guitar performance" class="gallery-image" loading="lazy" width="800" height="600">
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov teaching classical guitar">
-                                    <div class="gallery-image" style="background-image: url('./teaching-guitar.jpg')"></div>
-                </div>
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov teaching classical guitar - Professional music education">
+                                    <img src="./teaching-guitar.jpg" alt="David Dyakov classical guitarist teaching classical guitar, professional music education and technique instruction" class="gallery-image" loading="lazy" width="800" height="600">
+                                </div>
                 </div>
                 </div>
                 </div>
@@ -509,15 +649,25 @@
             <div class="videos-grid">
                 
                 <!-- Local Video Files -->
-                <div class="video-item animate-on-scroll">
+                <div class="video-item animate-on-scroll" itemscope itemtype="https://schema.org/VideoObject">
                     <div class="video-container">
-                        <video controls preload="none" loading="lazy" style="max-width: 100%; height: auto;">
+                        <video controls preload="none" loading="lazy" style="max-width: 100%; height: auto;" 
+                               itemprop="contentUrl"
+                               poster="./hero-guitarist.JPG"
+                               aria-label="David Dyakov performing Capricio Diabolico Slow Movement at Postojna Festival">
                             <source src="./Capricio Diabolico Slow Movement.Postojna Festival (1).mov" type="video/quicktime">
                             <source src="./Capricio Diabolico Slow Movement.Postojna Festival (1).mov" type="video/mp4">
+                            <track kind="captions" srclang="en" label="English captions" default>
                             Your browser does not support the video tag.
                         </video>
                     </div>
-                    <h3 class="video-title" data-en="Capricio Diabolico - Slow Movement (Postojna Festival)" data-de="Capricio Diabolico - Langsamer Satz (Postojna Festival)">Capricio Diabolico - Slow Movement</h3>
+                    <h3 class="video-title" data-en="Capricio Diabolico - Slow Movement (Postojna Festival)" data-de="Capricio Diabolico - Langsamer Satz (Postojna Festival)" itemprop="name">Capricio Diabolico - Slow Movement</h3>
+                    <meta itemprop="description" content="David Dyakov performing Capricio Diabolico Slow Movement at the Postojna Guitar Festival - classical guitar performance">
+                    <meta itemprop="uploadDate" content="2024-01-01">
+                    <meta itemprop="duration" content="PT5M">
+                    <span itemprop="creator" itemscope itemtype="https://schema.org/Person">
+                        <meta itemprop="name" content="David Dyakov">
+                    </span>
                 </div>
                 
                 <div class="video-item animate-on-scroll">
@@ -937,6 +1087,33 @@
     <script src="scripts.js" defer></script>
     <script src="animations.js" defer></script>
     <script src="gallery.js" defer></script>
+    <script src="seo-analytics.js" defer></script>
+    
+    <!-- Google Analytics 4 (replace GA_MEASUREMENT_ID with actual ID) -->
+    <!--
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID', {
+            page_title: 'David Dyakov - Classical Guitarist',
+            page_location: window.location.href,
+            send_page_view: true
+        });
+    </script>
+    -->
+    
+    <!-- Microsoft Clarity (replace PROJECT_ID with actual ID) -->
+    <!--
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "PROJECT_ID");
+    </script>
+    -->
 
 </body>
 </html> 
