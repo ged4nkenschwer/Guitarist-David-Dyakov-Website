@@ -60,20 +60,57 @@
     <link rel="preload" href="./david-portrait.jpg" as="image">
     <link rel="preload" href="./hero-guitarist.JPG" as="image">
     
+    <!-- Font preloads for critical fonts -->
+    <link rel="preload" href="https://fonts.gstatic.com/s/playfairdisplay/v36/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvXDXbtXK-F2qO0isEw.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://fonts.gstatic.com/s/roboto/v32/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.woff2" as="font" type="font/woff2" crossorigin>
+    
     <!-- Critical CSS (inlined for faster rendering) -->
     <style>
+        /* Essential variables */
+        :root{--dark-bg:#0b0c10;--gold:#ffd700;--deep-gold:#b8860b;--rich-gold:#d4af37;--text-light:#e6e6e6;--text-dark:#333;--guitar-wood:#8B5A2B;--deep-blue:#001f3f;--transition:all 0.3s ease}
+        
         /* Critical above-the-fold styles */
-        body{margin:0;font-family:'Roboto',Arial,sans-serif;background:#0b0c10;color:#c5c6c7;overflow-x:hidden}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{margin:0;font-family:'Roboto',Arial,sans-serif;background:#0b0c10;color:#c5c6c7;overflow-x:hidden;line-height:1.6}
+        
+        /* Header critical styles */
+        #header{position:fixed;top:0;left:0;right:0;background:rgba(11,12,16,0.95);backdrop-filter:blur(10px);z-index:1000;padding:1rem 0;transition:var(--transition)}
+        .container{max-width:1200px;margin:0 auto;padding:0 15px}
+        .logo a{color:var(--gold);text-decoration:none;font-size:1.5rem;font-weight:600}
+        
+        /* Hero section */
         .hero{min-height:100vh;background:linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.6)),url('./hero-guitarist.JPG') center/cover;display:flex;align-items:center;justify-content:center;position:relative}
         .hero-content{text-align:center;max-width:800px;animation:fadeInUp 1s ease}
-        .hero h1{font-size:3.5rem;margin-bottom:1rem;color:#d4af37;font-family:'Playfair Display',serif}
+        .hero h1{font-size:3.5rem;margin-bottom:1rem;color:#d4af37;font-family:'Playfair Display',serif;font-weight:700}
         .tagline{font-size:1.4rem;margin-bottom:2rem;color:#c5c6c7}
-        .btn{display:inline-block;padding:1rem 2rem;background:linear-gradient(45deg,#d4af37,#b8941f);color:#fff;text-decoration:none;border-radius:50px;transition:all 0.3s ease}
-        @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+        .btn{display:inline-block;padding:1rem 2rem;background:linear-gradient(45deg,#d4af37,#b8941f);color:#fff;text-decoration:none;border-radius:50px;transition:all 0.3s ease;cursor:pointer}
+        .btn:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(212,175,55,0.4)}
+        
+        /* Navigation critical styles */
+        .nav-links{display:flex;list-style:none;gap:2rem}
+        .nav-link{color:var(--text-light);text-decoration:none;transition:var(--transition);font-weight:500}
+        .nav-link:hover{color:var(--gold)}
+        
         /* Loading indicator */
         .loading{position:fixed;top:0;left:0;width:100%;height:100%;background:#0b0c10;z-index:9999;display:flex;align-items:center;justify-content:center}
         .loading::after{content:'';width:40px;height:40px;border:3px solid #333;border-top:3px solid #d4af37;border-radius:50%;animation:spin 1s linear infinite}
+        
+        /* Critical animations */
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
         @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+        
+        /* Mobile menu toggle */
+        .menu-toggle{display:none;flex-direction:column;cursor:pointer}
+        .menu-toggle span{width:25px;height:3px;background:var(--gold);margin:3px 0;transition:0.3s}
+        
+        /* Mobile responsive */
+        @media(max-width:768px){
+            .hero h1{font-size:2.5rem}
+            .tagline{font-size:1.2rem}
+            .btn{padding:0.8rem 1.5rem}
+            .nav-links{display:none}
+            .menu-toggle{display:flex}
+        }
     </style>
     
     <!-- Stylesheets -->
@@ -766,73 +803,132 @@
     <!-- Back to top button -->
     <a href="#" id="back-to-top" title="Back to Top"><i class="fas fa-arrow-up"></i></a>
 
-    <!-- Critical inline performance script -->
+    <!-- Enhanced performance script -->
     <script>
-        // Performance optimizations
+        // Performance optimizations with improved loading strategy
         (function() {
-            // Preload critical images on user interaction
-            let userInteracted = false;
-            function preloadOnInteraction() {
-                if (userInteracted) return;
-                userInteracted = true;
+            const perf = {
+                userInteracted: false,
+                imagesLoaded: new Set(),
                 
-                // Preload gallery images on first interaction
-                const galleryImages = [
-                    './on-stage-1-china.JPG', './on-stage-2-china.JPG', './on-stage-3-china.JPG',
-                    './off-stage-1-italy.jpeg', './off-stage-2-italy.jpeg', './teaching-guitar.jpg'
-                ];
+                // Debounced scroll handler
+                debounce(func, wait) {
+                    let timeout;
+                    return function executedFunction(...args) {
+                        const later = () => {
+                            clearTimeout(timeout);
+                            func(...args);
+                        };
+                        clearTimeout(timeout);
+                        timeout = setTimeout(later, wait);
+                    };
+                },
                 
-                galleryImages.forEach(src => {
-                    const link = document.createElement('link');
-                    link.rel = 'preload';
-                    link.as = 'image';
-                    link.href = src;
-                    document.head.appendChild(link);
-                });
+                // Progressive image loading
+                loadImageBatch(images, batchSize = 3) {
+                    const batches = [];
+                    for (let i = 0; i < images.length; i += batchSize) {
+                        batches.push(images.slice(i, i + batchSize));
+                    }
+                    
+                    batches.forEach((batch, index) => {
+                        setTimeout(() => {
+                            batch.forEach(src => {
+                                if (!this.imagesLoaded.has(src)) {
+                                    const link = document.createElement('link');
+                                    link.rel = 'preload';
+                                    link.as = 'image';
+                                    link.href = src;
+                                    document.head.appendChild(link);
+                                    this.imagesLoaded.add(src);
+                                }
+                            });
+                        }, index * 100); // Stagger loading
+                    });
+                },
                 
-                // Remove event listeners after first interaction
-                ['click', 'scroll', 'keydown', 'touchstart'].forEach(event => {
-                    document.removeEventListener(event, preloadOnInteraction, { passive: true });
-                });
-            }
-            
-            // Add interaction listeners
-            ['click', 'scroll', 'keydown', 'touchstart'].forEach(event => {
-                document.addEventListener(event, preloadOnInteraction, { passive: true });
-            });
-            
-            // Lazy load videos on intersection
-            if ('IntersectionObserver' in window) {
-                const videoObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const video = entry.target;
-                            if (video.preload === 'none') {
-                                video.preload = 'metadata';
-                            }
-                            videoObserver.unobserve(video);
+                // Smart preloading on user interaction
+                preloadOnInteraction() {
+                    if (this.userInteracted) return;
+                    this.userInteracted = true;
+                    
+                    // Preload critical gallery images in batches
+                    const galleryImages = [
+                        './on-stage-1-china.JPG', './on-stage-2-china.JPG', './on-stage-3-china.JPG',
+                        './on-stage-4-.JPG', './on-stage-5-cyprus.jpg', './on-stage-6-china.JPG',
+                        './off-stage-1-italy.jpeg', './off-stage-2-italy.jpeg', './off-stage-3-italy.jpeg',
+                        './teaching-guitar.jpg', './david-portrait.jpg'
+                    ];
+                    
+                    this.loadImageBatch(galleryImages, 2);
+                    
+                    // Remove event listeners after first interaction
+                    ['click', 'scroll', 'keydown', 'touchstart'].forEach(event => {
+                        document.removeEventListener(event, this.boundPreload, { passive: true });
+                    });
+                },
+                
+                // Initialize performance optimizations
+                init() {
+                    this.boundPreload = this.preloadOnInteraction.bind(this);
+                    
+                    // Add interaction listeners
+                    ['click', 'scroll', 'keydown', 'touchstart'].forEach(event => {
+                        document.addEventListener(event, this.boundPreload, { passive: true });
+                    });
+                    
+                    // Enhanced video lazy loading
+                    if ('IntersectionObserver' in window) {
+                        const videoObserver = new IntersectionObserver((entries) => {
+                            entries.forEach(entry => {
+                                if (entry.isIntersecting) {
+                                    const video = entry.target;
+                                    if (video.preload === 'none') {
+                                        video.preload = 'metadata';
+                                        video.style.willChange = 'transform';
+                                    }
+                                    videoObserver.unobserve(video);
+                                }
+                            });
+                        }, { rootMargin: '100px' });
+                        
+                        // Observe videos when DOM is ready
+                        document.addEventListener('DOMContentLoaded', () => {
+                            document.querySelectorAll('video').forEach(video => {
+                                videoObserver.observe(video);
+                            });
+                        });
+                    }
+                    
+                    // Hide loading screen with improved timing
+                    const hideLoading = () => {
+                        const loading = document.getElementById('loading');
+                        if (loading) {
+                            loading.style.transition = 'opacity 0.5s ease-out';
+                            loading.style.opacity = '0';
+                            setTimeout(() => {
+                                loading.style.display = 'none';
+                                document.body.style.overflow = ''; // Reset scroll
+                            }, 500);
                         }
-                    });
-                }, { rootMargin: '50px' });
-                
-                // Observe videos when DOM is ready
-                document.addEventListener('DOMContentLoaded', () => {
-                    document.querySelectorAll('video').forEach(video => {
-                        videoObserver.observe(video);
-                    });
-                });
-            }
-            
-            // Hide loading screen when page is fully loaded
-            window.addEventListener('load', () => {
-                const loading = document.getElementById('loading');
-                if (loading) {
-                    loading.style.opacity = '0';
-                    setTimeout(() => {
-                        loading.style.display = 'none';
-                    }, 300);
+                    };
+                    
+                    // Hide loading on DOM ready or load event, whichever comes first
+                    let loadingHidden = false;
+                    const hideOnce = () => {
+                        if (!loadingHidden) {
+                            loadingHidden = true;
+                            hideLoading();
+                        }
+                    };
+                    
+                    document.addEventListener('DOMContentLoaded', hideOnce);
+                    window.addEventListener('load', hideOnce);
                 }
-            });
+            };
+            
+            // Initialize performance optimizations
+            perf.init();
         })();
     </script>
     

@@ -498,19 +498,43 @@ function initFormSubmissions() {
 }
 
 /**
- * Update header styling on scroll
+ * Update header styling on scroll - optimized for performance
  */
-window.addEventListener('scroll', function() {
+(function() {
     const header = document.getElementById('header');
+    let ticking = false;
+    let lastScrollY = 0;
     
-    if (window.pageYOffset > 50) {
-        header.style.padding = '0.7rem 0';
-        header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-    } else {
-        header.style.padding = '1rem 0';
-        header.style.boxShadow = 'none';
+    function updateHeader() {
+        const scrollY = window.pageYOffset;
+        
+        // Only update if scroll position changed significantly
+        if (Math.abs(scrollY - lastScrollY) < 5) {
+            ticking = false;
+            return;
+        }
+        
+        if (scrollY > 50) {
+            header.style.padding = '0.7rem 0';
+            header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+        } else {
+            header.style.padding = '1rem 0';
+            header.style.boxShadow = 'none';
+        }
+        
+        lastScrollY = scrollY;
+        ticking = false;
     }
-});
+    
+    function requestHeaderUpdate() {
+        if (!ticking) {
+            requestAnimationFrame(updateHeader);
+            ticking = true;
+        }
+    }
+    
+    window.addEventListener('scroll', requestHeaderUpdate, { passive: true });
+})();
 
 /**
  * Fix navigation scroll issues - EXCLUDE nav-link to avoid conflict with gallery.js

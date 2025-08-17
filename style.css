@@ -1208,6 +1208,37 @@ nav {
     will-change: transform;
 }
 
+/* Enhanced performance optimizations */
+.gallery-item,
+.social-card,
+.concert-card,
+.btn {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* Optimize will-change for animations */
+.animate-on-scroll {
+    will-change: opacity, transform;
+}
+
+.animate-on-scroll.animated {
+    will-change: auto;
+}
+
+/* GPU acceleration for smooth scrolling elements */
+.hero,
+.section,
+#header {
+    transform: translateZ(0);
+}
+
+/* Optimize iframe rendering */
+iframe {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
 /* For video containers with HTML5 video, use natural height */
 .video-container:has(video) {
     padding-bottom: 0;
@@ -2586,4 +2617,54 @@ textarea {
     .spotify-widget-container h3 {
         font-size: 1.3rem;
     }
+}
+
+/* Additional performance optimizations */
+/* Contain layout shifts */
+.hero-content,
+.section-title,
+.gallery-grid,
+.social-grid {
+    contain: layout style;
+}
+
+/* Optimize font rendering */
+* {
+    font-display: swap;
+    text-rendering: optimizeSpeed;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    text-rendering: optimizeLegibility;
+}
+
+/* Reduce paint areas */
+.btn:hover,
+.social-card:hover,
+.gallery-item:hover {
+    contain: layout style paint;
+}
+
+/* Optimize scroll performance */
+body {
+    scrollbar-width: thin;
+    scrollbar-color: var(--guitar-wood) var(--dark-bg);
+}
+
+/* Webkit scrollbar optimization */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--dark-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--guitar-wood);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gold);
 } 
