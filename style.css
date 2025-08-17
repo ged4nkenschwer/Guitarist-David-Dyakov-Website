@@ -33,6 +33,7 @@
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 100px;
     font-size: 16px;
 }
 
@@ -182,6 +183,48 @@ img {
 
 .section {
     padding: 4rem 0;
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+/* Smooth section transitions with gradient overlays */
+.section::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0, 0, 0, 0.02) 25%,
+        rgba(0, 0, 0, 0.05) 50%,
+        rgba(0, 0, 0, 0.02) 75%,
+        transparent 100%
+    );
+    pointer-events: none;
+    z-index: -1;
+}
+
+.section::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(
+        to top,
+        transparent 0%,
+        rgba(0, 0, 0, 0.02) 25%,
+        rgba(0, 0, 0, 0.05) 50%,
+        rgba(0, 0, 0, 0.02) 75%,
+        transparent 100%
+    );
+    pointer-events: none;
+    z-index: -1;
 }
 
 /* Special treatment for hero h1 to ensure it maintains proper styling */
@@ -1602,39 +1645,31 @@ textarea {
 /* ---------- Animation Classes ---------- */
 /* Animation styles are now handled by anime.js in animations.js */
 
-/* Soft gradient shifts for sections */
-.section:nth-child(odd)::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        linear-gradient(180deg, 
-            rgba(0, 0, 0, 0.02) 0%, 
-            transparent 20%, 
-            transparent 80%, 
-            rgba(0, 0, 0, 0.02) 100%
-        );
-    z-index: -1;
+/* Enhanced section transitions for smoother scrolling */
+.section + .section {
+    margin-top: 2rem;
 }
 
-.section:nth-child(even)::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        linear-gradient(180deg, 
-            rgba(0, 0, 0, 0.01) 0%, 
-            transparent 20%, 
-            transparent 80%, 
-            rgba(0, 0, 0, 0.01) 100%
-        );
-    z-index: -1;
+/* Special spacing for main content sections */
+#biography, #repertoire, #masterclasses, #gallery, #videos, #concerts, #follow-me {
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+/* Smooth focus transitions for accessibility */
+.section:focus-within {
+    outline: none;
+    transition: all 0.5s ease;
+}
+
+/* Enhanced scroll snap for better section alignment */
+body {
+    scroll-snap-type: y proximity;
+}
+
+.section {
+    scroll-snap-align: start;
+    scroll-margin-top: 100px;
 }
 
 /* ---------- Responsive Styles ---------- */
