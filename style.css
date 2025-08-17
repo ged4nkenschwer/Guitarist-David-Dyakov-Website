@@ -1414,9 +1414,38 @@ textarea {
 }
 
 .contact-item i {
-    color: var(--guitar-wood);
+    color: var(--gold);
     margin-right: 1rem;
     font-size: 1.2rem;
+    width: 20px;
+    text-align: center;
+}
+
+/* Enhanced contact item styling */
+.contact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.contact-item:hover {
+    background: rgba(212, 175, 55, 0.1);
+    transform: translateX(5px);
+}
+
+.contact-link {
+    color: var(--gold);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.contact-link:hover {
+    color: var(--rich-gold);
+    text-decoration: underline;
 }
 
 /* Combined form styles */
@@ -1456,8 +1485,39 @@ textarea {
 .combined-form input:focus, 
 .combined-form textarea:focus {
     outline: none;
-    border-color: var(--guitar-wood);
+    border-color: var(--gold);
     background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+/* Form validation styles */
+.combined-form input.error,
+.combined-form textarea.error {
+    border-color: #ff6b6b;
+    background-color: rgba(255, 107, 107, 0.1);
+}
+
+.error-message {
+    color: #ff6b6b;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    display: block;
+}
+
+/* Success message styling */
+.form-thanks {
+    background: linear-gradient(135deg, var(--deep-blue), rgba(212, 175, 55, 0.1));
+    padding: 2rem;
+    border-radius: 10px;
+    border: 1px solid var(--gold);
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.form-thanks p {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    margin: 0;
 }
 
 .combined-form textarea {

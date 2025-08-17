@@ -37,28 +37,29 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize Press Quotes animations
     initPressQuotesAnimations();
 
-    // Combined Form Handling
+    // Combined Form Handling with Enhanced Validation
     const combinedForm = document.getElementById('combinedForm');
-    const formThanks = document.getElementById('formThanks');
+    const formThanks = document.getElementById('form-thanks');
     
     if (combinedForm) {
         combinedForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
+            // Validate form
+            if (!validateForm(combinedForm)) {
+                return;
+            }
+            
+            // Show loading state
+            const submitButton = combinedForm.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            submitButton.textContent = 'Sending...';
+            submitButton.disabled = true;
+            
             // Get form data
             const formData = new FormData(combinedForm);
-            const formDataObj = {};
             
-            formData.forEach((value, key) => {
-                formDataObj[key] = value;
-            });
-            
-            // Log form data (for development purposes)
-            console.log('Form submitted:', formDataObj);
-            
-            // In a real implementation, you would send the data to a server here
-            // Example with fetch:
-            /*
+            // Send to Formspree
             fetch(combinedForm.action, {
                 method: 'POST',
                 body: formData,
@@ -66,20 +67,85 @@ document.addEventListener('DOMContentLoaded', function() {
                     'Accept': 'application/json'
                 }
             })
-            .then(response => response.json())
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            })
             .then(data => {
-                // Handle success
+                console.log('Success:', data);
                 showThankYouMessage();
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error('Error:', error);
-                // Handle error
+                showErrorMessage();
+            })
+            .finally(() => {
+                // Reset button
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
             });
-            */
-            
-            // For demo purposes, we'll just show the thank you message
-            showThankYouMessage();
         });
+    }
+    
+    function validateForm(form) {
+        const emailInput = form.querySelector('#email');
+        const nameInput = form.querySelector('#name');
+        const messageInput = form.querySelector('#message');
+        
+        // Clear previous error styles
+        clearFormErrors(form);
+        
+        let isValid = true;
+        
+        // Validate email (required)
+        if (!emailInput.value.trim()) {
+            showFieldError(emailInput, 'Email is required');
+            isValid = false;
+        } else if (!isValidEmail(emailInput.value)) {
+            showFieldError(emailInput, 'Please enter a valid email address');
+            isValid = false;
+        }
+        
+        // If neither name nor message is provided, show error
+        if (!nameInput.value.trim() && !messageInput.value.trim()) {
+            showFieldError(nameInput, 'Please provide your name or message');
+            showFieldError(messageInput, 'Please provide your name or message');
+            isValid = false;
+        }
+        
+        return isValid;
+    }
+    
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+    
+    function showFieldError(field, message) {
+        field.classList.add('error');
+        
+        // Remove existing error message
+        const existingError = field.parentNode.querySelector('.error-message');
+        if (existingError) {
+            existingError.remove();
+        }
+        
+        // Add new error message
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        errorDiv.textContent = message;
+        field.parentNode.appendChild(errorDiv);
+    }
+    
+    function clearFormErrors(form) {
+        const errorFields = form.querySelectorAll('.error');
+        const errorMessages = form.querySelectorAll('.error-message');
+        
+        errorFields.forEach(field => field.classList.remove('error'));
+        errorMessages.forEach(msg => msg.remove());
     }
     
     function showThankYouMessage() {
@@ -93,6 +159,15 @@ document.addEventListener('DOMContentLoaded', function() {
             // Scroll to thank you message
             formThanks.scrollIntoView({ behavior: 'smooth' });
         }
+        
+        // Reset form for future use
+        setTimeout(() => {
+            combinedForm.reset();
+        }, 1000);
+    }
+    
+    function showErrorMessage() {
+        alert('There was an error sending your message. Please try again or contact us directly via email.');
     }
 });
 
