@@ -1147,7 +1147,7 @@ nav {
 
 
 
-/* HTML5 video styling - Original aspect ratio */
+/* HTML5 video styling - Original aspect ratio with performance optimizations */
 .video-container video {
     position: relative;
     width: 100%;
@@ -1155,6 +1155,15 @@ nav {
     border-radius: 5px;
     max-width: 100%;
     display: block;
+    transform: translateZ(0); /* Enable hardware acceleration */
+    will-change: transform; /* Optimize for animations */
+}
+
+/* Performance optimizations for gallery images */
+.gallery-image {
+    transform: translateZ(0); /* Enable hardware acceleration */
+    backface-visibility: hidden; /* Optimize for transforms */
+    will-change: transform;
 }
 
 /* For video containers with HTML5 video, use natural height */
