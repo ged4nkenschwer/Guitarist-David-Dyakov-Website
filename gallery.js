@@ -55,6 +55,50 @@ class EnhancedGallery {
         if (prevBtn) prevBtn.addEventListener('click', () => this.previousImage());
         if (nextBtn) nextBtn.addEventListener('click', () => this.nextImage());
         
+        // Close lightbox when navigation links are clicked
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                if (this.isOpen) {
+                    // Prevent the default navigation briefly to close lightbox first
+                    e.preventDefault();
+                    this.closeLightbox();
+                    
+                    // Allow navigation to proceed after lightbox animation completes
+                    setTimeout(() => {
+                        // Trigger the navigation manually
+                        const href = link.getAttribute('href');
+                        if (href && href.startsWith('#')) {
+                            const target = document.querySelector(href);
+                            if (target) {
+                                target.scrollIntoView({ behavior: 'smooth' });
+                            }
+                        }
+                    }, 350); // Wait for lightbox close animation (300ms) + small buffer
+                }
+            });
+        });
+        
+        // Close lightbox when language buttons are clicked  
+        const langButtons = document.querySelectorAll('.lang-btn');
+        langButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (this.isOpen) {
+                    this.closeLightbox();
+                }
+            });
+        });
+        
+        // Close lightbox when mobile menu toggle is clicked
+        const menuToggle = document.querySelector('.menu-toggle');
+        if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                if (this.isOpen) {
+                    this.closeLightbox();
+                }
+            });
+        }
+        
         // Keyboard navigation
         document.addEventListener('keydown', (e) => {
             if (!this.isOpen) return;
