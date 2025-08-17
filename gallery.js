@@ -15,8 +15,6 @@ class EnhancedGallery {
     init() {
         this.collectImages();
         this.bindEvents();
-        this.setupLazyLoading();
-        this.preloadFirstImages();
     }
     
     collectImages() {
@@ -26,16 +24,10 @@ class EnhancedGallery {
             const galleryItems = section.querySelectorAll('.gallery-item');
             galleryItems.forEach((item, index) => {
                 const caption = item.getAttribute('data-caption');
-                const imageElement = item.querySelector('.gallery-image');
-                if (imageElement) {
-                    let imageUrl;
-                    // Handle both img tags and div with background-image
-                    if (imageElement.tagName === 'IMG') {
-                        imageUrl = imageElement.src;
-                    } else {
-                        const backgroundImage = imageElement.style.backgroundImage;
-                        imageUrl = backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/, '$1');
-                    }
+                const imageDiv = item.querySelector('.gallery-image');
+                if (imageDiv) {
+                    const backgroundImage = imageDiv.style.backgroundImage;
+                    const imageUrl = backgroundImage.replace(/url\(['"]?(.*?)['"]?\)/, '$1');
                     this.images.push({
                         url: imageUrl,
                         caption: caption
@@ -45,119 +37,11 @@ class EnhancedGallery {
         });
     }
     
-    setupLazyLoading() {
-        // Enhanced lazy loading for gallery images
-        if ('IntersectionObserver' in window) {
-            const imageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        
-                        // Add performance optimizations
-                        img.style.willChange = 'transform';
-                        img.decode().then(() => {
-                            img.style.opacity = '1';
-                            img.style.willChange = 'auto';
-                        }).catch(() => {
-                            // Fallback if decode fails
-                            img.style.opacity = '1';
-                            img.style.willChange = 'auto';
-                        });
-                        
-                        observer.unobserve(img);
-                    }
-                });
-            }, {
-                root: null,
-                rootMargin: '50px',
-                threshold: 0.1
-            });
-            
-            // Observe all gallery images
-            document.querySelectorAll('.gallery-image').forEach(img => {
-                if (img.tagName === 'IMG') {
-                    // Initial setup for smooth loading
-                    img.style.opacity = '0';
-                    img.style.transition = 'opacity 0.3s ease';
-                    
-                    // Only observe if image isn't already loaded
-                    if (!img.complete) {
-                        imageObserver.observe(img);
-                    } else {
-                        img.style.opacity = '1';
-                    }
-                }
-            });
-            
-            // Preload next few images when user scrolls to gallery
-            const gallerySection = document.getElementById('gallery');
-            if (gallerySection) {
-                const galleryObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            // Preload first few gallery images immediately
-                            const galleryImages = document.querySelectorAll('.gallery-image');
-                            galleryImages.forEach((img, index) => {
-                                if (index < 6 && img.tagName === 'IMG') { // Preload first 6 images
-                                    const tempImage = new Image();
-                                    tempImage.src = img.src;
-                                }
-                            });
-                            galleryObserver.unobserve(gallerySection);
-                        }
-                    });
-                }, { rootMargin: '100px' });
-                
-                galleryObserver.observe(gallerySection);
-            }
-        } else {
-            // Fallback for browsers without IntersectionObserver
-            document.querySelectorAll('.gallery-image').forEach(img => {
-                if (img.tagName === 'IMG') {
-                    img.style.opacity = '1';
-                }
-            });
-        }
-    }
-    
-    preloadFirstImages() {
-        // Immediately show and preload the first 4 gallery images for faster loading
-        const galleryImages = document.querySelectorAll('.gallery-image');
-        galleryImages.forEach((img, index) => {
-            if (img.tagName === 'IMG' && index < 4) {
-                // Make first 4 images visible immediately
-                img.style.opacity = '1';
-                img.removeAttribute('loading'); // Remove lazy loading from first 4
-                
-                // Preload them
-                if (!img.complete) {
-                    const preloadImg = new Image();
-                    preloadImg.onload = () => {
-                        img.src = preloadImg.src;
-                        img.style.opacity = '1';
-                    };
-                    preloadImg.src = img.src;
-                }
-            }
-        });
-    }
-    
     bindEvents() {
-        // Bind click events to gallery items with proper index mapping
-        const gallerySections = document.querySelectorAll('#gallery .achievement-content .gallery-grid');
-        let imageIndex = 0;
-        
-        gallerySections.forEach((section) => {
-            const galleryItems = section.querySelectorAll('.gallery-item');
-            galleryItems.forEach((item) => {
-                const currentIndex = imageIndex;
-                item.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    this.openLightbox(currentIndex);
-                });
-                imageIndex++;
-            });
+        // Bind click events to gallery items
+        const galleryItems = document.querySelectorAll('#gallery .gallery-item');
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => this.openLightbox(index));
         });
         
         // Bind lightbox events
@@ -170,35 +54,14 @@ class EnhancedGallery {
         if (prevBtn) prevBtn.addEventListener('click', () => this.previousImage());
         if (nextBtn) nextBtn.addEventListener('click', () => this.nextImage());
         
-        // Handle navigation links - close lightbox if open, then navigate
+        // Handle navigation links - allow navigation while lightbox is open (minimized view)
         const navLinks = document.querySelectorAll('.nav-link');
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 const href = link.getAttribute('href');
                 
-                if (this.isOpen) {
-                    // Prevent the default navigation briefly to close lightbox first
-                    e.preventDefault();
-                    this.closeLightbox();
-                    
-                    // Allow navigation to proceed after lightbox animation completes
-                    setTimeout(() => {
-                        // Trigger the navigation manually
-                        if (href && href.startsWith('#')) {
-                            const target = document.querySelector(href);
-                            if (target) {
-                                const headerHeight = 100; // Account for fixed header
-                                const targetPosition = target.offsetTop - headerHeight;
-                                
-                                window.scrollTo({
-                                    top: targetPosition,
-                                    behavior: 'smooth'
-                                });
-                            }
-                        }
-                    }, 350); // Wait for lightbox close animation (300ms) + small buffer
-                } else if (href && href.startsWith('#')) {
-                    // Lightbox is not open, handle navigation normally with proper header offset
+                if (href && href.startsWith('#')) {
+                    // Always allow navigation, even with lightbox open
                     e.preventDefault();
                     const target = document.querySelector(href);
                     if (target) {
@@ -209,6 +72,11 @@ class EnhancedGallery {
                             top: targetPosition,
                             behavior: 'smooth'
                         });
+                    }
+                    
+                    // Keep lightbox open but minimize it if it was open
+                    if (this.isOpen) {
+                        this.minimizeLightbox();
                     }
                 }
             });
@@ -264,6 +132,18 @@ class EnhancedGallery {
                     this.closeLightbox();
                 }
             });
+            
+            // Double-click to toggle minimize/maximize
+            const contentWrapper = lightbox.querySelector('.lightbox-content-wrapper');
+            if (contentWrapper) {
+                contentWrapper.addEventListener('dblclick', () => {
+                    if (lightbox.classList.contains('minimized')) {
+                        this.maximizeLightbox();
+                    } else {
+                        this.minimizeLightbox();
+                    }
+                });
+            }
         }
     }
     
@@ -288,10 +168,8 @@ class EnhancedGallery {
                 easing: 'easeOutQuad'
             });
             
-            // Prevent body scroll but allow lightbox scrolling
+            // Prevent body scroll
             document.body.style.overflow = 'hidden';
-            document.body.style.position = 'fixed';
-            document.body.style.width = '100%';
         }
     }
     
@@ -307,12 +185,34 @@ class EnhancedGallery {
                 easing: 'easeInQuad',
                 complete: () => {
                     lightbox.style.display = 'none';
-                    // Restore normal body scroll
                     document.body.style.overflow = '';
-                    document.body.style.position = '';
-                    document.body.style.width = '';
+                    // Reset lightbox size when closing
+                    lightbox.classList.remove('minimized');
                 }
             });
+        }
+    }
+    
+    minimizeLightbox() {
+        const lightbox = document.getElementById('lightbox');
+        if (lightbox && this.isOpen) {
+            lightbox.classList.add('minimized');
+            // Allow page scrolling when minimized
+            document.body.style.overflow = '';
+        }
+    }
+    
+    maximizeLightbox() {
+        const lightbox = document.getElementById('lightbox');
+        if (lightbox && this.isOpen) {
+            lightbox.classList.remove('minimized');
+            // Remove any inline styles to let CSS take over
+            const contentWrapper = lightbox.querySelector('.lightbox-content-wrapper');
+            if (contentWrapper) {
+                contentWrapper.removeAttribute('style');
+            }
+            // Prevent page scrolling when maximized
+            document.body.style.overflow = 'hidden';
         }
     }
     

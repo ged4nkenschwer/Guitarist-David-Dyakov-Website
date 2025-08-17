@@ -38,31 +38,6 @@
     <meta name="revisit-after" content="7 days">
     <meta name="distribution" content="global">
     <meta name="rating" content="general">
-    <meta name="geo.region" content="EU">
-    <meta name="geo.country" content="DE">
-    <meta name="geo.placename" content="Germany">
-    
-    <!-- Additional language tags -->
-    <link rel="alternate" hreflang="en" href="https://daviddyakov.com/?lang=en">
-    <link rel="alternate" hreflang="de" href="https://daviddyakov.com/?lang=de">
-    <link rel="alternate" hreflang="x-default" href="https://daviddyakov.com/">
-    
-    <!-- Performance and SEO optimization meta -->
-    <meta name="theme-color" content="#d4af37">
-    <meta name="msapplication-TileColor" content="#d4af37">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="David Dyakov">
-    
-    <!-- Rich snippets for events -->
-    <meta property="article:author" content="David Dyakov">
-    <meta property="article:section" content="Music">
-    <meta property="article:tag" content="Classical Guitar, Spanish Guitar, Concert Performance, Guitar Masterclasses">
-    
-    <!-- Enhanced security -->
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
-    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -85,58 +60,54 @@
     <link rel="preload" href="./david-portrait.jpg" as="image">
     <link rel="preload" href="./hero-guitarist.JPG" as="image">
     
-    <!-- Font preloads for critical fonts -->
-    <link rel="preload" href="https://fonts.gstatic.com/s/playfairdisplay/v36/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvXDXbtXK-F2qO0isEw.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="https://fonts.gstatic.com/s/roboto/v32/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.woff2" as="font" type="font/woff2" crossorigin>
-    
-    <!-- Critical CSS (inlined for faster rendering) -->
-    <style>
-        /* Essential variables */
-        :root{--dark-bg:#0b0c10;--gold:#ffd700;--deep-gold:#b8860b;--rich-gold:#d4af37;--text-light:#e6e6e6;--text-dark:#333;--guitar-wood:#8B5A2B;--deep-blue:#001f3f;--transition:all 0.3s ease}
-        
-        /* Critical above-the-fold styles */
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{margin:0;font-family:'Roboto',Arial,sans-serif;background:#0b0c10;color:#c5c6c7;overflow-x:hidden;line-height:1.6}
-        
-        /* Header critical styles */
-        #header{position:fixed;top:0;left:0;right:0;background:rgba(11,12,16,0.95);backdrop-filter:blur(10px);z-index:1000;padding:1rem 0;transition:var(--transition)}
-        .container{max-width:1200px;margin:0 auto;padding:0 15px}
-        .logo a{color:var(--gold);text-decoration:none;font-size:1.5rem;font-weight:600}
-        
-        /* Hero section */
-        .hero{min-height:100vh;background:linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.6)),url('./hero-guitarist.JPG') center/cover;display:flex;align-items:center;justify-content:center;position:relative}
-        .hero-content{text-align:center;max-width:800px;animation:fadeInUp 1s ease}
-        .hero h1{font-size:3.5rem;margin-bottom:1rem;color:#d4af37;font-family:'Playfair Display',serif;font-weight:700}
-        .tagline{font-size:1.4rem;margin-bottom:2rem;color:#c5c6c7}
-        .btn{display:inline-block;padding:1rem 2rem;background:linear-gradient(45deg,#d4af37,#b8941f);color:#fff;text-decoration:none;border-radius:50px;transition:all 0.3s ease;cursor:pointer}
-        .btn:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(212,175,55,0.4)}
-        
-        /* Navigation critical styles */
-        .nav-links{display:flex;list-style:none;gap:2rem}
-        .nav-link{color:var(--text-light);text-decoration:none;transition:var(--transition);font-weight:500}
-        .nav-link:hover{color:var(--gold)}
-        
-        /* Loading indicator */
-        .loading{position:fixed;top:0;left:0;width:100%;height:100%;background:#0b0c10;z-index:9999;display:flex;align-items:center;justify-content:center}
-        .loading::after{content:'';width:40px;height:40px;border:3px solid #333;border-top:3px solid #d4af37;border-radius:50%;animation:spin 1s linear infinite}
-        
-        /* Critical animations */
-        @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-        @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
-        
-        /* Mobile menu toggle */
-        .menu-toggle{display:none;flex-direction:column;cursor:pointer}
-        .menu-toggle span{width:25px;height:3px;background:var(--gold);margin:3px 0;transition:0.3s}
-        
-        /* Mobile responsive */
-        @media(max-width:768px){
-            .hero h1{font-size:2.5rem}
-            .tagline{font-size:1.2rem}
-            .btn{padding:0.8rem 1.5rem}
-            .nav-links{display:none}
-            .menu-toggle{display:flex}
-        }
-    </style>
+          <!-- Critical CSS (inlined for faster rendering) -->
+      <style>
+          /* Essential variables */
+          :root{--dark-bg:#0b0c10;--gold:#ffd700;--deep-gold:#b8860b;--rich-gold:#d4af37;--text-light:#e6e6e6;--text-dark:#333;--guitar-wood:#8B5A2B;--deep-blue:#001f3f;--transition:all 0.3s ease}
+          
+          /* Critical above-the-fold styles */
+          *{margin:0;padding:0;box-sizing:border-box}
+          body{margin:0;font-family:'Roboto',Arial,sans-serif;background:#0b0c10;color:#c5c6c7;overflow-x:hidden;line-height:1.6;transform:translateZ(0)}
+          
+          /* Header critical styles */
+          #header{position:fixed;top:0;left:0;right:0;background:rgba(11,12,16,0.95);backdrop-filter:blur(10px);z-index:1000;padding:1rem 0;transition:var(--transition);transform:translateZ(0)}
+          .container{max-width:1200px;margin:0 auto;padding:0 15px}
+          .logo a{color:var(--gold);text-decoration:none;font-size:1.5rem;font-weight:600}
+          
+          /* Hero section */
+          .hero{min-height:100vh;background:linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.6)),url('./hero-guitarist.JPG') center/cover;display:flex;align-items:center;justify-content:center;position:relative;transform:translateZ(0)}
+          .hero-content{text-align:center;max-width:800px;animation:fadeInUp 1s ease;transform:translateZ(0)}
+          .hero h1{font-size:3.5rem;margin-bottom:1rem;color:#d4af37;font-family:'Playfair Display',serif;font-weight:700;transform:translateZ(0)}
+          .tagline{font-size:1.4rem;margin-bottom:2rem;color:#c5c6c7}
+          .btn{display:inline-block;padding:1rem 2rem;background:linear-gradient(45deg,#d4af37,#b8941f);color:#fff;text-decoration:none;border-radius:50px;transition:all 0.3s ease;cursor:pointer;transform:translateZ(0)}
+          .btn:hover{transform:translateY(-2px) translateZ(0);box-shadow:0 5px 15px rgba(212,175,55,0.4)}
+          
+          /* Navigation critical styles */
+          .nav-links{display:flex;list-style:none;gap:2rem}
+          .nav-link{color:var(--text-light);text-decoration:none;transition:var(--transition);font-weight:500}
+          .nav-link:hover{color:var(--gold)}
+          
+          /* Critical animations */
+          @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+          @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+          
+          /* Loading indicator */
+          .loading{position:fixed;top:0;left:0;width:100%;height:100%;background:#0b0c10;z-index:1001;display:flex;align-items:center;justify-content:center}
+          .loading::after{content:'';width:40px;height:40px;border:3px solid #333;border-top:3px solid #d4af37;border-radius:50%;animation:spin 1s linear infinite}
+          
+          /* Mobile menu toggle */
+          .menu-toggle{display:none;flex-direction:column;cursor:pointer}
+          .menu-toggle span{width:25px;height:3px;background:var(--gold);margin:3px 0;transition:0.3s}
+          
+          /* Mobile responsive */
+          @media(max-width:768px){
+              .hero h1{font-size:2.5rem}
+              .tagline{font-size:1.2rem}
+              .btn{padding:0.8rem 1.5rem}
+              .nav-links{display:none}
+              .menu-toggle{display:flex}
+          }
+      </style>
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="style.css">
@@ -145,143 +116,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet"></noscript>
     
-    <!-- Enhanced Structured Data for Musician -->
+    <!-- Structured Data for Musician -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": ["Person", "MusicGroup"],
+        "@type": "Person",
         "name": "David Dyakov",
-        "alternateName": "David Djakov",
         "jobTitle": "Classical Guitarist",
-        "description": "Internationally celebrated classical guitarist with 24+ years of performance experience, 25+ international competition wins, and 500+ solo concerts worldwide",
+        "description": "Renowned classical guitarist specializing in Spanish guitar repertoire and classical guitar music",
         "url": "https://daviddyakov.com",
-        "image": {
-            "@type": "ImageObject",
-            "url": "https://daviddyakov.com/david-portrait.jpg",
-            "caption": "David Dyakov - Classical Guitarist Portrait",
-            "width": 800,
-            "height": 1000
-        },
+        "image": "https://daviddyakov.com/images/david-dyakov-guitarist.jpg",
         "sameAs": [
-            "https://www.instagram.com/daviddyakow/",
-            "https://open.spotify.com/intl-de/artist/5Y4rHZVGuvUib8wAHd7g4h",
-            "https://www.youtube.com/channel/UCuKCWTJrEbm7ESpuwibO_hQ",
-            "https://www.facebook.com/david.dyakov"
+            "https://instagram.com/daviddyakovguitar",
+            "https://open.spotify.com/artist/daviddyakov"
         ],
-        "knowsAbout": [
-            "Classical Guitar",
-            "Spanish Guitar Repertoire", 
-            "Guitar Performance",
-            "Guitar Masterclasses",
-            "Music Education",
-            "Guitar Technique",
-            "Classical Music Performance",
-            "Concert Performance"
-        ],
-        "hasOccupation": {
-            "@type": "Occupation",
-            "name": "Classical Guitarist",
-            "occupationLocation": {
-                "@type": "Place",
-                "name": "International"
-            },
-            "skills": ["Classical Guitar Performance", "Music Education", "Concert Performance", "Guitar Masterclasses"]
-        },
-        "awards": [
-            "Koblenz International Guitar Competition - First Prize",
-            "Forum Gitarre Wien - First Prize", 
-            "Deajeon International Guitar Competition - First Prize",
-            "25+ International Competition First Prizes",
-            "Musician of the Year - Classic FM Radio Bulgaria"
-        ],
-        "memberOf": {
+        "knowsAbout": ["Classical Guitar", "Spanish Guitar Repertoire", "Guitar Performance", "Guitar Masterclasses"],
+        "worksFor": {
             "@type": "Organization",
-            "name": "Cologne Guitar Society",
-            "description": "Founding Chairman"
+            "name": "David Dyakov Guitar Studio"
         },
         "performerIn": {
             "@type": "MusicGroup",
-            "name": "Duo Abendstern",
-            "description": "Crossover ensemble for flute and guitar"
-        },
-        "genre": [
-            "Classical Music",
-            "Spanish Classical Guitar",
-            "Baroque Music",
-            "Romantic Music"
-        ],
-        "instrument": "Classical Guitar",
-        "birthPlace": {
-            "@type": "Place",
-            "name": "Bulgaria"
-        },
-        "nationality": "Bulgarian",
-        "alumniOf": [
-            {
-                "@type": "EducationalOrganization",
-                "name": "Music Conservatory"
-            }
-        ],
-        "hasCredential": "24+ years professional performance experience"
-    }
-    </script>
-
-    <!-- Additional Structured Data for Concerts/Events -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "MusicEvent",
-        "name": "David Dyakov Classical Guitar Concerts",
-        "description": "Classical guitar concerts and performances by internationally acclaimed guitarist David Dyakov",
-        "performer": {
-            "@type": "Person",
-            "name": "David Dyakov",
-            "sameAs": "https://daviddyakov.com"
-        },
-        "offers": {
-            "@type": "Offer",
-            "url": "https://daviddyakov.com/#contact",
-            "description": "Contact for concert bookings and performance inquiries"
-        }
-    }
-    </script>
-
-    <!-- Structured Data for Teaching/Masterclasses -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "EducationalOrganization",
-        "name": "David Dyakov Guitar Studio",
-        "description": "Classical guitar lessons and masterclasses by internationally acclaimed guitarist David Dyakov",
-        "url": "https://daviddyakov.com/#masterclasses",
-        "founder": {
-            "@type": "Person",
-            "name": "David Dyakov"
-        },
-        "hasOfferCatalog": {
-            "@type": "OfferCatalog",
-            "name": "Classical Guitar Education",
-            "itemListElement": [
-                {
-                    "@type": "Course",
-                    "name": "Classical Guitar Lessons",
-                    "description": "Individual classical guitar lessons for children, teens, and adults",
-                    "provider": {
-                        "@type": "Person", 
-                        "name": "David Dyakov"
-                    },
-                    "inLanguage": ["en", "de", "bg"]
-                },
-                {
-                    "@type": "Course",
-                    "name": "Guitar Masterclasses",
-                    "description": "Advanced masterclasses for classical guitar performance and technique",
-                    "provider": {
-                        "@type": "Person",
-                        "name": "David Dyakov"
-                    }
-                }
-            ]
+            "name": "Classical Guitar Ensemble"
         }
     }
     </script>
@@ -490,35 +346,35 @@
                         <div class="achievement-content">
                             <h3 data-en="On Stage" data-de="Auf der Bühne">On Stage</h3>
             <div class="gallery-grid">
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing classical guitar in China - International concert performance showcasing Spanish repertoire">
-                                    <img src="./on-stage-1-china.JPG" alt="David Dyakov performing classical guitar on stage in China, wearing formal concert attire" class="gallery-image" loading="lazy" width="800" height="600">
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing in China - Classical guitar concert performance">
+                                    <div class="gallery-image" style="background-image: url('./on-stage-1-china.JPG')"></div>
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing classical guitar in China - Intimate concert hall performance">
-                                    <img src="./on-stage-2-china.JPG" alt="David Dyakov classical guitarist performing in China concert hall, focused on musical expression" class="gallery-image" loading="lazy" width="800" height="600">
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing in China - Classical guitar concert performance">
+                                    <div class="gallery-image" style="background-image: url('./on-stage-2-china.JPG')"></div>
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing classical guitar in China - Professional concert performance">
-                                    <img src="./on-stage-3-china.JPG" alt="David Dyakov classical guitarist performing Spanish guitar repertoire on stage in China" class="gallery-image" loading="lazy" width="800" height="600">
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing in China - Classical guitar concert performance">
+                                    <div class="gallery-image" style="background-image: url('./on-stage-3-china.JPG')"></div>
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing classical guitar on stage - International concert performance">
-                                    <img src="./on-stage-4-.JPG" alt="David Dyakov classical guitarist performing on international concert stage with professional lighting" class="gallery-image" loading="lazy" width="800" height="600">
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing on stage - Classical guitar concert performance">
+                                    <div class="gallery-image" style="background-image: url('./on-stage-4-.JPG')"></div>
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing classical guitar in Cyprus - Mediterranean concert series">
-                                    <img src="./on-stage-5-cyprus.jpg" alt="David Dyakov classical guitarist performing in Cyprus, demonstrating technical mastery and musical expression" class="gallery-image" loading="lazy" width="800" height="600">
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing in Cyprus - Classical guitar concert performance">
+                                    <div class="gallery-image" style="background-image: url('./on-stage-5-cyprus.jpg')"></div>
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing classical guitar in China - International tour performance">
-                                    <img src="./on-stage-6-china.JPG" alt="David Dyakov classical guitarist performing during international tour in China, showcasing classical guitar technique" class="gallery-image" loading="lazy" width="800" height="600">
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing in China - Classical guitar concert performance">
+                                    <div class="gallery-image" style="background-image: url('./on-stage-6-china.JPG')"></div>
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing classical guitar in China - Concert hall performance">
-                                    <img src="./on-stage-7-china.JPG" alt="David Dyakov classical guitarist performing in Chinese concert hall, demonstrating professional stage presence" class="gallery-image" loading="lazy" width="800" height="600">
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing in China - Classical guitar concert performance">
+                                    <div class="gallery-image" style="background-image: url('./on-stage-7-china.JPG')"></div>
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing classical guitar on stage - Professional concert performance">
-                                    <img src="./on-stage-8-.jpg" alt="David Dyakov classical guitarist performing on stage, showcasing classical guitar performance artistry" class="gallery-image" loading="lazy" width="800" height="600">
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing on stage - Classical guitar concert performance">
+                                    <div class="gallery-image" style="background-image: url('./on-stage-8-.jpg')"></div>
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing classical guitar on stage - International performance">
-                                    <img src="./on-stage-9-.jpg" alt="David Dyakov classical guitarist performing international concert, demonstrating musical expertise and stage presence" class="gallery-image" loading="lazy" width="800" height="600">
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing on stage - Classical guitar concert performance">
+                                    <div class="gallery-image" style="background-image: url('./on-stage-9-.jpg')"></div>
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing classical guitar on stage - Concert performance">
-                                    <img src="./on-stage-10-.JPG" alt="David Dyakov classical guitarist performing on stage, showcasing professional classical guitar performance skills" class="gallery-image" loading="lazy" width="800" height="600">
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov performing on stage - Classical guitar concert performance">
+                                    <div class="gallery-image" style="background-image: url('./on-stage-10-.JPG')"></div>
                                 </div>
                             </div>
                         </div>
@@ -535,36 +391,36 @@
                         <div class="achievement-content">
                             <h3 data-en="Off Stage" data-de="Hinter den Kulissen">Off Stage</h3>
                             <div class="gallery-grid">
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov in Italy - Behind the scenes moments during concert tour">
-                                    <img src="./off-stage-1-italy.jpeg" alt="David Dyakov classical guitarist behind the scenes in Italy, showing personal moments during concert tour" class="gallery-image" loading="lazy" width="800" height="600">
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov in Italy - Behind the scenes moments">
+                                    <div class="gallery-image" style="background-image: url('./off-stage-1-italy.jpeg')"></div>
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov in Italy - Casual moments away from the concert stage">
-                                    <img src="./off-stage-2-italy.jpeg" alt="David Dyakov classical guitarist relaxing in Italy, personal moments between concert performances" class="gallery-image" loading="lazy" width="800" height="600">
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov in Italy - Behind the scenes moments">
+                                    <div class="gallery-image" style="background-image: url('./off-stage-2-italy.jpeg')"></div>
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov in Italy - Behind the scenes during Italian concert tour">
-                                    <img src="./off-stage-3-italy.jpeg" alt="David Dyakov classical guitarist behind the scenes in Italy, intimate moments during musical tour" class="gallery-image" loading="lazy" width="800" height="600">
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov in Italy - Behind the scenes moments">
+                                    <div class="gallery-image" style="background-image: url('./off-stage-3-italy.jpeg')"></div>
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov in Italy - Personal moments during concert series">
-                                    <img src="./off-stage-4-italy.jpeg" alt="David Dyakov classical guitarist enjoying personal time in Italy during concert tour" class="gallery-image" loading="lazy" width="800" height="600">
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov in Italy - Behind the scenes moments">
+                                    <div class="gallery-image" style="background-image: url('./off-stage-4-italy.jpeg')"></div>
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov in Italy - Behind the scenes concert tour photography">
-                                    <img src="./off-stage-5-italy.jpeg" alt="David Dyakov classical guitarist behind the scenes in Italy, candid moments during performance tour" class="gallery-image" loading="lazy" width="800" height="600">
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov in Italy - Behind the scenes moments">
+                                    <div class="gallery-image" style="background-image: url('./off-stage-5-italy.jpeg')"></div>
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov in Italy - Personal moments during Italian concert series">
-                                    <img src="./off-stage-italy.jpeg" alt="David Dyakov classical guitarist in Italy, personal photography during concert performances" class="gallery-image" loading="lazy" width="800" height="600">
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov in Italy - Behind the scenes moments">
+                                    <div class="gallery-image" style="background-image: url('./off-stage-italy.jpeg')"></div>
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov teaching classical guitar - Educational moments with students">
-                                    <img src="./off-stage-student-1.JPG" alt="David Dyakov classical guitarist teaching students, demonstrating guitar technique and musical education" class="gallery-image" loading="lazy" width="800" height="600">
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov with students - Teaching moments">
+                                    <div class="gallery-image" style="background-image: url('./off-stage-student-1.JPG')"></div>
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov with students - Classical guitar masterclass sessions">
-                                    <img src="./off-stage-student-2.JPG" alt="David Dyakov classical guitarist conducting masterclass, teaching advanced guitar techniques to students" class="gallery-image" loading="lazy" width="800" height="600">
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov with students - Teaching moments">
+                                    <div class="gallery-image" style="background-image: url('./off-stage-student-2.JPG')"></div>
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov teaching students - Guitar education and mentorship">
-                                    <img src="./off-stage-student-3.jpg" alt="David Dyakov classical guitarist mentoring students, sharing expertise in classical guitar performance" class="gallery-image" loading="lazy" width="800" height="600">
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov with students - Teaching moments">
+                                    <div class="gallery-image" style="background-image: url('./off-stage-student-3.jpg')"></div>
                                 </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov teaching classical guitar - Professional music education">
-                                    <img src="./teaching-guitar.jpg" alt="David Dyakov classical guitarist teaching classical guitar, professional music education and technique instruction" class="gallery-image" loading="lazy" width="800" height="600">
-                                </div>
+                                <div class="gallery-item animate-on-scroll" data-caption="David Dyakov teaching classical guitar">
+                                    <div class="gallery-image" style="background-image: url('./teaching-guitar.jpg')"></div>
+                </div>
                 </div>
                 </div>
                 </div>
@@ -649,25 +505,15 @@
             <div class="videos-grid">
                 
                 <!-- Local Video Files -->
-                <div class="video-item animate-on-scroll" itemscope itemtype="https://schema.org/VideoObject">
+                <div class="video-item animate-on-scroll">
                     <div class="video-container">
-                        <video controls preload="none" loading="lazy" style="max-width: 100%; height: auto;" 
-                               itemprop="contentUrl"
-                               poster="./hero-guitarist.JPG"
-                               aria-label="David Dyakov performing Capricio Diabolico Slow Movement at Postojna Festival">
+                        <video controls preload="none" loading="lazy" style="max-width: 100%; height: auto;">
                             <source src="./Capricio Diabolico Slow Movement.Postojna Festival (1).mov" type="video/quicktime">
                             <source src="./Capricio Diabolico Slow Movement.Postojna Festival (1).mov" type="video/mp4">
-                            <track kind="captions" srclang="en" label="English captions" default>
                             Your browser does not support the video tag.
                         </video>
                     </div>
-                    <h3 class="video-title" data-en="Capricio Diabolico - Slow Movement (Postojna Festival)" data-de="Capricio Diabolico - Langsamer Satz (Postojna Festival)" itemprop="name">Capricio Diabolico - Slow Movement</h3>
-                    <meta itemprop="description" content="David Dyakov performing Capricio Diabolico Slow Movement at the Postojna Guitar Festival - classical guitar performance">
-                    <meta itemprop="uploadDate" content="2024-01-01">
-                    <meta itemprop="duration" content="PT5M">
-                    <span itemprop="creator" itemscope itemtype="https://schema.org/Person">
-                        <meta itemprop="name" content="David Dyakov">
-                    </span>
+                    <h3 class="video-title" data-en="Capricio Diabolico - Slow Movement (Postojna Festival)" data-de="Capricio Diabolico - Langsamer Satz (Postojna Festival)">Capricio Diabolico - Slow Movement</h3>
                 </div>
                 
                 <div class="video-item animate-on-scroll">
@@ -953,178 +799,156 @@
     <!-- Back to top button -->
     <a href="#" id="back-to-top" title="Back to Top"><i class="fas fa-arrow-up"></i></a>
 
-    <!-- Enhanced performance script -->
-    <script>
-        // Performance optimizations with improved loading strategy
-        (function() {
-            const perf = {
-                userInteracted: false,
-                imagesLoaded: new Set(),
-                
-                // Debounced scroll handler
-                debounce(func, wait) {
-                    let timeout;
-                    return function executedFunction(...args) {
-                        const later = () => {
-                            clearTimeout(timeout);
-                            func(...args);
-                        };
-                        clearTimeout(timeout);
-                        timeout = setTimeout(later, wait);
-                    };
-                },
-                
-                // Progressive image loading
-                loadImageBatch(images, batchSize = 3) {
-                    const batches = [];
-                    for (let i = 0; i < images.length; i += batchSize) {
-                        batches.push(images.slice(i, i + batchSize));
-                    }
-                    
-                    batches.forEach((batch, index) => {
-                        setTimeout(() => {
-                            batch.forEach(src => {
-                                if (!this.imagesLoaded.has(src)) {
-                                    const link = document.createElement('link');
-                                    link.rel = 'preload';
-                                    link.as = 'image';
-                                    link.href = src;
-                                    document.head.appendChild(link);
-                                    this.imagesLoaded.add(src);
-                                }
-                            });
-                        }, index * 100); // Stagger loading
-                    });
-                },
-                
-                // Smart preloading on user interaction
-                preloadOnInteraction() {
-                    if (this.userInteracted) return;
-                    this.userInteracted = true;
-                    
-                    // Preload visible gallery images immediately
-                    const galleryImgs = document.querySelectorAll('.gallery-image');
-                    const visibleImages = Array.from(galleryImgs).slice(0, 4); // First 4 images
-                    
-                    visibleImages.forEach(img => {
-                        if (img.tagName === 'IMG' && !img.complete) {
-                            img.style.opacity = '1';
-                            img.style.transition = 'opacity 0.3s ease';
-                        }
-                    });
-                    
-                    // Then preload the rest in batches
-                    const remainingImages = [
-                        './on-stage-4-.JPG', './on-stage-5-cyprus.jpg', './on-stage-6-china.JPG',
-                        './on-stage-7-china.JPG', './on-stage-8-.jpg', './on-stage-9-.jpg',
-                        './off-stage-1-italy.jpeg', './off-stage-2-italy.jpeg', './off-stage-3-italy.jpeg',
-                        './teaching-guitar.jpg', './david-portrait.jpg'
-                    ];
-                    
-                    this.loadImageBatch(remainingImages, 2);
-                    
-                    // Remove event listeners after first interaction
-                    ['click', 'scroll', 'keydown', 'touchstart'].forEach(event => {
-                        document.removeEventListener(event, this.boundPreload, { passive: true });
-                    });
-                },
-                
-                // Initialize performance optimizations
-                init() {
-                    this.boundPreload = this.preloadOnInteraction.bind(this);
-                    
-                    // Add interaction listeners
-                    ['click', 'scroll', 'keydown', 'touchstart'].forEach(event => {
-                        document.addEventListener(event, this.boundPreload, { passive: true });
-                    });
-                    
-                    // Enhanced video lazy loading
-                    if ('IntersectionObserver' in window) {
-                        const videoObserver = new IntersectionObserver((entries) => {
-                            entries.forEach(entry => {
-                                if (entry.isIntersecting) {
-                                    const video = entry.target;
-                                    if (video.preload === 'none') {
-                                        video.preload = 'metadata';
-                                        video.style.willChange = 'transform';
-                                    }
-                                    videoObserver.unobserve(video);
-                                }
-                            });
-                        }, { rootMargin: '100px' });
-                        
-                        // Observe videos when DOM is ready
-                        document.addEventListener('DOMContentLoaded', () => {
-                            document.querySelectorAll('video').forEach(video => {
-                                videoObserver.observe(video);
-                            });
-                        });
-                    }
-                    
-                    // Hide loading screen with improved timing
-                    const hideLoading = () => {
-                        const loading = document.getElementById('loading');
-                        if (loading) {
-                            loading.style.transition = 'opacity 0.5s ease-out';
-                            loading.style.opacity = '0';
-                            setTimeout(() => {
-                                loading.style.display = 'none';
-                                document.body.style.overflow = ''; // Reset scroll
-                            }, 500);
-                        }
-                    };
-                    
-                    // Hide loading on DOM ready or load event, whichever comes first
-                    let loadingHidden = false;
-                    const hideOnce = () => {
-                        if (!loadingHidden) {
-                            loadingHidden = true;
-                            hideLoading();
-                        }
-                    };
-                    
-                    document.addEventListener('DOMContentLoaded', hideOnce);
-                    window.addEventListener('load', hideOnce);
-                }
-            };
-            
-            // Initialize performance optimizations
-            perf.init();
-        })();
-    </script>
+         <!-- Enhanced performance script -->
+     <script>
+         // Performance optimizations with smooth loading
+         (function() {
+             const perf = {
+                 userInteracted: false,
+                 imagesLoaded: new Set(),
+                 
+                 // Smooth image loading with states
+                 loadImageWithStates(src, imgElement) {
+                     if (this.imagesLoaded.has(src)) return;
+                     
+                     // Add loading state
+                     if (imgElement) {
+                         imgElement.classList.add('loading');
+                     }
+                     
+                     const img = new Image();
+                     img.onload = () => {
+                         if (imgElement) {
+                             imgElement.classList.remove('loading');
+                             imgElement.classList.add('loaded');
+                         }
+                         this.imagesLoaded.add(src);
+                     };
+                     img.src = src;
+                 },
+                 
+                 // Progressive image loading
+                 loadImageBatch(images, batchSize = 3) {
+                     const batches = [];
+                     for (let i = 0; i < images.length; i += batchSize) {
+                         batches.push(images.slice(i, i + batchSize));
+                     }
+                     
+                     batches.forEach((batch, index) => {
+                         setTimeout(() => {
+                             batch.forEach(src => {
+                                 if (!this.imagesLoaded.has(src)) {
+                                     const link = document.createElement('link');
+                                     link.rel = 'preload';
+                                     link.as = 'image';
+                                     link.href = src;
+                                     document.head.appendChild(link);
+                                     this.imagesLoaded.add(src);
+                                 }
+                             });
+                         }, index * 100); // Stagger loading
+                     });
+                 },
+                 
+                 // Smart preloading on user interaction
+                 preloadOnInteraction() {
+                     if (this.userInteracted) return;
+                     this.userInteracted = true;
+                     
+                     // Preload visible gallery images with smooth states
+                     const galleryImages = document.querySelectorAll('.gallery-image');
+                     Array.from(galleryImages).slice(0, 4).forEach(img => {
+                         const bgImage = img.style.backgroundImage;
+                         if (bgImage) {
+                             const src = bgImage.replace(/url\(['"]?(.*?)['"]?\)/, '$1');
+                             this.loadImageWithStates(src, img);
+                         }
+                     });
+                     
+                     // Then preload the rest in batches
+                     const remainingImages = [
+                         './on-stage-4-.JPG', './on-stage-5-cyprus.jpg', './on-stage-6-china.JPG',
+                         './on-stage-7-china.JPG', './on-stage-8-.jpg', './on-stage-9-.jpg',
+                         './off-stage-3-italy.jpeg', './off-stage-4-italy.jpeg', './off-stage-5-italy.jpeg'
+                     ];
+                     
+                     this.loadImageBatch(remainingImages, 2);
+                     
+                     // Remove event listeners after first interaction
+                     ['click', 'scroll', 'keydown', 'touchstart'].forEach(event => {
+                         document.removeEventListener(event, this.boundPreload, { passive: true });
+                     });
+                 },
+                 
+                 // Initialize performance optimizations
+                 init() {
+                     this.boundPreload = this.preloadOnInteraction.bind(this);
+                     
+                     // Add interaction listeners
+                     ['click', 'scroll', 'keydown', 'touchstart'].forEach(event => {
+                         document.addEventListener(event, this.boundPreload, { passive: true });
+                     });
+                     
+                     // Enhanced video lazy loading
+                     if ('IntersectionObserver' in window) {
+                         const videoObserver = new IntersectionObserver((entries) => {
+                             entries.forEach(entry => {
+                                 if (entry.isIntersecting) {
+                                     const video = entry.target;
+                                     if (video.preload === 'none') {
+                                         video.preload = 'metadata';
+                                         video.style.willChange = 'transform';
+                                     }
+                                     videoObserver.unobserve(video);
+                                 }
+                             });
+                         }, { rootMargin: '100px' });
+                         
+                         // Observe videos when DOM is ready
+                         document.addEventListener('DOMContentLoaded', () => {
+                             document.querySelectorAll('video').forEach(video => {
+                                 videoObserver.observe(video);
+                             });
+                         });
+                     }
+                     
+                     // Hide loading screen with improved timing
+                     const hideLoading = () => {
+                         const loading = document.getElementById('loading');
+                         if (loading) {
+                             loading.style.transition = 'opacity 0.5s ease-out';
+                             loading.style.opacity = '0';
+                             setTimeout(() => {
+                                 loading.style.display = 'none';
+                                 document.body.style.overflow = ''; // Reset scroll
+                             }, 500);
+                         }
+                     };
+                     
+                     // Hide loading on DOM ready or load event, whichever comes first
+                     let loadingHidden = false;
+                     const hideOnce = () => {
+                         if (!loadingHidden) {
+                             loadingHidden = true;
+                             hideLoading();
+                         }
+                     };
+                     
+                     document.addEventListener('DOMContentLoaded', hideOnce);
+                     window.addEventListener('load', hideOnce);
+                 }
+             };
+             
+             // Initialize performance optimizations
+             perf.init();
+         })();
+     </script>
     
     <!-- Scripts - Optimized loading -->
     <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" defer></script>
     <script src="scripts.js" defer></script>
     <script src="animations.js" defer></script>
     <script src="gallery.js" defer></script>
-    <script src="seo-analytics.js" defer></script>
-    
-    <!-- Google Analytics 4 (replace GA_MEASUREMENT_ID with actual ID) -->
-    <!--
-    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'GA_MEASUREMENT_ID', {
-            page_title: 'David Dyakov - Classical Guitarist',
-            page_location: window.location.href,
-            send_page_view: true
-        });
-    </script>
-    -->
-    
-    <!-- Microsoft Clarity (replace PROJECT_ID with actual ID) -->
-    <!--
-    <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "PROJECT_ID");
-    </script>
-    -->
 
 </body>
 </html> 

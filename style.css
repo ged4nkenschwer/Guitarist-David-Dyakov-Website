@@ -924,25 +924,14 @@ nav {
 .gallery-image {
     width: 100%;
     height: 250px;
-    object-fit: cover;
-    object-position: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     border-radius: 8px;
     filter: brightness(1.05) contrast(1.02) saturate(1.05);
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     position: relative;
     overflow: hidden;
-    display: block;
-    opacity: 1; /* Ensure images are visible by default */
-}
-
-/* Gallery image loading states */
-.gallery-image[loading="lazy"] {
-    opacity: 0;
-    transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.gallery-image.loaded {
-    opacity: 1;
 }
 
 .gallery-image::before {
@@ -998,68 +987,72 @@ nav {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.95);
-    overflow: auto; /* Allow scrolling if needed */
-    touch-action: auto; /* Allow normal touch behavior */
-    padding: 20px;
-    box-sizing: border-box;
+    overflow: hidden;
+    touch-action: none;
 }
 
 .lightbox-content-wrapper {
-    position: relative;
-    max-width: 90vw;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 85%;
+    max-width: 1200px;
     max-height: 90vh;
-    margin: 5vh auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.8);
-    border-radius: 12px;
-    padding: 20px;
-    border: 1px solid rgba(139, 90, 43, 0.3);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+    transition: all 0.3s ease;
 }
 
 .lightbox-content {
-    max-width: calc(90vw - 80px); /* Account for padding and frame */
-    max-height: calc(70vh - 80px); /* Account for padding and caption */
+    max-width: 100%;
+    max-height: 75%;
+    width: auto;
+    height: auto;
     object-fit: contain;
+    display: block;
+    margin: 0 auto;
     border-radius: 8px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     transition: all 0.3s ease;
-    border: 2px solid rgba(139, 90, 43, 0.5);
-    background: #000;
+    flex-shrink: 1;
 }
 
 #lightbox-caption {
     color: var(--text-light);
     text-align: center;
-    padding: 15px;
-    margin-top: 15px;
+    padding: 15px 20px;
+    margin-top: 20px;
     background-color: rgba(0, 0, 0, 0.8);
     border-radius: 8px;
     font-family: var(--font-elegant);
     font-size: 1.1rem;
-    max-width: 80%;
+    line-height: 1.6;
+    max-width: 90%;
+    min-height: 2.5rem;
+    flex-shrink: 0;
+    z-index: 10;
 }
 
 .close-lightbox {
-    position: fixed;
-    top: 30px;
+    position: absolute;
+    top: 20px;
     right: 30px;
     color: var(--text-light);
     font-size: 2.5rem;
     cursor: pointer;
     transition: var(--transition);
-    background: rgba(139, 90, 43, 0.8);
+    background: rgba(0, 0, 0, 0.5);
     border-radius: 50%;
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2001;
-    border: 2px solid var(--gold);
 }
 
 .close-lightbox:hover {
@@ -1068,11 +1061,11 @@ nav {
 }
 
 .lightbox-nav {
-    position: fixed;
+    position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(139, 90, 43, 0.8);
-    border: 2px solid var(--gold);
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
     color: var(--text-light);
     font-size: 2rem;
     cursor: pointer;
@@ -1100,50 +1093,116 @@ nav {
     right: 30px;
 }
 
-/* Responsive lightbox adjustments */
+/* Minimized lightbox state for navigation */
+.lightbox.minimized {
+    background-color: rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+}
+
+.lightbox.minimized .lightbox-content-wrapper {
+    position: fixed !important;
+    width: 350px !important;
+    height: 300px !important;
+    top: 100px !important;
+    right: 20px !important;
+    left: auto !important;
+    transform: none !important;
+    pointer-events: auto;
+    z-index: 2001;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(212, 175, 55, 0.5);
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.lightbox.minimized .lightbox-content {
+    max-height: 70%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+.lightbox.minimized #lightbox-caption {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+    margin-top: 10px;
+    max-width: 100%;
+}
+
+.lightbox.minimized .close-lightbox {
+    top: 10px;
+    right: 10px;
+    width: 35px;
+    height: 35px;
+    font-size: 1.8rem;
+}
+
+.lightbox.minimized .lightbox-nav {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+    padding: 10px;
+}
+
+.lightbox.minimized .prev-btn {
+    left: 10px;
+}
+
+.lightbox.minimized .next-btn {
+    right: 10px;
+}
+
+/* Double-click to maximize */
+.lightbox.minimized .lightbox-content-wrapper {
+    cursor: pointer;
+}
+
+.lightbox.minimized .lightbox-content-wrapper:hover {
+    transform: scale(1.02);
+    transition: transform 0.2s ease;
+}
+
+/* Mobile responsive for minimized lightbox */
 @media (max-width: 768px) {
-    .lightbox {
-        padding: 10px;
+    .lightbox.minimized .lightbox-content-wrapper {
+        position: fixed !important;
+        width: 280px !important;
+        height: 220px !important;
+        top: 80px !important;
+        right: 10px !important;
+        left: auto !important;
+        transform: none !important;
+        z-index: 2001;
+        padding: 8px;
     }
     
-    .lightbox-content-wrapper {
-        max-width: 95vw;
-        max-height: 95vh;
-        margin: 2.5vh auto;
-        padding: 15px;
-    }
-    
-    .lightbox-content {
-        max-width: calc(95vw - 50px);
-        max-height: calc(75vh - 60px);
-    }
-    
-    .close-lightbox {
-        top: 15px;
-        right: 15px;
-        width: 50px;
-        height: 50px;
-        font-size: 2rem;
-    }
-    
-    .lightbox-nav {
-        width: 50px;
-        height: 50px;
+    .lightbox.minimized .close-lightbox {
+        top: 5px;
+        right: 5px;
+        width: 30px;
+        height: 30px;
         font-size: 1.5rem;
     }
     
-    .prev-btn {
-        left: 15px;
+    .lightbox.minimized .lightbox-nav {
+        width: 35px;
+        height: 35px;
+        font-size: 1.2rem;
+        padding: 8px;
     }
     
-    .next-btn {
-        right: 15px;
+    .lightbox.minimized .prev-btn {
+        left: 5px;
     }
     
-    #lightbox-caption {
-        font-size: 1rem;
-        padding: 10px;
-        margin-top: 10px;
+    .lightbox.minimized .next-btn {
+        right: 5px;
     }
 }
 
@@ -1274,35 +1333,17 @@ nav {
     will-change: transform;
 }
 
-/* Enhanced performance optimizations */
-.gallery-item,
-.social-card,
-.concert-card,
-.btn {
-    transform: translateZ(0);
-    backface-visibility: hidden;
+/* Smooth loading states for gallery images */
+.gallery-image.loading {
+    opacity: 0.8;
+    transform: translateZ(0) scale(0.98);
+    filter: brightness(0.9) contrast(0.9) saturate(0.9);
 }
 
-/* Optimize will-change for animations */
-.animate-on-scroll {
-    will-change: opacity, transform;
-}
-
-.animate-on-scroll.animated {
-    will-change: auto;
-}
-
-/* GPU acceleration for smooth scrolling elements */
-.hero,
-.section,
-#header {
-    transform: translateZ(0);
-}
-
-/* Optimize iframe rendering */
-iframe {
-    transform: translateZ(0);
-    backface-visibility: hidden;
+.gallery-image.loaded {
+    opacity: 1;
+    transform: translateZ(0) scale(1);
+    filter: brightness(1.05) contrast(1.02) saturate(1.05);
 }
 
 /* For video containers with HTML5 video, use natural height */
@@ -2685,7 +2726,37 @@ textarea {
     }
 }
 
-/* Additional performance optimizations */
+/* Enhanced performance optimizations for smooth loading */
+.gallery-item,
+.social-card,
+.concert-card,
+.btn {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* Optimize will-change for animations */
+.animate-on-scroll {
+    will-change: opacity, transform;
+}
+
+.animate-on-scroll.animated {
+    will-change: auto;
+}
+
+/* GPU acceleration for smooth scrolling elements */
+.hero,
+.section,
+#header {
+    transform: translateZ(0);
+}
+
+/* Optimize iframe rendering */
+iframe {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
 /* Contain layout shifts */
 .hero-content,
 .section-title,
@@ -2695,11 +2766,6 @@ textarea {
 }
 
 /* Optimize font rendering */
-* {
-    font-display: swap;
-    text-rendering: optimizeSpeed;
-}
-
 h1, h2, h3, h4, h5, h6 {
     text-rendering: optimizeLegibility;
 }

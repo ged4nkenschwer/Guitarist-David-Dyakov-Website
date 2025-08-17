@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initBackToTop();
 
     // Initialize lightbox gallery
-    // initLightbox(); // Now handled by gallery.js
+    initLightbox();
 
     // Form submission handlers
     initFormSubmissions();
@@ -359,8 +359,51 @@ function initBackToTop() {
 }
 
 /**
- * Gallery lightbox functionality is now handled by gallery.js
+ * Initialize Lightbox Gallery
  */
+function initLightbox() {
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    const closeLightbox = document.querySelector('.close-lightbox');
+    
+    galleryItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const imgSrc = this.querySelector('img').getAttribute('src');
+            const imgCaption = this.getAttribute('data-caption');
+            
+            lightboxImg.setAttribute('src', imgSrc);
+            lightboxCaption.textContent = imgCaption;
+            lightbox.style.display = 'block';
+            
+            // Prevent scrolling of the body when lightbox is open
+            document.body.style.overflow = 'hidden';
+        });
+    });
+    
+    // Close lightbox when clicking the close button
+    closeLightbox.addEventListener('click', function() {
+        lightbox.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    });
+    
+    // Close lightbox when clicking outside the image
+    lightbox.addEventListener('click', function(e) {
+        if (e.target === lightbox) {
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    });
+    
+    // Close lightbox when pressing Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && lightbox.style.display === 'block') {
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    });
+}
 
 /**
  * Initialize form submissions
@@ -455,43 +498,19 @@ function initFormSubmissions() {
 }
 
 /**
- * Update header styling on scroll - optimized for performance
+ * Update header styling on scroll
  */
-(function() {
+window.addEventListener('scroll', function() {
     const header = document.getElementById('header');
-    let ticking = false;
-    let lastScrollY = 0;
     
-    function updateHeader() {
-        const scrollY = window.pageYOffset;
-        
-        // Only update if scroll position changed significantly
-        if (Math.abs(scrollY - lastScrollY) < 5) {
-            ticking = false;
-            return;
-        }
-        
-        if (scrollY > 50) {
-            header.style.padding = '0.7rem 0';
-            header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-        } else {
-            header.style.padding = '1rem 0';
-            header.style.boxShadow = 'none';
-        }
-        
-        lastScrollY = scrollY;
-        ticking = false;
+    if (window.pageYOffset > 50) {
+        header.style.padding = '0.7rem 0';
+        header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+    } else {
+        header.style.padding = '1rem 0';
+        header.style.boxShadow = 'none';
     }
-    
-    function requestHeaderUpdate() {
-        if (!ticking) {
-            requestAnimationFrame(updateHeader);
-            ticking = true;
-        }
-    }
-    
-    window.addEventListener('scroll', requestHeaderUpdate, { passive: true });
-})();
+});
 
 /**
  * Fix navigation scroll issues - EXCLUDE nav-link to avoid conflict with gallery.js
