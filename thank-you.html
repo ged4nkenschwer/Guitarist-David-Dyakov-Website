@@ -3,32 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thank You - Capriccio Diabolico</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>Thank You - David Dyakov | Classical Guitarist</title>
+    <meta name="description" content="Thank you for contacting David Dyakov. Your message has been received and will be responded to shortly.">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://daviddyakov.com/thank-you.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     
     <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Resource hints -->
+    <link rel="preload" href="style.css" as="style">
+    <link rel="preload" href="scripts.js" as="script">
+    <link rel="preload" href="./hero-guitarist.JPG" as="image">
     
     <!-- Critical CSS (inlined for faster rendering) -->
     <style>
+        /* Critical above-the-fold styles */
         body{margin:0;font-family:'Roboto',Arial,sans-serif;background:#0b0c10;color:#c5c6c7;overflow-x:hidden}
         .hero{min-height:100vh;background:linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.6)),url('./hero-guitarist.JPG') center/cover;display:flex;align-items:center;justify-content:center;position:relative}
         .hero-content{text-align:center;max-width:800px;animation:fadeInUp 1s ease}
         .hero h1{font-size:3.5rem;margin-bottom:1rem;color:#d4af37;font-family:'Playfair Display',serif}
         .tagline{font-size:1.4rem;margin-bottom:2rem;color:#c5c6c7}
-        .btn{display:inline-block;padding:1rem 2rem;background:linear-gradient(45deg,#d4af37,#b8941f);color:#fff;text-decoration:none;border-radius:50px;transition:all 0.3s ease}
+        .btn{display:inline-block;padding:1rem 2rem;background:linear-gradient(45deg,#d4af37,#b8941f);color:#fff;text-decoration:none;border-radius:50px;transition:all 0.3s ease;font-weight:500;text-transform:uppercase;letter-spacing:0.5px}
+        .btn:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(212,175,55,0.3)}
         @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-        .thank-you-container{max-width:800px;margin:0 auto;padding:2rem;text-align:center}
-        .success-icon{font-size:4rem;color:#8B5A2B;margin-bottom:2rem}
-        .back-btn{margin-top:2rem}
+        .success-icon{font-size:5rem;color:#d4af37;margin-bottom:1.5rem;text-shadow:0 0 20px rgba(212,175,55,0.3)}
+        .section{padding:4rem 0}
+        .container{max-width:1200px;margin:0 auto;padding:0 2rem}
+        .section-title{font-size:2.5rem;text-align:center;margin-bottom:3rem;color:#d4af37;font-family:'Playfair Display',serif}
+        /* Loading indicator */
+        .loading{position:fixed;top:0;left:0;width:100%;height:100%;background:#0b0c10;z-index:9999;display:flex;align-items:center;justify-content:center}
+        .loading::after{content:'';width:40px;height:40px;border:3px solid #333;border-top:3px solid #d4af37;border-radius:50%;animation:spin 1s linear infinite}
+        @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
     </style>
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet"></noscript>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading"></div>
+    
     <!-- Header -->
     <header id="header">
         <div class="container">
@@ -40,48 +71,50 @@
                     <button id="lang-de" class="lang-btn">DE</button>
                     <button id="lang-en" class="lang-btn active">EN</button>
                 </div>
-                <ul class="nav-links">
-                    <li><a href="index.html#home" class="nav-link">Home</a></li>
-                    <li><a href="index.html#biography" class="nav-link">Biography</a></li>
-                    <li><a href="index.html#repertoire" class="nav-link">Repertoire</a></li>
-                    <li><a href="index.html#gallery" class="nav-link">Gallery</a></li>
-                    <li><a href="index.html#videos" class="nav-link">Videos</a></li>
-                    <li><a href="index.html#contact" class="nav-link">Contact</a></li>
-                </ul>
                 <div class="menu-toggle">
                     <span></span>
                     <span></span>
                     <span></span>
                 </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html#home" class="nav-link" data-en="Home" data-de="Start">Home</a></li>
+                    <li><a href="index.html#biography" class="nav-link" data-en="Biography" data-de="Biografie">Biography</a></li>
+                    <li><a href="index.html#follow-me" class="nav-link" data-en="Follow Me" data-de="Folgen Sie mir">Follow Me</a></li>
+                    <li><a href="index.html#gallery" class="nav-link" data-en="Gallery" data-de="Galerie">Gallery</a></li>
+                    <li><a href="index.html#concerts" class="nav-link" data-en="Concerts" data-de="Konzerte">Concerts</a></li>
+                    <li><a href="index.html#videos" class="nav-link" data-en="Videos" data-de="Videos">Videos</a></li>
+                    <li><a href="index.html#masterclasses" class="nav-link" data-en="Teaching" data-de="Unterricht">Teaching</a></li>
+                    <li><a href="index.html#contact" class="nav-link" data-en="Contact" data-de="Kontakt">Contact</a></li>
+                </ul>
             </nav>
         </div>
     </header>
 
-    <!-- Thank You Section -->
-    <section class="section" style="padding-top: 120px;">
+    <!-- Thank You Hero Section -->
+    <section class="hero">
         <div class="container">
-            <div class="thank-you-container">
-                <div class="success-icon">
+            <div class="hero-content">
+                <div class="success-icon animate-on-scroll">
                     <i class="fas fa-check-circle"></i>
                 </div>
                 
-                <h1 class="section-title" data-en="Thank You!" data-de="Vielen Dank!">Thank You!</h1>
+                <h1 class="animate-on-scroll" data-en="Thank You!" data-de="Vielen Dank!">Thank You!</h1>
                 
-                <div class="content">
-                    <p data-en="Your message has been successfully sent. I appreciate you reaching out and will respond to your inquiry as soon as possible." 
-                       data-de="Ihre Nachricht wurde erfolgreich gesendet. Ich schätze Ihre Kontaktaufnahme und werde so bald wie möglich auf Ihre Anfrage antworten.">
-                       Your message has been successfully sent. I appreciate you reaching out and will respond to your inquiry as soon as possible.
+                <p class="tagline animate-on-scroll" data-en="Your message has been successfully received" data-de="Ihre Nachricht wurde erfolgreich empfangen">Your message has been successfully received</p>
+                
+                <div class="content animate-on-scroll">
+                    <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;" data-en="I appreciate you reaching out and will respond to your inquiry as soon as possible. Your interest in my music means a great deal to me." 
+                       data-de="Ich schätze Ihre Kontaktaufnahme und werde so bald wie möglich auf Ihre Anfrage antworten. Ihr Interesse an meiner Musik bedeutet mir sehr viel.">
+                       I appreciate you reaching out and will respond to your inquiry as soon as possible. Your interest in my music means a great deal to me.
                     </p>
                     
-                    <p data-en="If you subscribed to updates, you'll receive a confirmation email shortly with information about upcoming concerts and musical events." 
+                    <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 2rem; opacity: 0.9;" data-en="If you subscribed to updates, you'll receive a confirmation email shortly with information about upcoming concerts and musical events." 
                        data-de="Wenn Sie Updates abonniert haben, erhalten Sie in Kürze eine Bestätigungs-E-Mail mit Informationen zu bevorstehenden Konzerten und musikalischen Veranstaltungen.">
                        If you subscribed to updates, you'll receive a confirmation email shortly with information about upcoming concerts and musical events.
                     </p>
-                    
-                    <div class="back-btn">
-                        <a href="index.html" class="btn" data-en="Return to Homepage" data-de="Zur Startseite zurückkehren">Return to Homepage</a>
-                    </div>
                 </div>
+                
+                <a href="index.html" class="btn animate-on-scroll" data-en="Return to Homepage" data-de="Zur Startseite zurückkehren">Return to Homepage</a>
             </div>
         </div>
     </section>
@@ -91,26 +124,64 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-info">
-                    <p>&copy; 2024 Capriccio Diabolico. All rights reserved.</p>
+                    <div class="footer-logo">David Dyakov</div>
+                    <div class="social-links">
+                        <a href="https://open.spotify.com/intl-de/artist/5Y4rHZVGuvUib8wAHd7g4h" target="_blank" class="social-link" aria-label="Listen to David Dyakov on Spotify"><i class="fab fa-spotify"></i></a>
+                        <a href="https://www.youtube.com/channel/UCuKCWTJrEbm7ESpuwibO_hQ" target="_blank" class="social-link" aria-label="Watch David Dyakov on YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.instagram.com/daviddyakow/" target="_blank" class="social-link" aria-label="Follow David Dyakov on Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/david.dyakov" target="_blank" class="social-link" aria-label="Connect with David Dyakov on Facebook"><i class="fab fa-facebook-f"></i></a>
+                    </div>
                 </div>
-                <div class="footer-links">
-                    <a href="index.html#contact" data-en="Contact" data-de="Kontakt">Contact</a>
-                    <a href="index.html#follow-me" data-en="Follow" data-de="Folgen">Follow</a>
+                <div class="spotify-player">
+                    <iframe src="https://open.spotify.com/embed/artist/5Y4rHZVGuvUib8wAHd7g4h" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media" title="David Dyakov Spotify Player"></iframe>
                 </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; <span id="year"></span> David Dyakov - Classical Guitarist. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <script src="scripts.js" defer></script>
+    <!-- Back to top button -->
+    <a href="#" id="back-to-top" title="Back to Top"><i class="fas fa-arrow-up"></i></a>
+
+    <!-- Critical inline performance script -->
+    <script>
+        // Performance optimizations
+        (function() {
+            // Hide loading screen when page is fully loaded
+            window.addEventListener('load', () => {
+                const loading = document.getElementById('loading');
+                if (loading) {
+                    loading.style.opacity = '0';
+                    setTimeout(() => {
+                        loading.style.display = 'none';
+                    }, 300);
+                }
+            });
+            
+            // Update current year in footer
+            document.addEventListener('DOMContentLoaded', () => {
+                const yearElement = document.getElementById('year');
+                if (yearElement) {
+                    yearElement.textContent = new Date().getFullYear();
+                }
+            });
+        })();
+    </script>
     
-    <!-- Auto-redirect after 10 seconds -->
+    <!-- Scripts - Optimized loading -->
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" defer></script>
+    <script src="scripts.js" defer></script>
+    <script src="animations.js" defer></script>
+    
+    <!-- Auto-redirect after 15 seconds (increased for better UX) -->
     <script>
         setTimeout(function() {
             if (window.location.pathname.includes('thank-you')) {
                 window.location.href = 'index.html';
             }
-        }, 10000);
+        }, 15000); // 15 seconds instead of 10 for better user experience
     </script>
 </body>
 </html>
