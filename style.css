@@ -1039,35 +1039,7 @@ nav {
     right: 30px;
 }
 
-.lightbox-thumbnails {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 10px;
-    max-width: 90%;
-    overflow-x: auto;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-}
 
-.thumbnail {
-    width: 60px;
-    height: 40px;
-    object-fit: cover;
-    border-radius: 4px;
-    cursor: pointer;
-    opacity: 0.6;
-    transition: all 0.3s ease;
-}
-
-.thumbnail:hover,
-.thumbnail.active {
-    opacity: 1;
-    transform: scale(1.1);
-}
 
 /* ---------- Concerts Section ---------- */
 .concerts-list {
@@ -1132,19 +1104,36 @@ nav {
 
 /* ---------- Videos Section ---------- */
 .videos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    align-items: center;
 }
 
 .video-container {
     position: relative;
-    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-    height: 0;
-    overflow: hidden;
+    width: 100%;
+    max-width: 600px;
     margin-bottom: 1rem;
     border: 1px solid var(--guitar-wood);
     border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* For HTML5 videos, reset container to natural dimensions */
+.video-container:has(video) {
+    display: block;
+    padding-bottom: 0;
+    height: auto;
+}
+
+.video-item {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 2rem;
 }
 
 .video-container iframe {
@@ -1156,9 +1145,30 @@ nav {
     border-radius: 5px;
 }
 
+
+
+/* HTML5 video styling - Original aspect ratio */
+.video-container video {
+    position: relative;
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    max-width: 100%;
+    display: block;
+}
+
+/* For video containers with HTML5 video, use natural height */
+.video-container:has(video) {
+    padding-bottom: 0;
+    height: auto;
+    position: relative;
+}
+
 .video-title {
     text-align: center;
 }
+
+
 
 /* ---------- Masterclasses Section ---------- */
 .masterclasses-content {
@@ -1725,7 +1735,7 @@ textarea {
     }
 
     .videos-grid {
-        grid-template-columns: 1fr;
+        gap: 2rem;
     }
 
     .gallery-grid {

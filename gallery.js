@@ -15,7 +15,6 @@ class EnhancedGallery {
     init() {
         this.collectImages();
         this.bindEvents();
-        this.createThumbnails();
     }
     
     collectImages() {
@@ -132,19 +131,7 @@ class EnhancedGallery {
         }
     }
     
-    createThumbnails() {
-        const thumbnailContainer = document.getElementById('lightbox-thumbnails');
-        if (!thumbnailContainer) return;
-        
-        this.images.forEach((image, index) => {
-            const thumbnail = document.createElement('img');
-            thumbnail.src = image.url;
-            thumbnail.className = 'thumbnail';
-            thumbnail.alt = image.caption;
-            thumbnail.addEventListener('click', () => this.goToImage(index));
-            thumbnailContainer.appendChild(thumbnail);
-        });
-    }
+
     
     openLightbox(index) {
         this.currentIndex = index;
@@ -191,7 +178,6 @@ class EnhancedGallery {
     updateImage() {
         const lightboxImg = document.getElementById('lightbox-img');
         const lightboxCaption = document.getElementById('lightbox-caption');
-        const thumbnails = document.querySelectorAll('.thumbnail');
         
         if (this.images[this.currentIndex]) {
             const image = this.images[this.currentIndex];
@@ -204,11 +190,6 @@ class EnhancedGallery {
             if (lightboxCaption) {
                 lightboxCaption.textContent = image.caption;
             }
-            
-            // Update thumbnails
-            thumbnails.forEach((thumb, index) => {
-                thumb.classList.toggle('active', index === this.currentIndex);
-            });
             
             // Animate image change
             anime({
