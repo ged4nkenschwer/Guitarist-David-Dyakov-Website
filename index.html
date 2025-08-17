@@ -365,37 +365,12 @@
         <div class="container">
             <h2 class="section-title animate-on-scroll" data-en="Concerts & Events" data-de="Konzerte & Veranstaltungen">Concerts & Events</h2>
             
-            <div class="calendar-container animate-on-scroll">
-                <div class="calendar-header">
-                    <button class="calendar-nav prev-month" id="prevMonth">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <h3 class="calendar-title" id="calendarTitle">December 2024</h3>
-                    <button class="calendar-nav next-month" id="nextMonth">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
+            <div class="concerts-content animate-on-scroll">
+                <div class="en-content">
+                    <p>Concert information and upcoming performances will be announced here. Please check back regularly for updates or follow me on social media for the latest announcements.</p>
                 </div>
-                
-                <div class="calendar-grid">
-                    <div class="calendar-weekdays">
-                        <div class="weekday" data-en="Sun" data-de="So">Sun</div>
-                        <div class="weekday" data-en="Mon" data-de="Mo">Mon</div>
-                        <div class="weekday" data-en="Tue" data-de="Di">Tue</div>
-                        <div class="weekday" data-en="Wed" data-de="Mi">Wed</div>
-                        <div class="weekday" data-en="Thu" data-de="Do">Thu</div>
-                        <div class="weekday" data-en="Fri" data-de="Fr">Fri</div>
-                        <div class="weekday" data-en="Sat" data-de="Sa">Sat</div>
-                    </div>
-                    <div class="calendar-days" id="calendarDays">
-                        <!-- Days will be dynamically generated -->
-                    </div>
-                </div>
-                
-                <div class="calendar-events">
-                    <h4 data-en="Upcoming Events" data-de="Kommende Veranstaltungen">Upcoming Events</h4>
-                    <div class="events-list" id="eventsList">
-                        <!-- Events will be dynamically generated -->
-                    </div>
+                <div class="de-content" style="display: none;">
+                    <p>Konzertinformationen und bevorstehende Aufführungen werden hier bekannt gegeben. Bitte schauen Sie regelmäßig vorbei oder folgen Sie mir in den sozialen Medien für die neuesten Ankündigungen.</p>
                 </div>
             </div>
         </div>
@@ -694,7 +669,6 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
     <script src="scripts.js"></script>
-    <script src="calendar.js"></script>
     <script src="animations.js"></script>
     <script src="gallery.js"></script>
 </body>
