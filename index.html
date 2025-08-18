@@ -60,54 +60,21 @@
     <link rel="preload" href="./david-portrait.jpg" as="image">
     <link rel="preload" href="./hero-guitarist.JPG" as="image">
     
-          <!-- Critical CSS (inlined for faster rendering) -->
-      <style>
-          /* Essential variables */
-          :root{--dark-bg:#0b0c10;--gold:#ffd700;--deep-gold:#b8860b;--rich-gold:#d4af37;--text-light:#e6e6e6;--text-dark:#333;--guitar-wood:#8B5A2B;--deep-blue:#001f3f;--transition:all 0.3s ease}
-          
-          /* Critical above-the-fold styles */
-          *{margin:0;padding:0;box-sizing:border-box}
-          body{margin:0;font-family:'Roboto',Arial,sans-serif;background:#0b0c10;color:#c5c6c7;overflow-x:hidden;line-height:1.6;transform:translateZ(0)}
-          
-          /* Header critical styles */
-          #header{position:fixed;top:0;left:0;right:0;background:rgba(11,12,16,0.95);backdrop-filter:blur(10px);z-index:1000;padding:1rem 0;transition:var(--transition);transform:translateZ(0)}
-          .container{max-width:1200px;margin:0 auto;padding:0 15px}
-          .logo a{color:var(--gold);text-decoration:none;font-size:1.5rem;font-weight:600}
-          
-          /* Hero section */
-          .hero{min-height:100vh;background:linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.6)),url('./hero-guitarist.JPG') center/cover;display:flex;align-items:center;justify-content:center;position:relative;transform:translateZ(0)}
-          .hero-content{text-align:center;max-width:800px;animation:fadeInUp 1s ease;transform:translateZ(0)}
-          .hero h1{font-size:3.5rem;margin-bottom:1rem;color:#d4af37;font-family:'Playfair Display',serif;font-weight:700;transform:translateZ(0)}
-          .tagline{font-size:1.4rem;margin-bottom:2rem;color:#c5c6c7}
-          .btn{display:inline-block;padding:1rem 2rem;background:linear-gradient(45deg,#d4af37,#b8941f);color:#fff;text-decoration:none;border-radius:50px;transition:all 0.3s ease;cursor:pointer;transform:translateZ(0)}
-          .btn:hover{transform:translateY(-2px) translateZ(0);box-shadow:0 5px 15px rgba(212,175,55,0.4)}
-          
-          /* Navigation critical styles */
-          .nav-links{display:flex;list-style:none;gap:2rem}
-          .nav-link{color:var(--text-light);text-decoration:none;transition:var(--transition);font-weight:500}
-          .nav-link:hover{color:var(--gold)}
-          
-          /* Critical animations */
-          @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-          @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
-          
-          /* Loading indicator */
-          .loading{position:fixed;top:0;left:0;width:100%;height:100%;background:#0b0c10;z-index:1001;display:flex;align-items:center;justify-content:center}
-          .loading::after{content:'';width:40px;height:40px;border:3px solid #333;border-top:3px solid #d4af37;border-radius:50%;animation:spin 1s linear infinite}
-          
-          /* Mobile menu toggle */
-          .menu-toggle{display:none;flex-direction:column;cursor:pointer}
-          .menu-toggle span{width:25px;height:3px;background:var(--gold);margin:3px 0;transition:0.3s}
-          
-          /* Mobile responsive */
-          @media(max-width:768px){
-              .hero h1{font-size:2.5rem}
-              .tagline{font-size:1.2rem}
-              .btn{padding:0.8rem 1.5rem}
-              .nav-links{display:none}
-              .menu-toggle{display:flex}
-          }
-      </style>
+    <!-- Critical CSS (inlined for faster rendering) -->
+    <style>
+        /* Critical above-the-fold styles */
+        body{margin:0;font-family:'Roboto',Arial,sans-serif;background:#0b0c10;color:#c5c6c7;overflow-x:hidden}
+        .hero{min-height:100vh;background:linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.6)),url('./hero-guitarist.JPG') center/cover;display:flex;align-items:center;justify-content:center;position:relative}
+        .hero-content{text-align:center;max-width:800px;animation:fadeInUp 1s ease}
+        .hero h1{font-size:3.5rem;margin-bottom:1rem;color:#d4af37;font-family:'Playfair Display',serif}
+        .tagline{font-size:1.4rem;margin-bottom:2rem;color:#c5c6c7}
+        .btn{display:inline-block;padding:1rem 2rem;background:linear-gradient(45deg,#d4af37,#b8941f);color:#fff;text-decoration:none;border-radius:50px;transition:all 0.3s ease}
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+        /* Loading indicator */
+        .loading{position:fixed;top:0;left:0;width:100%;height:100%;background:#0b0c10;z-index:9999;display:flex;align-items:center;justify-content:center}
+        .loading::after{content:'';width:40px;height:40px;border:3px solid #333;border-top:3px solid #d4af37;border-radius:50%;animation:spin 1s linear infinite}
+        @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+    </style>
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="style.css">
@@ -799,150 +766,75 @@
     <!-- Back to top button -->
     <a href="#" id="back-to-top" title="Back to Top"><i class="fas fa-arrow-up"></i></a>
 
-         <!-- Enhanced performance script -->
-     <script>
-         // Performance optimizations with smooth loading
-         (function() {
-             const perf = {
-                 userInteracted: false,
-                 imagesLoaded: new Set(),
-                 
-                 // Smooth image loading with states
-                 loadImageWithStates(src, imgElement) {
-                     if (this.imagesLoaded.has(src)) return;
-                     
-                     // Add loading state
-                     if (imgElement) {
-                         imgElement.classList.add('loading');
-                     }
-                     
-                     const img = new Image();
-                     img.onload = () => {
-                         if (imgElement) {
-                             imgElement.classList.remove('loading');
-                             imgElement.classList.add('loaded');
-                         }
-                         this.imagesLoaded.add(src);
-                     };
-                     img.src = src;
-                 },
-                 
-                 // Progressive image loading
-                 loadImageBatch(images, batchSize = 3) {
-                     const batches = [];
-                     for (let i = 0; i < images.length; i += batchSize) {
-                         batches.push(images.slice(i, i + batchSize));
-                     }
-                     
-                     batches.forEach((batch, index) => {
-                         setTimeout(() => {
-                             batch.forEach(src => {
-                                 if (!this.imagesLoaded.has(src)) {
-                                     const link = document.createElement('link');
-                                     link.rel = 'preload';
-                                     link.as = 'image';
-                                     link.href = src;
-                                     document.head.appendChild(link);
-                                     this.imagesLoaded.add(src);
-                                 }
-                             });
-                         }, index * 100); // Stagger loading
-                     });
-                 },
-                 
-                 // Smart preloading on user interaction
-                 preloadOnInteraction() {
-                     if (this.userInteracted) return;
-                     this.userInteracted = true;
-                     
-                     // Preload visible gallery images with smooth states
-                     const galleryImages = document.querySelectorAll('.gallery-image');
-                     Array.from(galleryImages).slice(0, 4).forEach(img => {
-                         const bgImage = img.style.backgroundImage;
-                         if (bgImage) {
-                             const src = bgImage.replace(/url\(['"]?(.*?)['"]?\)/, '$1');
-                             this.loadImageWithStates(src, img);
-                         }
-                     });
-                     
-                     // Then preload the rest in batches
-                     const remainingImages = [
-                         './on-stage-4-.JPG', './on-stage-5-cyprus.jpg', './on-stage-6-china.JPG',
-                         './on-stage-7-china.JPG', './on-stage-8-.jpg', './on-stage-9-.jpg',
-                         './off-stage-3-italy.jpeg', './off-stage-4-italy.jpeg', './off-stage-5-italy.jpeg'
-                     ];
-                     
-                     this.loadImageBatch(remainingImages, 2);
-                     
-                     // Remove event listeners after first interaction
-                     ['click', 'scroll', 'keydown', 'touchstart'].forEach(event => {
-                         document.removeEventListener(event, this.boundPreload, { passive: true });
-                     });
-                 },
-                 
-                 // Initialize performance optimizations
-                 init() {
-                     this.boundPreload = this.preloadOnInteraction.bind(this);
-                     
-                     // Add interaction listeners
-                     ['click', 'scroll', 'keydown', 'touchstart'].forEach(event => {
-                         document.addEventListener(event, this.boundPreload, { passive: true });
-                     });
-                     
-                     // Enhanced video lazy loading
-                     if ('IntersectionObserver' in window) {
-                         const videoObserver = new IntersectionObserver((entries) => {
-                             entries.forEach(entry => {
-                                 if (entry.isIntersecting) {
-                                     const video = entry.target;
-                                     if (video.preload === 'none') {
-                                         video.preload = 'metadata';
-                                         video.style.willChange = 'transform';
-                                     }
-                                     videoObserver.unobserve(video);
-                                 }
-                             });
-                         }, { rootMargin: '100px' });
-                         
-                         // Observe videos when DOM is ready
-                         document.addEventListener('DOMContentLoaded', () => {
-                             document.querySelectorAll('video').forEach(video => {
-                                 videoObserver.observe(video);
-                             });
-                         });
-                     }
-                     
-                     // Hide loading screen with improved timing
-                     const hideLoading = () => {
-                         const loading = document.getElementById('loading');
-                         if (loading) {
-                             loading.style.transition = 'opacity 0.5s ease-out';
-                             loading.style.opacity = '0';
-                             setTimeout(() => {
-                                 loading.style.display = 'none';
-                                 document.body.style.overflow = ''; // Reset scroll
-                             }, 500);
-                         }
-                     };
-                     
-                     // Hide loading on DOM ready or load event, whichever comes first
-                     let loadingHidden = false;
-                     const hideOnce = () => {
-                         if (!loadingHidden) {
-                             loadingHidden = true;
-                             hideLoading();
-                         }
-                     };
-                     
-                     document.addEventListener('DOMContentLoaded', hideOnce);
-                     window.addEventListener('load', hideOnce);
-                 }
-             };
-             
-             // Initialize performance optimizations
-             perf.init();
-         })();
-     </script>
+    <!-- Critical inline performance script -->
+    <script>
+        // Performance optimizations
+        (function() {
+            // Preload critical images on user interaction
+            let userInteracted = false;
+            function preloadOnInteraction() {
+                if (userInteracted) return;
+                userInteracted = true;
+                
+                // Preload gallery images on first interaction
+                const galleryImages = [
+                    './on-stage-1-china.JPG', './on-stage-2-china.JPG', './on-stage-3-china.JPG',
+                    './off-stage-1-italy.jpeg', './off-stage-2-italy.jpeg', './teaching-guitar.jpg'
+                ];
+                
+                galleryImages.forEach(src => {
+                    const link = document.createElement('link');
+                    link.rel = 'preload';
+                    link.as = 'image';
+                    link.href = src;
+                    document.head.appendChild(link);
+                });
+                
+                // Remove event listeners after first interaction
+                ['click', 'scroll', 'keydown', 'touchstart'].forEach(event => {
+                    document.removeEventListener(event, preloadOnInteraction, { passive: true });
+                });
+            }
+            
+            // Add interaction listeners
+            ['click', 'scroll', 'keydown', 'touchstart'].forEach(event => {
+                document.addEventListener(event, preloadOnInteraction, { passive: true });
+            });
+            
+            // Lazy load videos on intersection
+            if ('IntersectionObserver' in window) {
+                const videoObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const video = entry.target;
+                            if (video.preload === 'none') {
+                                video.preload = 'metadata';
+                            }
+                            videoObserver.unobserve(video);
+                        }
+                    });
+                }, { rootMargin: '50px' });
+                
+                // Observe videos when DOM is ready
+                document.addEventListener('DOMContentLoaded', () => {
+                    document.querySelectorAll('video').forEach(video => {
+                        videoObserver.observe(video);
+                    });
+                });
+            }
+            
+            // Hide loading screen when page is fully loaded
+            window.addEventListener('load', () => {
+                const loading = document.getElementById('loading');
+                if (loading) {
+                    loading.style.opacity = '0';
+                    setTimeout(() => {
+                        loading.style.display = 'none';
+                    }, 300);
+                }
+            });
+        })();
+    </script>
     
     <!-- Scripts - Optimized loading -->
     <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" defer></script>

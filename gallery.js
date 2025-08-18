@@ -54,14 +54,35 @@ class EnhancedGallery {
         if (prevBtn) prevBtn.addEventListener('click', () => this.previousImage());
         if (nextBtn) nextBtn.addEventListener('click', () => this.nextImage());
         
-        // Handle navigation links - allow navigation while lightbox is open (minimized view)
+        // Handle navigation links - close lightbox if open, then navigate
         const navLinks = document.querySelectorAll('.nav-link');
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 const href = link.getAttribute('href');
                 
-                if (href && href.startsWith('#')) {
-                    // Always allow navigation, even with lightbox open
+                if (this.isOpen) {
+                    // Prevent the default navigation briefly to close lightbox first
+                    e.preventDefault();
+                    this.closeLightbox();
+                    
+                    // Allow navigation to proceed after lightbox animation completes
+                    setTimeout(() => {
+                        // Trigger the navigation manually
+                        if (href && href.startsWith('#')) {
+                            const target = document.querySelector(href);
+                            if (target) {
+                                const headerHeight = 100; // Account for fixed header
+                                const targetPosition = target.offsetTop - headerHeight;
+                                
+                                window.scrollTo({
+                                    top: targetPosition,
+                                    behavior: 'smooth'
+                                });
+                            }
+                        }
+                    }, 350); // Wait for lightbox close animation (300ms) + small buffer
+                } else if (href && href.startsWith('#')) {
+                    // Lightbox is not open, handle navigation normally with proper header offset
                     e.preventDefault();
                     const target = document.querySelector(href);
                     if (target) {
@@ -72,11 +93,6 @@ class EnhancedGallery {
                             top: targetPosition,
                             behavior: 'smooth'
                         });
-                    }
-                    
-                    // Keep lightbox open but minimize it if it was open
-                    if (this.isOpen) {
-                        this.minimizeLightbox();
                     }
                 }
             });
@@ -132,18 +148,6 @@ class EnhancedGallery {
                     this.closeLightbox();
                 }
             });
-            
-            // Double-click to toggle minimize/maximize
-            const contentWrapper = lightbox.querySelector('.lightbox-content-wrapper');
-            if (contentWrapper) {
-                contentWrapper.addEventListener('dblclick', () => {
-                    if (lightbox.classList.contains('minimized')) {
-                        this.maximizeLightbox();
-                    } else {
-                        this.minimizeLightbox();
-                    }
-                });
-            }
         }
     }
     
@@ -186,33 +190,8 @@ class EnhancedGallery {
                 complete: () => {
                     lightbox.style.display = 'none';
                     document.body.style.overflow = '';
-                    // Reset lightbox size when closing
-                    lightbox.classList.remove('minimized');
                 }
             });
-        }
-    }
-    
-    minimizeLightbox() {
-        const lightbox = document.getElementById('lightbox');
-        if (lightbox && this.isOpen) {
-            lightbox.classList.add('minimized');
-            // Allow page scrolling when minimized
-            document.body.style.overflow = '';
-        }
-    }
-    
-    maximizeLightbox() {
-        const lightbox = document.getElementById('lightbox');
-        if (lightbox && this.isOpen) {
-            lightbox.classList.remove('minimized');
-            // Remove any inline styles to let CSS take over
-            const contentWrapper = lightbox.querySelector('.lightbox-content-wrapper');
-            if (contentWrapper) {
-                contentWrapper.removeAttribute('style');
-            }
-            // Prevent page scrolling when maximized
-            document.body.style.overflow = 'hidden';
         }
     }
     
