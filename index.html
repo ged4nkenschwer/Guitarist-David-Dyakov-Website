@@ -78,8 +78,10 @@
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="style.css">
+    <!-- Non-critical CSS loaded asynchronously -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    <!-- Fonts loaded with font-display: swap for better performance -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet"></noscript>
     
@@ -201,7 +203,7 @@
             <div class="spotify-widget-container animate-on-scroll">
                 <h3 data-en="Selected Recordings" data-de="Ausgewählte Aufnahmen">Selected Recordings</h3>
                 <div class="spotify-widget">
-                    <iframe src="https://open.spotify.com/embed/artist/5Y4rHZVGuvUib8wAHd7g4h?utm_source=generator" width="100%" height="152" frameborder="0" allowtransparency="true" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="David Dyakov Spotify Player"></iframe>
+                    <iframe src="https://open.spotify.com/embed/artist/5Y4rHZVGuvUib8wAHd7g4h?utm_source=generator" width="100%" height="152" frameborder="0" allowtransparency="true" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="David Dyakov Spotify Player" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
         </div>
@@ -371,6 +373,7 @@
                             <h3 data-en="Videos" data-de="Videos">Videos</h3>
                             <div class="gallery-grid">
                                 <div class="gallery-item animate-on-scroll" data-caption="Capricio Diabolico - Slow Movement (Postojna Festival)">
+                                    <div class="gallery-video-title" data-en="Capricio Diabolico - Slow Movement" data-de="Capricio Diabolico - Langsamer Satz">Capricio Diabolico - Slow Movement</div>
                                     <div class="gallery-video">
                                         <video controls preload="none" loading="lazy">
                                             <source src="./Capricio Diabolico Slow Movement.Postojna Festival.mov" type="video/quicktime">
@@ -378,9 +381,9 @@
                                             Your browser does not support the video tag.
                                         </video>
                                     </div>
-                                    <div class="gallery-video-title" data-en="Capricio Diabolico - Slow Movement" data-de="Capricio Diabolico - Langsamer Satz">Capricio Diabolico - Slow Movement</div>
                                 </div>
                                 <div class="gallery-item animate-on-scroll" data-caption="Homenaje - Manuel de Falla (Postojna Festival)">
+                                    <div class="gallery-video-title" data-en="Homenaje - Manuel de Falla" data-de="Homenaje - Manuel de Falla">Homenaje - Manuel de Falla</div>
                                     <div class="gallery-video">
                                         <video controls preload="none" loading="lazy">
                                             <source src="./Homenaje pour Le Tombeau de Claude Debussy by Manuel de Falla.Finale.Postojna Festival.mov" type="video/quicktime">
@@ -388,19 +391,9 @@
                                             Your browser does not support the video tag.
                                         </video>
                                     </div>
-                                    <div class="gallery-video-title" data-en="Homenaje - Manuel de Falla" data-de="Homenaje - Manuel de Falla">Homenaje - Manuel de Falla</div>
-                                </div>
-                                <div class="gallery-item animate-on-scroll" data-caption="Hora by Stephan Rak (Donnersbergiade 2025)">
-                                    <div class="gallery-video">
-                                        <video controls preload="none" loading="lazy">
-                                            <source src="./Hora by Stephan Rak.Finale.Donnersbergiade 2025.mov" type="video/quicktime">
-                                            <source src="./Hora by Stephan Rak.Finale.Donnersbergiade 2025.mov" type="video/mp4">
-                                            Your browser does not support the video tag.
-                                        </video>
-                                    </div>
-                                    <div class="gallery-video-title" data-en="Hora by Stephan Rak" data-de="Hora von Stephan Rak">Hora by Stephan Rak</div>
                                 </div>
                                 <div class="gallery-item animate-on-scroll" data-caption="Rossiniana Nr.1 op.119 - Finale (Postojna Guitar Festival)">
+                                    <div class="gallery-video-title" data-en="Rossiniana Nr.1 op.119 - Finale" data-de="Rossiniana Nr.1 op.119 - Finale">Rossiniana Nr.1 op.119 - Finale</div>
                                     <div class="gallery-video">
                                         <video controls preload="none" loading="lazy">
                                             <source src="./Rossiniana Nr.1 op.119 .Finale . Postoja Guitar Festival 2025.mov" type="video/quicktime">
@@ -408,7 +401,16 @@
                                             Your browser does not support the video tag.
                                         </video>
                                     </div>
-                                    <div class="gallery-video-title" data-en="Rossiniana Nr.1 op.119 - Finale" data-de="Rossiniana Nr.1 op.119 - Finale">Rossiniana Nr.1 op.119 - Finale</div>
+                                </div>
+                                <div class="gallery-item animate-on-scroll" data-caption="Hora by Stephan Rak (Donnersbergiade 2025)">
+                                    <div class="gallery-video-title" data-en="Hora by Stephan Rak" data-de="Hora von Stephan Rak">Hora by Stephan Rak</div>
+                                    <div class="gallery-video">
+                                        <video controls preload="none" loading="lazy">
+                                            <source src="./Hora by Stephan Rak.Finale.Donnersbergiade 2025.mov" type="video/quicktime">
+                                            <source src="./Hora by Stephan Rak.Finale.Donnersbergiade 2025.mov" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -682,7 +684,7 @@
                     </div>
                 </div>
                 <div class="spotify-player">
-                    <iframe src="https://open.spotify.com/embed/artist/5Y4rHZVGuvUib8wAHd7g4h?utm_source=generator" width="300" height="80" frameborder="0" allowtransparency="true" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="David Dyakov Spotify Player"></iframe>
+                    <iframe src="https://open.spotify.com/embed/artist/5Y4rHZVGuvUib8wAHd7g4h?utm_source=generator" width="300" height="80" frameborder="0" allowtransparency="true" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="David Dyakov Spotify Player" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
             <div class="copyright">
@@ -729,7 +731,7 @@
                 document.addEventListener(event, preloadOnInteraction, { passive: true });
             });
             
-            // Lazy load videos on intersection
+            // Lazy load videos on intersection - optimized
             if ('IntersectionObserver' in window) {
                 const videoObserver = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
@@ -741,14 +743,20 @@
                             videoObserver.unobserve(video);
                         }
                     });
-                }, { rootMargin: '50px' });
+                }, { rootMargin: '100px' }); // Increased margin for smoother experience
                 
-                // Observe videos when DOM is ready
-                document.addEventListener('DOMContentLoaded', () => {
+                // Observe videos when DOM is ready - use requestIdleCallback if available
+                const observeVideos = () => {
                     document.querySelectorAll('video').forEach(video => {
                         videoObserver.observe(video);
                     });
-                });
+                };
+                
+                if ('requestIdleCallback' in window) {
+                    requestIdleCallback(observeVideos, { timeout: 2000 });
+                } else {
+                    document.addEventListener('DOMContentLoaded', observeVideos);
+                }
             }
             
             // Hide loading screen when page is fully loaded
@@ -764,11 +772,13 @@
         })();
     </script>
     
-    <!-- Scripts - Optimized loading -->
-    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" defer></script>
+    <!-- Scripts - Optimized loading with defer for non-blocking -->
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" defer crossorigin="anonymous"></script>
     <script src="scripts.js" defer></script>
     <script src="animations.js" defer></script>
     <script src="gallery.js" defer></script>
+    <!-- SEO analytics loaded last as it's non-critical -->
+    <script src="seo-analytics.js" defer></script>
 
 </body>
 </html> 

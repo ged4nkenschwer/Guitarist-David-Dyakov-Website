@@ -9,7 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
     'use strict';
 
     // Update current year in footer
-    document.getElementById('year').textContent = new Date().getFullYear();
+    const yearElement = document.getElementById('year');
+    if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+    }
 
     // Initialize language preference
     initLanguage();
@@ -36,6 +39,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize Press Quotes animations
     initPressQuotesAnimations();
+    
+    // Initialize lazy loading for gallery background images
+    initLazyLoadGalleryImages();
+    
+    // Fix overflow for video gallery items to prevent clipping
+    fixVideoGalleryOverflow();
 
     // Enhanced Combined Form Handling for Netlify Forms
     const combinedForm = document.getElementById('combinedForm');
@@ -211,13 +220,21 @@ function initGuitarPatternAnimation() {
     const quoteSection = document.querySelector('.quote-section');
     if (!quoteSection) return;
     
+    // Throttle scroll event for better performance
+    let ticking = false;
     window.addEventListener('scroll', function() {
-        const scrollPosition = window.scrollY;
-        if (isElementInViewport(quoteSection)) {
-            const offsetY = (scrollPosition * 0.05) % 50;
-            quoteSection.style.backgroundPosition = `${offsetY}px ${offsetY}px`;
+        if (!ticking) {
+            window.requestAnimationFrame(function() {
+                const scrollPosition = window.scrollY;
+                if (isElementInViewport(quoteSection)) {
+                    const offsetY = (scrollPosition * 0.05) % 50;
+                    quoteSection.style.backgroundPosition = `${offsetY}px ${offsetY}px`;
+                }
+                ticking = false;
+            });
+            ticking = true;
         }
-    });
+    }, { passive: true });
 }
 
 /**
@@ -232,11 +249,99 @@ function isElementInViewport(el) {
 }
 
 /**
+ * Initialize lazy loading for gallery background images
+ * Uses IntersectionObserver for better performance
+ */
+function initLazyLoadGalleryImages() {
+    if (!('IntersectionObserver' in window)) {
+        // Fallback: load all images immediately
+        document.querySelectorAll('.gallery-image').forEach(img => {
+            const bgImage = img.getAttribute('style');
+            if (bgImage && bgImage.includes('background-image')) {
+                // Image already has style, ensure it's loaded
+                const match = bgImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+                if (match && match[1]) {
+                    const link = document.createElement('link');
+                    link.rel = 'prefetch';
+                    link.as = 'image';
+                    link.href = match[1];
+                    document.head.appendChild(link);
+                }
+            }
+        });
+        return;
+    }
+    
+    const galleryImages = document.querySelectorAll('.gallery-image');
+    if (galleryImages.length === 0) return;
+    
+    const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const galleryImage = entry.target;
+                const bgImage = galleryImage.getAttribute('style');
+                
+                // If image hasn't been loaded yet, preload it
+                if (bgImage && bgImage.includes('background-image') && !galleryImage.dataset.loaded) {
+                    const match = bgImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+                    if (match && match[1]) {
+                        // Preload the image
+                        const link = document.createElement('link');
+                        link.rel = 'prefetch';
+                        link.as = 'image';
+                        link.href = match[1];
+                        document.head.appendChild(link);
+                        
+                        // Mark as loaded
+                        galleryImage.dataset.loaded = 'true';
+                    }
+                }
+                
+                // Stop observing once loaded
+                imageObserver.unobserve(galleryImage);
+            }
+        });
+    }, {
+        rootMargin: '50px' // Start loading 50px before image enters viewport
+    });
+    
+    galleryImages.forEach(img => {
+        imageObserver.observe(img);
+    });
+}
+
+/**
+ * Fix overflow for video gallery items to prevent video clipping
+ */
+function fixVideoGalleryOverflow() {
+    const videoGalleryItems = document.querySelectorAll('.gallery-item:has(.gallery-video)');
+    
+    // If :has() is not supported, use alternative method
+    if (videoGalleryItems.length === 0) {
+        const allGalleryItems = document.querySelectorAll('.gallery-item');
+        allGalleryItems.forEach(item => {
+            if (item.querySelector('.gallery-video')) {
+                item.style.overflow = 'visible';
+            } else {
+                item.style.overflow = 'hidden';
+            }
+        });
+    } else {
+        // :has() is supported, set overflow via CSS class
+        videoGalleryItems.forEach(item => {
+            item.style.overflow = 'visible';
+        });
+    }
+}
+
+/**
  * Language Switching Functionality
  */
 function initLanguage() {
     const langEn = document.getElementById('lang-en');
     const langDe = document.getElementById('lang-de');
+    
+    if (!langEn || !langDe) return;
     
     // Check localStorage for language preference
     const savedLang = localStorage.getItem('language') || 'en';
@@ -251,18 +356,22 @@ function initLanguage() {
         langEn.classList.remove('active');
     }
     
-    // Add event listeners to language buttons
-    langEn.addEventListener('click', function() {
-        setLanguage('en');
-        langEn.classList.add('active');
-        langDe.classList.remove('active');
-    });
+    // Add event listeners to language buttons - check if elements exist
+    if (langEn) {
+        langEn.addEventListener('click', function() {
+            setLanguage('en');
+            langEn.classList.add('active');
+            langDe.classList.remove('active');
+        });
+    }
     
-    langDe.addEventListener('click', function() {
-        setLanguage('de');
-        langDe.classList.add('active');
-        langEn.classList.remove('active');
-    });
+    if (langDe) {
+        langDe.addEventListener('click', function() {
+            setLanguage('de');
+            langDe.classList.add('active');
+            langEn.classList.remove('active');
+        });
+    }
 }
 
 /**
@@ -321,13 +430,16 @@ function initMobileMenu() {
     const menuToggle = document.querySelector('.menu-toggle');
     const navMenu = document.querySelector('.nav-menu');
     
+    if (!menuToggle || !navMenu) return;
+    
     menuToggle.addEventListener('click', function() {
         menuToggle.classList.toggle('active');
         navMenu.classList.toggle('active');
     });
     
-    // Close menu when clicking on a nav link
-    document.querySelectorAll('.nav-link').forEach(link => {
+    // Close menu when clicking on a nav link - cache selector
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
         link.addEventListener('click', function() {
             menuToggle.classList.remove('active');
             navMenu.classList.remove('active');
@@ -340,14 +452,23 @@ function initMobileMenu() {
  */
 function initBackToTop() {
     const backToTop = document.getElementById('back-to-top');
+    if (!backToTop) return;
     
+    // Throttle scroll event for better performance
+    let ticking = false;
     window.addEventListener('scroll', function() {
-        if (window.pageYOffset > 300) {
-            backToTop.classList.add('visible');
-        } else {
-            backToTop.classList.remove('visible');
+        if (!ticking) {
+            window.requestAnimationFrame(function() {
+                if (window.pageYOffset > 300) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+                ticking = false;
+            });
+            ticking = true;
         }
-    });
+    }, { passive: true });
     
     backToTop.addEventListener('click', function(e) {
         e.preventDefault();
@@ -370,10 +491,14 @@ function initLightbox() {
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
     
-    // Filter out video items and collect only image items
+    if (!lightbox || !lightboxImg || !lightboxCaption) return;
+    
+    // Filter out video items and collect only image items - cache result
     const imageItems = Array.from(galleryItems).filter(item => {
         return !item.querySelector('.gallery-video');
     });
+    
+    if (imageItems.length === 0) return;
     
     let currentIndex = 0;
     
@@ -449,21 +574,23 @@ function initLightbox() {
         });
     }
     
-    // Keyboard navigation
-    document.addEventListener('keydown', function(e) {
-        if (lightbox.style.display === 'block') {
-            if (e.key === 'Escape') {
-                lightbox.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            } else if (e.key === 'ArrowLeft') {
-                const newIndex = currentIndex > 0 ? currentIndex - 1 : imageItems.length - 1;
-                openLightbox(newIndex);
-            } else if (e.key === 'ArrowRight') {
-                const newIndex = currentIndex < imageItems.length - 1 ? currentIndex + 1 : 0;
-                openLightbox(newIndex);
-            }
+    // Keyboard navigation - only active when lightbox is open
+    function handleKeydown(e) {
+        if (lightbox.style.display !== 'block') return;
+        
+        if (e.key === 'Escape') {
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        } else if (e.key === 'ArrowLeft') {
+            const newIndex = currentIndex > 0 ? currentIndex - 1 : imageItems.length - 1;
+            openLightbox(newIndex);
+        } else if (e.key === 'ArrowRight') {
+            const newIndex = currentIndex < imageItems.length - 1 ? currentIndex + 1 : 0;
+            openLightbox(newIndex);
         }
-    });
+    }
+    
+    document.addEventListener('keydown', handleKeydown);
     
     // Close lightbox when clicking the close button
     if (closeLightbox) {
@@ -486,108 +613,41 @@ function initLightbox() {
  * Initialize form submissions
  */
 function initFormSubmissions() {
-    // Contact form submission
-    const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // In a real implementation, you would send the form data to a server here
-            const formData = new FormData(contactForm);
-            // Example: fetch('/api/contact', { method: 'POST', body: formData });
-            
-            // For demo purposes, just show a success message
-            alert('Thank you for your message! In a real implementation, this would be sent to the server.');
-            contactForm.reset();
-        });
-    }
-    
-    // Newsletter form submission
-    const newsletterForm = document.getElementById('newsletter-form');
-    const newsletterThanks = document.getElementById('newsletter-thanks');
-    
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get the form data
-            const formData = new FormData(newsletterForm);
-            
-            // For development & testing - log the form data to console
-            console.log('Newsletter subscription:');
-            for (let [key, value] of formData.entries()) {
-                console.log(`${key}: ${value}`);
-            }
-            
-            // In production, you would send this data to your email service (Brevo/Mailchimp)
-            // Example implementation using fetch:
-            /*
-            fetch(newsletterForm.getAttribute('action'), {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error('Network response was not ok.');
-            })
-            .then(data => {
-                // Show thank you message
-                showNewsletterThanks();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('There was a problem with your subscription. Please try again.');
-            });
-            */
-            
-            // For demonstration purposes, just show the thank you message
-            showNewsletterThanks();
-        });
-    }
-    
-    /**
-     * Show the thank you message after successful newsletter subscription
-     */
-    function showNewsletterThanks() {
-        // Hide the form
-        newsletterForm.style.display = 'none';
-        
-        // Show the thank you message
-        newsletterThanks.style.display = 'block';
-        
-        // Make sure the message is visible in the viewport
-        newsletterThanks.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        
-        // Reset the form for if/when the user returns
-        newsletterForm.reset();
-        
-        // Optional: Hide the thank you message and show the form again after some time
-        // setTimeout(() => {
-        //     newsletterThanks.style.display = 'none';
-        //     newsletterForm.style.display = 'block';
-        // }, 10000); // 10 seconds
-    }
+    // Contact form submission - removed as it's not used (combinedForm is used instead)
+    // This function is kept for potential future use but currently does nothing
 }
 
 /**
  * Update header styling on scroll
  */
-window.addEventListener('scroll', function() {
+(function() {
     const header = document.getElementById('header');
+    if (!header) return;
     
-    if (window.pageYOffset > 50) {
-        header.style.padding = '0.7rem 0';
-        header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-    } else {
-        header.style.padding = '1rem 0';
-        header.style.boxShadow = 'none';
-    }
-});
+    // Cache initial styles to avoid layout thrashing
+    const defaultPadding = '1rem 0';
+    const scrolledPadding = '0.7rem 0';
+    const defaultShadow = 'none';
+    const scrolledShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+    
+    // Throttle scroll event for better performance
+    let ticking = false;
+    window.addEventListener('scroll', function() {
+        if (!ticking) {
+            window.requestAnimationFrame(function() {
+                if (window.pageYOffset > 50) {
+                    header.style.padding = scrolledPadding;
+                    header.style.boxShadow = scrolledShadow;
+                } else {
+                    header.style.padding = defaultPadding;
+                    header.style.boxShadow = defaultShadow;
+                }
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }, { passive: true });
+})();
 
 /**
  * Fix navigation scroll issues - EXCLUDE nav-link to avoid conflict with gallery.js
@@ -595,6 +655,9 @@ window.addEventListener('scroll', function() {
 document.addEventListener('DOMContentLoaded', function() {
     // Override navigation links but EXCLUDE .nav-link elements (handled by gallery.js)
     const navLinks = document.querySelectorAll('a[href^="#"]:not(.nav-link)');
+    
+    // Cache header height to avoid recalculation
+    const headerHeight = 100;
     
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
@@ -604,7 +667,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetElement = document.querySelector(targetId);
             
             if (targetElement) {
-                const headerHeight = 100; // Account for fixed header
                 const targetPosition = targetElement.offsetTop - headerHeight;
                 
                 window.scrollTo({

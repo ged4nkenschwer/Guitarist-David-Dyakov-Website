@@ -42,9 +42,11 @@ function initMusicalAnimations() {
     // Set initial state for all animated elements
     animatedElements.forEach(element => {
         // Set initial state (hidden) with musical positioning
+        // Use transform and opacity for GPU acceleration
         element.style.opacity = '0';
-        element.style.transform = 'translateY(60px) scale(0.95)';
+        element.style.transform = 'translate3d(0, 60px, 0) scale(0.95)';
         element.style.transition = 'none';
+        element.style.willChange = 'transform, opacity';
     });
 
     // Create IntersectionObserver with musical timing
@@ -55,6 +57,8 @@ function initMusicalAnimations() {
                 animateElementMusically(entry.target);
                 // Stop observing after animation
                 observer.unobserve(entry.target);
+                // Remove will-change after animation starts to free resources
+                entry.target.style.willChange = 'auto';
             }
         });
     }, {

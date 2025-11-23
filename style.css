@@ -55,6 +55,10 @@ body {
     background-position: center top;
     background-attachment: fixed;
     min-height: 100vh;
+    /* Performance optimization */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 /* Enhanced Heading Styles with Golden Gradient */
@@ -914,11 +918,25 @@ nav {
 
 .gallery-item {
     position: relative;
-    overflow: hidden;
     border-radius: 5px;
     cursor: pointer;
     transition: var(--transition);
     border: 1px solid transparent;
+}
+
+/* Hide overflow for image items to contain background images */
+.gallery-item:has(.gallery-image) {
+    overflow: hidden;
+}
+
+/* Don't hide overflow for video items to prevent clipping */
+.gallery-item:has(.gallery-video) {
+    overflow: visible;
+}
+
+/* Fallback for browsers without :has() support - JavaScript will handle this */
+.gallery-item {
+    overflow: hidden; /* Default, will be overridden by JS for video items */
 }
 
 .gallery-image {
@@ -929,9 +947,12 @@ nav {
     background-repeat: no-repeat;
     border-radius: 8px;
     filter: brightness(1.05) contrast(1.02) saturate(1.05);
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     position: relative;
     overflow: hidden;
+    will-change: transform, filter;
+    transform: translateZ(0); /* Force GPU acceleration */
+    backface-visibility: hidden;
 }
 
 .gallery-image::before {
@@ -962,8 +983,13 @@ nav {
 }
 
 .gallery-item:hover .gallery-image {
-    transform: scale(1.05);
+    transform: scale(1.05) translateZ(0);
     filter: brightness(1.1) contrast(1.05) saturate(1.1);
+}
+
+/* Remove will-change after hover to free resources */
+.gallery-item:not(:hover) .gallery-image {
+    will-change: auto;
 }
 
 .gallery-item img {
@@ -983,13 +1009,14 @@ nav {
     width: 100%;
     min-height: 250px;
     border-radius: 8px;
-    overflow: hidden;
+    overflow: visible;
     position: relative;
     background: rgba(0, 0, 0, 0.3);
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     display: flex;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
 }
 
 .gallery-video video {
@@ -1002,6 +1029,8 @@ nav {
     border-radius: 8px;
     transition: var(--transition);
     background: #000;
+    box-sizing: border-box;
+    max-width: 100%;
 }
 
 .gallery-item:hover .gallery-video {
@@ -1026,7 +1055,8 @@ nav {
 /* Gallery Video Title Styling */
 .gallery-video-title {
     text-align: center;
-    margin-top: 0.8rem;
+    margin-bottom: 0.8rem;
+    margin-top: 0;
     font-size: 0.95rem;
     color: var(--text-light);
     font-weight: 400;
@@ -1035,6 +1065,8 @@ nav {
     line-height: 1.4;
     opacity: 0.9;
     transition: var(--transition);
+    display: block;
+    visibility: visible;
 }
 
 .gallery-item:hover .gallery-video-title {
@@ -2548,6 +2580,21 @@ textarea {
 .footer {
     position: relative;
     z-index: 1;
+}
+
+/* Animation performance optimizations */
+.animate-on-scroll,
+.gallery-item,
+.technique-item {
+    will-change: transform, opacity;
+    transform: translateZ(0); /* Force GPU acceleration */
+    backface-visibility: hidden;
+}
+
+/* Remove will-change after animation to free resources */
+.animate-on-scroll.animated,
+.gallery-item.animated {
+    will-change: auto;
 }
 
 /* Animation performance */
