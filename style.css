@@ -978,6 +978,70 @@ nav {
     transform: scale(1.05);
 }
 
+/* Gallery Video Styling - matches gallery-image layout */
+.gallery-video {
+    width: 100%;
+    min-height: 250px;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    background: rgba(0, 0, 0, 0.3);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gallery-video video {
+    width: 100%;
+    height: auto;
+    min-height: 250px;
+    max-height: 400px;
+    object-fit: contain;
+    display: block;
+    border-radius: 8px;
+    transition: var(--transition);
+    background: #000;
+}
+
+.gallery-item:hover .gallery-video {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.gallery-item:hover .gallery-video video {
+    transform: scale(1.02);
+}
+
+/* Make video gallery items not clickable for lightbox */
+.gallery-item:has(.gallery-video) {
+    cursor: default;
+}
+
+/* Fallback for browsers without :has() support - handled by JavaScript */
+.gallery-video {
+    pointer-events: auto;
+}
+
+/* Gallery Video Title Styling */
+.gallery-video-title {
+    text-align: center;
+    margin-top: 0.8rem;
+    font-size: 0.95rem;
+    color: var(--text-light);
+    font-weight: 400;
+    font-family: var(--font-body);
+    padding: 0 0.5rem;
+    line-height: 1.4;
+    opacity: 0.9;
+    transition: var(--transition);
+}
+
+.gallery-item:hover .gallery-video-title {
+    color: var(--gold);
+    opacity: 1;
+}
+
 .lightbox {
     display: none;
     position: fixed;
@@ -1084,11 +1148,22 @@ nav {
 
 
 /* ---------- Videos Section ---------- */
+.videos-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.video-section {
+    width: 100%;
+}
+
 .videos-grid {
     display: flex;
     flex-direction: column;
     gap: 3rem;
     align-items: center;
+    margin-top: 1.5rem;
 }
 
 .video-container {
@@ -1803,11 +1878,6 @@ textarea {
     scroll-snap-type: y proximity;
 } */
 
-.section {
-    /* scroll-snap-align: start; */
-    /* scroll-margin-top: 100px; */ /* Temporarily disabled to fix navigation */
-}
-
 /* ---------- Responsive Styles ---------- */
 @media (max-width: 992px) {
     h1 {
@@ -1820,17 +1890,20 @@ textarea {
 
     .nav-menu {
         position: fixed;
-        top: 0;
-        right: -300px;
-        width: 300px;
-        height: 100vh;
+        top: 80px;
+        right: -280px;
+        width: 280px;
+        max-height: calc(100vh - 100px);
         background-color: var(--deep-blue);
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
+        padding: 2rem 1rem;
         transition: var(--transition);
-        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+        border-radius: 8px 0 0 8px;
         z-index: 1001;
+        overflow-y: auto;
     }
 
     .nav-menu.active {
@@ -1838,7 +1911,14 @@ textarea {
     }
 
     .nav-menu li {
-        margin: 1.5rem 0;
+        margin: 0.8rem 0;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .nav-menu .nav-link {
+        font-size: 0.95rem;
+        padding: 0.5rem 1rem;
     }
 
     .menu-toggle {

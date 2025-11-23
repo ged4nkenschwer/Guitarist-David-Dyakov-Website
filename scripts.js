@@ -367,38 +367,115 @@ function initLightbox() {
     const lightboxImg = document.getElementById('lightbox-img');
     const lightboxCaption = document.getElementById('lightbox-caption');
     const closeLightbox = document.querySelector('.close-lightbox');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
     
-    galleryItems.forEach(item => {
-        item.addEventListener('click', function() {
-            const imgSrc = this.querySelector('img').getAttribute('src');
-            const imgCaption = this.getAttribute('data-caption');
-            
+    // Filter out video items and collect only image items
+    const imageItems = Array.from(galleryItems).filter(item => {
+        return !item.querySelector('.gallery-video');
+    });
+    
+    let currentIndex = 0;
+    
+    // Function to get image source from gallery item
+    function getImageSrc(item) {
+        const galleryImage = item.querySelector('.gallery-image');
+        if (galleryImage) {
+            // First try inline style attribute
+            const inlineStyle = galleryImage.getAttribute('style');
+            if (inlineStyle) {
+                const match = inlineStyle.match(/background-image:\s*url\(['"]?([^'"]+)['"]?\)/);
+                if (match && match[1]) {
+                    return match[1];
+                }
+            }
+            // Fallback: Get background-image URL from computed style
+            const bgImage = window.getComputedStyle(galleryImage).backgroundImage;
+            if (bgImage && bgImage !== 'none') {
+                // Extract URL from background-image: url("path") or url('path') or url(path)
+                const match = bgImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+                if (match && match[1]) {
+                    return match[1];
+                }
+            }
+        }
+        // Fallback: check for img tag
+        const img = item.querySelector('img');
+        if (img) {
+            return img.getAttribute('src');
+        }
+        return null;
+    }
+    
+    // Function to open lightbox with specific index
+    function openLightbox(index) {
+        if (index < 0 || index >= imageItems.length) return;
+        
+        currentIndex = index;
+        const item = imageItems[currentIndex];
+        const imgSrc = getImageSrc(item);
+        const imgCaption = item.getAttribute('data-caption') || '';
+        
+        if (imgSrc) {
             lightboxImg.setAttribute('src', imgSrc);
             lightboxCaption.textContent = imgCaption;
             lightbox.style.display = 'block';
-            
-            // Prevent scrolling of the body when lightbox is open
             document.body.style.overflow = 'hidden';
+        }
+    }
+    
+    // Add click handlers to all image items
+    imageItems.forEach((item, index) => {
+        item.addEventListener('click', function() {
+            openLightbox(index);
         });
     });
     
-    // Close lightbox when clicking the close button
-    closeLightbox.addEventListener('click', function() {
-        lightbox.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    });
+    // Previous button
+    if (prevBtn) {
+        prevBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const newIndex = currentIndex > 0 ? currentIndex - 1 : imageItems.length - 1;
+            openLightbox(newIndex);
+        });
+    }
     
-    // Close lightbox when clicking outside the image
-    lightbox.addEventListener('click', function(e) {
-        if (e.target === lightbox) {
-            lightbox.style.display = 'none';
-            document.body.style.overflow = 'auto';
+    // Next button
+    if (nextBtn) {
+        nextBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const newIndex = currentIndex < imageItems.length - 1 ? currentIndex + 1 : 0;
+            openLightbox(newIndex);
+        });
+    }
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (lightbox.style.display === 'block') {
+            if (e.key === 'Escape') {
+                lightbox.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            } else if (e.key === 'ArrowLeft') {
+                const newIndex = currentIndex > 0 ? currentIndex - 1 : imageItems.length - 1;
+                openLightbox(newIndex);
+            } else if (e.key === 'ArrowRight') {
+                const newIndex = currentIndex < imageItems.length - 1 ? currentIndex + 1 : 0;
+                openLightbox(newIndex);
+            }
         }
     });
     
-    // Close lightbox when pressing Escape key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && lightbox.style.display === 'block') {
+    // Close lightbox when clicking the close button
+    if (closeLightbox) {
+        closeLightbox.addEventListener('click', function() {
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+    }
+    
+    // Close lightbox when clicking outside the image
+    lightbox.addEventListener('click', function(e) {
+        if (e.target === lightbox || e.target === lightboxImg) {
             lightbox.style.display = 'none';
             document.body.style.overflow = 'auto';
         }
