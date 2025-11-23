@@ -1083,67 +1083,6 @@ nav {
 
 
 
-/* ---------- Concerts Section ---------- */
-.concerts-list {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-.concert-card {
-    display: flex;
-    background-color: rgba(0, 31, 63, 0.2);
-    border-radius: 5px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    border-left: 3px solid var(--guitar-wood);
-}
-
-.concert-date {
-    background-color: var(--gold);
-    color: var(--text-dark);
-    padding: 1.5rem;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-width: 100px;
-}
-
-.concert-date .day {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 0.3rem;
-}
-
-.concert-date .month {
-    font-weight: 600;
-    margin-bottom: 0.2rem;
-}
-
-.concert-date .year {
-    font-size: 0.9rem;
-}
-
-.concert-details {
-    padding: 1.5rem;
-    flex-grow: 1;
-}
-
-.concert-title {
-    margin-bottom: 0.3rem;
-}
-
-.concert-location {
-    font-style: italic;
-    margin-bottom: 0.5rem;
-    color: var(--guitar-wood);
-}
-
-.concert-info {
-    margin-bottom: 1rem;
-}
-
 /* ---------- Videos Section ---------- */
 .videos-grid {
     display: flex;
@@ -1848,7 +1787,7 @@ textarea {
 }
 
 /* Special spacing for main content sections */
-#biography, #repertoire, #masterclasses, #gallery, #videos, #concerts, #follow-me {
+#biography, #repertoire, #masterclasses, #gallery, #videos, #follow-me {
     margin-bottom: 3rem;
     position: relative;
 }
