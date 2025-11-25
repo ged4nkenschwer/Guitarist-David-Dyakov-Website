@@ -2626,20 +2626,46 @@ textarea {
     margin-bottom: 1.5rem;
     text-transform: uppercase;
     letter-spacing: 2px;
+    background: linear-gradient(to right, var(--deep-gold), var(--gold) 45%, var(--light-gold) 50%, var(--rich-gold) 55%, var(--deep-gold));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 .spotify-widget {
-    background: rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, rgba(0, 31, 63, 0.95), rgba(0, 50, 100, 0.9));
     padding: 1rem;
     border-radius: 12px;
-    border: 1px solid rgba(139, 90, 43, 0.3);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(212, 175, 55, 0.4);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 175, 55, 0.2);
+    position: relative;
+    /* Enhanced dark blue background to show through iframe transparency */
+}
+
+.spotify-widget::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0, 31, 63, 0.3), rgba(0, 50, 100, 0.2));
+    border-radius: 12px;
+    pointer-events: none;
+    z-index: 1;
 }
 
 .spotify-widget iframe {
     border-radius: 8px;
     display: block;
     margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    /* Apply subtle blue tint filter to enhance dark blue appearance */
+    filter: brightness(0.95) contrast(1.05);
+    /* Note: Font colors inside the iframe cannot be changed due to cross-origin restrictions.
+       The dark blue background from the container should be visible through the iframe's transparency. */
 }
 
 /* Responsive Spotify Widget */
