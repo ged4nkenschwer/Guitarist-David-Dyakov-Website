@@ -1,0 +1,101 @@
+# Netlify Configuration File
+# This file configures your Netlify site deployment
+
+[build]
+  # No build command needed for static site
+  publish = "."
+
+[functions]
+  # Directory where serverless functions are located
+  directory = "netlify/functions"
+  # Node.js version for functions
+  node_bundler = "esbuild"
+
+# Form submission handling
+# Netlify Forms will automatically trigger the function when a form is submitted
+[[plugins]]
+  package = "@netlify/plugin-functions"
+
+# Environment variables (set these in Netlify Dashboard > Site settings > Environment variables)
+# Required for email notifications:
+# - NOTIFICATION_EMAIL: Your email address to receive form submissions
+# - SENDGRID_API_KEY: (Optional) For SendGrid email service
+# - MAILGUN_API_KEY: (Optional) For Mailgun email service
+# - MAILGUN_DOMAIN: (Optional) For Mailgun email service
+
+# Redirects
+[[redirects]]
+  from = "/thank-you"
+  to = "/thank-you.html"
+  status = 200
+
+[[redirects]]
+  from = "/thank-you/"
+  to = "/thank-you.html"
+  status = 200
+
+# HTTP Headers for Video Performance Optimization
+# These headers improve video loading times and enable proper streaming
+
+# Headers for video files (.mov, .mp4, .webm)
+[[headers]]
+  for = "/*.mov"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Accept-Ranges = "bytes"
+    Content-Type = "video/quicktime"
+    X-Content-Type-Options = "nosniff"
+
+[[headers]]
+  for = "/*.mp4"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Accept-Ranges = "bytes"
+    Content-Type = "video/mp4"
+    X-Content-Type-Options = "nosniff"
+
+# Headers for all video files (catch-all)
+[[headers]]
+  for = "/*.webm"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    Accept-Ranges = "bytes"
+    Content-Type = "video/webm"
+    X-Content-Type-Options = "nosniff"
+
+# Headers for images (optimize gallery loading)
+[[headers]]
+  for = "/*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.jpeg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Headers for CSS and JS (enable caching - compression handled automatically by Netlify)
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Headers for HTML files (shorter cache, allow revalidation)
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, must-revalidate"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+
