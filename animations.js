@@ -590,6 +590,17 @@ function initAchievementReveal() {
             const triggerText = trigger.querySelector('.trigger-text');
             
             if (!isRevealed) {
+                // Preload videos immediately when videos section is revealed
+                if (content.querySelector('.gallery-video')) {
+                    const videos = content.querySelectorAll('video');
+                    videos.forEach(video => {
+                        if (video.preload === 'none' || video.preload === 'metadata') {
+                            video.preload = 'auto'; // Preload full video for instant playback
+                            video.load();
+                        }
+                    });
+                }
+                
                 // Reveal animation with musical timing
                 const timeline = anime.timeline({
                     easing: 'easeOutElastic(1, 0.6)',

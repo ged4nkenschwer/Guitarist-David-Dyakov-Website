@@ -353,7 +353,7 @@
                                 <div class="gallery-item animate-on-scroll" data-caption="Capricio Diabolico - Slow Movement (Postojna Festival)">
                                     <div class="gallery-video-title" data-en="Capricio Diabolico - Slow Movement" data-de="Capricio Diabolico - Langsamer Satz">Capricio Diabolico - Slow Movement</div>
                                     <div class="gallery-video">
-                                        <video controls preload="none" loading="lazy" playsinline>
+                                        <video controls preload="metadata" loading="lazy" playsinline>
                                             <source src="./Capricio Diabolico Slow Movement.Postojna Festival.mov" type="video/quicktime">
                                             <source src="./Capricio Diabolico Slow Movement.Postojna Festival.mov" type="video/mp4">
                                             Your browser does not support the video tag.
@@ -363,7 +363,7 @@
                                 <div class="gallery-item animate-on-scroll" data-caption="Homenaje - Manuel de Falla (Postojna Festival)">
                                     <div class="gallery-video-title" data-en="Homenaje - Manuel de Falla" data-de="Homenaje - Manuel de Falla">Homenaje - Manuel de Falla</div>
                                     <div class="gallery-video">
-                                        <video controls preload="none" loading="lazy" playsinline>
+                                        <video controls preload="metadata" loading="lazy" playsinline>
                                             <source src="./Homenaje pour Le Tombeau de Claude Debussy by Manuel de Falla.Finale.Postojna Festival.mov" type="video/quicktime">
                                             <source src="./Homenaje pour Le Tombeau de Claude Debussy by Manuel de Falla.Finale.Postojna Festival.mov" type="video/mp4">
                                             Your browser does not support the video tag.
@@ -373,7 +373,7 @@
                                 <div class="gallery-item animate-on-scroll" data-caption="Rossiniana Nr.1 op.119 - Finale (Postojna Guitar Festival)">
                                     <div class="gallery-video-title" data-en="Rossiniana Nr.1 op.119 - Finale" data-de="Rossiniana Nr.1 op.119 - Finale">Rossiniana Nr.1 op.119 - Finale</div>
                                     <div class="gallery-video">
-                                        <video controls preload="none" loading="lazy" playsinline>
+                                        <video controls preload="metadata" loading="lazy" playsinline>
                                             <source src="./Rossiniana Nr.1 op.119 .Finale . Postoja Guitar Festival 2025.mov" type="video/quicktime">
                                             <source src="./Rossiniana Nr.1 op.119 .Finale . Postoja Guitar Festival 2025.mov" type="video/mp4">
                                             Your browser does not support the video tag.
@@ -383,7 +383,7 @@
                                 <div class="gallery-item animate-on-scroll" data-caption="Hora by Stephan Rak (Donnersbergiade 2025)">
                                     <div class="gallery-video-title" data-en="Hora by Stephan Rak" data-de="Hora von Stephan Rak">Hora by Stephan Rak</div>
                                     <div class="gallery-video">
-                                        <video controls preload="none" loading="lazy" playsinline>
+                                        <video controls preload="metadata" loading="lazy" playsinline>
                                             <source src="./Hora by Stephan Rak.Finale.Donnersbergiade 2025.mov" type="video/quicktime">
                                             <source src="./Hora by Stephan Rak.Finale.Donnersbergiade 2025.mov" type="video/mp4">
                                             Your browser does not support the video tag.
@@ -698,68 +698,85 @@
                 document.addEventListener(event, preloadOnInteraction, { passive: true });
             });
             
-            // Optimized video loading - only load when user clicks play
-            // This prevents videos from loading metadata until user actually wants to play
+            // Optimized video loading - preload videos when section is visible for instant playback
             (function() {
                 // Wait for DOM to be ready
                 const initVideoLoading = () => {
-                    const videos = document.querySelectorAll('video[preload="none"]');
+                    const videosSection = document.querySelector('#gallery .achievement-reveal');
+                    const videosContent = videosSection ? videosSection.querySelector('.achievement-content') : null;
+                    const videos = document.querySelectorAll('#gallery video[preload="none"]');
                     
-                    videos.forEach(video => {
-                        // Store original sources in data attributes to prevent loading
-                        const sources = Array.from(video.querySelectorAll('source'));
-                        sources.forEach((source, index) => {
-                            source.setAttribute('data-src', source.getAttribute('src'));
-                            source.setAttribute('data-type', source.getAttribute('type'));
-                            source.removeAttribute('src'); // Remove src to prevent loading
+                    if (videos.length === 0) return;
+                    
+                    // Function to preload videos for fast playback
+                    const preloadVideos = () => {
+                        videos.forEach(video => {
+                            // Change preload to metadata or auto for faster loading
+                            if (video.preload === 'none') {
+                                video.preload = 'metadata'; // Preload metadata for instant play
+                                
+                                // Force load metadata
+                                video.load();
+                                
+                                // Preload first few seconds of video for instant playback
+                                if (video.readyState >= 1) {
+                                    // Video metadata loaded, can preload more
+                                    video.preload = 'auto';
+                                }
+                            }
+                        });
+                    };
+                    
+                    // Preload when videos section is expanded/revealed
+                    if (videosContent) {
+                        // Watch for when content becomes visible
+                        const observer = new MutationObserver((mutations) => {
+                            mutations.forEach((mutation) => {
+                                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                                    if (videosContent.classList.contains('revealed')) {
+                                        preloadVideos();
+                                    }
+                                }
+                            });
                         });
                         
-                        // Mark as not loaded
-                        video.dataset.videoLoaded = 'false';
+                        observer.observe(videosContent, {
+                            attributes: true,
+                            attributeFilter: ['class']
+                        });
                         
-                        // Function to load video when user wants to play
-                        const loadVideo = function(e) {
-                            // Only load once
-                            if (video.dataset.videoLoaded === 'true') return;
-                            
-                            // Prevent default play until loaded
-                            if (e && e.type === 'play') {
-                                e.preventDefault();
-                            }
-                            
-                            video.dataset.videoLoaded = 'true';
-                            
-                            // Restore source attributes
-                            const storedSources = video.querySelectorAll('source[data-src]');
-                            storedSources.forEach(source => {
-                                source.setAttribute('src', source.getAttribute('data-src'));
-                                source.removeAttribute('data-src');
+                        // Also check if already revealed
+                        if (videosContent.classList.contains('revealed')) {
+                            preloadVideos();
+                        }
+                    }
+                    
+                    // Also preload when videos are near viewport (IntersectionObserver)
+                    if ('IntersectionObserver' in window) {
+                        const videoObserver = new IntersectionObserver((entries) => {
+                            entries.forEach(entry => {
+                                if (entry.isIntersecting) {
+                                    const video = entry.target;
+                                    if (video.preload === 'none') {
+                                        video.preload = 'metadata';
+                                        video.load();
+                                        
+                                        // After metadata loads, preload more
+                                        video.addEventListener('loadedmetadata', function() {
+                                            video.preload = 'auto';
+                                        }, { once: true });
+                                    }
+                                    videoObserver.unobserve(video);
+                                }
                             });
-                            
-                            // Load the video
-                            video.load();
-                            
-                            // Play the video after loading
-                            video.play().catch(err => {
-                                console.log('Video play prevented:', err);
-                            });
-                            
-                            // Remove event listeners
-                            video.removeEventListener('play', loadVideo);
-                            video.removeEventListener('click', loadVideo);
-                        };
+                        }, { 
+                            rootMargin: '200px' // Start loading 200px before video enters viewport
+                        });
                         
-                        // Load on play attempt (user clicks play button)
-                        video.addEventListener('play', loadVideo, { once: true, passive: false });
-                        
-                        // Also handle click on video controls
-                        video.addEventListener('click', function(e) {
-                            // Only if video hasn't been loaded yet
-                            if (video.dataset.videoLoaded === 'false' && video.readyState === 0) {
-                                loadVideo(e);
-                            }
-                        }, { once: true });
-                    });
+                        videos.forEach(video => {
+                            videoObserver.observe(video);
+                        });
+                    }
                 };
                 
                 if (document.readyState === 'loading') {
