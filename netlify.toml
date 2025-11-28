@@ -13,8 +13,7 @@
 
 # Form submission handling
 # Netlify Forms will automatically trigger the function when a form is submitted
-[[plugins]]
-  package = "@netlify/plugin-functions"
+# Functions are automatically detected and built by Netlify - no plugin needed
 
 # Environment variables (set these in Netlify Dashboard > Site settings > Environment variables)
 # Required for email notifications:
