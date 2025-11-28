@@ -563,14 +563,19 @@ function initLightbox() {
         return null;
     }
     
-    // Function to get video source from gallery item
-    function getVideoSrc(item) {
+    // Function to get all video sources from gallery item
+    function getVideoSources(item) {
         const video = item.querySelector('.gallery-video video');
         if (video) {
             const sources = video.querySelectorAll('source');
-            if (sources.length > 0) {
-                return sources[0].getAttribute('src');
-            }
+            const sourceData = [];
+            sources.forEach(source => {
+                sourceData.push({
+                    src: source.getAttribute('src'),
+                    type: source.getAttribute('type')
+                });
+            });
+            return sourceData;
         }
         return null;
     }
@@ -612,17 +617,28 @@ function initLightbox() {
         
         if (isVideo) {
             // Handle video
-            const videoSrc = getVideoSrc(item);
-            if (videoSrc && lightboxVideo) {
+            const videoSources = getVideoSources(item);
+            if (videoSources && videoSources.length > 0 && lightboxVideo) {
                 // Hide image, show video
                 lightboxImg.style.display = 'none';
                 lightboxVideo.style.display = 'block';
                 
-                // Set video source
-                const sources = lightboxVideo.querySelectorAll('source');
-                sources.forEach(source => {
-                    source.setAttribute('src', videoSrc);
+                // Clear existing sources
+                const existingSources = lightboxVideo.querySelectorAll('source');
+                existingSources.forEach(source => source.remove());
+                
+                // Add all source elements from the original video
+                videoSources.forEach(sourceData => {
+                    const source = document.createElement('source');
+                    source.setAttribute('src', sourceData.src);
+                    source.setAttribute('type', sourceData.type || 'video/mp4');
+                    lightboxVideo.appendChild(source);
                 });
+                
+                // Set preload to metadata for faster loading
+                lightboxVideo.preload = 'metadata';
+                
+                // Load the video
                 lightboxVideo.load();
                 
                 lightboxCaption.textContent = caption;
