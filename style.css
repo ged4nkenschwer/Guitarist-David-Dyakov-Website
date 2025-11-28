@@ -1112,6 +1112,15 @@ nav {
     transition: all 0.3s ease;
 }
 
+#lightbox-video {
+    max-width: 90%;
+    max-height: 80vh;
+    width: auto;
+    height: auto;
+    border-radius: 8px;
+    background: #000;
+}
+
 #lightbox-caption {
     color: var(--text-light);
     text-align: center;
