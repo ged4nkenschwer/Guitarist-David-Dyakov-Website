@@ -353,7 +353,7 @@
                                 <div class="gallery-item animate-on-scroll" data-caption="Capricio Diabolico - Slow Movement (Postojna Festival)">
                                     <div class="gallery-video-title" data-en="Capricio Diabolico - Slow Movement" data-de="Capricio Diabolico - Langsamer Satz">Capricio Diabolico - Slow Movement</div>
                                     <div class="gallery-video">
-                                        <video controls preload="metadata" loading="lazy" playsinline>
+                                        <video controls preload="none" loading="lazy" playsinline>
                                             <source src="./Capricio Diabolico Slow Movement.Postojna Festival.mov" type="video/quicktime">
                                             <source src="./Capricio Diabolico Slow Movement.Postojna Festival.mov" type="video/mp4">
                                             Your browser does not support the video tag.
@@ -363,7 +363,7 @@
                                 <div class="gallery-item animate-on-scroll" data-caption="Homenaje - Manuel de Falla (Postojna Festival)">
                                     <div class="gallery-video-title" data-en="Homenaje - Manuel de Falla" data-de="Homenaje - Manuel de Falla">Homenaje - Manuel de Falla</div>
                                     <div class="gallery-video">
-                                        <video controls preload="metadata" loading="lazy" playsinline>
+                                        <video controls preload="none" loading="lazy" playsinline>
                                             <source src="./Homenaje pour Le Tombeau de Claude Debussy by Manuel de Falla.Finale.Postojna Festival.mov" type="video/quicktime">
                                             <source src="./Homenaje pour Le Tombeau de Claude Debussy by Manuel de Falla.Finale.Postojna Festival.mov" type="video/mp4">
                                             Your browser does not support the video tag.
@@ -373,7 +373,7 @@
                                 <div class="gallery-item animate-on-scroll" data-caption="Rossiniana Nr.1 op.119 - Finale (Postojna Guitar Festival)">
                                     <div class="gallery-video-title" data-en="Rossiniana Nr.1 op.119 - Finale" data-de="Rossiniana Nr.1 op.119 - Finale">Rossiniana Nr.1 op.119 - Finale</div>
                                     <div class="gallery-video">
-                                        <video controls preload="metadata" loading="lazy" playsinline>
+                                        <video controls preload="none" loading="lazy" playsinline>
                                             <source src="./Rossiniana Nr.1 op.119 .Finale . Postoja Guitar Festival 2025.mov" type="video/quicktime">
                                             <source src="./Rossiniana Nr.1 op.119 .Finale . Postoja Guitar Festival 2025.mov" type="video/mp4">
                                             Your browser does not support the video tag.
@@ -383,7 +383,7 @@
                                 <div class="gallery-item animate-on-scroll" data-caption="Hora by Stephan Rak (Donnersbergiade 2025)">
                                     <div class="gallery-video-title" data-en="Hora by Stephan Rak" data-de="Hora von Stephan Rak">Hora by Stephan Rak</div>
                                     <div class="gallery-video">
-                                        <video controls preload="metadata" loading="lazy" playsinline>
+                                        <video controls preload="none" loading="lazy" playsinline>
                                             <source src="./Hora by Stephan Rak.Finale.Donnersbergiade 2025.mov" type="video/quicktime">
                                             <source src="./Hora by Stephan Rak.Finale.Donnersbergiade 2025.mov" type="video/mp4">
                                             Your browser does not support the video tag.
@@ -698,85 +698,51 @@
                 document.addEventListener(event, preloadOnInteraction, { passive: true });
             });
             
-            // Optimized video loading - preload videos when section is visible for instant playback
+            // Optimized video loading - load metadata when section expands, full video only on play
             (function() {
-                // Wait for DOM to be ready
                 const initVideoLoading = () => {
-                    const videosSection = document.querySelector('#gallery .achievement-reveal');
-                    const videosContent = videosSection ? videosSection.querySelector('.achievement-content') : null;
                     const videos = document.querySelectorAll('#gallery video[preload="none"]');
-                    
                     if (videos.length === 0) return;
                     
-                    // Function to preload videos for fast playback
-                    const preloadVideos = () => {
-                        videos.forEach(video => {
-                            // Change preload to metadata or auto for faster loading
-                            if (video.preload === 'none') {
-                                video.preload = 'metadata'; // Preload metadata for instant play
-                                
-                                // Force load metadata
-                                video.load();
-                                
-                                // Preload first few seconds of video for instant playback
-                                if (video.readyState >= 1) {
-                                    // Video metadata loaded, can preload more
-                                    video.preload = 'auto';
-                                }
-                            }
-                        });
+                    // Load metadata when videos section is expanded (fast, small download)
+                    const loadVideoMetadata = (video) => {
+                        if (video.dataset.metadataLoaded === 'true') return;
+                        video.dataset.metadataLoaded = 'true';
+                        video.preload = 'metadata';
+                        video.load(); // Only loads metadata, not full video
                     };
                     
-                    // Preload when videos section is expanded/revealed
+                    // Watch for videos section expansion
+                    const videosSection = document.querySelector('#gallery .achievement-reveal');
+                    const videosContent = videosSection ? videosSection.querySelector('.achievement-content') : null;
+                    
                     if (videosContent) {
-                        // Watch for when content becomes visible
                         const observer = new MutationObserver((mutations) => {
                             mutations.forEach((mutation) => {
                                 if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
                                     if (videosContent.classList.contains('revealed')) {
-                                        preloadVideos();
+                                        // Section expanded - load metadata only (fast)
+                                        videos.forEach(loadVideoMetadata);
                                     }
                                 }
                             });
                         });
+                        observer.observe(videosContent, { attributes: true, attributeFilter: ['class'] });
                         
-                        observer.observe(videosContent, {
-                            attributes: true,
-                            attributeFilter: ['class']
-                        });
-                        
-                        // Also check if already revealed
                         if (videosContent.classList.contains('revealed')) {
-                            preloadVideos();
+                            videos.forEach(loadVideoMetadata);
                         }
                     }
                     
-                    // Also preload when videos are near viewport (IntersectionObserver)
-                    if ('IntersectionObserver' in window) {
-                        const videoObserver = new IntersectionObserver((entries) => {
-                            entries.forEach(entry => {
-                                if (entry.isIntersecting) {
-                                    const video = entry.target;
-                                    if (video.preload === 'none') {
-                                        video.preload = 'metadata';
-                                        video.load();
-                                        
-                                        // After metadata loads, preload more
-                                        video.addEventListener('loadedmetadata', function() {
-                                            video.preload = 'auto';
-                                        }, { once: true });
-                                    }
-                                    videoObserver.unobserve(video);
-                                }
-                            });
-                        }, { 
-                            rootMargin: '200px' // Start loading 200px before video enters viewport
-                        });
-                        
-                        videos.forEach(video => {
-                            videoObserver.observe(video);
-                        });
-                    }
+                    // When user clicks play, ensure video can play smoothly
+                    videos.forEach(video => {
+                        video.addEventListener('play', function() {
+                            // If only metadata is loaded, start buffering more
+                            if (video.readyState < 3 && video.preload === 'metadata') {
+                                video.preload = 'auto'; // Start loading full video
+                            }
+                        }, { once: true });
+                    });
                 };
                 
                 if (document.readyState === 'loading') {
