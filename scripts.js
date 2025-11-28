@@ -580,12 +580,22 @@ function initLightbox() {
         return null;
     }
     
+    // Helper function to pause all gallery videos
+    function pauseAllGalleryVideos() {
+        const allGalleryVideos = document.querySelectorAll('.gallery-video video');
+        allGalleryVideos.forEach(video => {
+            if (!video.paused) {
+                video.pause();
+            }
+        });
+    }
+    
     // Helper function to close lightbox and restore back-to-top button
     function closeLightbox() {
         lightbox.style.display = 'none';
         document.body.style.overflow = 'auto';
         
-        // Pause and reset lightbox video if playing
+        // Stop and reset lightbox video
         if (lightboxVideo) {
             lightboxVideo.pause();
             lightboxVideo.currentTime = 0;
@@ -632,18 +642,14 @@ function initLightbox() {
             // Handle video
             const videoSources = getVideoSources(item);
             if (videoSources && videoSources.length > 0 && lightboxVideo) {
-                // Pause the original gallery video if it's playing
-                const originalVideo = item.querySelector('.gallery-video video');
-                if (originalVideo) {
-                    originalVideo.pause();
-                    originalVideo.currentTime = 0; // Reset to beginning
-                }
+                // Pause ALL gallery videos (including the one being opened)
+                pauseAllGalleryVideos();
                 
                 // Hide image, show video
                 lightboxImg.style.display = 'none';
                 lightboxVideo.style.display = 'block';
                 
-                // Pause and reset lightbox video first
+                // Stop and reset lightbox video first
                 lightboxVideo.pause();
                 lightboxVideo.currentTime = 0;
                 
@@ -665,22 +671,22 @@ function initLightbox() {
                 // Load the video
                 lightboxVideo.load();
                 
-                // Try to play the video once it's loaded
-                lightboxVideo.addEventListener('loadeddata', function playVideo() {
+                // Auto-play the video once it can play
+                const playLightboxVideo = () => {
                     lightboxVideo.play().catch(err => {
-                        // Auto-play might be blocked by browser, that's okay
-                        console.log('Video autoplay prevented:', err);
+                        // Auto-play might be blocked by browser policy, that's okay
+                        // User can click play manually
+                        console.log('Video autoplay prevented (user interaction required):', err);
                     });
-                    // Remove listener after first attempt
-                    lightboxVideo.removeEventListener('loadeddata', playVideo);
-                }, { once: true });
+                };
                 
-                // Also try to play when metadata is loaded (faster)
+                // Try to play when enough data is loaded
+                lightboxVideo.addEventListener('canplay', playLightboxVideo, { once: true });
+                
+                // Fallback: try when metadata loads (might work faster)
                 lightboxVideo.addEventListener('loadedmetadata', function tryPlay() {
                     if (lightboxVideo.readyState >= 2) {
-                        lightboxVideo.play().catch(err => {
-                            console.log('Video autoplay prevented:', err);
-                        });
+                        playLightboxVideo();
                     }
                     lightboxVideo.removeEventListener('loadedmetadata', tryPlay);
                 }, { once: true });
