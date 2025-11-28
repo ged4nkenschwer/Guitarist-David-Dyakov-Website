@@ -1126,13 +1126,12 @@ nav {
 
 .close-lightbox {
     position: absolute;
-    top: 20px;
+    bottom: 30px;
     right: 30px;
     color: var(--text-light);
-    font-size: 2rem;
     cursor: pointer;
     transition: var(--transition);
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.8);
     border: 2px solid var(--golden-accent);
     border-radius: 50%;
     width: 50px;
@@ -1142,17 +1141,39 @@ nav {
     justify-content: center;
     z-index: 2001;
     padding: 0;
-    border: none;
+    margin: 0;
 }
 
 .close-lightbox i {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
+    color: var(--text-light);
+    line-height: 1;
+}
+
+/* Fallback if Font Awesome icon doesn't load - show × character */
+.close-lightbox::before {
+    content: '×';
+    position: absolute;
+    font-size: 2.5rem;
+    color: var(--text-light);
+    line-height: 1;
+    font-weight: 300;
+    display: none;
+}
+
+.close-lightbox:not(:has(i.fa-times))::before {
+    display: block;
 }
 
 .close-lightbox:hover {
     color: var(--golden-accent);
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(212, 175, 55, 0.2);
+    border-color: var(--gold);
     transform: scale(1.1);
+}
+
+.close-lightbox:hover i {
+    color: var(--golden-accent);
 }
 
 .lightbox-nav {
