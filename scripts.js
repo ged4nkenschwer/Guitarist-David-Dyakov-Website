@@ -45,6 +45,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Fix overflow for video gallery items to prevent clipping
     fixVideoGalleryOverflow();
+    
+    // Initialize video thumbnails
+    initVideoThumbnails();
 
     // Enhanced Combined Form Handling for Netlify Forms
     const combinedForm = document.getElementById('combinedForm');
@@ -332,6 +335,61 @@ function fixVideoGalleryOverflow() {
             item.style.overflow = 'visible';
         });
     }
+}
+
+/**
+ * Initialize video thumbnails - generate thumbnails from video frames
+ */
+function initVideoThumbnails() {
+    const videoItems = document.querySelectorAll('.gallery-video');
+    
+    videoItems.forEach(videoContainer => {
+        const video = videoContainer.querySelector('video');
+        const thumbnail = videoContainer.querySelector('.video-thumbnail');
+        const canvas = videoContainer.querySelector('.video-thumbnail-canvas');
+        
+        if (!video || !thumbnail || !canvas) return;
+        
+        // Function to generate thumbnail from video
+        const generateThumbnail = () => {
+            if (video.readyState >= 2) { // HAVE_CURRENT_DATA or higher
+                try {
+                    // Set canvas dimensions
+                    canvas.width = video.videoWidth || 640;
+                    canvas.height = video.videoHeight || 360;
+                    
+                    // Draw video frame to canvas
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                } catch (err) {
+                    console.log('Could not generate thumbnail:', err);
+                    // Fallback: show dark background
+                    canvas.style.background = 'linear-gradient(135deg, rgba(0,0,0,0.8), rgba(20,20,40,0.8))';
+                }
+            }
+        };
+        
+        // Try to generate thumbnail when metadata loads
+        video.addEventListener('loadedmetadata', function() {
+            // Seek to first frame (0.1 seconds) to get a good thumbnail
+            video.currentTime = 0.1;
+        }, { once: true });
+        
+        // Generate thumbnail when video can show a frame
+        video.addEventListener('seeked', function() {
+            generateThumbnail();
+        }, { once: true });
+        
+        // Fallback: try after loadeddata
+        video.addEventListener('loadeddata', function() {
+            if (video.readyState >= 2) {
+                generateThumbnail();
+            }
+        }, { once: true });
+        
+        // Load video metadata to generate thumbnail
+        video.load();
+    });
 }
 
 /**
