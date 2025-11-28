@@ -389,6 +389,29 @@ function setLanguage(lang) {
         }
     });
     
+    // Update lightbox caption if lightbox is open
+    const lightbox = document.getElementById('lightbox');
+    if (lightbox && lightbox.style.display === 'block') {
+        const lightboxCaption = document.getElementById('lightbox-caption');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const imageItems = Array.from(galleryItems).filter(item => !item.querySelector('.gallery-video'));
+        if (lightboxCaption && imageItems.length > 0) {
+            // Find current item - this is a simplified approach
+            const currentImgSrc = document.getElementById('lightbox-img')?.getAttribute('src');
+            if (currentImgSrc) {
+                imageItems.forEach(item => {
+                    const itemSrc = item.querySelector('.gallery-image')?.getAttribute('style')?.match(/url\(['"]?([^'"]+)['"]?\)/)?.[1];
+                    if (itemSrc && itemSrc.includes(currentImgSrc.split('/').pop())) {
+                        const caption = lang === 'de' 
+                            ? (item.getAttribute('data-caption-de') || item.getAttribute('data-caption') || '')
+                            : (item.getAttribute('data-caption') || '');
+                        lightboxCaption.textContent = caption;
+                    }
+                });
+            }
+        }
+    }
+    
     // Handle reveal trigger buttons based on their current state
     document.querySelectorAll('.reveal-trigger').forEach(trigger => {
         const triggerText = trigger.querySelector('.trigger-text');
@@ -487,7 +510,7 @@ function initLightbox() {
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const lightboxCaption = document.getElementById('lightbox-caption');
-    const closeLightbox = document.querySelector('.close-lightbox');
+    const closeLightboxBtn = document.querySelector('.close-lightbox');
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
     
@@ -532,6 +555,21 @@ function initLightbox() {
         return null;
     }
     
+    // Helper function to close lightbox and restore back-to-top button
+    function closeLightbox() {
+        lightbox.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        
+        // Show back-to-top button when lightbox closes
+        const backToTop = document.getElementById('back-to-top');
+        if (backToTop) {
+            // Check if we should show it based on scroll position
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+            }
+        }
+    }
+    
     // Function to open lightbox with specific index
     function openLightbox(index) {
         if (index < 0 || index >= imageItems.length) return;
@@ -539,13 +577,23 @@ function initLightbox() {
         currentIndex = index;
         const item = imageItems[currentIndex];
         const imgSrc = getImageSrc(item);
-        const imgCaption = item.getAttribute('data-caption') || '';
+        // Get caption based on current language
+        const currentLang = localStorage.getItem('language') || 'en';
+        const imgCaption = currentLang === 'de' 
+            ? (item.getAttribute('data-caption-de') || item.getAttribute('data-caption') || '')
+            : (item.getAttribute('data-caption') || '');
         
         if (imgSrc) {
             lightboxImg.setAttribute('src', imgSrc);
             lightboxCaption.textContent = imgCaption;
             lightbox.style.display = 'block';
             document.body.style.overflow = 'hidden';
+            
+            // Hide back-to-top button when lightbox opens
+            const backToTop = document.getElementById('back-to-top');
+            if (backToTop) {
+                backToTop.classList.remove('visible');
+            }
         }
     }
     
@@ -579,8 +627,7 @@ function initLightbox() {
         if (lightbox.style.display !== 'block') return;
         
         if (e.key === 'Escape') {
-            lightbox.style.display = 'none';
-            document.body.style.overflow = 'auto';
+            closeLightbox();
         } else if (e.key === 'ArrowLeft') {
             const newIndex = currentIndex > 0 ? currentIndex - 1 : imageItems.length - 1;
             openLightbox(newIndex);
@@ -593,18 +640,17 @@ function initLightbox() {
     document.addEventListener('keydown', handleKeydown);
     
     // Close lightbox when clicking the close button
-    if (closeLightbox) {
-        closeLightbox.addEventListener('click', function() {
-            lightbox.style.display = 'none';
-            document.body.style.overflow = 'auto';
+    if (closeLightboxBtn) {
+        closeLightboxBtn.addEventListener('click', function(e) {
+            e.stopPropagation(); // Prevent triggering the outside click handler
+            closeLightbox();
         });
     }
     
     // Close lightbox when clicking outside the image
     lightbox.addEventListener('click', function(e) {
         if (e.target === lightbox || e.target === lightboxImg) {
-            lightbox.style.display = 'none';
-            document.body.style.overflow = 'auto';
+            closeLightbox();
         }
     });
 }
