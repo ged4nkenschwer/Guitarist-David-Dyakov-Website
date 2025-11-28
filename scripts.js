@@ -659,11 +659,31 @@ function initLightbox() {
                     lightboxVideo.appendChild(source);
                 });
                 
-                // Set preload to metadata for faster loading
-                lightboxVideo.preload = 'metadata';
+                // Set preload to auto so video loads and can play
+                lightboxVideo.preload = 'auto';
                 
                 // Load the video
                 lightboxVideo.load();
+                
+                // Try to play the video once it's loaded
+                lightboxVideo.addEventListener('loadeddata', function playVideo() {
+                    lightboxVideo.play().catch(err => {
+                        // Auto-play might be blocked by browser, that's okay
+                        console.log('Video autoplay prevented:', err);
+                    });
+                    // Remove listener after first attempt
+                    lightboxVideo.removeEventListener('loadeddata', playVideo);
+                }, { once: true });
+                
+                // Also try to play when metadata is loaded (faster)
+                lightboxVideo.addEventListener('loadedmetadata', function tryPlay() {
+                    if (lightboxVideo.readyState >= 2) {
+                        lightboxVideo.play().catch(err => {
+                            console.log('Video autoplay prevented:', err);
+                        });
+                    }
+                    lightboxVideo.removeEventListener('loadedmetadata', tryPlay);
+                }, { once: true });
                 
                 lightboxCaption.textContent = caption;
                 lightbox.style.display = 'block';
