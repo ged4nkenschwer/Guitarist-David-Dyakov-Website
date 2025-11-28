@@ -585,10 +585,23 @@ function initLightbox() {
         lightbox.style.display = 'none';
         document.body.style.overflow = 'auto';
         
-        // Pause video if playing
+        // Pause and reset lightbox video if playing
         if (lightboxVideo) {
             lightboxVideo.pause();
-            lightboxVideo.src = '';
+            lightboxVideo.currentTime = 0;
+            // Clear sources to free memory
+            const sources = lightboxVideo.querySelectorAll('source');
+            sources.forEach(source => source.remove());
+            // Add empty sources back
+            const quicktimeSource = document.createElement('source');
+            quicktimeSource.setAttribute('src', '');
+            quicktimeSource.setAttribute('type', 'video/quicktime');
+            const mp4Source = document.createElement('source');
+            mp4Source.setAttribute('src', '');
+            mp4Source.setAttribute('type', 'video/mp4');
+            lightboxVideo.appendChild(quicktimeSource);
+            lightboxVideo.appendChild(mp4Source);
+            lightboxVideo.load();
         }
         
         // Show back-to-top button when lightbox closes
@@ -619,9 +632,20 @@ function initLightbox() {
             // Handle video
             const videoSources = getVideoSources(item);
             if (videoSources && videoSources.length > 0 && lightboxVideo) {
+                // Pause the original gallery video if it's playing
+                const originalVideo = item.querySelector('.gallery-video video');
+                if (originalVideo) {
+                    originalVideo.pause();
+                    originalVideo.currentTime = 0; // Reset to beginning
+                }
+                
                 // Hide image, show video
                 lightboxImg.style.display = 'none';
                 lightboxVideo.style.display = 'block';
+                
+                // Pause and reset lightbox video first
+                lightboxVideo.pause();
+                lightboxVideo.currentTime = 0;
                 
                 // Clear existing sources
                 const existingSources = lightboxVideo.querySelectorAll('source');
