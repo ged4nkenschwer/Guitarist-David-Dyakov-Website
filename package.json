@@ -1,0 +1,18 @@
+{
+  "name": "guitarist-david-djakov-website",
+  "version": "1.0.0",
+  "description": "Classical Guitarist Portfolio Website",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
+
+
+
