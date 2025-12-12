@@ -144,8 +144,9 @@ h1.section-title, h2.section-title, h3.section-title,
 }
 
 /* Mobile: Scroll-triggered animation class (added by JavaScript) */
+/* Also works on desktop when scrolling */
 .shine-active {
-    animation: shine-reflect 0.8s ease-in-out;
+    animation: shine-reflect 0.8s ease-in-out !important;
 }
 
 /* Shine reflection animation - like Il Diabolico */
@@ -196,6 +197,9 @@ a:hover {
     width: 100%; /* Ensure full width for proper alignment */
     overflow: visible; /* Allow the section underline to be visible */
     letter-spacing: 1px;
+    word-wrap: break-word; /* Allow long words to wrap */
+    overflow-wrap: break-word; /* Modern property for word wrapping */
+    hyphens: auto; /* Enable automatic hyphenation */
     color: #B8945A !important;
     background: linear-gradient(90deg, 
         #B8945A 0%, 
@@ -2765,6 +2769,19 @@ textarea {
 
     h2 {
         font-size: 2rem;
+    }
+    
+    /* Fix section titles on mobile - prevent text cutoff */
+    .section-title {
+        font-size: 2rem !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        hyphens: auto !important;
+        max-width: 100% !important;
+        padding: 0 1rem !important;
+        box-sizing: border-box !important;
+        white-space: normal !important;
+        line-height: 1.2 !important;
     }
 
     .section {

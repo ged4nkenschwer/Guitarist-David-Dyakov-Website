@@ -739,14 +739,13 @@ function getDistanceFromCenter(element) {
 /**
  * Initialize scroll-triggered shine effect for mobile devices
  * Adds shine animation when titles come into view on mobile
+ * Also works on desktop when scrolling (in addition to hover)
  */
 function initShineOnScroll() {
-    // Only run on mobile/touch devices (no hover support)
-    const isMobile = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
-    if (!isMobile) {
-        return; // Desktop uses hover, no need for scroll trigger
-    }
-
+    // Check if device supports hover (desktop) or not (mobile/touch)
+    const hasHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const isMobile = window.matchMedia('(hover: none) or (pointer: coarse)').matches || window.innerWidth <= 768;
+    
     // Select all titles that should have shine effect
     const shineTargets = document.querySelectorAll(
         '.hero h1, ' +
@@ -766,10 +765,11 @@ function initShineOnScroll() {
         return;
     }
 
-    // Track which elements have already been animated
+    // Track which elements have already been animated (per scroll session)
     const animatedElements = new Set();
 
     // Create IntersectionObserver for scroll-triggered shine
+    // Works on both mobile and desktop (desktop gets hover + scroll)
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting && !animatedElements.has(entry.target)) {
@@ -777,19 +777,42 @@ function initShineOnScroll() {
                 entry.target.classList.add('shine-active');
                 animatedElements.add(entry.target);
                 
-                // Remove class after animation completes to allow re-triggering
+                // Remove class after animation completes to allow re-triggering on scroll back
                 setTimeout(() => {
                     entry.target.classList.remove('shine-active');
-                }, 800); // Match animation duration
+                    // Allow re-triggering when element leaves and re-enters viewport
+                    animatedElements.delete(entry.target);
+                }, 1000); // Slightly longer than animation duration
             }
         });
     }, {
-        threshold: 0.5, // Trigger when 50% of element is visible
-        rootMargin: '0px'
+        threshold: 0.3, // Lower threshold - trigger when 30% of element is visible (was 0.5)
+        rootMargin: '50px 0px' // Start loading slightly before element enters viewport
     });
 
     // Observe all shine targets
     shineTargets.forEach(target => {
         observer.observe(target);
+    });
+    
+    // Also trigger on window resize to handle orientation changes
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            // Re-check visibility on resize
+            shineTargets.forEach(target => {
+                const rect = target.getBoundingClientRect();
+                const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+                if (isVisible && !animatedElements.has(target)) {
+                    target.classList.add('shine-active');
+                    animatedElements.add(target);
+                    setTimeout(() => {
+                        target.classList.remove('shine-active');
+                        animatedElements.delete(target);
+                    }, 1000);
+                }
+            });
+        }, 250);
     });
 } 
