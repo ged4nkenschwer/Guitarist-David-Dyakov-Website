@@ -567,6 +567,7 @@ document.addEventListener('DOMContentLoaded', function() {
         initMusicalSectionAnimations();
         initMusicalPulseEffects();
         initAchievementReveal();
+        initShineOnScroll(); // Initialize scroll-triggered shine for mobile
     }, 100);
 });
 
@@ -733,4 +734,62 @@ function getDistanceFromCenter(element) {
     const centerY = window.innerHeight / 2;
     const elementCenterY = rect.top + rect.height / 2;
     return Math.abs(elementCenterY - centerY);
+}
+
+/**
+ * Initialize scroll-triggered shine effect for mobile devices
+ * Adds shine animation when titles come into view on mobile
+ */
+function initShineOnScroll() {
+    // Only run on mobile/touch devices (no hover support)
+    const isMobile = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+    if (!isMobile) {
+        return; // Desktop uses hover, no need for scroll trigger
+    }
+
+    // Select all titles that should have shine effect
+    const shineTargets = document.querySelectorAll(
+        '.hero h1, ' +
+        '#follow-me h2.section-title, ' +
+        '#biography h2.section-title, ' +
+        '#gallery h2.section-title, ' +
+        '#press h2.section-title, ' +
+        '#masterclasses h2.section-title, ' +
+        '#contact h2.section-title, ' +
+        'h1.section-title, h2.section-title, h3.section-title, ' +
+        '.section h1, .section h2, .section h3, .section h4, ' +
+        '.masterclass-info h3, .contact-info h3, .bio-text h3, ' +
+        '.social-info h3, .main-quote h3'
+    );
+
+    if (shineTargets.length === 0) {
+        return;
+    }
+
+    // Track which elements have already been animated
+    const animatedElements = new Set();
+
+    // Create IntersectionObserver for scroll-triggered shine
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !animatedElements.has(entry.target)) {
+                // Trigger shine animation
+                entry.target.classList.add('shine-active');
+                animatedElements.add(entry.target);
+                
+                // Remove class after animation completes to allow re-triggering
+                setTimeout(() => {
+                    entry.target.classList.remove('shine-active');
+                }, 800); // Match animation duration
+            }
+        });
+    }, {
+        threshold: 0.5, // Trigger when 50% of element is visible
+        rootMargin: '0px'
+    });
+
+    // Observe all shine targets
+    shineTargets.forEach(target => {
+        observer.observe(target);
+    });
 } 
