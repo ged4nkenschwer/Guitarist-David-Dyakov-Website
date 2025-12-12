@@ -1,0 +1,48 @@
+warning: in the working copy of 'scripts.js', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/scripts.js b/scripts.js[m
+[1mindex f79bb76..b4ad072 100644[m
+[1m--- a/scripts.js[m
+[1m+++ b/scripts.js[m
+[36m@@ -389,6 +389,29 @@[m [mfunction setLanguage(lang) {[m
+         }[m
+     });[m
+     [m
+[32m+[m[32m    // Update lightbox caption if lightbox is open[m
+[32m+[m[32m    const lightbox = document.getElementById('lightbox');[m
+[32m+[m[32m    if (lightbox && lightbox.style.display === 'block') {[m
+[32m+[m[32m        const lightboxCaption = document.getElementById('lightbox-caption');[m
+[32m+[m[32m        const galleryItems = document.querySelectorAll('.gallery-item');[m
+[32m+[m[32m        const imageItems = Array.from(galleryItems).filter(item => !item.querySelector('.gallery-video'));[m
+[32m+[m[32m        if (lightboxCaption && imageItems.length > 0) {[m
+[32m+[m[32m            // Find current item - this is a simplified approach[m
+[32m+[m[32m            const currentImgSrc = document.getElementById('lightbox-img')?.getAttribute('src');[m
+[32m+[m[32m            if (currentImgSrc) {[m
+[32m+[m[32m                imageItems.forEach(item => {[m
+[32m+[m[32m                    const itemSrc = item.querySelector('.gallery-image')?.getAttribute('style')?.match(/url\(['"]?([^'"]+)['"]?\)/)?.[1];[m
+[32m+[m[32m                    if (itemSrc && itemSrc.includes(currentImgSrc.split('/').pop())) {[m
+[32m+[m[32m                        const caption = lang === 'de'[m[41m [m
+[32m+[m[32m                            ? (item.getAttribute('data-caption-de') || item.getAttribute('data-caption') || '')[m
+[32m+[m[32m                            : (item.getAttribute('data-caption') || '');[m
+[32m+[m[32m                        lightboxCaption.textContent = caption;[m
+[32m+[m[32m                    }[m
+[32m+[m[32m                });[m
+[32m+[m[32m            }[m
+[32m+[m[32m        }[m
+[32m+[m[32m    }[m
+[32m+[m[41m    [m
+     // Handle reveal trigger buttons based on their current state[m
+     document.querySelectorAll('.reveal-trigger').forEach(trigger => {[m
+         const triggerText = trigger.querySelector('.trigger-text');[m
+[36m@@ -539,7 +562,11 @@[m [mfunction initLightbox() {[m
+         currentIndex = index;[m
+         const item = imageItems[currentIndex];[m
+         const imgSrc = getImageSrc(item);[m
+[31m-        const imgCaption = item.getAttribute('data-caption') || '';[m
+[32m+[m[32m        // Get caption based on current language[m
+[32m+[m[32m        const currentLang = localStorage.getItem('language') || 'en';[m
+[32m+[m[32m        const imgCaption = currentLang === 'de'[m[41m [m
+[32m+[m[32m            ? (item.getAttribute('data-caption-de') || item.getAttribute('data-caption') || '')[m
+[32m+[m[32m            : (item.getAttribute('data-caption') || '');[m
+         [m
+         if (imgSrc) {[m
+             lightboxImg.setAttribute('src', imgSrc);[m
