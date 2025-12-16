@@ -2771,6 +2771,48 @@ textarea {
         font-size: 2rem;
     }
     
+    /* Fix hero section on mobile/iPhone - prevent button cutoff */
+    .hero {
+        min-height: 100vh;
+        height: auto;
+        min-height: -webkit-fill-available; /* Fix for iOS Safari */
+        padding: 2rem 0 4rem 0; /* Add padding top and bottom */
+        align-items: flex-start;
+        padding-top: calc(2rem + env(safe-area-inset-top)); /* Account for notch */
+        padding-bottom: calc(4rem + env(safe-area-inset-bottom)); /* Account for home indicator */
+    }
+    
+    .hero-content {
+        padding: 2rem 1rem 2rem 1rem; /* Add horizontal and vertical padding */
+        margin-top: auto;
+        margin-bottom: auto;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .hero h1 {
+        font-size: 2.5rem !important;
+        margin-bottom: 1rem !important;
+        padding: 0 1rem !important;
+    }
+    
+    .tagline {
+        font-size: 1.1rem !important;
+        margin-bottom: 1.5rem !important;
+        padding: 0 1rem !important;
+        line-height: 1.4 !important;
+    }
+    
+    .hero .btn {
+        margin-bottom: 1rem !important;
+        padding: 0.9rem 1.5rem !important;
+        font-size: 0.95rem !important;
+        width: auto;
+        max-width: 90%;
+        white-space: nowrap;
+    }
+    
     /* Fix section titles on mobile - prevent text cutoff */
     .section-title {
         font-size: 2rem !important;
@@ -2912,6 +2954,25 @@ textarea {
 
     h2 {
         font-size: 1.8rem;
+    }
+    
+    /* Extra small screens - iPhone SE and similar */
+    .hero {
+        padding-top: calc(1.5rem + env(safe-area-inset-top));
+        padding-bottom: calc(3rem + env(safe-area-inset-bottom));
+    }
+    
+    .hero h1 {
+        font-size: 2rem !important;
+    }
+    
+    .tagline {
+        font-size: 1rem !important;
+    }
+    
+    .hero .btn {
+        padding: 0.8rem 1.2rem !important;
+        font-size: 0.9rem !important;
     }
 
     .videos-grid {
