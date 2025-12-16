@@ -2771,24 +2771,47 @@ textarea {
         font-size: 2rem;
     }
     
-    /* Fix hero section on mobile/iPhone - prevent button cutoff */
+    /* Fix hero section on mobile/iPhone - prevent button cutoff and show background image */
     .hero {
+        height: auto !important;
         min-height: 100vh;
-        height: auto;
         min-height: -webkit-fill-available; /* Fix for iOS Safari */
-        padding: 2rem 0 4rem 0; /* Add padding top and bottom */
-        align-items: flex-start;
-        padding-top: calc(2rem + env(safe-area-inset-top)); /* Account for notch */
-        padding-bottom: calc(4rem + env(safe-area-inset-bottom)); /* Account for home indicator */
+        padding: 0 !important;
+        padding-top: calc(80px + env(safe-area-inset-top)) !important; /* Space for header + notch */
+        padding-bottom: calc(4rem + env(safe-area-inset-bottom)) !important; /* Account for home indicator */
+        align-items: center !important;
+        justify-content: center !important;
+        /* Reduce gradient overlays on mobile to show background image better */
+        background-image: 
+            linear-gradient(180deg, rgba(5, 7, 11, 0.4) 0%, rgba(5, 7, 11, 0.3) 50%, rgba(5, 7, 11, 0.5) 100%),
+            url('./hero-guitarist.JPG') !important;
+        background-attachment: scroll !important; /* Fix iOS background issues */
+    }
+    
+    /* Reduce overlay opacity on mobile to show image */
+    .hero::before {
+        background: linear-gradient(180deg, 
+            rgba(5, 7, 11, 0.2) 0%, 
+            transparent 30%,
+            transparent 70%,
+            rgba(5, 7, 11, 0.3) 100%
+        ) !important;
+    }
+    
+    .hero::after {
+        opacity: 0.6 !important; /* Reduce bottom overlay */
     }
     
     .hero-content {
-        padding: 2rem 1rem 2rem 1rem; /* Add horizontal and vertical padding */
-        margin-top: auto;
-        margin-bottom: auto;
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
+        padding: 2rem 1rem 3rem 1rem !important; /* Add horizontal and vertical padding */
+        margin: 0 auto !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
     }
     
     .hero h1 {
@@ -2799,18 +2822,20 @@ textarea {
     
     .tagline {
         font-size: 1.1rem !important;
-        margin-bottom: 1.5rem !important;
+        margin-bottom: 2rem !important;
         padding: 0 1rem !important;
         line-height: 1.4 !important;
     }
     
     .hero .btn {
-        margin-bottom: 1rem !important;
-        padding: 0.9rem 1.5rem !important;
-        font-size: 0.95rem !important;
-        width: auto;
-        max-width: 90%;
-        white-space: nowrap;
+        margin-bottom: 0 !important;
+        margin-top: 0.5rem !important;
+        padding: 1rem 2rem !important;
+        font-size: 1rem !important;
+        width: auto !important;
+        max-width: calc(100% - 2rem) !important;
+        white-space: nowrap !important;
+        display: inline-block !important;
     }
     
     /* Fix section titles on mobile - prevent text cutoff */
@@ -2958,21 +2983,27 @@ textarea {
     
     /* Extra small screens - iPhone SE and similar */
     .hero {
-        padding-top: calc(1.5rem + env(safe-area-inset-top));
-        padding-bottom: calc(3rem + env(safe-area-inset-bottom));
+        padding-top: calc(70px + env(safe-area-inset-top)) !important;
+        padding-bottom: calc(3rem + env(safe-area-inset-bottom)) !important;
+    }
+    
+    .hero-content {
+        padding: 1.5rem 1rem 2.5rem 1rem !important;
     }
     
     .hero h1 {
         font-size: 2rem !important;
+        margin-bottom: 0.8rem !important;
     }
     
     .tagline {
         font-size: 1rem !important;
+        margin-bottom: 1.5rem !important;
     }
     
     .hero .btn {
-        padding: 0.8rem 1.2rem !important;
-        font-size: 0.9rem !important;
+        padding: 0.9rem 1.5rem !important;
+        font-size: 0.95rem !important;
     }
 
     .videos-grid {
