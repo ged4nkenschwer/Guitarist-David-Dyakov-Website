@@ -2787,7 +2787,7 @@ textarea {
             url('./hero-guitarist.JPG') !important;
         background-attachment: scroll !important; /* Fix iOS background issues */
         background-size: cover !important; /* Cover the entire area without tiling */
-        background-position: 30% center !important; /* Shift left to show elbow near left edge */
+        background-position: 40% center !important; /* Balance to show both elbow (left) and hand on guitar neck (right) */
         background-repeat: no-repeat !important; /* Prevent image tiling */
     }
     
