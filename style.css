@@ -2786,6 +2786,8 @@ textarea {
             linear-gradient(180deg, rgba(5, 7, 11, 0.4) 0%, rgba(5, 7, 11, 0.3) 50%, rgba(5, 7, 11, 0.5) 100%),
             url('./hero-guitarist.JPG') !important;
         background-attachment: scroll !important; /* Fix iOS background issues */
+        background-size: 120% auto !important; /* Zoom out to show more of the image */
+        background-position: center center !important; /* Center the image */
     }
     
     /* Reduce overlay opacity on mobile to show image */
