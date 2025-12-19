@@ -937,7 +937,7 @@ nav {
         linear-gradient(180deg, rgba(5, 7, 11, 0.75) 0%, rgba(16, 19, 27, 0.6) 50%, rgba(5, 7, 11, 0.8) 100%),
         url('./hero-guitarist.JPG');
     background-size: cover;
-    background-position: center;
+    background-position: center 45%; /* Shift down slightly to show hairline while keeping hands visible */
     background-attachment: fixed;
     filter: brightness(0.85) contrast(1.1);
 }
