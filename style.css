@@ -2781,28 +2781,28 @@ textarea {
         padding-bottom: calc(4rem + env(safe-area-inset-bottom)) !important; /* Account for home indicator */
         align-items: center !important;
         justify-content: center !important;
-        /* Reduce gradient overlays on mobile to show background image better */
+        /* Reduce gradient overlays on mobile to show background image better - adjusted to show full upper body */
         background-image: 
-            linear-gradient(180deg, rgba(5, 7, 11, 0.4) 0%, rgba(5, 7, 11, 0.3) 50%, rgba(5, 7, 11, 0.5) 100%),
+            linear-gradient(180deg, rgba(5, 7, 11, 0.3) 0%, rgba(5, 7, 11, 0.2) 30%, rgba(5, 7, 11, 0.2) 70%, rgba(5, 7, 11, 0.4) 100%),
             url('./hero-guitarist.JPG') !important;
         background-attachment: scroll !important; /* Fix iOS background issues */
-        background-size: cover !important; /* Cover the entire area without tiling - same as desktop */
-        background-position: center !important; /* Center position like desktop to show both ends */
+        background-size: 85% auto !important; /* Zoom out to show full upper body with hands */
+        background-position: center center !important; /* Center position to show both hands */
         background-repeat: no-repeat !important; /* Prevent image tiling */
     }
     
-    /* Reduce overlay opacity on mobile to show image */
+    /* Reduce overlay opacity on mobile to show full image with upper body */
     .hero::before {
         background: linear-gradient(180deg, 
-            rgba(5, 7, 11, 0.2) 0%, 
-            transparent 30%,
-            transparent 70%,
-            rgba(5, 7, 11, 0.3) 100%
+            rgba(5, 7, 11, 0.15) 0%, 
+            transparent 25%,
+            transparent 75%,
+            rgba(5, 7, 11, 0.25) 100%
         ) !important;
     }
     
     .hero::after {
-        opacity: 0.6 !important; /* Reduce bottom overlay */
+        opacity: 0.5 !important; /* Further reduce bottom overlay to show hands */
     }
     
     .hero-content {
