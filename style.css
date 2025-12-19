@@ -2786,9 +2786,10 @@ textarea {
             linear-gradient(180deg, rgba(5, 7, 11, 0.4) 0%, rgba(5, 7, 11, 0.3) 30%, rgba(5, 7, 11, 0.3) 70%, rgba(5, 7, 11, 0.5) 100%),
             url('./hero-guitarist.JPG') !important;
         background-attachment: scroll !important; /* Fix iOS background issues */
-        background-size: 95% auto !important; /* Zoom in so both hands are just about visible */
+        background-size: cover !important; /* Cover entire area, no black background */
         background-position: center center !important; /* Center position to show both hands */
         background-repeat: no-repeat !important; /* Prevent image tiling */
+        background-color: var(--bg-main) !important; /* Fallback background color */
     }
     
     /* Overlay opacity adjusted for zoomed-in view */
