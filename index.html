@@ -120,10 +120,20 @@
     </script>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div class="loading" id="loading"></div>
+    <!-- Mobile-Only Page Loader -->
+    <div id="page-loader" aria-busy="true" aria-live="polite" role="status">
+        <div class="spinner" aria-label="Loading"></div>
+    </div>
     
-    <!-- Header -->
+    <!-- Critical Hero Asset (hidden, used for loading detection) -->
+    <img id="hero-critical" src="./hero-guitarist.webp" alt="" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none" onerror="this.src='./hero-guitarist.JPG'" data-critical="true">
+    
+    <!-- App Wrapper for blur effect -->
+    <div id="app">
+        <!-- Loading Screen (existing, kept for compatibility) -->
+        <div class="loading" id="loading"></div>
+        
+        <!-- Header -->
     <header id="header">
         <div class="container">
             <div class="logo">
@@ -697,9 +707,18 @@
 
     <!-- Back to top button -->
     <a href="#" id="back-to-top" title="Back to Top"><i class="fas fa-arrow-up"></i></a>
+    </div>
+    <!-- End App Wrapper -->
 
     <!-- Critical inline performance script -->
     <script>
+        // Mobile-Only Loader: Set is-loading class early (only on mobile)
+        (function() {
+            if (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) {
+                document.body.classList.add('is-loading');
+            }
+        })();
+        
         // Performance optimizations
         (function() {
             // Gallery images are now lazy-loaded via IntersectionObserver in scripts.js
@@ -836,6 +855,9 @@
     <script src="gallery.js" defer fetchpriority="low"></script>
     <!-- SEO analytics - lowest priority, load last -->
     <script src="seo-analytics.js" defer fetchpriority="low"></script>
+    
+    <!-- Noscript fallback: hide loader if JS is disabled -->
+    <noscript><style>#page-loader{display:none!important}</style></noscript>
 
 </body>
 </html> 

@@ -4,6 +4,91 @@
  * Spanish Classical Guitar Theme
  */
 
+// Mobile-Only Page Loader: Wait for critical hero asset to load
+(function initMobileLoader() {
+    'use strict';
+    
+    // Only run on mobile devices
+    if (!window.matchMedia || !window.matchMedia('(max-width: 768px)').matches) {
+        return; // Exit early on desktop
+    }
+    
+    const loader = document.getElementById('page-loader');
+    if (!loader) return;
+    
+    const heroImage = document.getElementById('hero-critical');
+    if (!heroImage) {
+        // Fallback: if hero image not found, hide loader after timeout
+        setTimeout(() => {
+            hideLoader();
+        }, 2000);
+        return;
+    }
+    
+    let loaderHidden = false;
+    const MAX_WAIT_TIME = 6000; // 6 seconds timeout
+    const startTime = Date.now();
+    
+    function hideLoader() {
+        if (loaderHidden) return;
+        loaderHidden = true;
+        
+        // Remove is-loading class from body
+        document.body.classList.remove('is-loading');
+        
+        // Fade out loader
+        loader.classList.add('fade-out');
+        
+        // Remove from DOM after fade-out completes
+        setTimeout(() => {
+            loader.classList.add('hidden');
+            loader.remove();
+        }, 300); // Match CSS transition duration
+    }
+    
+    // Check if image is already loaded
+    function checkImageReady() {
+        if (heroImage.complete && heroImage.naturalWidth > 0) {
+            // Image is loaded, wait for fonts if available
+            waitForFontsAndHide();
+        } else {
+            // Wait for image to load
+            heroImage.addEventListener('load', waitForFontsAndHide, { once: true });
+            heroImage.addEventListener('error', hideLoader, { once: true });
+        }
+    }
+    
+    // Wait for fonts to be ready (if available), then hide loader
+    function waitForFontsAndHide() {
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(() => {
+                // Small delay to ensure smooth transition
+                setTimeout(hideLoader, 100);
+            }).catch(() => {
+                // If fonts.ready fails, hide anyway
+                setTimeout(hideLoader, 100);
+            });
+        } else {
+            // Fonts API not available, hide after small delay
+            setTimeout(hideLoader, 100);
+        }
+    }
+    
+    // Timeout fallback: hide loader after max wait time
+    setTimeout(() => {
+        if (!loaderHidden) {
+            hideLoader();
+        }
+    }, MAX_WAIT_TIME);
+    
+    // Start checking when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', checkImageReady);
+    } else {
+        checkImageReady();
+    }
+})();
+
 // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     'use strict';

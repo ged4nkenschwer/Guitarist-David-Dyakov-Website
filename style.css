@@ -3660,4 +3660,80 @@ textarea {
     .spotify-widget-container h3 {
         font-size: 1.3rem;
     }
+}
+
+/* ---------- Mobile-Only Page Loader ---------- */
+/* Loader is hidden by default, only shown on mobile */
+#page-loader {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(5, 7, 11, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 0.3s ease-out;
+    pointer-events: all;
+}
+
+/* Fallback for browsers without backdrop-filter support */
+@supports not (backdrop-filter: blur(10px)) {
+    #page-loader {
+        background: rgba(5, 7, 11, 0.95);
+    }
+}
+
+/* Show loader only on mobile */
+@media (max-width: 768px) {
+    #page-loader {
+        display: flex;
+    }
+    
+    /* Blur effect on app content while loading */
+    body.is-loading #app {
+        filter: blur(10px);
+        pointer-events: none;
+        transition: filter 0.3s ease;
+    }
+}
+
+/* Spinner animation */
+#page-loader .spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(214, 180, 106, 0.2);
+    border-top-color: var(--accent-gold);
+    border-radius: 50%;
+    animation: spinner-rotate 1s linear infinite;
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    #page-loader .spinner {
+        animation: none;
+        border-top-color: var(--accent-gold);
+    }
+}
+
+@keyframes spinner-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Fade out animation when loader is hidden */
+#page-loader.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Ensure loader is completely hidden after fade-out */
+#page-loader.hidden {
+    display: none !important;
 } 
