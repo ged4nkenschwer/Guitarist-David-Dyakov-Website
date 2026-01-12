@@ -993,6 +993,12 @@ nav {
     color: var(--text-muted);
 }
 
+.tagline-small {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    margin-top: -1rem;
+}
+
 /* ---------- Biography Section ---------- */
 #biography {
     background: var(--bg-surface);
@@ -2831,6 +2837,13 @@ textarea {
         line-height: 1.4 !important;
     }
     
+    .tagline-small {
+        font-size: 0.95rem !important;
+        margin-bottom: 2rem !important;
+        margin-top: -1rem !important;
+        padding: 0 1rem !important;
+    }
+    
     .hero .btn {
         margin-bottom: 0 !important;
         margin-top: 0.5rem !important;
@@ -3003,6 +3016,12 @@ textarea {
     .tagline {
         font-size: 1rem !important;
         margin-bottom: 1.5rem !important;
+    }
+    
+    .tagline-small {
+        font-size: 0.9rem !important;
+        margin-bottom: 1.5rem !important;
+        margin-top: -0.8rem !important;
     }
     
     .hero .btn {
