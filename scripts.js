@@ -217,24 +217,48 @@ function initTechniqueAnimations() {
 
 /**
  * Add subtle guitar pattern animation
+ * Optimized: Uses requestAnimationFrame and only updates when in viewport
  */
 function initGuitarPatternAnimation() {
     // Add subtle movement to quote section on scroll
     const quoteSection = document.querySelector('.quote-section');
     if (!quoteSection) return;
     
+    // Cache computed styles to avoid layout thrashing
+    let lastOffsetY = 0;
+    let isInViewport = false;
+    
     // Throttle scroll event for better performance
     let ticking = false;
+    const updateAnimation = function() {
+        if (isInViewport) {
+            const scrollPosition = window.scrollY;
+            const offsetY = (scrollPosition * 0.05) % 50;
+            // Only update if changed (reduce repaints)
+            if (Math.abs(offsetY - lastOffsetY) > 1) {
+                quoteSection.style.backgroundPosition = `${offsetY}px ${offsetY}px`;
+                lastOffsetY = offsetY;
+            }
+        }
+        ticking = false;
+    };
+    
+    // Use IntersectionObserver to only animate when visible
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                isInViewport = entry.isIntersecting;
+            });
+        }, { threshold: 0 });
+        observer.observe(quoteSection);
+    } else {
+        // Fallback
+        isInViewport = true;
+    }
+    
     window.addEventListener('scroll', function() {
         if (!ticking) {
-            window.requestAnimationFrame(function() {
-                const scrollPosition = window.scrollY;
-                if (isElementInViewport(quoteSection)) {
-                    const offsetY = (scrollPosition * 0.05) % 50;
-                    quoteSection.style.backgroundPosition = `${offsetY}px ${offsetY}px`;
-                }
-                ticking = false;
-            });
+            window.requestAnimationFrame(updateAnimation);
             ticking = true;
         }
     }, { passive: true });
@@ -254,45 +278,65 @@ function isElementInViewport(el) {
 /**
  * Initialize lazy loading for gallery background images
  * Uses IntersectionObserver for better performance
+ * Optimized: Only loads images when section is expanded AND in viewport
  */
 function initLazyLoadGalleryImages() {
+    const galleryImages = document.querySelectorAll('.gallery-image');
+    if (galleryImages.length === 0) return;
+    
+    // Check if parent section is expanded
+    const checkSectionExpanded = (image) => {
+        const gallerySection = image.closest('.achievement-content');
+        return gallerySection && gallerySection.classList.contains('revealed');
+    };
+    
     if (!('IntersectionObserver' in window)) {
-        // Fallback: load all images immediately
-        document.querySelectorAll('.gallery-image').forEach(img => {
-            const bgImage = img.getAttribute('style');
-            if (bgImage && bgImage.includes('background-image')) {
-                // Image already has style, ensure it's loaded
-                const match = bgImage.match(/url\(['"]?([^'"]+)['"]?\)/);
-                if (match && match[1]) {
-                    const link = document.createElement('link');
-                    link.rel = 'prefetch';
-                    link.as = 'image';
-                    link.href = match[1];
-                    document.head.appendChild(link);
+        // Fallback: load all images immediately when section is expanded
+        galleryImages.forEach(img => {
+            if (checkSectionExpanded(img)) {
+                const bgImage = img.getAttribute('style');
+                if (bgImage && bgImage.includes('background-image')) {
+                    const match = bgImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+                    if (match && match[1]) {
+                        const link = document.createElement('link');
+                        link.rel = 'prefetch';
+                        link.as = 'image';
+                        link.href = match[1];
+                        document.head.appendChild(link);
+                    }
                 }
             }
         });
         return;
     }
     
-    const galleryImages = document.querySelectorAll('.gallery-image');
-    if (galleryImages.length === 0) return;
-    
     const imageObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
+            if (entry.isIntersecting && checkSectionExpanded(entry.target)) {
                 const galleryImage = entry.target;
                 const bgImage = galleryImage.getAttribute('style');
                 
-                // If image hasn't been loaded yet, preload it
+                // If image hasn't been loaded yet, load it
                 if (bgImage && bgImage.includes('background-image') && !galleryImage.dataset.loaded) {
                     const match = bgImage.match(/url\(['"]?([^'"]+)['"]?\)/);
                     if (match && match[1]) {
-                        // Preload the image
+                        // Try WebP first, fallback to original
+                        const originalSrc = match[1];
+                        const webpSrc = originalSrc.replace(/\.(jpg|jpeg|JPG|JPEG)$/i, '.webp');
+                        
+                        // Preload WebP version if available, fallback to original
                         const link = document.createElement('link');
                         link.rel = 'prefetch';
                         link.as = 'image';
-                        link.href = match[1];
+                        link.href = webpSrc;
+                        link.onerror = function() {
+                            // If WebP fails, load original
+                            const fallbackLink = document.createElement('link');
+                            fallbackLink.rel = 'prefetch';
+                            fallbackLink.as = 'image';
+                            fallbackLink.href = originalSrc;
+                            document.head.appendChild(fallbackLink);
+                        };
                         document.head.appendChild(link);
                         
                         // Mark as loaded
@@ -305,11 +349,37 @@ function initLazyLoadGalleryImages() {
             }
         });
     }, {
-        rootMargin: '50px' // Start loading 50px before image enters viewport
+        rootMargin: '100px' // Start loading 100px before image enters viewport
     });
     
     galleryImages.forEach(img => {
+        // Only observe if section might be expanded
         imageObserver.observe(img);
+    });
+    
+    // Watch for section expansion to trigger loading
+    const sections = document.querySelectorAll('.achievement-reveal');
+    sections.forEach(section => {
+        const content = section.querySelector('.achievement-content');
+        if (content) {
+            const sectionObserver = new MutationObserver(() => {
+                if (content.classList.contains('revealed')) {
+                    // Check which images are now in viewport
+                    galleryImages.forEach(img => {
+                        if (img.closest('.achievement-content') === content) {
+                            const rect = img.getBoundingClientRect();
+                            const isInViewport = rect.top < window.innerHeight + 100 && rect.bottom > -100;
+                            if (isInViewport && !img.dataset.loaded) {
+                                // Trigger intersection check
+                                imageObserver.unobserve(img);
+                                imageObserver.observe(img);
+                            }
+                        }
+                    });
+                }
+            });
+            sectionObserver.observe(content, { attributes: true, attributeFilter: ['class'] });
+        }
     });
 }
 
@@ -338,7 +408,8 @@ function fixVideoGalleryOverflow() {
 }
 
 /**
- * Initialize video thumbnails - generate thumbnails from video frames
+ * Initialize video thumbnails - use poster images instead of canvas generation
+ * This is much faster and doesn't require loading video metadata
  */
 function initVideoThumbnails() {
     const videoItems = document.querySelectorAll('.gallery-video');
@@ -348,47 +419,36 @@ function initVideoThumbnails() {
         const thumbnail = videoContainer.querySelector('.video-thumbnail');
         const canvas = videoContainer.querySelector('.video-thumbnail-canvas');
         
-        if (!video || !thumbnail || !canvas) return;
+        if (!video || !thumbnail) return;
         
-        // Function to generate thumbnail from video
-        const generateThumbnail = () => {
-            if (video.readyState >= 2) { // HAVE_CURRENT_DATA or higher
-                try {
-                    // Set canvas dimensions
-                    canvas.width = video.videoWidth || 640;
-                    canvas.height = video.videoHeight || 360;
-                    
-                    // Draw video frame to canvas
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                } catch (err) {
-                    console.log('Could not generate thumbnail:', err);
-                    // Fallback: show dark background
-                    canvas.style.background = 'linear-gradient(135deg, rgba(0,0,0,0.8), rgba(20,20,40,0.8))';
-                }
+        // Use poster image if available (much faster than canvas generation)
+        const posterSrc = video.getAttribute('poster');
+        if (posterSrc && canvas) {
+            // Hide canvas, show poster image instead
+            canvas.style.display = 'none';
+            
+            // Create img element for poster
+            let posterImg = thumbnail.querySelector('img.video-poster-img');
+            if (!posterImg) {
+                posterImg = document.createElement('img');
+                posterImg.className = 'video-poster-img';
+                posterImg.src = posterSrc;
+                posterImg.alt = '';
+                posterImg.loading = 'lazy';
+                posterImg.decoding = 'async';
+                thumbnail.insertBefore(posterImg, canvas);
             }
-        };
-        
-        // Try to generate thumbnail when metadata loads
-        video.addEventListener('loadedmetadata', function() {
-            // Seek to first frame (0.1 seconds) to get a good thumbnail
-            video.currentTime = 0.1;
-        }, { once: true });
-        
-        // Generate thumbnail when video can show a frame
-        video.addEventListener('seeked', function() {
-            generateThumbnail();
-        }, { once: true });
-        
-        // Fallback: try after loadeddata
-        video.addEventListener('loadeddata', function() {
-            if (video.readyState >= 2) {
-                generateThumbnail();
-            }
-        }, { once: true });
-        
-        // Load video metadata to generate thumbnail
-        video.load();
+            
+            // When video starts playing, hide poster
+            video.addEventListener('play', function() {
+                if (posterImg) posterImg.style.display = 'none';
+                if (canvas) canvas.style.display = 'none';
+            }, { once: true });
+        } else if (canvas) {
+            // Fallback: show dark background if no poster
+            canvas.style.background = 'linear-gradient(135deg, rgba(0,0,0,0.8), rgba(20,20,40,0.8))';
+            canvas.style.display = 'block';
+        }
     });
 }
 

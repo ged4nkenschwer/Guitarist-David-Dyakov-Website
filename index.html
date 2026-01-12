@@ -51,7 +51,9 @@
     
     <!-- Resource hints - Optimized for fastest loading -->
     <link rel="preload" href="style.css" as="style" fetchpriority="high">
-    <link rel="preload" href="./hero-guitarist.JPG" as="image" fetchpriority="high" type="image/jpeg">
+    <!-- Preload hero image with WebP fallback -->
+    <link rel="preload" href="./hero-guitarist.webp" as="image" fetchpriority="high" type="image/webp" imagesrcset="./hero-guitarist.webp 1x, ./hero-guitarist-2x.webp 2x">
+    <link rel="preload" href="./hero-guitarist.JPG" as="image" fetchpriority="high" type="image/jpeg" imagesrcset="./hero-guitarist.JPG 1x, ./hero-guitarist-2x.JPG 2x">
     
     <!-- DNS prefetch for non-critical external resources -->
     <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
@@ -66,9 +68,9 @@
         body{margin:0;font-family:'Roboto',Arial,sans-serif;background:#05070B;color:#F5F2EA;overflow-x:hidden;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
         .container{width:90%;max-width:1200px;margin:0 auto;padding:0 15px}
         #header{position:fixed;top:0;left:0;width:100%;background-color:#10131B;backdrop-filter:blur(5px);z-index:1000;padding:1rem 0;border-bottom:1px solid #262B37}
-        .hero{min-height:100vh;min-height:-webkit-fill-available;background:linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.6)),url('./hero-guitarist.JPG') center/cover;display:flex;align-items:center;justify-content:center;position:relative}
+        .hero{min-height:100vh;min-height:-webkit-fill-available;background:linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.6)),url('./hero-guitarist.webp'),url('./hero-guitarist.JPG') center/cover;display:flex;align-items:center;justify-content:center;position:relative}
         @media (min-width:768px) and (prefers-reduced-motion:no-preference){.hero{background-attachment:fixed;background-position:center 45%}}
-        @media (max-width:768px){.hero{height:auto!important;min-height:100vh;min-height:-webkit-fill-available;padding:0!important;padding-top:calc(80px + env(safe-area-inset-top))!important;padding-bottom:calc(4rem + env(safe-area-inset-bottom))!important;background-image:linear-gradient(180deg,rgba(5,7,11,0.4) 0%,rgba(5,7,11,0.3) 30%,rgba(5,7,11,0.3) 70%,rgba(5,7,11,0.5) 100%),url('./hero-guitarist.JPG')!important;background-attachment:scroll!important;background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;background-color:#05070B!important}.hero-content{padding:2rem 1rem 3rem 1rem!important;width:100%!important;max-width:100%!important;box-sizing:border-box!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important}.hero h1{font-size:2.5rem!important;margin-bottom:1rem!important;padding:0 1rem!important}.tagline{font-size:1.1rem!important;margin-bottom:2rem!important;padding:0 1rem!important}.hero .btn{margin-bottom:0!important;margin-top:0.5rem!important;padding:1rem 2rem!important;font-size:1rem!important;max-width:calc(100% - 2rem)!important;white-space:nowrap!important}}
+        @media (max-width:768px){.hero{height:auto!important;min-height:100vh;min-height:-webkit-fill-available;padding:0!important;padding-top:calc(80px + env(safe-area-inset-top))!important;padding-bottom:calc(4rem + env(safe-area-inset-bottom))!important;background-image:linear-gradient(180deg,rgba(5,7,11,0.4) 0%,rgba(5,7,11,0.3) 30%,rgba(5,7,11,0.3) 70%,rgba(5,7,11,0.5) 100%),url('./hero-guitarist.webp'),url('./hero-guitarist.JPG')!important;background-attachment:scroll!important;background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;background-color:#05070B!important}.hero-content{padding:2rem 1rem 3rem 1rem!important;width:100%!important;max-width:100%!important;box-sizing:border-box!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important}.hero h1{font-size:2.5rem!important;margin-bottom:1rem!important;padding:0 1rem!important}.tagline{font-size:1.1rem!important;margin-bottom:2rem!important;padding:0 1rem!important}.hero .btn{margin-bottom:0!important;margin-top:0.5rem!important;padding:1rem 2rem!important;font-size:1rem!important;max-width:calc(100% - 2rem)!important;white-space:nowrap!important}}
         @media (max-width:576px){.hero{padding-top:calc(70px + env(safe-area-inset-top))!important;padding-bottom:calc(3rem + env(safe-area-inset-bottom))!important}.hero-content{padding:1.5rem 1rem 2.5rem 1rem!important}.hero h1{font-size:2rem!important;margin-bottom:0.8rem!important}.tagline{font-size:1rem!important;margin-bottom:1.5rem!important}.hero .btn{padding:0.9rem 1.5rem!important;font-size:0.95rem!important}}
         .hero-content{text-align:center;max-width:800px;animation:fadeInUp 1s ease}
         .hero h1{font-size:3.5rem;margin-bottom:1rem;color:#B8945A;font-family:'Playfair Display',serif;font-weight:600}
@@ -85,11 +87,11 @@
     <!-- Non-critical CSS loaded asynchronously -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
-    <!-- Fonts - Load only critical weights first, rest async -->
+    <!-- Fonts - Load only critical weights first, rest async with font-display: swap -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Roboto:wght@400&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;800;900&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&family=Roboto:wght@300;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet"></noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Roboto:wght@400&display=swap&font-display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;800;900&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&family=Roboto:wght@300;500&display=swap&font-display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&family=Roboto:wght@300;400;500&display=swap&font-display=swap" rel="stylesheet"></noscript>
     
     <!-- Structured Data for Musician -->
     <script type="application/ld+json">
@@ -365,9 +367,8 @@
                                                 <i class="fas fa-play"></i>
                                             </div>
                                         </div>
-                                        <video preload="metadata" loading="lazy" playsinline style="display: none;">
-                                            <source src="./Capricio Diabolico Slow Movement.Postojna Festival.mov" type="video/quicktime">
-                                            <source src="./Capricio Diabolico Slow Movement.Postojna Festival.mov" type="video/mp4">
+                                        <video preload="none" playsinline style="display: none;" data-src="./Capricio Diabolico Slow Movement.Postojna Festival.mov" poster="./Capricio Diabolico Slow Movement.Postojna Festival-poster.jpg">
+                                            <!-- Sources will be added by JS when video enters viewport -->
                                             Your browser does not support the video tag.
                                         </video>
                                     </div>
@@ -381,9 +382,8 @@
                                                 <i class="fas fa-play"></i>
                                             </div>
                                         </div>
-                                        <video preload="metadata" loading="lazy" playsinline style="display: none;">
-                                            <source src="./Homenaje pour Le Tombeau de Claude Debussy by Manuel de Falla.Finale.Postojna Festival.mov" type="video/quicktime">
-                                            <source src="./Homenaje pour Le Tombeau de Claude Debussy by Manuel de Falla.Finale.Postojna Festival.mov" type="video/mp4">
+                                        <video preload="none" playsinline style="display: none;" data-src="./Homenaje pour Le Tombeau de Claude Debussy by Manuel de Falla.Finale.Postojna Festival.mov" poster="./Homenaje pour Le Tombeau de Claude Debussy by Manuel de Falla.Finale.Postojna Festival-poster.jpg">
+                                            <!-- Sources will be added by JS when video enters viewport -->
                                             Your browser does not support the video tag.
                                         </video>
                                     </div>
@@ -397,9 +397,8 @@
                                                 <i class="fas fa-play"></i>
                                             </div>
                                         </div>
-                                        <video preload="metadata" loading="lazy" playsinline style="display: none;">
-                                            <source src="./Rossiniana Nr.1 op.119 .Finale . Postoja Guitar Festival 2025.mov" type="video/quicktime">
-                                            <source src="./Rossiniana Nr.1 op.119 .Finale . Postoja Guitar Festival 2025.mov" type="video/mp4">
+                                        <video preload="none" playsinline style="display: none;" data-src="./Rossiniana Nr.1 op.119 .Finale . Postoja Guitar Festival 2025.mov" poster="./Rossiniana Nr.1 op.119 .Finale . Postoja Guitar Festival 2025-poster.jpg">
+                                            <!-- Sources will be added by JS when video enters viewport -->
                                             Your browser does not support the video tag.
                                         </video>
                                     </div>
@@ -413,9 +412,8 @@
                                                 <i class="fas fa-play"></i>
                                             </div>
                                         </div>
-                                        <video preload="metadata" loading="lazy" playsinline style="display: none;">
-                                            <source src="./Hora by Stephan Rak.Finale.Donnersbergiade 2025.mov" type="video/quicktime">
-                                            <source src="./Hora by Stephan Rak.Finale.Donnersbergiade 2025.mov" type="video/mp4">
+                                        <video preload="none" playsinline style="display: none;" data-src="./Hora by Stephan Rak.Finale.Donnersbergiade 2025.mov" poster="./Hora by Stephan Rak.Finale.Donnersbergiade 2025-poster.jpg">
+                                            <!-- Sources will be added by JS when video enters viewport -->
                                             Your browser does not support the video tag.
                                         </video>
                                     </div>
@@ -704,70 +702,95 @@
     <script>
         // Performance optimizations
         (function() {
-            // Optimized: Preload gallery images only on scroll (not on all interactions)
-            let imagesPreloaded = false;
-            function preloadGalleryOnScroll() {
-                if (imagesPreloaded || window.scrollY < 100) return;
-                imagesPreloaded = true;
-                
-                // Preload first few gallery images when user scrolls
-                const galleryImages = ['./on-stage-1-china.JPG', './on-stage-2-china.JPG', './teaching-guitar.jpg'];
-                galleryImages.forEach(src => {
-                    const link = document.createElement('link');
-                    link.rel = 'prefetch';
-                    link.as = 'image';
-                    link.href = src;
-                    document.head.appendChild(link);
-                });
-                
-                window.removeEventListener('scroll', preloadGalleryOnScroll, { passive: true });
-            }
+            // Gallery images are now lazy-loaded via IntersectionObserver in scripts.js
+            // No manual preloading needed - reduces initial load
             
-            // Only listen to scroll for gallery preloading
-            window.addEventListener('scroll', preloadGalleryOnScroll, { passive: true, once: false });
-            
-            // Optimized video loading - load metadata when section expands, full video only on play
+            // Optimized video loading - IntersectionObserver: only load when in viewport AND section expanded
             (function() {
                 const initVideoLoading = () => {
                     const videos = document.querySelectorAll('#gallery video[preload="none"]');
                     if (videos.length === 0) return;
                     
-                    // Load metadata when videos section is expanded (fast, small download)
-                    const loadVideoMetadata = (video) => {
-                        if (video.dataset.metadataLoaded === 'true') return;
-                        video.dataset.metadataLoaded = 'true';
+                    // Function to load video sources (only when needed)
+                    const loadVideoSources = (video) => {
+                        if (video.dataset.sourcesLoaded === 'true') return;
+                        video.dataset.sourcesLoaded = 'true';
+                        
+                        const videoSrc = video.getAttribute('data-src');
+                        if (!videoSrc) return;
+                        
+                        // Add QuickTime source
+                        const quicktimeSource = document.createElement('source');
+                        quicktimeSource.setAttribute('src', videoSrc);
+                        quicktimeSource.setAttribute('type', 'video/quicktime');
+                        video.appendChild(quicktimeSource);
+                        
+                        // Add MP4 source as fallback
+                        const mp4Source = document.createElement('source');
+                        mp4Source.setAttribute('src', videoSrc);
+                        mp4Source.setAttribute('type', 'video/mp4');
+                        video.appendChild(mp4Source);
+                        
+                        // Load metadata only (not full video)
                         video.preload = 'metadata';
-                        video.load(); // Only loads metadata, not full video
+                        video.load();
                     };
                     
                     // Watch for videos section expansion
                     const videosSection = document.querySelector('#gallery .achievement-reveal');
                     const videosContent = videosSection ? videosSection.querySelector('.achievement-content') : null;
+                    let sectionExpanded = videosContent && videosContent.classList.contains('revealed');
                     
                     if (videosContent) {
-                        const observer = new MutationObserver((mutations) => {
+                        const sectionObserver = new MutationObserver((mutations) => {
                             mutations.forEach((mutation) => {
                                 if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                                    if (videosContent.classList.contains('revealed')) {
-                                        // Section expanded - load metadata only (fast)
-                                        videos.forEach(loadVideoMetadata);
+                                    sectionExpanded = videosContent.classList.contains('revealed');
+                                    // If section is expanded, check which videos are in viewport
+                                    if (sectionExpanded) {
+                                        videos.forEach(video => {
+                                            const rect = video.getBoundingClientRect();
+                                            const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
+                                            if (isInViewport) {
+                                                loadVideoSources(video);
+                                            }
+                                        });
                                     }
                                 }
                             });
                         });
-                        observer.observe(videosContent, { attributes: true, attributeFilter: ['class'] });
+                        sectionObserver.observe(videosContent, { attributes: true, attributeFilter: ['class'] });
+                    }
+                    
+                    // IntersectionObserver: load video sources when in viewport AND section is expanded
+                    if ('IntersectionObserver' in window) {
+                        const videoObserver = new IntersectionObserver((entries) => {
+                            entries.forEach(entry => {
+                                if (entry.isIntersecting && sectionExpanded) {
+                                    loadVideoSources(entry.target);
+                                    // Stop observing once loaded
+                                    videoObserver.unobserve(entry.target);
+                                }
+                            });
+                        }, {
+                            rootMargin: '100px' // Start loading 100px before video enters viewport
+                        });
                         
-                        if (videosContent.classList.contains('revealed')) {
-                            videos.forEach(loadVideoMetadata);
-                        }
+                        videos.forEach(video => {
+                            videoObserver.observe(video);
+                        });
                     }
                     
                     // When user clicks play, ensure video can play smoothly
                     videos.forEach(video => {
                         video.addEventListener('play', function() {
+                            // Ensure sources are loaded
+                            if (!this.dataset.sourcesLoaded) {
+                                loadVideoSources(this);
+                            }
                             // If only metadata is loaded, start buffering more
-                            if (video.readyState < 3 && video.preload === 'metadata') {
-                                video.preload = 'auto'; // Start loading full video
+                            if (this.readyState < 3 && this.preload === 'metadata') {
+                                this.preload = 'auto'; // Start loading full video
                             }
                         }, { once: true });
                     });
