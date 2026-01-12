@@ -121,8 +121,9 @@
 </head>
 <body>
     <!-- Mobile-Only Page Loader -->
-    <div id="page-loader" aria-busy="true" aria-live="polite" role="status">
-        <div class="spinner" aria-label="Loading"></div>
+    <div id="page-loader" aria-busy="true" aria-live="polite">
+        <div class="loader-bg" aria-hidden="true"></div>
+        <div class="spinner" role="status" aria-label="Loading"></div>
     </div>
     
     <!-- Critical Hero Asset (hidden, used for loading detection) -->
@@ -857,7 +858,7 @@
     <script src="seo-analytics.js" defer fetchpriority="low"></script>
     
     <!-- Noscript fallback: hide loader if JS is disabled -->
-    <noscript><style>#page-loader{display:none!important}</style></noscript>
+    <noscript><style>#page-loader{display:none!important} #app{opacity:1!important}</style></noscript>
 
 </body>
 </html> 

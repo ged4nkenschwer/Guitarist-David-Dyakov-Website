@@ -33,17 +33,14 @@
         if (loaderHidden) return;
         loaderHidden = true;
         
-        // Remove is-loading class from body
+        // Remove is-loading and add is-loaded class to body
         document.body.classList.remove('is-loading');
+        document.body.classList.add('is-loaded');
         
-        // Fade out loader
-        loader.classList.add('fade-out');
-        
-        // Remove from DOM after fade-out completes
+        // Remove loader from DOM after fade-out completes (250ms transition + 50ms buffer)
         setTimeout(() => {
-            loader.classList.add('hidden');
             loader.remove();
-        }, 300); // Match CSS transition duration
+        }, 300);
     }
     
     // Check if image is already loaded
