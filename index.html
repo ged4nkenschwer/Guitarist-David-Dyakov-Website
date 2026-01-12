@@ -714,11 +714,21 @@
 
     <!-- Critical inline performance script -->
     <script>
-        // Mobile-Only Loader: Set is-loading class early (only on mobile)
+        // Page Loader: Set is-loading class based on connection speed
         (function() {
-            if (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) {
+            // Check connection speed
+            const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            const isProbablySlow = !!conn && (
+                conn.saveData || 
+                ["slow-2g", "2g", "3g"].includes(conn.effectiveType) || 
+                (typeof conn.downlink === "number" && conn.downlink < 1.5)
+            );
+            
+            // If slow connection, show loader immediately
+            if (isProbablySlow) {
                 document.body.classList.add('is-loading');
             }
+            // Otherwise, loader will be shown after 200ms if not ready (handled in scripts.js)
         })();
         
         // Performance optimizations

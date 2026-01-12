@@ -4,14 +4,9 @@
  * Spanish Classical Guitar Theme
  */
 
-// Mobile-Only Page Loader: Wait for critical hero asset to load
-(function initMobileLoader() {
+// Page Loader: Wait for critical hero asset to load (Desktop + Mobile)
+(function initPageLoader() {
     'use strict';
-    
-    // Only run on mobile devices
-    if (!window.matchMedia || !window.matchMedia('(max-width: 768px)').matches) {
-        return; // Exit early on desktop
-    }
     
     const loader = document.getElementById('page-loader');
     if (!loader) return;
@@ -25,13 +20,29 @@
         return;
     }
     
+    let loaderShown = false;
+    let ready = false;
     let loaderHidden = false;
     const MAX_WAIT_TIME = 6000; // 6 seconds timeout
-    const startTime = Date.now();
+    
+    // Check connection speed
+    const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const isProbablySlow = !!conn && (
+        conn.saveData || 
+        ["slow-2g", "2g", "3g"].includes(conn.effectiveType) || 
+        (typeof conn.downlink === "number" && conn.downlink < 1.5)
+    );
+    
+    function showLoader() {
+        if (loaderShown) return;
+        loaderShown = true;
+        document.body.classList.add('is-loading');
+    }
     
     function hideLoader() {
         if (loaderHidden) return;
         loaderHidden = true;
+        ready = true;
         
         // Remove is-loading and add is-loaded class to body
         document.body.classList.remove('is-loading');
@@ -41,6 +52,19 @@
         setTimeout(() => {
             loader.remove();
         }, 300);
+    }
+    
+    // Loader activation strategy
+    if (isProbablySlow) {
+        // Slow connection: show loader immediately
+        showLoader();
+    } else {
+        // Fast connection: show loader after 200ms if not ready (to avoid flicker)
+        setTimeout(() => {
+            if (!ready) {
+                showLoader();
+            }
+        }, 200);
     }
     
     // Check if image is already loaded

@@ -3681,81 +3681,79 @@ textarea {
     }
 }
 
-/* ---------- Mobile-Only Page Loader ---------- */
-/* Loader is hidden by default, only shown on mobile */
+/* ---------- Page Loader (Desktop + Mobile) ---------- */
+/* Loader is hidden by default */
 #page-loader {
     display: none;
 }
 
-/* Show loader only on mobile */
-@media (max-width: 768px) {
-    /* Loader container - exakt zentriert */
-    body.is-loading #page-loader {
-        position: fixed;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-        pointer-events: all;
-    }
-    
-    /* WICHTIG: Seite selbst NICHT sichtbar -> keine Balken */
-    body.is-loading #app {
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 250ms ease;
-    }
-    
-    body.is-loaded #app {
-        opacity: 1;
-        transition: opacity 250ms ease;
-    }
-    
-    /* Eigener, verschwommener Hintergrund im Loader (nicht die Seite!) */
+/* Loader container - exakt zentriert (alle Viewports) */
+body.is-loading #page-loader {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    pointer-events: all;
+}
+
+/* WICHTIG: Seite selbst NICHT sichtbar -> keine Balken (Variante A: sauber) */
+body.is-loading #app {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 250ms ease;
+}
+
+body.is-loaded #app {
+    opacity: 1;
+    transition: opacity 250ms ease;
+}
+
+/* Eigener, verschwommener Hintergrund im Loader (nicht die Seite!) */
+#page-loader .loader-bg {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+/* Fallback for browsers without backdrop-filter support */
+@supports not (backdrop-filter: blur(14px)) {
     #page-loader .loader-bg {
-        position: absolute;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.25);
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
+        background: rgba(0, 0, 0, 0.5);
     }
-    
-    /* Fallback for browsers without backdrop-filter support */
-    @supports not (backdrop-filter: blur(14px)) {
-        #page-loader .loader-bg {
-            background: rgba(0, 0, 0, 0.5);
-        }
+}
+
+/* Spinner über dem Background - exakt zentriert */
+#page-loader .spinner {
+    position: relative;
+    z-index: 1;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 6px solid rgba(255, 255, 255, 0.25);
+    border-top-color: rgba(255, 255, 255, 0.95);
+    animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
     }
-    
-    /* Spinner über dem Background - exakt zentriert */
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
     #page-loader .spinner {
-        position: relative;
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
-        border: 6px solid rgba(255, 255, 255, 0.25);
-        border-top-color: rgba(255, 255, 255, 0.95);
-        animation: spin 0.9s linear infinite;
+        animation: none;
     }
-    
-    @keyframes spin {
-        to {
-            transform: rotate(360deg);
-        }
-    }
-    
-    /* Respect prefers-reduced-motion */
-    @media (prefers-reduced-motion: reduce) {
-        #page-loader .spinner {
-            animation: none;
-        }
-    }
-    
-    /* Loader Fade-Out */
-    body.is-loaded #page-loader {
-        opacity: 0;
-        transition: opacity 250ms ease;
-        pointer-events: none;
-    }
+}
+
+/* Loader Fade-Out */
+body.is-loaded #page-loader {
+    opacity: 0;
+    transition: opacity 250ms ease;
+    pointer-events: none;
 } 
