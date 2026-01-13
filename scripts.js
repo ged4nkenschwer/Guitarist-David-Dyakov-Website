@@ -110,6 +110,69 @@
     }
 })();
 
+// Set header height CSS variable for hero padding
+(function setHeaderHeight() {
+    'use strict';
+    
+    function updateHeaderHeight() {
+        const header = document.getElementById('header');
+        if (header) {
+            const height = header.offsetHeight;
+            document.documentElement.style.setProperty('--header-height', height + 'px');
+        }
+    }
+    
+    // Update on load and resize
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', updateHeaderHeight);
+    } else {
+        updateHeaderHeight();
+    }
+    
+    window.addEventListener('resize', updateHeaderHeight);
+})();
+
+// CTA Button: Scroll to Rossiniana video and optionally play
+(function initRossinianaCTA() {
+    'use strict';
+    
+    function handleCTAClick(e) {
+        const target = document.getElementById('rossiniana-finale');
+        if (!target) return;
+        
+        e.preventDefault();
+        
+        // Smooth scroll to video
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // After scroll, try to play video (user gesture allows it)
+        setTimeout(() => {
+            // Find the video element within the target
+            const video = target.querySelector('video');
+            if (video && video.readyState >= 2) { // HAVE_CURRENT_DATA or higher
+                video.play().catch(() => {
+                    // Gracefully ignore if autoplay is blocked
+                });
+            }
+        }, 500); // Wait for scroll to complete
+    }
+    
+    // Attach click handler when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctaButton = document.querySelector('.btn-cta-video');
+            if (ctaButton) {
+                ctaButton.addEventListener('click', handleCTAClick);
+            }
+        });
+    } else {
+        const ctaButton = document.querySelector('.btn-cta-video');
+        if (ctaButton) {
+            ctaButton.addEventListener('click', handleCTAClick);
+        }
+    }
+})();
+
 // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     'use strict';
