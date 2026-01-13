@@ -2839,8 +2839,9 @@ textarea {
     /* Fix hero section on mobile/iPhone - prevent button cutoff and show background image */
     .hero {
         height: auto !important;
-        min-height: 100vh;
+        min-height: 100vh !important;
         min-height: -webkit-fill-available; /* Fix for iOS Safari */
+        overflow: visible !important; /* Allow text to extend beyond hero bounds */
         padding: 0 !important;
         padding-top: calc(80px + env(safe-area-inset-top)) !important; /* Space for header + notch */
         padding-bottom: calc(4rem + env(safe-area-inset-bottom)) !important; /* Account for home indicator */
@@ -2874,21 +2875,28 @@ textarea {
     .hero-content,
     .hero-copy {
         position: absolute !important;
-        top: 68% !important; /* Position at neck/chest height, clearly below face */
-        transform: translateY(-30%) !important;
+        bottom: calc(20% + env(safe-area-inset-bottom)) !important; /* Chest height, bottom-anchored */
+        top: auto !important;
+        transform: none !important;
         left: 16px !important;
         right: 16px !important;
-        bottom: auto !important;
+        max-width: 36rem !important;
         padding: 0 !important;
+        padding-bottom: calc(16px + env(safe-area-inset-bottom)) !important; /* Breathing room for descenders */
         margin: 0 !important;
         width: auto !important;
-        max-width: 36rem !important;
         box-sizing: border-box !important;
         display: flex !important;
         flex-direction: column !important;
         align-items: flex-start !important;
-        justify-content: center !important;
+        justify-content: flex-end !important;
         text-align: left !important;
+    }
+    
+    /* Prevent Kaushan Script descenders from being clipped */
+    .hero-tagline {
+        line-height: 1.25 !important; /* Increased from 1.15 for better descender clearance */
+        padding-bottom: 0.2em !important; /* Tiny buffer for descenders like g/y/p */
     }
     
     .hero h1 {
@@ -2909,8 +2917,11 @@ textarea {
         font-size: clamp(1.10rem, 1.6vw + 0.95rem, 1.25rem) !important;
     }
     
-    /* Hero tagline - Maintain handwritten style on mobile */
-    /* Base .hero-tagline styles apply globally, no override needed */
+    /* Hero tagline - Prevent descenders from being clipped on mobile */
+    .hero-tagline {
+        line-height: 1.25 !important; /* Increased from 1.15 for better descender clearance */
+        padding-bottom: 0.2em !important; /* Tiny buffer for descenders like g/y/p */
+    }
     
     .tagline-small {
         font-size: 0.95rem !important;
