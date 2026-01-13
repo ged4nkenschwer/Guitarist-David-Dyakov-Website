@@ -788,6 +788,28 @@ img {
     color: var(--bg-main);
 }
 
+/* Subtle button variant - lower visual weight */
+.btn--subtle {
+    background: transparent !important;
+    border: 1px solid currentColor !important;
+    opacity: 0.85;
+    padding: 0.55em 0.9em !important;
+    font-weight: 500 !important;
+    margin-top: 1rem;
+}
+
+.btn--subtle:hover {
+    opacity: 1;
+    background: rgba(214, 180, 106, 0.1) !important;
+    border-color: var(--accent-gold) !important;
+}
+
+.btn--subtle:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+    opacity: 1;
+}
+
 .btn-small {
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
@@ -2852,8 +2874,8 @@ textarea {
     .hero-content,
     .hero-copy {
         position: absolute !important;
-        top: 58% !important; /* Position at chest height, below face */
-        transform: translateY(-50%) !important;
+        top: 68% !important; /* Position at neck/chest height, clearly below face */
+        transform: translateY(-30%) !important;
         left: 16px !important;
         right: 16px !important;
         bottom: auto !important;
