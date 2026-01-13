@@ -1014,12 +1014,13 @@ nav {
     font-weight: 600;
 }
 
-/* Hero tagline - Handwritten style with Caveat font */
+/* Hero tagline - Handwritten style with Kaushan Script font */
 .hero-tagline {
-    font-family: "Caveat", cursive;
-    font-size: clamp(1.05rem, 0.45vw + 0.95rem, 1.20rem);
-    line-height: 1.2;
+    font-family: "Kaushan Script", cursive;
+    font-size: clamp(1.25rem, 0.8vw + 1.05rem, 1.85rem);
+    line-height: 1.15;
     letter-spacing: 0.2px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
 }
 
 .tagline-small {
@@ -2829,7 +2830,7 @@ textarea {
             url('./hero-guitarist.JPG') !important;
         background-attachment: scroll !important; /* Fix iOS background issues */
         background-size: cover !important; /* Cover entire area, no black background */
-        background-position: 65% center !important; /* Show right side (instrument) on mobile */
+        background-position: 75% 35% !important; /* Keep face centered/right, avoid text overlap */
         background-repeat: no-repeat !important; /* Prevent image tiling */
         background-color: var(--bg-main) !important; /* Fallback background color */
     }
@@ -2849,15 +2850,21 @@ textarea {
     }
     
     .hero-content {
-        padding: 2rem 1rem 3rem 1rem !important; /* Add horizontal and vertical padding */
-        margin: 0 auto !important;
-        width: 100% !important;
-        max-width: 100% !important;
+        position: absolute !important;
+        left: 16px !important;
+        right: 16px !important;
+        bottom: calc(12% + env(safe-area-inset-bottom)) !important;
+        top: auto !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: auto !important;
+        max-width: 36rem !important;
         box-sizing: border-box !important;
         display: flex !important;
         flex-direction: column !important;
-        align-items: center !important;
-        justify-content: center !important;
+        align-items: flex-start !important;
+        justify-content: flex-end !important;
+        text-align: left !important;
     }
     
     .hero h1 {
@@ -2879,9 +2886,7 @@ textarea {
     }
     
     /* Hero tagline - Maintain handwritten style on mobile */
-    .hero-tagline {
-        font-size: clamp(1.05rem, 0.45vw + 0.95rem, 1.20rem) !important;
-    }
+    /* Base .hero-tagline styles apply globally, no override needed */
     
     .tagline-small {
         font-size: 0.95rem !important;
@@ -3076,9 +3081,7 @@ textarea {
     }
     
     /* Hero tagline - Extra small screens */
-    .hero-tagline {
-        font-size: clamp(1.05rem, 0.45vw + 0.95rem, 1.20rem) !important;
-    }
+    /* Base .hero-tagline styles apply globally, 480px breakpoint handles calibration */
     
     .hero .btn {
         padding: 0.9rem 1.5rem !important;
@@ -3098,6 +3101,10 @@ textarea {
 @media (max-width: 480px) {
     .hero-kpis {
         font-size: clamp(1.10rem, 1.6vw + 0.95rem, 1.25rem) !important;
+    }
+    
+    .hero-tagline {
+        font-size: clamp(1.35rem, 1.4vw + 1.10rem, 1.95rem) !important;
     }
 }
 
