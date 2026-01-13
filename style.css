@@ -2849,12 +2849,14 @@ textarea {
         opacity: 0.6 !important; /* Restore overlay like before */
     }
     
-    .hero-content {
+    .hero-content,
+    .hero-copy {
         position: absolute !important;
+        top: 58% !important; /* Position at chest height, below face */
+        transform: translateY(-50%) !important;
         left: 16px !important;
         right: 16px !important;
-        bottom: calc(12% + env(safe-area-inset-bottom)) !important;
-        top: auto !important;
+        bottom: auto !important;
         padding: 0 !important;
         margin: 0 !important;
         width: auto !important;
@@ -2863,7 +2865,7 @@ textarea {
         display: flex !important;
         flex-direction: column !important;
         align-items: flex-start !important;
-        justify-content: flex-end !important;
+        justify-content: center !important;
         text-align: left !important;
     }
     
@@ -3100,7 +3102,7 @@ textarea {
 /* Very small screens - 480px and below */
 @media (max-width: 480px) {
     .hero-kpis {
-        font-size: clamp(1.10rem, 1.6vw + 0.95rem, 1.25rem) !important;
+        font-size: clamp(1.12rem, 1.6vw + 0.95rem, 1.28rem) !important;
     }
     
     .hero-tagline {
