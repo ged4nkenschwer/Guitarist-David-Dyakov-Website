@@ -1011,6 +1011,7 @@ nav {
 .hero-kpis {
     font-size: clamp(1.05rem, 0.55vw + 0.95rem, 1.25rem);
     line-height: 1.25;
+    font-weight: 600;
 }
 
 /* Hero tagline - Handwritten style with Caveat font */
@@ -1018,6 +1019,7 @@ nav {
     font-family: "Caveat", cursive;
     font-size: clamp(1.05rem, 0.45vw + 0.95rem, 1.20rem);
     line-height: 1.2;
+    letter-spacing: 0.2px;
 }
 
 .tagline-small {
@@ -3095,7 +3097,7 @@ textarea {
 /* Very small screens - 480px and below */
 @media (max-width: 480px) {
     .hero-kpis {
-        font-size: clamp(1.12rem, 1.6vw + 0.95rem, 1.28rem) !important;
+        font-size: clamp(1.10rem, 1.6vw + 0.95rem, 1.25rem) !important;
     }
 }
 
