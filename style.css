@@ -2923,7 +2923,16 @@ textarea {
         pointer-events: none !important; /* Media shouldn't block clicks */
     }
     
-    .hero-media img {
+    /* Hero picture and image - full-bleed, not distorted */
+    .hero-picture,
+    .hero-img {
+        width: 100% !important;
+        height: 100% !important;
+        display: block !important;
+    }
+    
+    .hero-media img,
+    .hero-media .hero-img {
         width: 100% !important;
         height: 100% !important;
         object-fit: contain !important; /* Key change: contain to show full subject */

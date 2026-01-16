@@ -170,7 +170,10 @@
     <section id="home" class="hero">
         <div class="hero-fades" aria-hidden="true"></div>
         <div class="hero-media">
-            <img src="./hero-guitarist.JPG" alt="David Dyakov - Classical Guitarist">
+            <picture class="hero-picture">
+                <source media="(max-width: 768px)" srcset="assets/img/hero-guitarist-mobile.jpg" type="image/jpeg">
+                <img src="./hero-guitarist.JPG" alt="David Dyakov - Classical Guitarist" class="hero-img" loading="eager" fetchpriority="high" decoding="async">
+            </picture>
         </div>
         <div class="container">
             <div class="hero-content hero-copy">
