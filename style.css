@@ -978,6 +978,11 @@ nav {
     filter: brightness(0.85) contrast(1.1);
 }
 
+/* Hide hero-media on desktop - only use background-image */
+.hero-media {
+    display: none;
+}
+
 .hero::before {
     content: '';
     position: absolute;
@@ -2836,44 +2841,76 @@ textarea {
         font-size: 2rem;
     }
     
-    /* Fix hero section on mobile/iPhone - prevent button cutoff and show background image */
+    /* Fix hero section on mobile/iPhone - use hero-media with 5:7 aspect ratio */
     .hero {
-        height: auto !important;
         min-height: 100vh !important;
-        min-height: -webkit-fill-available; /* Fix for iOS Safari */
-        overflow: visible !important; /* Allow text to extend beyond hero bounds */
+        min-height: -webkit-fill-available !important; /* Fix for iOS Safari */
+        overflow: visible !important; /* Allow text to extend beyond hero bounds - NO overflow:hidden */
         padding: 0 !important;
         padding-top: calc(80px + env(safe-area-inset-top)) !important; /* Space for header + notch */
         padding-bottom: calc(4rem + env(safe-area-inset-bottom)) !important; /* Account for home indicator */
+        display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        /* Background image - right-biased to keep head on right, lower to show hands */
-        background-image: url('./hero-guitarist.JPG') !important;
-        background-attachment: scroll !important; /* Fix iOS background issues */
-        background-size: cover !important; /* Cover entire area, no black background */
-        background-position: 68% 62% !important; /* Right-biased + lower to catch hands, keep head on right */
-        background-repeat: no-repeat !important; /* Prevent image tiling */
+        position: relative !important;
+        /* Remove background-image on mobile - use hero-media img instead */
+        background-image: none !important;
         background-color: var(--bg-main) !important; /* Fallback background color */
-        position: relative !important; /* Ensure positioning context for overlay */
     }
     
-    /* Mobile darkening overlay to match desktop */
-    .hero::before {
+    /* Hero media wrapper - 5:7 aspect ratio on mobile */
+    .hero-media {
+        display: block !important; /* Show on mobile */
+        width: 100% !important;
+        max-width: 520px !important; /* Prevents too large on big phones */
+        aspect-ratio: 5 / 7 !important; /* WICHTIG: 5:7 */
+        position: relative !important;
+        overflow: hidden !important; /* Crop only for image, NOT for text */
+        z-index: 0 !important;
+    }
+    
+    .hero-media img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important; /* Crop from original, no distortion */
+        object-position: 68% 62% !important; /* Right-biased + lower to catch hands, keep head on right */
+        display: block !important;
+    }
+    
+    /* Subtle dark fades top + bottom on hero-media (like desktop, without blur) */
+    .hero-media::before,
+    .hero-media::after {
         content: "" !important;
         position: absolute !important;
-        inset: 0 !important;
-        background: rgba(0, 0, 0, 0.45) !important; /* Match desktop darkness */
+        left: 0 !important;
+        right: 0 !important;
+        height: 18% !important;
         pointer-events: none !important;
-        z-index: 1 !important; /* Above image, below text */
+        z-index: 2 !important;
+    }
+    
+    .hero-media::before {
+        top: 0 !important;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0)) !important;
+    }
+    
+    .hero-media::after {
+        bottom: 0 !important;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0)) !important;
+    }
+    
+    /* Disable desktop overlays on mobile */
+    .hero::before {
+        display: none !important;
     }
     
     .hero::after {
-        opacity: 0 !important; /* Disable gradient overlay - using solid darkening instead */
+        display: none !important;
     }
     
     .hero-content {
         position: relative !important;
-        z-index: 2 !important;
+        z-index: 3 !important;
     }
     
     /* Hero copy positioned in LEFT empty space, not over face/hair/torso */
@@ -2894,12 +2931,10 @@ textarea {
         align-items: flex-start !important;
         justify-content: flex-start !important;
         text-align: left !important;
-        /* Subtle readable backdrop */
+        /* Subtle readable backdrop - NO BLUR */
         background: rgba(0, 0, 0, 0.18) !important; /* Subtle, not a heavy box */
-        backdrop-filter: blur(6px) !important;
-        -webkit-backdrop-filter: blur(6px) !important;
         border-radius: 12px !important;
-        z-index: 2 !important; /* Above overlay, below header */
+        z-index: 3 !important; /* Above media + fades, below header */
     }
     
     /* Prevent Kaushan Script descenders from being clipped */
@@ -3157,10 +3192,10 @@ textarea {
     }
 }
 
-/* Small phones - 430px and below - adjust background to keep hands visible */
+/* Small phones - 430px and below - adjust image position to keep hands visible */
 @media (max-width: 430px) {
-    .hero {
-        background-position: 70% 68% !important; /* Right-biased + lower to show both hands on smaller screens */
+    .hero-media img {
+        object-position: 70% 68% !important; /* Right-biased + lower to show both hands on smaller screens */
     }
 }
 
