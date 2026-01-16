@@ -2866,42 +2866,55 @@ textarea {
         object-position: 60% 40% !important; /* Keep face centered/right, both hands visible */
     }
     
-    /* Subtle dark fades at top and bottom on mobile */
+    /* Dark fades at top and bottom on mobile - same as desktop */
     .hero::before {
         top: 0 !important;
-        bottom: auto !important;
-        height: 18% !important;
-        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0)) !important;
-        z-index: 2 !important; /* above image, below text */
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        height: auto !important;
+        background: linear-gradient(180deg, 
+            rgba(5, 7, 11, 0.4) 0%, 
+            transparent 30%,
+            transparent 70%,
+            rgba(5, 7, 11, 0.6) 100%
+        ) !important;
+        z-index: 1 !important; /* above image, below text */
     }
     
     .hero::after {
         top: auto !important;
         bottom: 0 !important;
-        height: 18% !important;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0)) !important;
+        left: 0 !important;
+        right: 0 !important;
+        height: 150px !important;
+        background: linear-gradient(to bottom, 
+            transparent 0%,
+            rgba(5, 7, 11, 0.3) 30%,
+            rgba(5, 7, 11, 0.7) 70%,
+            var(--bg-main) 100%
+        ) !important;
         opacity: 1 !important;
-        z-index: 2 !important; /* above image, below text */
+        z-index: 1 !important; /* above image, below text */
     }
     
     .hero-content,
     .hero-copy {
         position: absolute !important;
-        bottom: calc(24% + env(safe-area-inset-bottom)) !important; /* Lower neck height, bottom-anchored */
-        top: auto !important;
-        transform: none !important;
+        top: calc(45% + env(safe-area-inset-top)) !important; /* Position in safe middle area, avoiding fade zones */
+        bottom: auto !important;
+        transform: translateY(-50%) !important; /* Center vertically */
         left: 16px !important;
         right: 16px !important;
-        max-width: 36rem !important;
+        max-width: 32rem !important; /* Reduced to avoid chin/face overlap */
         padding: 0 !important;
-        padding-bottom: calc(16px + env(safe-area-inset-bottom)) !important; /* Breathing room for descenders */
         margin: 0 !important;
         width: auto !important;
         box-sizing: border-box !important;
         display: flex !important;
         flex-direction: column !important;
         align-items: flex-start !important;
-        justify-content: flex-end !important;
+        justify-content: center !important;
         text-align: left !important;
         z-index: 3 !important; /* above fades */
     }
@@ -2912,18 +2925,19 @@ textarea {
         padding-bottom: 0.2em !important; /* Tiny buffer for descenders like g/y/p */
     }
     
-    /* Hero title - Mobile size reduction for lower neck positioning */
+    /* Hero title - Mobile size reduction (~28% smaller than desktop) */
     .hero-title {
-        font-size: clamp(1.05rem, 1.2vw + 0.95rem, 1.25rem) !important;
-        line-height: 1.15 !important;
-        margin-bottom: 1rem !important;
+        font-size: clamp(1.8rem, 4vw + 1.2rem, 2.5rem) !important; /* Desktop 3.5rem -> Mobile ~2.5rem */
+        line-height: 1.2 !important;
+        margin-bottom: 0.8rem !important;
         padding: 0 1rem !important;
     }
     
     .hero h1 {
-        font-size: 2.5rem !important;
-        margin-bottom: 1rem !important;
+        font-size: clamp(1.8rem, 4vw + 1.2rem, 2.5rem) !important; /* Desktop 3.5rem -> Mobile ~2.5rem (28% smaller) */
+        margin-bottom: 0.8rem !important;
         padding: 0 1rem !important;
+        line-height: 1.2 !important;
     }
     
     .tagline {
@@ -2933,14 +2947,16 @@ textarea {
         line-height: 1.4 !important;
     }
     
-    /* Hero KPI line - Mobile bump for visibility */
+    /* Hero KPI line - Mobile size reduction (~28% smaller than desktop) */
     .hero-kpis {
-        font-size: clamp(1.10rem, 1.6vw + 0.95rem, 1.25rem) !important;
+        font-size: clamp(0.85rem, 1.2vw + 0.75rem, 0.9rem) !important; /* Desktop max 1.25rem -> Mobile ~0.9rem (28% smaller) */
+        line-height: 1.3 !important;
     }
     
-    /* Hero tagline - Prevent descenders from being clipped on mobile */
+    /* Hero tagline - Mobile size reduction (~30% smaller than desktop) */
     .hero-tagline {
-        line-height: 1.25 !important; /* Increased from 1.15 for better descender clearance */
+        font-size: clamp(0.9rem, 1.4vw + 0.85rem, 1.3rem) !important; /* Desktop max 1.85rem -> Mobile ~1.3rem (30% smaller) */
+        line-height: 1.3 !important;
         padding-bottom: 0.2em !important; /* Tiny buffer for descenders like g/y/p */
     }
     
@@ -3115,16 +3131,17 @@ textarea {
         padding: 1.5rem 1rem 2.5rem 1rem !important;
     }
     
-    /* Hero title - Extra small screens - maintain smaller size */
+    /* Hero title - Extra small screens - maintain smaller size (~28% smaller than desktop) */
     .hero-title {
-        font-size: clamp(1.05rem, 1.2vw + 0.95rem, 1.25rem) !important;
-        line-height: 1.15 !important;
+        font-size: clamp(1.6rem, 3.5vw + 1rem, 2.2rem) !important; /* Desktop 3.5rem -> Mobile ~2.2rem (37% smaller on very small screens) */
+        line-height: 1.2 !important;
         margin-bottom: 0.8rem !important;
     }
     
     .hero h1 {
-        font-size: 2rem !important;
+        font-size: clamp(1.6rem, 3.5vw + 1rem, 2.2rem) !important; /* Desktop 3.5rem -> Mobile ~2.2rem (37% smaller on very small screens) */
         margin-bottom: 0.8rem !important;
+        line-height: 1.2 !important;
     }
     
     .tagline {
@@ -3138,13 +3155,17 @@ textarea {
         margin-top: -0.8rem !important;
     }
     
-    /* Hero KPI line - Extra small screens */
+    /* Hero KPI line - Extra small screens (~28% smaller than desktop) */
     .hero-kpis {
-        font-size: clamp(1.10rem, 1.6vw + 0.95rem, 1.25rem) !important;
+        font-size: clamp(0.8rem, 1vw + 0.7rem, 0.85rem) !important; /* Desktop max 1.25rem -> Mobile ~0.85rem (32% smaller on very small screens) */
+        line-height: 1.3 !important;
     }
     
-    /* Hero tagline - Extra small screens */
-    /* Base .hero-tagline styles apply globally, 480px breakpoint handles calibration */
+    /* Hero tagline - Extra small screens (~30% smaller than desktop) */
+    .hero-tagline {
+        font-size: clamp(0.85rem, 1.2vw + 0.75rem, 1.2rem) !important; /* Desktop max 1.85rem -> Mobile ~1.2rem (35% smaller on very small screens) */
+        line-height: 1.3 !important;
+    }
     
     .hero .btn {
         padding: 0.9rem 1.5rem !important;
