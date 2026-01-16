@@ -171,7 +171,11 @@
         <div class="hero-fades" aria-hidden="true"></div>
         <div class="hero-media">
             <picture class="hero-picture">
-                <source media="(max-width: 768px)" srcset="./hero-guitarist-phone.jpg" type="image/jpeg">
+                <!-- Very tall phones (9:16 aspect ratio) -->
+                <source media="(max-width: 768px) and (min-aspect-ratio: 9/16)" srcset="assets/img/hero-guitarist-mobile-9x16.jpg" type="image/jpeg">
+                <!-- Normal phones (4:5 aspect ratio) -->
+                <source media="(max-width: 768px)" srcset="assets/img/hero-guitarist-mobile-4x5.jpg" type="image/jpeg">
+                <!-- Desktop fallback -->
                 <img src="./hero-guitarist.JPG" alt="David Dyakov - Classical Guitarist" class="hero-img" loading="eager" fetchpriority="high" decoding="async">
             </picture>
         </div>

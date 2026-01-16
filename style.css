@@ -2846,9 +2846,9 @@ textarea {
         font-size: 2rem;
     }
     
-    /* Mobile 2-layer hero: background cover + foreground contain */
+    /* Mobile 2-layer hero: background cover + foreground cover */
     .hero {
-        --hero-img: url('./hero-guitarist-phone.jpg') !important; /* Mobile image for background layer */
+        --hero-img: url('assets/img/hero-guitarist-mobile-4x5.jpg') !important; /* Mobile image for background layer (default 4:5) */
         position: relative !important;
         min-height: 100svh !important;
         min-height: -webkit-fill-available !important; /* Fix for iOS Safari */
@@ -2936,9 +2936,8 @@ textarea {
     .hero-img {
         width: 100% !important;
         height: 100% !important;
-        object-fit: contain !important; /* Key change: contain to show full subject */
+        object-fit: cover !important; /* Full-bleed cover, no black bars */
         object-position: 70% 60% !important; /* Keep subject right */
-        transform: scale(0.92) !important; /* Zoom-out to reveal hands */
         display: block !important;
     }
     
