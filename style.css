@@ -969,12 +969,24 @@ nav {
     position: relative;
     overflow: hidden;
     padding-top: var(--header-height, 80px); /* Space for fixed header */
-    background-image: 
-        linear-gradient(180deg, rgba(5, 7, 11, 0.75) 0%, rgba(16, 19, 27, 0.6) 50%, rgba(5, 7, 11, 0.8) 100%),
-        url('./hero-guitarist.JPG');
-    background-size: cover;
-    background-position: center 45%; /* Shift down slightly to show hairline while keeping hands visible */
-    background-attachment: fixed;
+    background-color: var(--bg-main);
+}
+
+/* Hero image - responsive picture element */
+.hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 45%; /* Shift down slightly to show hairline while keeping hands visible */
     filter: brightness(0.85) contrast(1.1);
 }
 
@@ -2847,35 +2859,35 @@ textarea {
         padding-bottom: calc(4rem + env(safe-area-inset-bottom)) !important; /* Account for home indicator */
         align-items: center !important;
         justify-content: center !important;
-        /* Gradient overlays adjusted for zoomed-in view with both hands just visible */
-        background-image: 
-            linear-gradient(180deg, rgba(5, 7, 11, 0.4) 0%, rgba(5, 7, 11, 0.3) 30%, rgba(5, 7, 11, 0.3) 70%, rgba(5, 7, 11, 0.5) 100%),
-            url('./hero-guitarist.JPG') !important;
-        background-attachment: scroll !important; /* Fix iOS background issues */
-        background-size: cover !important; /* Cover entire area, no black background */
-        background-position: 75% 35% !important; /* Keep face centered/right, avoid text overlap */
-        background-repeat: no-repeat !important; /* Prevent image tiling */
-        background-color: var(--bg-main) !important; /* Fallback background color */
     }
     
-    /* Overlay opacity adjusted for zoomed-in view */
+    /* Mobile hero image - focus on hands */
+    .hero-image img {
+        object-position: 60% 40% !important; /* Keep face centered/right, both hands visible */
+    }
+    
+    /* Subtle dark fades at top and bottom on mobile */
     .hero::before {
-        background: linear-gradient(180deg, 
-            rgba(5, 7, 11, 0.2) 0%, 
-            transparent 30%,
-            transparent 70%,
-            rgba(5, 7, 11, 0.3) 100%
-        ) !important;
+        top: 0 !important;
+        bottom: auto !important;
+        height: 18% !important;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0)) !important;
+        z-index: 2 !important; /* above image, below text */
     }
     
     .hero::after {
-        opacity: 0.6 !important; /* Restore overlay like before */
+        top: auto !important;
+        bottom: 0 !important;
+        height: 18% !important;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0)) !important;
+        opacity: 1 !important;
+        z-index: 2 !important; /* above image, below text */
     }
     
     .hero-content,
     .hero-copy {
         position: absolute !important;
-        bottom: calc(20% + env(safe-area-inset-bottom)) !important; /* Chest height, bottom-anchored */
+        bottom: calc(24% + env(safe-area-inset-bottom)) !important; /* Lower neck height, bottom-anchored */
         top: auto !important;
         transform: none !important;
         left: 16px !important;
@@ -2891,12 +2903,21 @@ textarea {
         align-items: flex-start !important;
         justify-content: flex-end !important;
         text-align: left !important;
+        z-index: 3 !important; /* above fades */
     }
     
     /* Prevent Kaushan Script descenders from being clipped */
     .hero-tagline {
         line-height: 1.25 !important; /* Increased from 1.15 for better descender clearance */
         padding-bottom: 0.2em !important; /* Tiny buffer for descenders like g/y/p */
+    }
+    
+    /* Hero title - Mobile size reduction for lower neck positioning */
+    .hero-title {
+        font-size: clamp(1.05rem, 1.2vw + 0.95rem, 1.25rem) !important;
+        line-height: 1.15 !important;
+        margin-bottom: 1rem !important;
+        padding: 0 1rem !important;
     }
     
     .hero h1 {
@@ -3092,6 +3113,13 @@ textarea {
     
     .hero-content {
         padding: 1.5rem 1rem 2.5rem 1rem !important;
+    }
+    
+    /* Hero title - Extra small screens - maintain smaller size */
+    .hero-title {
+        font-size: clamp(1.05rem, 1.2vw + 0.95rem, 1.25rem) !important;
+        line-height: 1.15 !important;
+        margin-bottom: 0.8rem !important;
     }
     
     .hero h1 {
