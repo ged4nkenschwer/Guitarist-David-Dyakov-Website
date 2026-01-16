@@ -1012,11 +1012,6 @@ nav {
     z-index: 1;
 }
 
-/* Hero Media Layers (Mobile only) */
-.hero-media {
-    display: none; /* Hidden on desktop */
-}
-
 .hero-content {
     text-align: center;
     max-width: 800px;
@@ -2841,79 +2836,46 @@ textarea {
         font-size: 2rem;
     }
     
-    /* Mobile Hero: Layered structure for full-bleed with both hands visible */
+    /* Fix hero section on mobile/iPhone - prevent button cutoff and show background image */
     .hero {
         height: auto !important;
-        min-height: 75vh !important; /* ~70-80vh as requested */
+        min-height: 100vh !important;
         min-height: -webkit-fill-available; /* Fix for iOS Safari */
-        overflow: hidden !important; /* Contain the media layers */
+        overflow: visible !important; /* Allow text to extend beyond hero bounds */
         padding: 0 !important;
         padding-top: calc(80px + env(safe-area-inset-top)) !important; /* Space for header + notch */
         padding-bottom: calc(4rem + env(safe-area-inset-bottom)) !important; /* Account for home indicator */
-        position: relative !important;
-        background: var(--bg-main) !important; /* Fallback background */
+        align-items: center !important;
+        justify-content: center !important;
+        /* Gradient overlays adjusted for zoomed-in view with both hands just visible */
+        background-image: 
+            linear-gradient(180deg, rgba(5, 7, 11, 0.4) 0%, rgba(5, 7, 11, 0.3) 30%, rgba(5, 7, 11, 0.3) 70%, rgba(5, 7, 11, 0.5) 100%),
+            url('./hero-guitarist.JPG') !important;
+        background-attachment: scroll !important; /* Fix iOS background issues */
+        background-size: cover !important; /* Cover entire area, no black background */
+        background-position: 75% 35% !important; /* Keep face centered/right, avoid text overlap */
+        background-repeat: no-repeat !important; /* Prevent image tiling */
+        background-color: var(--bg-main) !important; /* Fallback background color */
     }
     
-    /* Hero Media Wrapper - Mobile only */
-    .hero-media {
-        display: block !important;
-        position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        bottom: 0 !important;
-        overflow: hidden !important;
-        z-index: 1 !important; /* Below text, above hero background */
+    /* Overlay opacity adjusted for zoomed-in view */
+    .hero::before {
+        background: linear-gradient(180deg, 
+            rgba(5, 7, 11, 0.2) 0%, 
+            transparent 30%,
+            transparent 70%,
+            rgba(5, 7, 11, 0.3) 100%
+        ) !important;
     }
     
-    /* Background Layer: Full bleed with blur and scale */
-    .hero-media-bg {
-        position: absolute !important;
-        inset: 0 !important;
-        background-image: url('./images/hero-guitarist-mobile.jpg'), url('./hero-guitarist-mobile.png'), url('./hero-guitarist.JPG') !important; /* Fallback chain */
-        background-size: cover !important;
-        background-position: center !important;
-        background-repeat: no-repeat !important;
-        filter: blur(18px) !important;
-        transform: scale(1.12) !important;
-        opacity: 0.65 !important; /* Darken for readability */
-        z-index: 1 !important;
-    }
-    
-    /* Foreground Layer: Both hands always visible with contain */
-    .hero-media-fg {
-        position: absolute !important;
-        inset: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
-        object-fit: contain !important;
-        object-position: 62% 42% !important; /* Adjusted to keep both hands visible */
-        transform: scale(1.05) !important; /* Minimal zoom while keeping hands in frame */
-        z-index: 2 !important; /* Above background layer */
-    }
-    
-    /* Soft black fade overlay for letterbox areas */
-    .hero-media-fade {
-        position: absolute !important;
-        inset: 0 !important;
-        background: radial-gradient(ellipse at center,
-            rgba(0, 0, 0, 0) 55%,
-            rgba(0, 0, 0, 0.45) 78%,
-            rgba(0, 0, 0, 0.75) 100%) !important;
-        pointer-events: none !important;
-        z-index: 3 !important; /* Above foreground image, below text */
-    }
-    
-    /* Keep desktop hero::before and ::after hidden/unchanged on mobile */
-    .hero::before,
     .hero::after {
-        display: none !important; /* Disable desktop overlays on mobile */
+        opacity: 0.6 !important; /* Restore overlay like before */
     }
     
     .hero-content,
     .hero-copy {
         position: absolute !important;
-        bottom: calc(24% + env(safe-area-inset-bottom)) !important; /* Lower neck height, bottom-anchored */
+        bottom: calc(20% + env(safe-area-inset-bottom)) !important; /* Chest height, bottom-anchored */
         top: auto !important;
         transform: none !important;
         left: 16px !important;
@@ -2929,28 +2891,12 @@ textarea {
         align-items: flex-start !important;
         justify-content: flex-end !important;
         text-align: left !important;
-        z-index: 10 !important; /* Above all media layers and fades */
-    }
-    
-    /* Container positioning on mobile */
-    .hero .container {
-        position: relative !important;
-        z-index: 10 !important;
-        height: 100% !important;
     }
     
     /* Prevent Kaushan Script descenders from being clipped */
     .hero-tagline {
         line-height: 1.25 !important; /* Increased from 1.15 for better descender clearance */
         padding-bottom: 0.2em !important; /* Tiny buffer for descenders like g/y/p */
-    }
-    
-    /* Hero title - Mobile size reduction for lower neck positioning */
-    .hero-title {
-        font-size: clamp(1.05rem, 1.2vw + 0.95rem, 1.25rem) !important;
-        line-height: 1.15 !important;
-        margin-bottom: 1rem !important;
-        padding: 0 1rem !important;
     }
     
     .hero h1 {
@@ -3146,13 +3092,6 @@ textarea {
     
     .hero-content {
         padding: 1.5rem 1rem 2.5rem 1rem !important;
-    }
-    
-    /* Hero title - Extra small screens - maintain smaller size */
-    .hero-title {
-        font-size: clamp(1.05rem, 1.2vw + 0.95rem, 1.25rem) !important;
-        line-height: 1.15 !important;
-        margin-bottom: 0.8rem !important;
     }
     
     .hero h1 {
