@@ -969,12 +969,24 @@ nav {
     position: relative;
     overflow: hidden;
     padding-top: var(--header-height, 80px); /* Space for fixed header */
-    background-image: 
-        linear-gradient(180deg, rgba(5, 7, 11, 0.75) 0%, rgba(16, 19, 27, 0.6) 50%, rgba(5, 7, 11, 0.8) 100%),
-        url('./hero-guitarist.JPG');
-    background-size: cover;
-    background-position: center 45%; /* Shift down slightly to show hairline while keeping hands visible */
-    background-attachment: fixed;
+    background-color: var(--bg-main);
+}
+
+/* Hero image - responsive picture element */
+.hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 45%; /* Shift down slightly to show hairline while keeping hands visible */
     filter: brightness(0.85) contrast(1.1);
 }
 
@@ -2847,15 +2859,11 @@ textarea {
         padding-bottom: calc(4rem + env(safe-area-inset-bottom)) !important; /* Account for home indicator */
         align-items: center !important;
         justify-content: center !important;
-        /* Gradient overlays adjusted for zoomed-in view with both hands just visible */
-        background-image: 
-            linear-gradient(180deg, rgba(5, 7, 11, 0.4) 0%, rgba(5, 7, 11, 0.3) 30%, rgba(5, 7, 11, 0.3) 70%, rgba(5, 7, 11, 0.5) 100%),
-            url('./hero-guitarist.JPG') !important;
-        background-attachment: scroll !important; /* Fix iOS background issues */
-        background-size: cover !important; /* Cover entire area, no black background */
-        background-position: 75% 35% !important; /* Keep face centered/right, avoid text overlap */
-        background-repeat: no-repeat !important; /* Prevent image tiling */
-        background-color: var(--bg-main) !important; /* Fallback background color */
+    }
+    
+    /* Mobile hero image - focus on hands */
+    .hero-image img {
+        object-position: 60% 40% !important; /* Keep face centered/right, both hands visible */
     }
     
     /* Subtle dark fades at top and bottom on mobile */
