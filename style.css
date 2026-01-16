@@ -2875,7 +2875,7 @@ textarea {
     .hero-content,
     .hero-copy {
         position: absolute !important;
-        bottom: calc(20% + env(safe-area-inset-bottom)) !important; /* Chest height, bottom-anchored */
+        bottom: calc(24% + env(safe-area-inset-bottom)) !important; /* Lower neck height, bottom-anchored */
         top: auto !important;
         transform: none !important;
         left: 16px !important;
@@ -2897,6 +2897,14 @@ textarea {
     .hero-tagline {
         line-height: 1.25 !important; /* Increased from 1.15 for better descender clearance */
         padding-bottom: 0.2em !important; /* Tiny buffer for descenders like g/y/p */
+    }
+    
+    /* Hero title - Mobile size reduction for lower neck positioning */
+    .hero-title {
+        font-size: clamp(1.05rem, 1.2vw + 0.95rem, 1.25rem) !important;
+        line-height: 1.15 !important;
+        margin-bottom: 1rem !important;
+        padding: 0 1rem !important;
     }
     
     .hero h1 {
@@ -3092,6 +3100,13 @@ textarea {
     
     .hero-content {
         padding: 1.5rem 1rem 2.5rem 1rem !important;
+    }
+    
+    /* Hero title - Extra small screens - maintain smaller size */
+    .hero-title {
+        font-size: clamp(1.05rem, 1.2vw + 0.95rem, 1.25rem) !important;
+        line-height: 1.15 !important;
+        margin-bottom: 0.8rem !important;
     }
     
     .hero h1 {
