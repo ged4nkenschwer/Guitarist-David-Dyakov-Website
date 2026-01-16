@@ -241,11 +241,13 @@ a:hover {
 /* Special treatment for hero h1 to ensure it maintains proper styling - WITH REFLECTION */
 .hero h1 {
     width: 100% !important; /* Ensure full width for proper alignment */
-    margin-bottom: 1.5rem !important;
+    margin-bottom: 0.8rem !important; /* Reduced from 1.5rem */
     display: block !important;
     text-align: center !important;
     color: #B8945A !important;
     position: relative !important;
+    font-size: clamp(2rem, 3vw + 1.5rem, 2.8rem) !important; /* Responsive: max 2.8rem (reduced from 3.5rem) */
+    line-height: 1.2 !important;
     background: linear-gradient(90deg, 
         #B8945A 0%, 
         #B8945A 40%,
@@ -990,6 +992,7 @@ nav {
     filter: brightness(0.85) contrast(1.1);
 }
 
+/* Background dimming overlay + top fade */
 .hero::before {
     content: '';
     position: absolute;
@@ -997,16 +1000,21 @@ nav {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(180deg, 
-        rgba(5, 7, 11, 0.4) 0%, 
-        transparent 30%,
-        transparent 70%,
-        rgba(5, 7, 11, 0.6) 100%
-    );
+    /* Dark overlay (25% black) + top fade gradient */
+    background: 
+        linear-gradient(180deg, 
+            rgba(0, 0, 0, 0.55) 0%,      /* Top fade: dark */
+            rgba(0, 0, 0, 0.25) 15%,     /* Top fade: medium */
+            rgba(0, 0, 0, 0.25) 30%,     /* Dimming: consistent */
+            rgba(0, 0, 0, 0.25) 70%,     /* Dimming: consistent */
+            rgba(0, 0, 0, 0.35) 85%,     /* Bottom fade: medium */
+            rgba(0, 0, 0, 0.55) 100%     /* Bottom fade: dark */
+        );
     pointer-events: none;
     z-index: 1;
 }
 
+/* Bottom fade overlay (additional emphasis) */
 .hero::after {
     content: '';
     position: absolute;
@@ -1016,45 +1024,54 @@ nav {
     height: 150px;
     background: linear-gradient(to bottom, 
         transparent 0%,
-        rgba(5, 7, 11, 0.3) 30%,
-        rgba(5, 7, 11, 0.7) 70%,
+        rgba(5, 7, 11, 0.2) 30%,
+        rgba(5, 7, 11, 0.5) 70%,
         var(--bg-main) 100%
     );
     pointer-events: none;
-    z-index: 1;
+    z-index: 2; /* Above dimming, below text */
 }
 
 .hero-content {
     text-align: center;
-    max-width: 800px;
+    max-width: 700px; /* Reduced from 800px */
     margin: 0 auto;
     position: relative;
     z-index: 3;
+    /* Position below chin - responsive padding-top */
+    padding-top: min(calc(50vh + 60px), calc(100vh - 400px)); /* Start below chin, responsive */
+    padding-bottom: 2rem; /* Space for buttons above bottom fade */
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem; /* Gap between text elements and buttons */
 }
 
 .tagline {
     font-family: var(--font-elegant);
-    font-size: 1.4rem;
-    margin-bottom: 2rem;
+    font-size: clamp(1rem, 0.8vw + 0.9rem, 1.2rem); /* Reduced: max 1.2rem (was 1.4rem) */
+    margin-bottom: 1rem; /* Reduced from 2rem */
     font-style: italic;
     letter-spacing: 0.5px;
     color: var(--text-muted);
+    line-height: 1.4;
 }
 
-/* Hero KPI line - Responsive sizing with clamp */
+/* Hero KPI line - Responsive sizing with clamp (reduced on all breakpoints) */
 .hero-kpis {
-    font-size: clamp(1.05rem, 0.55vw + 0.95rem, 1.25rem);
-    line-height: 1.25;
+    font-size: clamp(0.9rem, 0.5vw + 0.8rem, 1.05rem); /* Reduced: max 1.05rem (was 1.25rem) */
+    line-height: 1.3;
     font-weight: 600;
+    margin-bottom: 0.5rem;
 }
 
-/* Hero tagline - Handwritten style with Kaushan Script font */
+/* Hero tagline - Handwritten style with Kaushan Script font (reduced on all breakpoints) */
 .hero-tagline {
     font-family: "Kaushan Script", cursive;
-    font-size: clamp(1.25rem, 0.8vw + 1.05rem, 1.85rem);
-    line-height: 1.15;
+    font-size: clamp(1.05rem, 0.7vw + 0.9rem, 1.5rem); /* Reduced: max 1.5rem (was 1.85rem) */
+    line-height: 1.3;
     letter-spacing: 0.2px;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    margin-bottom: 1rem;
 }
 
 .tagline-small {
@@ -2895,27 +2912,29 @@ textarea {
             var(--bg-main) 100%
         ) !important;
         opacity: 1 !important;
-        z-index: 1 !important; /* above image, below text */
+        z-index: 2 !important; /* Above dimming, below text */
     }
     
     .hero-content,
     .hero-copy {
         position: absolute !important;
-        top: calc(45% + env(safe-area-inset-top)) !important; /* Position in safe middle area, avoiding fade zones */
+        top: calc(55vh + env(safe-area-inset-top)) !important; /* Start below chin - responsive to viewport height */
         bottom: auto !important;
-        transform: translateY(-50%) !important; /* Center vertically */
+        transform: none !important; /* Remove centering, start from top position */
         left: 16px !important;
         right: 16px !important;
         max-width: 32rem !important; /* Reduced to avoid chin/face overlap */
         padding: 0 !important;
+        padding-bottom: 2rem !important; /* Space for buttons above bottom fade */
         margin: 0 !important;
         width: auto !important;
         box-sizing: border-box !important;
         display: flex !important;
         flex-direction: column !important;
         align-items: flex-start !important;
-        justify-content: center !important;
+        justify-content: flex-start !important;
         text-align: left !important;
+        gap: 0.75rem !important; /* Gap between elements */
         z-index: 3 !important; /* above fades */
     }
     
@@ -2969,9 +2988,9 @@ textarea {
     
     .hero .btn {
         margin-bottom: 0 !important;
-        margin-top: 0.5rem !important;
-        padding: 1rem 2rem !important;
-        font-size: 1rem !important;
+        margin-top: 0 !important; /* Gap handles spacing */
+        padding: 0.85rem 1.75rem !important; /* Reduced from 1rem 2rem */
+        font-size: 0.9rem !important; /* Reduced from 1rem */
         width: auto !important;
         max-width: calc(100% - 2rem) !important;
         white-space: nowrap !important;
@@ -3168,8 +3187,8 @@ textarea {
     }
     
     .hero .btn {
-        padding: 0.9rem 1.5rem !important;
-        font-size: 0.95rem !important;
+        padding: 0.75rem 1.4rem !important; /* Further reduced for extra small screens */
+        font-size: 0.85rem !important; /* Further reduced for extra small screens */
     }
 
     .videos-grid {
