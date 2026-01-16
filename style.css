@@ -241,13 +241,11 @@ a:hover {
 /* Special treatment for hero h1 to ensure it maintains proper styling - WITH REFLECTION */
 .hero h1 {
     width: 100% !important; /* Ensure full width for proper alignment */
-    margin-bottom: 1rem !important; /* Reduced from 1.5rem */
+    margin-bottom: 1.5rem !important;
     display: block !important;
     text-align: center !important;
     color: #B8945A !important;
     position: relative !important;
-    font-size: clamp(2.2rem, 3vw + 1.5rem, 2.8rem) !important; /* Reduced from 3.5rem to max 2.8rem (~20% smaller) */
-    line-height: 1.2 !important;
     background: linear-gradient(90deg, 
         #B8945A 0%, 
         #B8945A 40%,
@@ -752,17 +750,16 @@ img {
 
 /* Duplicate removed - using the one above with reflection effect */
 
-/* Modern button styles - Elegant and Subtle - Reduced sizing */
+/* Modern button styles - Elegant and Subtle */
 .btn {
     display: inline-block;
     background-color: var(--accent-ink);
     color: var(--text-primary);
-    padding: 0.7rem 1.6rem; /* Reduced from 0.8rem 2rem */
+    padding: 0.8rem 2rem;
     border: 1px solid var(--accent-gold);
     cursor: pointer;
     font-weight: 500;
     border-radius: 6px;
-    font-size: 0.95rem; /* Reduced button font size */
     transition: var(--transition);
     text-align: center;
 }
@@ -991,24 +988,8 @@ nav {
     object-fit: cover;
     object-position: center 45%; /* Shift down slightly to show hairline while keeping hands visible */
     filter: brightness(0.85) contrast(1.1);
-    position: relative;
-    z-index: 0;
 }
 
-/* Background dimming overlay - 25% black overlay over hero image */
-.hero-image::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.25); /* 25% black overlay for dimming */
-    pointer-events: none;
-    z-index: 1; /* Above image, below fade overlays */
-}
-
-/* Top and bottom fade overlays - consistent on all breakpoints */
 .hero::before {
     content: '';
     position: absolute;
@@ -1017,13 +998,13 @@ nav {
     right: 0;
     bottom: 0;
     background: linear-gradient(180deg, 
-        rgba(5, 7, 11, 0.5) 0%, 
+        rgba(5, 7, 11, 0.4) 0%, 
         transparent 30%,
         transparent 70%,
-        rgba(5, 7, 11, 0.7) 100%
+        rgba(5, 7, 11, 0.6) 100%
     );
     pointer-events: none;
-    z-index: 2; /* Above dimming overlay, below text */
+    z-index: 1;
 }
 
 .hero::after {
@@ -1032,53 +1013,46 @@ nav {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 180px; /* Increased for better fade coverage */
+    height: 150px;
     background: linear-gradient(to bottom, 
         transparent 0%,
-        rgba(5, 7, 11, 0.4) 30%,
-        rgba(5, 7, 11, 0.8) 70%,
+        rgba(5, 7, 11, 0.3) 30%,
+        rgba(5, 7, 11, 0.7) 70%,
         var(--bg-main) 100%
     );
     pointer-events: none;
-    z-index: 2; /* Above dimming overlay, below text */
+    z-index: 1;
 }
 
 .hero-content {
     text-align: center;
-    max-width: 700px; /* Reduced from 800px */
+    max-width: 800px;
     margin: 0 auto;
     position: relative;
     z-index: 3;
-    padding-top: min(15vh, 180px); /* Position text below chin - responsive offset */
-    padding-bottom: min(12vh, 150px); /* Ensure buttons stay in safe zone */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem; /* Gap between text and buttons */
 }
 
 .tagline {
     font-family: var(--font-elegant);
-    font-size: clamp(1.1rem, 0.8vw + 0.9rem, 1.25rem); /* Reduced from 1.4rem to max 1.25rem */
-    margin-bottom: 1.5rem; /* Reduced from 2rem */
+    font-size: 1.4rem;
+    margin-bottom: 2rem;
     font-style: italic;
     letter-spacing: 0.5px;
     color: var(--text-muted);
-    line-height: 1.4;
 }
 
-/* Hero KPI line - Responsive sizing with clamp - reduced on all breakpoints */
+/* Hero KPI line - Responsive sizing with clamp */
 .hero-kpis {
-    font-size: clamp(0.9rem, 0.5vw + 0.85rem, 1.1rem); /* Reduced from max 1.25rem to 1.1rem */
-    line-height: 1.3;
+    font-size: clamp(1.05rem, 0.55vw + 0.95rem, 1.25rem);
+    line-height: 1.25;
     font-weight: 600;
 }
 
-/* Hero tagline - Handwritten style with Kaushan Script font - reduced on all breakpoints */
+/* Hero tagline - Handwritten style with Kaushan Script font */
 .hero-tagline {
     font-family: "Kaushan Script", cursive;
-    font-size: clamp(1.1rem, 0.7vw + 0.95rem, 1.6rem); /* Reduced from max 1.85rem to 1.6rem */
-    line-height: 1.25;
+    font-size: clamp(1.25rem, 0.8vw + 1.05rem, 1.85rem);
+    line-height: 1.15;
     letter-spacing: 0.2px;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
 }
@@ -2900,12 +2874,12 @@ textarea {
         bottom: 0 !important;
         height: auto !important;
         background: linear-gradient(180deg, 
-            rgba(5, 7, 11, 0.5) 0%, 
+            rgba(5, 7, 11, 0.4) 0%, 
             transparent 30%,
             transparent 70%,
-            rgba(5, 7, 11, 0.7) 100%
+            rgba(5, 7, 11, 0.6) 100%
         ) !important;
-        z-index: 2 !important; /* Above dimming overlay, below text */
+        z-index: 1 !important; /* above image, below text */
     }
     
     .hero::after {
@@ -2913,37 +2887,35 @@ textarea {
         bottom: 0 !important;
         left: 0 !important;
         right: 0 !important;
-        height: 180px !important; /* Increased for better fade coverage */
+        height: 150px !important;
         background: linear-gradient(to bottom, 
             transparent 0%,
-            rgba(5, 7, 11, 0.4) 30%,
-            rgba(5, 7, 11, 0.8) 70%,
+            rgba(5, 7, 11, 0.3) 30%,
+            rgba(5, 7, 11, 0.7) 70%,
             var(--bg-main) 100%
         ) !important;
         opacity: 1 !important;
-        z-index: 2 !important; /* Above dimming overlay, below text */
+        z-index: 1 !important; /* above image, below text */
     }
     
     .hero-content,
     .hero-copy {
         position: absolute !important;
-        top: calc(55% + env(safe-area-inset-top)) !important; /* Position below chin - responsive offset */
+        top: calc(45% + env(safe-area-inset-top)) !important; /* Position in safe middle area, avoiding fade zones */
         bottom: auto !important;
-        transform: none !important; /* Remove centering, use top positioning */
+        transform: translateY(-50%) !important; /* Center vertically */
         left: 16px !important;
         right: 16px !important;
         max-width: 32rem !important; /* Reduced to avoid chin/face overlap */
         padding: 0 !important;
-        padding-bottom: min(8vh, 80px) !important; /* Ensure buttons stay in safe zone above bottom fade */
         margin: 0 !important;
         width: auto !important;
         box-sizing: border-box !important;
         display: flex !important;
         flex-direction: column !important;
         align-items: flex-start !important;
-        justify-content: flex-start !important;
+        justify-content: center !important;
         text-align: left !important;
-        gap: 0.75rem !important; /* Gap between text elements and buttons */
         z-index: 3 !important; /* above fades */
     }
     
@@ -2997,9 +2969,9 @@ textarea {
     
     .hero .btn {
         margin-bottom: 0 !important;
-        margin-top: 0 !important; /* Gap handles spacing */
-        padding: 0.75rem 1.5rem !important; /* Reduced from 1rem 2rem */
-        font-size: 0.9rem !important; /* Reduced from 1rem */
+        margin-top: 0.5rem !important;
+        padding: 1rem 2rem !important;
+        font-size: 1rem !important;
         width: auto !important;
         max-width: calc(100% - 2rem) !important;
         white-space: nowrap !important;
