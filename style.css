@@ -79,6 +79,9 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
     letter-spacing: 0.5px;
     color: var(--text-primary);
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 /* Remove gradient effects - use solid colors */
@@ -282,10 +285,22 @@ a:hover {
     color: var(--gold);
 }
 
-img {
+/* Global responsive media fixes */
+img, video {
     max-width: 100%;
     height: auto;
     display: block;
+}
+
+/* Prevent overflow issues */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
 }
 
 .container {
@@ -293,14 +308,33 @@ img {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 15px;
+    box-sizing: border-box;
+}
+
+/* Mobile: Container padding for safe edges */
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        max-width: 100%;
+        padding: 0 20px;
+    }
 }
 
 .section {
     padding: 4rem 0;
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden; /* Prevent horizontal overflow */
     transition: var(--transition);
     background: var(--bg-main);
+    width: 100%;
+    max-width: 100vw;
+}
+
+/* Mobile section padding */
+@media (max-width: 768px) {
+    .section {
+        padding: 3rem 0;
+    }
 }
 
 /* Ensure content is above blur overlays */
@@ -762,6 +796,19 @@ img {
     border-radius: 6px;
     transition: var(--transition);
     text-align: center;
+    max-width: 100%;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    font-size: clamp(0.9rem, 2vw, 1rem); /* Responsive font size */
+}
+
+/* Mobile button adjustments */
+@media (max-width: 768px) {
+    .btn {
+        padding: 0.9rem 1.5rem;
+        width: auto;
+        max-width: 100%;
+    }
 }
 
 .btn:hover {
@@ -1079,6 +1126,12 @@ nav {
     flex-wrap: wrap;
     align-items: center;
     gap: 3rem;
+}
+
+/* Prevent flex items from overflowing */
+.biography-content > * {
+    min-width: 0;
+    flex: 1 1 auto;
 }
 
 .bio-image {
@@ -2841,24 +2894,24 @@ textarea {
 
 @media (max-width: 768px) {
     h1 {
-        font-size: 2.5rem;
+        font-size: clamp(1.8rem, 6vw, 2.5rem); /* Responsive scaling */
     }
 
     h2 {
-        font-size: 2rem;
+        font-size: clamp(1.5rem, 5vw, 2rem); /* Responsive scaling */
     }
     
-    /* Fix hero section on mobile/iPhone - prevent button cutoff and show background image */
+    /* Hero section on mobile - responsive, no overflow */
     .hero {
-        height: auto !important;
-        min-height: 100vh !important;
+        height: auto;
+        min-height: 100vh;
         min-height: -webkit-fill-available; /* Fix for iOS Safari */
-        overflow: visible !important; /* Allow text to extend beyond hero bounds */
-        padding: 0 !important;
-        padding-top: calc(80px + env(safe-area-inset-top)) !important; /* Space for header + notch */
-        padding-bottom: calc(4rem + env(safe-area-inset-bottom)) !important; /* Account for home indicator */
-        align-items: center !important;
-        justify-content: center !important;
+        overflow: hidden; /* Prevent horizontal overflow */
+        padding: 0;
+        padding-top: calc(80px + env(safe-area-inset-top));
+        padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+        align-items: center;
+        justify-content: center;
     }
     
     /* Mobile hero image - focus on hands */
@@ -2896,24 +2949,24 @@ textarea {
     
     .hero-content,
     .hero-copy {
-        position: absolute !important;
-        bottom: calc(38% + env(safe-area-inset-bottom)) !important; /* Positioned in safe area, above fade and chin */
-        top: auto !important;
-        transform: none !important;
-        left: 16px !important;
-        right: 16px !important;
-        max-width: 28rem !important; /* Reduced to avoid face/chin overlap */
-        padding: 0 !important;
-        padding-bottom: calc(16px + env(safe-area-inset-bottom)) !important; /* Breathing room for descenders */
-        margin: 0 !important;
-        width: auto !important;
-        box-sizing: border-box !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: flex-start !important;
-        justify-content: flex-end !important;
-        text-align: left !important;
-        z-index: 3 !important; /* above fades */
+        position: relative; /* Changed from absolute to prevent overflow */
+        bottom: auto;
+        top: auto;
+        transform: none;
+        left: auto;
+        right: auto;
+        max-width: 100%;
+        width: 100%;
+        padding: 2rem 20px;
+        padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+        margin: 0 auto;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        z-index: 3;
     }
     
     /* Prevent Kaushan Script descenders from being clipped */
@@ -2931,17 +2984,20 @@ textarea {
     }
     
     .hero h1 {
-        font-size: 2.3rem !important; /* ~34% smaller than desktop 3.5rem */
-        margin-bottom: 0.8rem !important;
-        padding: 0 1rem !important;
-        line-height: 1.2 !important;
+        font-size: clamp(2rem, 5vw, 2.5rem); /* Responsive scaling */
+        margin-bottom: 0.8rem;
+        padding: 0;
+        line-height: 1.2;
+        max-width: 100%;
+        word-wrap: break-word;
     }
     
     .tagline {
-        font-size: 0.95rem !important; /* ~32% smaller than desktop 1.4rem */
-        margin-bottom: 1.5rem !important;
-        padding: 0 1rem !important;
-        line-height: 1.3 !important;
+        font-size: clamp(0.9rem, 2.5vw, 1.1rem); /* Responsive scaling */
+        margin-bottom: 1.5rem;
+        padding: 0;
+        line-height: 1.3;
+        max-width: 100%;
     }
     
     /* Hero KPI line - Mobile: ~25% smaller than desktop */
@@ -2965,27 +3021,32 @@ textarea {
     }
     
     .hero .btn {
-        margin-bottom: 0 !important;
-        margin-top: 0.5rem !important;
-        padding: 1rem 2rem !important;
-        font-size: 1rem !important;
-        width: auto !important;
-        max-width: calc(100% - 2rem) !important;
-        white-space: nowrap !important;
-        display: inline-block !important;
+        margin: 0.5rem auto;
+        padding: 0.9rem 1.8rem;
+        font-size: clamp(0.9rem, 2vw, 1rem);
+        width: auto;
+        max-width: 100%;
+        white-space: normal;
+        display: inline-block;
+        box-sizing: border-box;
     }
     
-    /* Fix section titles on mobile - prevent text cutoff */
+    /* Stack buttons on mobile if multiple */
+    .hero .btn + .btn {
+        margin-top: 0.75rem;
+    }
+    
+    /* Section titles - responsive, no overflow */
     .section-title {
-        font-size: 2rem !important;
-        word-wrap: break-word !important;
-        overflow-wrap: break-word !important;
-        hyphens: auto !important;
-        max-width: 100% !important;
-        padding: 0 1rem !important;
-        box-sizing: border-box !important;
-        white-space: normal !important;
-        line-height: 1.2 !important;
+        font-size: clamp(1.8rem, 5vw, 2.5rem);
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+        max-width: 100%;
+        padding: 0 20px;
+        box-sizing: border-box;
+        white-space: normal;
+        line-height: 1.2;
     }
 
     .section {
@@ -2996,6 +3057,13 @@ textarea {
     .masterclasses-content {
         flex-direction: column;
         gap: 2rem;
+    }
+    
+    /* Ensure flex items don't overflow */
+    .biography-content > *,
+    .masterclasses-content > * {
+        min-width: 0;
+        max-width: 100%;
     }
     
     /* Ensure bio image is visible and properly sized on mobile */
@@ -3100,6 +3168,14 @@ textarea {
     .gallery-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    /* Gallery items responsive */
+    .gallery-item {
+        width: 100%;
+        max-width: 100%;
     }
     
     #lightbox-caption {
@@ -3166,10 +3242,17 @@ textarea {
 
     .videos-grid {
         gap: 2rem;
+        width: 100%;
+    }
+    
+    .video-item {
+        width: 100%;
+        max-width: 100%;
     }
 
     .gallery-grid {
         grid-template-columns: 1fr;
+        width: 100%;
     }
 }
 
