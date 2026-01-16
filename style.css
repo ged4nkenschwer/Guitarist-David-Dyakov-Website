@@ -962,11 +962,6 @@ nav {
 }
 
 /* ---------- Hero Section ---------- */
-/* CSS variable for hero image - single source of truth */
-.hero {
-    --hero-img: url('./hero-guitarist.JPG'); /* Desktop default */
-}
-
 .hero {
     height: 100vh;
     display: flex;
@@ -976,16 +971,11 @@ nav {
     padding-top: var(--header-height, 80px); /* Space for fixed header */
     background-image: 
         linear-gradient(180deg, rgba(5, 7, 11, 0.75) 0%, rgba(16, 19, 27, 0.6) 50%, rgba(5, 7, 11, 0.8) 100%),
-        var(--hero-img);
+        url('./hero-guitarist.JPG');
     background-size: cover;
     background-position: center 45%; /* Shift down slightly to show hairline while keeping hands visible */
     background-attachment: fixed;
     filter: brightness(0.85) contrast(1.1);
-}
-
-/* Hide hero-media on desktop - only use background-image */
-.hero-media {
-    display: none;
 }
 
 .hero::before {
@@ -2846,128 +2836,66 @@ textarea {
         font-size: 2rem;
     }
     
-    /* Mobile 2-layer hero: background cover + foreground cover */
+    /* Fix hero section on mobile/iPhone - prevent button cutoff and show background image */
     .hero {
-        --hero-img: url('assets/img/hero-guitarist-mobile-4x5.jpg') !important; /* Mobile image for background layer (default 4:5) */
-        position: relative !important;
-        min-height: 100svh !important;
-        min-height: -webkit-fill-available !important; /* Fix for iOS Safari */
-        overflow: visible !important; /* IMPORTANT: do not clip text/buttons */
+        height: auto !important;
+        min-height: 100vh !important;
+        min-height: -webkit-fill-available; /* Fix for iOS Safari */
+        overflow: visible !important; /* Allow text to extend beyond hero bounds */
         padding: 0 !important;
         padding-top: calc(80px + env(safe-area-inset-top)) !important; /* Space for header + notch */
         padding-bottom: calc(4rem + env(safe-area-inset-bottom)) !important; /* Account for home indicator */
-        display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        /* Remove desktop background-image on mobile - use ::before layer instead */
-        background-image: none !important;
+        /* Gradient overlays adjusted for zoomed-in view with both hands just visible */
+        background-image: 
+            linear-gradient(180deg, rgba(5, 7, 11, 0.4) 0%, rgba(5, 7, 11, 0.3) 30%, rgba(5, 7, 11, 0.3) 70%, rgba(5, 7, 11, 0.5) 100%),
+            url('./hero-guitarist.JPG') !important;
+        background-attachment: scroll !important; /* Fix iOS background issues */
+        background-size: cover !important; /* Cover entire area, no black background */
+        background-position: 75% 35% !important; /* Keep face centered/right, avoid text overlap */
+        background-repeat: no-repeat !important; /* Prevent image tiling */
         background-color: var(--bg-main) !important; /* Fallback background color */
     }
     
-    /* Background cover layer - full-bleed */
+    /* Subtle dark fades at top and bottom on mobile */
     .hero::before {
-        content: "" !important;
-        position: absolute !important;
-        inset: 0 !important;
-        background-image: var(--hero-img) !important;
-        background-size: cover !important;
-        background-position: 70% 62% !important; /* Keep head/right composition */
-        background-repeat: no-repeat !important;
-        z-index: 0 !important;
-    }
-    
-    /* Darken like desktop (NO blur) */
-    .hero::after {
-        content: "" !important;
-        position: absolute !important;
-        inset: 0 !important;
-        background: rgba(0, 0, 0, 0.35) !important; /* Tune to match desktop darkness */
-        z-index: 1 !important;
-        pointer-events: none !important;
-    }
-    
-    /* Top + bottom fades */
-    .hero .hero-fades {
-        position: absolute !important;
-        inset: 0 !important;
-        z-index: 2 !important;
-        pointer-events: none !important;
-    }
-    
-    .hero .hero-fades::before,
-    .hero .hero-fades::after {
-        content: "" !important;
-        position: absolute !important;
-        left: 0 !important;
-        right: 0 !important;
-        height: 18% !important;
-    }
-    
-    .hero .hero-fades::before {
         top: 0 !important;
+        bottom: auto !important;
+        height: 18% !important;
         background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0)) !important;
+        z-index: 2 !important; /* above image, below text */
     }
     
-    .hero .hero-fades::after {
+    .hero::after {
+        top: auto !important;
         bottom: 0 !important;
+        height: 18% !important;
         background: linear-gradient(to top, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0)) !important;
+        opacity: 1 !important;
+        z-index: 2 !important; /* above image, below text */
     }
     
-    /* Foreground image: contain + zoom-out (shows hands) */
-    .hero-media {
-        position: absolute !important;
-        inset: 0 !important;
-        z-index: 3 !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        pointer-events: none !important; /* Media shouldn't block clicks */
-    }
-    
-    /* Hero picture and image - full-bleed, not distorted */
-    .hero-picture,
-    .hero-img {
-        width: 100% !important;
-        height: 100% !important;
-        display: block !important;
-    }
-    
-    .hero-media img,
-    .hero-img {
-        width: 100% !important;
-        height: 100% !important;
-        object-fit: cover !important; /* Full-bleed cover, no black bars */
-        object-position: 70% 60% !important; /* Keep subject right */
-        display: block !important;
-    }
-    
-    .hero-content {
-        position: relative !important;
-        z-index: 4 !important;
-    }
-    
-    /* Hero copy positioned in LEFT empty space, not over face/hair/torso */
+    .hero-content,
     .hero-copy {
         position: absolute !important;
-        top: calc(16% + env(safe-area-inset-top)) !important; /* Vertically near head */
-        left: 16px !important; /* Place in LEFT empty space (head is on right) */
-        right: auto !important;
-        bottom: auto !important;
-        width: min(72vw, 340px) !important; /* Prevents bleeding into the subject */
-        max-width: min(72vw, 340px) !important;
+        bottom: calc(24% + env(safe-area-inset-bottom)) !important; /* Lower neck height, bottom-anchored */
+        top: auto !important;
         transform: none !important;
-        padding: 10px 12px !important; /* Space for backdrop */
+        left: 16px !important;
+        right: 16px !important;
+        max-width: 36rem !important;
+        padding: 0 !important;
+        padding-bottom: calc(16px + env(safe-area-inset-bottom)) !important; /* Breathing room for descenders */
         margin: 0 !important;
+        width: auto !important;
         box-sizing: border-box !important;
         display: flex !important;
         flex-direction: column !important;
         align-items: flex-start !important;
-        justify-content: flex-start !important;
+        justify-content: flex-end !important;
         text-align: left !important;
-        /* Subtle readable backdrop - NO BLUR */
-        background: rgba(0, 0, 0, 0.18) !important; /* Subtle, not a heavy box */
-        border-radius: 12px !important;
-        z-index: 4 !important; /* Above everything: media, fades, overlays */
+        z-index: 3 !important; /* above fades */
     }
     
     /* Prevent Kaushan Script descenders from being clipped */
@@ -2976,12 +2904,12 @@ textarea {
         padding-bottom: 0.2em !important; /* Tiny buffer for descenders like g/y/p */
     }
     
-    /* Hero title - Mobile size reduction for side positioning */
+    /* Hero title - Mobile size reduction for lower neck positioning */
     .hero-title {
         font-size: clamp(1.05rem, 1.2vw + 0.95rem, 1.25rem) !important;
         line-height: 1.15 !important;
         margin-bottom: 1rem !important;
-        padding: 0 !important; /* Padding handled by hero-copy backdrop */
+        padding: 0 1rem !important;
     }
     
     .hero h1 {
@@ -2990,11 +2918,10 @@ textarea {
         padding: 0 1rem !important;
     }
     
-    /* Elements inside hero-copy - padding handled by backdrop */
-    .hero-copy .tagline {
+    .tagline {
         font-size: 1.1rem !important;
         margin-bottom: 2rem !important;
-        padding: 0 !important; /* Padding handled by hero-copy backdrop */
+        padding: 0 1rem !important;
         line-height: 1.4 !important;
     }
     
@@ -3009,11 +2936,11 @@ textarea {
         padding-bottom: 0.2em !important; /* Tiny buffer for descenders like g/y/p */
     }
     
-    .hero-copy .tagline-small {
+    .tagline-small {
         font-size: 0.95rem !important;
         margin-bottom: 2rem !important;
         margin-top: -1rem !important;
-        padding: 0 !important; /* Padding handled by hero-copy backdrop */
+        padding: 0 1rem !important;
     }
     
     .hero .btn {
@@ -3222,14 +3149,6 @@ textarea {
 
     .gallery-grid {
         grid-template-columns: 1fr;
-    }
-}
-
-/* Small phones - 430px and below - adjust image position and scale */
-@media (max-width: 430px) {
-    .hero-media img {
-        transform: scale(0.88) !important; /* Smaller phones: slightly more zoom-out */
-        object-position: 72% 62% !important;
     }
 }
 
