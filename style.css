@@ -2841,7 +2841,7 @@ textarea {
         font-size: 2rem;
     }
     
-    /* Fix hero section on mobile/iPhone - use hero-media with 5:7 aspect ratio */
+    /* Fix hero section on mobile/iPhone - use hero-media with 1213×1706 aspect ratio */
     .hero {
         min-height: 100vh !important;
         min-height: -webkit-fill-available !important; /* Fix for iOS Safari */
@@ -2858,12 +2858,12 @@ textarea {
         background-color: var(--bg-main) !important; /* Fallback background color */
     }
     
-    /* Hero media wrapper - 5:7 aspect ratio on mobile */
+    /* Hero media wrapper - 1213×1706 aspect ratio on mobile */
     .hero-media {
         display: block !important; /* Show on mobile */
         width: 100% !important;
         max-width: 520px !important; /* Prevents too large on big phones */
-        aspect-ratio: 5 / 7 !important; /* WICHTIG: 5:7 */
+        aspect-ratio: 1213 / 1706 !important; /* Exact image dimensions ratio */
         position: relative !important;
         overflow: hidden !important; /* Crop only for image, NOT for text */
         z-index: 0 !important;
