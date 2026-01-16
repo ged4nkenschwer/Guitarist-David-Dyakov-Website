@@ -1000,15 +1000,15 @@ nav {
     left: 0;
     right: 0;
     bottom: 0;
-    /* Dark overlay (25% black) + top fade gradient */
+    /* Dark overlay (20% black) + top fade gradient - lighter for visibility */
     background: 
         linear-gradient(180deg, 
-            rgba(0, 0, 0, 0.55) 0%,      /* Top fade: dark */
-            rgba(0, 0, 0, 0.25) 15%,     /* Top fade: medium */
-            rgba(0, 0, 0, 0.25) 30%,     /* Dimming: consistent */
-            rgba(0, 0, 0, 0.25) 70%,     /* Dimming: consistent */
-            rgba(0, 0, 0, 0.35) 85%,     /* Bottom fade: medium */
-            rgba(0, 0, 0, 0.55) 100%     /* Bottom fade: dark */
+            rgba(0, 0, 0, 0.4) 0%,       /* Top fade: medium dark */
+            rgba(0, 0, 0, 0.2) 15%,     /* Top fade: light */
+            rgba(0, 0, 0, 0.2) 30%,     /* Dimming: consistent 20% */
+            rgba(0, 0, 0, 0.2) 70%,     /* Dimming: consistent 20% */
+            rgba(0, 0, 0, 0.3) 85%,     /* Bottom fade: medium */
+            rgba(0, 0, 0, 0.4) 100%     /* Bottom fade: medium dark */
         );
     pointer-events: none;
     z-index: 1;
@@ -2883,19 +2883,23 @@ textarea {
         object-position: 60% 40% !important; /* Keep face centered/right, both hands visible */
     }
     
-    /* Dark fades at top and bottom on mobile - same as desktop */
+    /* Dark fades at top and bottom on mobile - same as desktop with dimming */
     .hero::before {
         top: 0 !important;
         left: 0 !important;
         right: 0 !important;
         bottom: 0 !important;
         height: auto !important;
-        background: linear-gradient(180deg, 
-            rgba(5, 7, 11, 0.4) 0%, 
-            transparent 30%,
-            transparent 70%,
-            rgba(5, 7, 11, 0.6) 100%
-        ) !important;
+        /* Dark overlay (20% black) + top/bottom fade gradient - same as desktop, lighter */
+        background: 
+            linear-gradient(180deg, 
+                rgba(0, 0, 0, 0.4) 0%,       /* Top fade: medium dark */
+                rgba(0, 0, 0, 0.2) 15%,     /* Top fade: light */
+                rgba(0, 0, 0, 0.2) 30%,     /* Dimming: consistent 20% */
+                rgba(0, 0, 0, 0.2) 70%,     /* Dimming: consistent 20% */
+                rgba(0, 0, 0, 0.3) 85%,     /* Bottom fade: medium */
+                rgba(0, 0, 0, 0.4) 100%     /* Bottom fade: medium dark */
+            ) !important;
         z-index: 1 !important; /* above image, below text */
     }
     
