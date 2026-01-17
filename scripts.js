@@ -11,33 +11,33 @@ const VIDEOS = [
     {
         id: 'capriccio-diabolico',
         title: { en: 'Capriccio Diabolico - Slow Movement', de: 'Capriccio Diabolico - Langsamer Satz' },
-        src: './videos/capriccio-diabolico-slow.mov',
+        src: './Capricio Diabolico Slow Movement.Postojna Festival.mov',
         type: 'video/quicktime',
-        poster: null, // No poster available - will use CSS gradient fallback
+        poster: './Capricio Diabolico Slow Movement.Postojna Festival-poster.jpg',
         caption: { en: 'Capriccio Diabolico - Slow Movement (Postojna Festival)', de: 'Capriccio Diabolico - Langsamer Satz (Postojna Festival)' }
     },
     {
         id: 'homenaje',
         title: { en: 'Homenaje - Manuel de Falla', de: 'Homenaje - Manuel de Falla' },
-        src: './videos/homenaje-manuel-de-falla.mov',
+        src: './Homenaje pour Le Tombeau de Claude Debussy by Manuel de Falla.Finale.Postojna Festival.mov',
         type: 'video/quicktime',
-        poster: null, // No poster available - will use CSS gradient fallback
+        poster: './Homenaje pour Le Tombeau de Claude Debussy by Manuel de Falla.Finale.Postojna Festival-poster.jpg',
         caption: { en: 'Homenaje - Manuel de Falla (Postojna Festival)', de: 'Homenaje - Manuel de Falla (Postojna Festival)' }
     },
     {
         id: 'rossiniana-finale',
         title: { en: 'Rossiniana Nr.1 op.119 - Finale', de: 'Rossiniana Nr.1 op.119 - Finale' },
-        src: './videos/rossiniana-op119-finale.mov',
+        src: './Rossiniana Nr.1 op.119 .Finale . Postoja Guitar Festival 2025.mov',
         type: 'video/quicktime',
-        poster: null, // No poster available - will use CSS gradient fallback
+        poster: './Rossiniana Nr.1 op.119 .Finale . Postoja Guitar Festival 2025-poster.jpg',
         caption: { en: 'Rossiniana Nr.1 op.119 - Finale (Postojna Guitar Festival)', de: 'Rossiniana Nr.1 op.119 - Finale (Postojna Guitar Festival)' }
     },
     {
         id: 'hora',
         title: { en: 'Hora by Stephan Rak', de: 'Hora von Stephan Rak' },
-        src: './videos/hora-stephan-rak.mov',
+        src: './Hora by Stephan Rak.Finale.Donnersbergiade 2025.mov',
         type: 'video/quicktime',
-        poster: null, // No poster available - will use CSS gradient fallback
+        poster: './Hora by Stephan Rak.Finale.Donnersbergiade 2025-poster.jpg',
         caption: { en: 'Hora by Stephan Rak (Donnersbergiade 2025)', de: 'Hora von Stephan Rak (Donnersbergiade 2025)' }
     }
 ];
@@ -1015,26 +1015,17 @@ function initLightbox() {
             return;
         }
         
-        // Resolve absolute URL (important for relative paths)
-        let absoluteSrc;
-        try {
-            absoluteSrc = new URL(video.src, window.location.href).toString();
-        } catch (e) {
-            // Fallback if URL constructor fails
-            absoluteSrc = video.src;
-        }
-        
+        // Use source directly (relative paths work fine from root)
         // Create and add source element
         const source = document.createElement('source');
-        source.setAttribute('src', absoluteSrc);
+        source.setAttribute('src', video.src);
         source.setAttribute('type', video.type || 'video/quicktime');
         lightboxVideo.appendChild(source);
         
         console.log('openVideoById: Added source', { 
             id: videoId,
-            src: absoluteSrc, 
-            type: video.type,
-            originalSrc: video.src
+            src: video.src, 
+            type: video.type
         });
         
         // iOS/Safari robustness
@@ -1067,7 +1058,7 @@ function initLightbox() {
                 console.error('Video error:', errorMsg, error, {
                     networkState: lightboxVideo.networkState,
                     readyState: lightboxVideo.readyState,
-                    src: absoluteSrc,
+                    src: video.src,
                     videoId: videoId
                 });
                 
