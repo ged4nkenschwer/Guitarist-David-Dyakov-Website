@@ -1524,4 +1524,4 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-});
+}); 
