@@ -867,51 +867,119 @@ function initVideoThumbnails() {
             existingPoster.remove();
         }
         
-        // Always use gradient background as fallback
+        // Always use gradient background as fallback (will be replaced by poster or video frame)
         if (canvas) {
             canvas.style.background = 'linear-gradient(135deg, rgba(0,0,0,0.8), rgba(20,20,40,0.8))';
             canvas.style.display = 'block';
+            // Ensure canvas is properly sized
+            if (!canvas.width || !canvas.height) {
+                canvas.width = canvas.offsetWidth || 400;
+                canvas.height = canvas.offsetHeight || 250;
+            }
         }
         
-        // Load poster image if it exists
+        // Try to load poster image first, if it exists
         const posterSrc = videoConfig ? videoConfig.poster : null;
-        if (!posterSrc) {
-            console.warn('loadThumbnail: No poster source for video', { videoId, videoConfig });
+        const videoSrc = videoConfig ? videoConfig.src : null;
+        
+        if (posterSrc) {
+            console.log('loadThumbnail: Loading poster image for', videoId, posterSrc);
+            
+            // Create and load poster image
+            const posterImg = document.createElement('img');
+            posterImg.className = 'video-poster-img';
+            posterImg.src = posterSrc;
+            posterImg.alt = videoConfig ? (videoConfig.title.en || '') : '';
+            posterImg.loading = 'eager';
+            posterImg.decoding = 'async';
+            posterImg.style.width = '100%';
+            posterImg.style.height = '100%';
+            posterImg.style.objectFit = 'cover';
+            posterImg.style.position = 'absolute';
+            posterImg.style.top = '0';
+            posterImg.style.left = '0';
+            posterImg.style.display = 'block';
+            posterImg.style.zIndex = '1';
+            
+            // Show image on load
+            posterImg.addEventListener('load', function() {
+                console.log('loadThumbnail: Poster loaded successfully', videoId);
+                this.style.display = 'block';
+                if (canvas) canvas.style.display = 'none';
+            }, { once: true });
+            
+            // On error, fall back to generating thumbnail from video
+            posterImg.addEventListener('error', function() {
+                console.warn('loadThumbnail: Poster failed to load, generating from video', videoId, posterSrc);
+                this.remove();
+                generateThumbnailFromVideo(videoSrc, canvas, videoId);
+            }, { once: true });
+            
+            thumbnail.insertBefore(posterImg, canvas);
+        } else if (videoSrc) {
+            // No poster image, generate thumbnail from video
+            console.log('loadThumbnail: No poster, generating thumbnail from video', videoId);
+            generateThumbnailFromVideo(videoSrc, canvas, videoId);
+        } else {
+            console.warn('loadThumbnail: No poster or video source for', videoId);
+        }
+    };
+    
+    // Function to generate thumbnail from video by capturing a frame
+    function generateThumbnailFromVideo(videoSrc, canvas, videoId) {
+        if (!videoSrc || !canvas) return;
+        
+        const video = document.createElement('video');
+        video.src = videoSrc;
+        video.crossOrigin = 'anonymous';
+        video.preload = 'metadata';
+        video.muted = true;
+        video.playsInline = true;
+        
+        // Create canvas context for drawing
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+            console.warn('generateThumbnailFromVideo: Canvas context not available');
             return;
         }
         
-        console.log('loadThumbnail: Loading poster for', videoId, posterSrc);
+        // Set canvas dimensions
+        canvas.width = canvas.offsetWidth || 400;
+        canvas.height = canvas.offsetHeight || 250;
         
-        // Create and load poster image
-        const posterImg = document.createElement('img');
-        posterImg.className = 'video-poster-img';
-        posterImg.src = posterSrc;
-        posterImg.alt = videoConfig ? (videoConfig.title.en || '') : '';
-        posterImg.loading = 'eager';
-        posterImg.decoding = 'async';
-        posterImg.style.width = '100%';
-        posterImg.style.height = '100%';
-        posterImg.style.objectFit = 'cover';
-        posterImg.style.position = 'absolute';
-        posterImg.style.top = '0';
-        posterImg.style.left = '0';
-        posterImg.style.display = 'block'; // Show immediately, will hide if error
-        
-        // Show image on load
-        posterImg.addEventListener('load', function() {
-            console.log('loadThumbnail: Poster loaded successfully', videoId);
-            this.style.display = 'block';
-            if (canvas) canvas.style.display = 'none';
+        // When video metadata is loaded, seek to a good frame (e.g., 1 second in)
+        video.addEventListener('loadedmetadata', function() {
+            video.currentTime = 1; // Seek to 1 second
         }, { once: true });
         
-        // On error, hide image and show canvas
-        posterImg.addEventListener('error', function() {
-            console.warn('loadThumbnail: Poster failed to load', videoId, posterSrc);
-            this.style.display = 'none';
-            if (canvas) canvas.style.display = 'block';
+        // When video frame is ready, draw it to canvas
+        video.addEventListener('seeked', function() {
+            try {
+                // Remove gradient background
+                canvas.style.background = '';
+                // Draw video frame to canvas
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                canvas.style.display = 'block';
+                console.log('generateThumbnailFromVideo: Thumbnail generated for', videoId);
+            } catch (e) {
+                console.warn('generateThumbnailFromVideo: Error drawing to canvas', e);
+                // Keep gradient background if drawing fails
+                canvas.style.background = 'linear-gradient(135deg, rgba(0,0,0,0.8), rgba(20,20,40,0.8))';
+            }
+            // Clean up video element
+            video.src = '';
+            video.load();
         }, { once: true });
         
-        thumbnail.insertBefore(posterImg, canvas);
+        // On error, keep gradient background
+        video.addEventListener('error', function() {
+            console.warn('generateThumbnailFromVideo: Video failed to load', videoId, videoSrc);
+            video.src = '';
+            video.load();
+        }, { once: true });
+        
+        // Start loading video
+        video.load();
     };
     
     // Find all video sections (there might be multiple achievement-reveal sections)
