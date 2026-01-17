@@ -1903,13 +1903,37 @@ nav {
     transition: all 0.3s ease;
 }
 
-#lightbox-video {
+#lightbox-video-container {
     max-width: 90%;
+    max-height: 80vh;
+    width: auto;
+    height: auto;
+    position: relative;
+}
+
+#lightbox-video {
+    max-width: 100%;
     max-height: 80vh;
     width: auto;
     height: auto;
     border-radius: 8px;
     background: #000;
+    display: block;
+}
+
+.video-error {
+    color: var(--text-primary);
+    background: rgba(200, 50, 50, 0.2);
+    border: 1px solid rgba(200, 50, 50, 0.5);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    text-align: center;
+    font-family: var(--font-body);
+}
+
+.video-error.hidden {
+    display: none;
 }
 
 #lightbox-caption {

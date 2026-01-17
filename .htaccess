@@ -1,0 +1,13 @@
+# MIME Types for Video Files
+# Ensure .MOV files are served with correct Content-Type
+
+AddType video/quicktime .mov .MOV
+AddType video/mp4 .mp4 .MP4
+AddType video/webm .webm .WEBM
+
+# Enable Range Requests for Video Streaming (206 Partial Content)
+<IfModule mod_headers.c>
+    <FilesMatch "\.(mov|MOV|mp4|MP4|webm|WEBM)$">
+        Header set Accept-Ranges bytes
+    </FilesMatch>
+</IfModule>

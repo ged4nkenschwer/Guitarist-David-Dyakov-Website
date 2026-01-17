@@ -4,6 +4,49 @@
  * Spanish Classical Guitar Theme
  */
 
+// ============================================================================
+// CENTRAL VIDEO CONFIGURATION - Single Source of Truth
+// ============================================================================
+const VIDEOS = [
+    {
+        id: 'capriccio-diabolico',
+        title: { en: 'Capriccio Diabolico - Slow Movement', de: 'Capriccio Diabolico - Langsamer Satz' },
+        src: './Capricio Diabolico Slow Movement.Postojna Festival.mov',
+        type: 'video/quicktime',
+        poster: './Capricio Diabolico Slow Movement.Postojna Festival-poster.jpg',
+        caption: { en: 'Capriccio Diabolico - Slow Movement (Postojna Festival)', de: 'Capriccio Diabolico - Langsamer Satz (Postojna Festival)' }
+    },
+    {
+        id: 'homenaje',
+        title: { en: 'Homenaje - Manuel de Falla', de: 'Homenaje - Manuel de Falla' },
+        src: './Homenaje pour Le Tombeau de Claude Debussy by Manuel de Falla.Finale.Postojna Festival.mov',
+        type: 'video/quicktime',
+        poster: './Homenaje pour Le Tombeau de Claude Debussy by Manuel de Falla.Finale.Postojna Festival-poster.jpg',
+        caption: { en: 'Homenaje - Manuel de Falla (Postojna Festival)', de: 'Homenaje - Manuel de Falla (Postojna Festival)' }
+    },
+    {
+        id: 'rossiniana-finale',
+        title: { en: 'Rossiniana Nr.1 op.119 - Finale', de: 'Rossiniana Nr.1 op.119 - Finale' },
+        src: './Rossiniana Nr.1 op.119 .Finale . Postoja Guitar Festival 2025.mov',
+        type: 'video/quicktime',
+        poster: './Rossiniana Nr.1 op.119 .Finale . Postoja Guitar Festival 2025-poster.jpg',
+        caption: { en: 'Rossiniana Nr.1 op.119 - Finale (Postojna Guitar Festival)', de: 'Rossiniana Nr.1 op.119 - Finale (Postojna Guitar Festival)' }
+    },
+    {
+        id: 'hora',
+        title: { en: 'Hora by Stephan Rak', de: 'Hora von Stephan Rak' },
+        src: './Hora by Stephan Rak.Finale.Donnersbergiade 2025.mov',
+        type: 'video/quicktime',
+        poster: './Hora by Stephan Rak.Finale.Donnersbergiade 2025-poster.jpg',
+        caption: { en: 'Hora by Stephan Rak (Donnersbergiade 2025)', de: 'Hora von Stephan Rak (Donnersbergiade 2025)' }
+    }
+];
+
+// Helper function to get video by ID
+function getVideoById(id) {
+    return VIDEOS.find(v => v.id === id);
+}
+
 // Page Loader: Wait for critical hero asset to load (Desktop + Mobile)
 (function initPageLoader() {
     'use strict';
@@ -137,36 +180,23 @@
     'use strict';
     
     function handleCTAClick(e) {
-        const target = document.getElementById('rossiniana-finale');
-        if (!target) return;
-        
         e.preventDefault();
         
-        // Find all gallery items to get the correct index
-        const galleryItems = document.querySelectorAll('.gallery-item');
-        const videoItems = Array.from(galleryItems).filter(item => {
-            return item.querySelector('.gallery-video');
-        });
-        
-        // Find the index of the rossiniana-finale item in the video items array
-        const rossinianaIndex = videoItems.findIndex(item => item.id === 'rossiniana-finale');
-        
-        if (rossinianaIndex === -1) {
-            // Fallback: just scroll to the element
-            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Get video from central config
+        const videoConfig = getVideoById('rossiniana-finale');
+        if (!videoConfig) {
+            console.error('Rossiniana video config not found');
             return;
         }
         
-        // Get all items (images first, then videos) to find the correct lightbox index
-        const imageItems = Array.from(galleryItems).filter(item => {
-            return !item.querySelector('.gallery-video');
-        });
-        const allItems = [...imageItems, ...videoItems];
-        const lightboxIndex = allItems.findIndex(item => item.id === 'rossiniana-finale');
-        
-        if (lightboxIndex === -1) {
-            // Fallback: just scroll to the element
-            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Find the gallery item
+        const target = document.getElementById('rossiniana-finale');
+        if (!target) {
+            // Fallback: scroll to videos section
+            const videosSection = document.getElementById('gallery');
+            if (videosSection) {
+                videosSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
             return;
         }
         
@@ -175,11 +205,11 @@
         
         // After scroll, open the video in lightbox
         setTimeout(() => {
-            // Check if lightbox is initialized
-            if (typeof window.openLightbox === 'function') {
-                window.openLightbox(lightboxIndex);
+            // Use the new openVideoLightbox function
+            if (typeof window.openVideoLightbox === 'function') {
+                window.openVideoLightbox(videoConfig, target);
             } else {
-                // Fallback: trigger click on the gallery item to open lightbox
+                // Fallback: trigger click on the gallery item
                 target.click();
             }
         }, 600); // Wait for scroll to complete
@@ -612,14 +642,16 @@ function initVideoThumbnails() {
     const videoItems = document.querySelectorAll('.gallery-video');
     
     videoItems.forEach(videoContainer => {
-        const video = videoContainer.querySelector('video');
+        const galleryItem = videoContainer.closest('.gallery-item');
+        const videoId = galleryItem ? galleryItem.getAttribute('data-video-id') : null;
+        const videoConfig = videoId ? getVideoById(videoId) : null;
         const thumbnail = videoContainer.querySelector('.video-thumbnail');
         const canvas = videoContainer.querySelector('.video-thumbnail-canvas');
         
-        if (!video || !thumbnail) return;
+        if (!thumbnail) return;
         
-        // Use poster image if available (much faster than canvas generation)
-        const posterSrc = video.getAttribute('poster');
+        // Use poster image from central config
+        const posterSrc = videoConfig ? videoConfig.poster : null;
         if (posterSrc && canvas) {
             // Hide canvas, show poster image instead
             canvas.style.display = 'none';
@@ -630,17 +662,14 @@ function initVideoThumbnails() {
                 posterImg = document.createElement('img');
                 posterImg.className = 'video-poster-img';
                 posterImg.src = posterSrc;
-                posterImg.alt = '';
+                posterImg.alt = videoConfig ? (videoConfig.title.en || '') : '';
                 posterImg.loading = 'lazy';
                 posterImg.decoding = 'async';
+                posterImg.style.width = '100%';
+                posterImg.style.height = '100%';
+                posterImg.style.objectFit = 'cover';
                 thumbnail.insertBefore(posterImg, canvas);
             }
-            
-            // When video starts playing, hide poster
-            video.addEventListener('play', function() {
-                if (posterImg) posterImg.style.display = 'none';
-                if (canvas) canvas.style.display = 'none';
-            }, { once: true });
         } else if (canvas) {
             // Fallback: show dark background if no poster
             canvas.style.background = 'linear-gradient(135deg, rgba(0,0,0,0.8), rgba(20,20,40,0.8))';
@@ -878,115 +907,93 @@ function initLightbox() {
         return null;
     }
     
-    // Function to get all video sources from gallery item
-    function getVideoSources(item) {
-        const video = item.querySelector('.gallery-video video');
-        if (video) {
-            // First check if video has <source> elements (already loaded)
-            const sources = video.querySelectorAll('source');
-            if (sources.length > 0) {
-                const sourceData = [];
-                sources.forEach(source => {
-                    const src = source.getAttribute('src');
-                    if (src) {
-                        sourceData.push({
-                            src: src,
-                            type: source.getAttribute('type') || 'video/mp4'
-                        });
-                    }
-                });
-                if (sourceData.length > 0) return sourceData;
-            }
-            
-            // Fallback: use data-src attribute (lazy-loaded videos)
-            const dataSrc = video.getAttribute('data-src');
-            if (dataSrc) {
-                // Determine type from file extension
-                let type = 'video/mp4';
-                if (dataSrc.toLowerCase().endsWith('.mov')) {
-                    type = 'video/quicktime';
-                } else if (dataSrc.toLowerCase().endsWith('.webm')) {
-                    type = 'video/webm';
-                }
-                
-                return [{
-                    src: dataSrc,
-                    type: type
-                }];
-            }
-        }
-        return null;
+    // Get video from central configuration by ID
+    function getVideoFromConfig(videoId) {
+        return getVideoById(videoId);
     }
     
     // Robust function to set video in lightbox (called after modal is visible)
-    function setLightboxVideo(videoSources) {
-        if (!lightboxVideo || !videoSources || videoSources.length === 0) {
-            console.error('setLightboxVideo: Invalid parameters', { lightboxVideo, videoSources });
+    function setLightboxVideo(videoConfig) {
+        const lightboxVideoContainer = document.getElementById('lightbox-video-container');
+        const lightboxVideo = document.getElementById('lightbox-video');
+        const lightboxVideoError = document.getElementById('lightbox-video-error');
+        
+        if (!lightboxVideo || !videoConfig) {
+            console.error('setLightboxVideo: Invalid parameters', { lightboxVideo, videoConfig });
+            if (lightboxVideoError) {
+                lightboxVideoError.classList.remove('hidden');
+                lightboxVideoError.textContent = 'Video-Konfiguration nicht gefunden.';
+            }
             return;
+        }
+        
+        // Hide error message
+        if (lightboxVideoError) {
+            lightboxVideoError.classList.add('hidden');
         }
         
         // Reset video completely
         lightboxVideo.pause();
         lightboxVideo.currentTime = 0;
         lightboxVideo.removeAttribute('src');
+        lightboxVideo.innerHTML = '';
         
-        // Clear all existing sources
-        const existingSources = lightboxVideo.querySelectorAll('source');
-        existingSources.forEach(source => source.remove());
-        
-        // Validate and add sources
-        let hasValidSource = false;
-        videoSources.forEach(sourceData => {
-            if (!sourceData.src || sourceData.src.trim() === '') {
-                console.warn('setLightboxVideo: Empty source URL skipped', sourceData);
-                return;
+        // Validate source
+        if (!videoConfig.src || videoConfig.src.trim() === '') {
+            console.error('setLightboxVideo: Empty source URL', videoConfig);
+            if (lightboxVideoError) {
+                lightboxVideoError.classList.remove('hidden');
+                lightboxVideoError.textContent = 'Video-Quelle nicht gefunden.';
             }
-            
-            const source = document.createElement('source');
-            source.setAttribute('src', sourceData.src);
-            source.setAttribute('type', sourceData.type || 'video/mp4');
-            lightboxVideo.appendChild(source);
-            hasValidSource = true;
-            
-            console.log('setLightboxVideo: Added source', { src: sourceData.src, type: sourceData.type });
-        });
-        
-        if (!hasValidSource) {
-            console.error('setLightboxVideo: No valid sources found', videoSources);
             return;
         }
         
+        // Create and add source element
+        const source = document.createElement('source');
+        source.setAttribute('src', videoConfig.src);
+        source.setAttribute('type', videoConfig.type || 'video/quicktime');
+        lightboxVideo.appendChild(source);
+        
+        console.log('setLightboxVideo: Added source', { src: videoConfig.src, type: videoConfig.type });
+        
         // iOS/Safari robustness
         lightboxVideo.setAttribute('playsinline', '');
+        lightboxVideo.setAttribute('controls', '');
         lightboxVideo.preload = 'metadata';
         
         // Load the video
         lightboxVideo.load();
         
-        // Error handling
+        // Error handling with visible error message
         const handleError = () => {
             const error = lightboxVideo.error;
             if (error) {
-                let errorMsg = 'Unknown video error';
+                let errorMsg = 'Dieses Video kann im Browser nicht abgespielt werden.';
                 switch (error.code) {
                     case error.MEDIA_ERR_ABORTED:
-                        errorMsg = 'Video loading aborted';
+                        errorMsg = 'Video-Laden wurde abgebrochen.';
                         break;
                     case error.MEDIA_ERR_NETWORK:
-                        errorMsg = 'Network error while loading video';
+                        errorMsg = 'Netzwerkfehler beim Laden des Videos.';
                         break;
                     case error.MEDIA_ERR_DECODE:
-                        errorMsg = 'Video decoding error';
+                        errorMsg = 'Video-Dekodierungsfehler.';
                         break;
                     case error.MEDIA_ERR_SRC_NOT_SUPPORTED:
-                        errorMsg = 'Video format not supported or source not found';
+                        errorMsg = 'Video-Format wird nicht unterstützt oder Datei nicht gefunden.';
                         break;
                 }
                 console.error('Video error:', errorMsg, error, {
                     networkState: lightboxVideo.networkState,
                     readyState: lightboxVideo.readyState,
-                    src: Array.from(lightboxVideo.querySelectorAll('source')).map(s => s.src)
+                    src: videoConfig.src
                 });
+                
+                // Show error message to user
+                if (lightboxVideoError) {
+                    lightboxVideoError.textContent = errorMsg;
+                    lightboxVideoError.classList.remove('hidden');
+                }
             }
         };
         lightboxVideo.addEventListener('error', handleError, { once: true });
@@ -1034,25 +1041,21 @@ function initLightbox() {
     // Helper function to close lightbox and restore back-to-top button
     function closeLightbox() {
         lightbox.style.display = 'none';
+        lightbox.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = 'auto';
         
         // Stop and reset lightbox video
+        const lightboxVideo = document.getElementById('lightbox-video');
+        const lightboxVideoError = document.getElementById('lightbox-video-error');
         if (lightboxVideo) {
             lightboxVideo.pause();
             lightboxVideo.currentTime = 0;
             // Clear sources to free memory
-            const sources = lightboxVideo.querySelectorAll('source');
-            sources.forEach(source => source.remove());
-            // Add empty sources back
-            const quicktimeSource = document.createElement('source');
-            quicktimeSource.setAttribute('src', '');
-            quicktimeSource.setAttribute('type', 'video/quicktime');
-            const mp4Source = document.createElement('source');
-            mp4Source.setAttribute('src', '');
-            mp4Source.setAttribute('type', 'video/mp4');
-            lightboxVideo.appendChild(quicktimeSource);
-            lightboxVideo.appendChild(mp4Source);
-            lightboxVideo.load();
+            lightboxVideo.innerHTML = '';
+            lightboxVideo.removeAttribute('src');
+        }
+        if (lightboxVideoError) {
+            lightboxVideoError.classList.add('hidden');
         }
         
         // Show back-to-top button when lightbox closes
@@ -1083,22 +1086,30 @@ function initLightbox() {
             : (item.getAttribute('data-caption') || '');
         
         if (isVideo) {
-            // Handle video - robust pattern: modal first, then set video
-            const videoSources = getVideoSources(item);
-            if (videoSources && videoSources.length > 0 && lightboxVideo) {
-                // Pause ALL gallery videos (including the one being opened)
-                pauseAllGalleryVideos();
+            // Handle video - use data-video-id to get video from central config
+            const videoId = item.getAttribute('data-video-id');
+            const videoConfig = videoId ? getVideoFromConfig(videoId) : null;
+            
+            if (videoConfig) {
+                const lightboxVideoContainer = document.getElementById('lightbox-video-container');
                 
-                // Set caption first
-                lightboxCaption.textContent = caption;
+                // Set caption based on current language
+                const currentLang = localStorage.getItem('language') || 'en';
+                const videoCaption = currentLang === 'de' 
+                    ? (videoConfig.caption.de || videoConfig.caption.en || '')
+                    : (videoConfig.caption.en || '');
+                lightboxCaption.textContent = videoCaption || caption;
                 
                 // Show lightbox FIRST (important for play timing)
                 lightbox.style.display = 'block';
+                lightbox.setAttribute('aria-hidden', 'false');
                 document.body.style.overflow = 'hidden';
                 
                 // Hide image, show video container
                 lightboxImg.style.display = 'none';
-                lightboxVideo.style.display = 'block';
+                if (lightboxVideoContainer) {
+                    lightboxVideoContainer.style.display = 'block';
+                }
                 
                 // Hide back-to-top button when lightbox opens
                 const backToTop = document.getElementById('back-to-top');
@@ -1107,17 +1118,24 @@ function initLightbox() {
                 }
                 
                 // Now set up the video (after modal is visible)
-                setLightboxVideo(videoSources);
+                setLightboxVideo(videoConfig);
             } else {
-                console.error('Video sources not found for item:', item, 'videoSources:', videoSources);
+                console.error('Video config not found for item:', item, 'videoId:', videoId);
+                // Show error in lightbox
+                lightbox.style.display = 'block';
+                lightboxCaption.textContent = 'Video nicht gefunden.';
             }
         } else {
             // Handle image
             const imgSrc = getImageSrc(item);
             if (imgSrc) {
-                // Hide video, show image
+                // Hide video container, show image
+                const lightboxVideoContainer = document.getElementById('lightbox-video-container');
+                const lightboxVideo = document.getElementById('lightbox-video');
+                if (lightboxVideoContainer) {
+                    lightboxVideoContainer.style.display = 'none';
+                }
                 if (lightboxVideo) {
-                    lightboxVideo.style.display = 'none';
                     lightboxVideo.pause();
                 }
                 lightboxImg.style.display = 'block';
