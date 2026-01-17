@@ -882,15 +882,38 @@ function initLightbox() {
     function getVideoSources(item) {
         const video = item.querySelector('.gallery-video video');
         if (video) {
+            // First check if video has <source> elements (already loaded)
             const sources = video.querySelectorAll('source');
-            const sourceData = [];
-            sources.forEach(source => {
-                sourceData.push({
-                    src: source.getAttribute('src'),
-                    type: source.getAttribute('type')
+            if (sources.length > 0) {
+                const sourceData = [];
+                sources.forEach(source => {
+                    const src = source.getAttribute('src');
+                    if (src) {
+                        sourceData.push({
+                            src: src,
+                            type: source.getAttribute('type') || 'video/mp4'
+                        });
+                    }
                 });
-            });
-            return sourceData;
+                if (sourceData.length > 0) return sourceData;
+            }
+            
+            // Fallback: use data-src attribute (lazy-loaded videos)
+            const dataSrc = video.getAttribute('data-src');
+            if (dataSrc) {
+                // Determine type from file extension
+                let type = 'video/mp4';
+                if (dataSrc.toLowerCase().endsWith('.mov')) {
+                    type = 'video/quicktime';
+                } else if (dataSrc.toLowerCase().endsWith('.webm')) {
+                    type = 'video/webm';
+                }
+                
+                return [{
+                    src: dataSrc,
+                    type: type
+                }];
+            }
         }
         return null;
     }
@@ -989,13 +1012,15 @@ function initLightbox() {
                 // Load the video
                 lightboxVideo.load();
                 
-                // Auto-play the video once it can play
+                // Auto-play the video once it can play (user gesture allows it)
                 const playLightboxVideo = () => {
-                    lightboxVideo.play().catch(err => {
-                        // Auto-play might be blocked by browser policy, that's okay
-                        // User can click play manually
-                        console.log('Video autoplay prevented (user interaction required):', err);
-                    });
+                    if (lightboxVideo.paused) {
+                        lightboxVideo.play().catch(err => {
+                            // Auto-play might be blocked by browser policy, that's okay
+                            // User can click play manually
+                            console.log('Video autoplay prevented (user interaction required):', err);
+                        });
+                    }
                 };
                 
                 // Try to play when enough data is loaded
@@ -1008,6 +1033,13 @@ function initLightbox() {
                     }
                     lightboxVideo.removeEventListener('loadedmetadata', tryPlay);
                 }, { once: true });
+                
+                // Additional fallback: try play after a short delay
+                setTimeout(() => {
+                    if (lightboxVideo.paused && lightboxVideo.readyState >= 2) {
+                        playLightboxVideo();
+                    }
+                }, 300);
                 
                 lightboxCaption.textContent = caption;
                 lightbox.style.display = 'block';
