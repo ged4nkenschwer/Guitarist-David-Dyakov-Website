@@ -832,11 +832,13 @@ function fixVideoGalleryOverflow() {
 /**
  * Initialize video thumbnails - use poster images instead of canvas generation
  * This is much faster and doesn't require loading video metadata
+ * Loads thumbnails when section is expanded
  */
 function initVideoThumbnails() {
     const videoItems = document.querySelectorAll('.gallery-video');
     
-    videoItems.forEach(videoContainer => {
+    // Function to load thumbnail for a video container
+    const loadThumbnail = (videoContainer) => {
         const galleryItem = videoContainer.closest('.gallery-item');
         const videoId = galleryItem ? galleryItem.getAttribute('data-video-id') : null;
         const videoConfig = videoId ? getVideoById(videoId) : null;
@@ -845,18 +847,21 @@ function initVideoThumbnails() {
         
         if (!thumbnail) return;
         
+        // Skip if already loaded
+        if (thumbnail.dataset.thumbnailLoaded === 'true') return;
+        thumbnail.dataset.thumbnailLoaded = 'true';
+        
         // Remove any existing broken images FIRST to prevent broken icons
         const existingImgs = thumbnail.querySelectorAll('img');
         existingImgs.forEach(img => img.remove());
         
-        // Always use gradient background - poster images don't exist
-        // This prevents broken image icons
+        // Always use gradient background as fallback
         if (canvas) {
             canvas.style.background = 'linear-gradient(135deg, rgba(0,0,0,0.8), rgba(20,20,40,0.8))';
             canvas.style.display = 'block';
         }
         
-        // Optional: Try to load poster if it exists (but don't show broken icon if it fails)
+        // Load poster image if it exists
         const posterSrc = videoConfig ? videoConfig.poster : null;
         if (posterSrc && canvas) {
             // Try to load poster image silently (hidden until loaded)
@@ -864,7 +869,7 @@ function initVideoThumbnails() {
             posterImg.className = 'video-poster-img';
             posterImg.src = posterSrc;
             posterImg.alt = videoConfig ? (videoConfig.title.en || '') : '';
-            posterImg.loading = 'lazy';
+            posterImg.loading = 'eager'; // Changed to eager for better visibility
             posterImg.decoding = 'async';
             posterImg.style.width = '100%';
             posterImg.style.height = '100%';
@@ -885,7 +890,37 @@ function initVideoThumbnails() {
             
             thumbnail.insertBefore(posterImg, canvas);
         }
-    });
+    };
+    
+    // Load thumbnails for all videos initially
+    videoItems.forEach(loadThumbnail);
+    
+    // Watch for section expansion to load thumbnails if not already loaded
+    const videosSection = document.querySelector('#gallery .achievement-reveal');
+    const videosContent = videosSection ? videosSection.querySelector('.achievement-content') : null;
+    
+    if (videosContent) {
+        const sectionObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    if (videosContent.classList.contains('revealed')) {
+                        // Section expanded - ensure all thumbnails are loaded
+                        videoItems.forEach(loadThumbnail);
+                    }
+                }
+            });
+        });
+        
+        sectionObserver.observe(videosContent, { 
+            attributes: true, 
+            attributeFilter: ['class'] 
+        });
+        
+        // Also check if already expanded
+        if (videosContent.classList.contains('revealed')) {
+            videoItems.forEach(loadThumbnail);
+        }
+    }
 }
 
 /**
@@ -1132,11 +1167,13 @@ function initLightbox() {
                 }
                 // Fallback to single src
                 if (videoConfig.src) {
-                    console.log('getVideoSources: Found video from config', { videoId, src: videoConfig.src });
+                    console.log('getVideoSources: Found video from config', { videoId, src: videoConfig.src, type: videoConfig.type });
                     return [{
                         src: videoConfig.src,
                         type: videoConfig.type || 'video/mp4'
                     }];
+                } else {
+                    console.error('getVideoSources: Video config found but no src property', { videoId, videoConfig });
                 }
             } else {
                 console.error('getVideoSources: Video config not found for ID', videoId);
@@ -1196,6 +1233,9 @@ function initLightbox() {
             }
             return;
         }
+        
+        // Log video sources for debugging
+        console.log('setLightboxVideo: Loading video with sources:', videoSources);
         
         // Hide error message initially
         if (lightboxVideoError) {
