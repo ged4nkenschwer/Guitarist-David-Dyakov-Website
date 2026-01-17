@@ -1125,13 +1125,15 @@ function initLightbox() {
         if (videoId) {
             const videoConfig = getVideoById(videoId);
             if (videoConfig && videoConfig.src) {
-                console.log('getVideoSources: Found video from config', { videoId, src: videoConfig.src });
+                // Ensure .mov files get video/quicktime type
+                let videoType = videoConfig.type || 'video/quicktime';
+                if (videoConfig.src.toLowerCase().endsWith('.mov')) {
+                    videoType = 'video/quicktime';
+                }
                 return [{
                     src: videoConfig.src,
-                    type: videoConfig.type || 'video/quicktime'
+                    type: videoType
                 }];
-            } else {
-                console.error('getVideoSources: Video config not found for ID', videoId);
             }
         }
         
@@ -1172,7 +1174,6 @@ function initLightbox() {
             }
         }
         
-        console.error('getVideoSources: No video sources found for item', item);
         return null;
     }
     
@@ -1181,7 +1182,6 @@ function initLightbox() {
         const lightboxVideoError = document.getElementById('lightbox-video-error');
         
         if (!lightboxVideo || !videoSources || videoSources.length === 0) {
-            console.error('setLightboxVideo: Invalid parameters', { lightboxVideo, videoSources });
             if (lightboxVideoError) {
                 lightboxVideoError.textContent = 'Video-Quelle nicht gefunden.';
                 lightboxVideoError.classList.remove('hidden');
@@ -1207,7 +1207,6 @@ function initLightbox() {
         let hasValidSource = false;
         videoSources.forEach(sourceData => {
             if (!sourceData.src || sourceData.src.trim() === '') {
-                console.warn('setLightboxVideo: Empty source URL skipped', sourceData);
                 return;
             }
             
@@ -1215,21 +1214,17 @@ function initLightbox() {
             // Ensure URLs with spaces are properly handled (browser will encode automatically)
             // Use the src as-is since relative paths work fine
             source.setAttribute('src', sourceData.src);
-            source.setAttribute('type', sourceData.type || 'video/quicktime');
+            // Ensure .mov files get video/quicktime type
+            let videoType = sourceData.type || 'video/quicktime';
+            if (sourceData.src.toLowerCase().endsWith('.mov')) {
+                videoType = 'video/quicktime';
+            }
+            source.setAttribute('type', videoType);
             lightboxVideo.appendChild(source);
-            
-            console.log('setLightboxVideo: Added source element', { 
-                src: sourceData.src, 
-                type: sourceData.type,
-                element: source
-            });
             hasValidSource = true;
-            
-            console.log('setLightboxVideo: Added source', { src: sourceData.src, type: sourceData.type });
         });
         
         if (!hasValidSource) {
-            console.error('setLightboxVideo: No valid sources found', videoSources);
             if (lightboxVideoError) {
                 lightboxVideoError.textContent = 'Keine gültige Video-Quelle gefunden.';
                 lightboxVideoError.classList.remove('hidden');
@@ -1261,12 +1256,6 @@ function initLightbox() {
                         errorMsg = 'Video-Format wird nicht unterstützt oder Datei nicht gefunden.';
                         break;
                 }
-                console.error('Video error:', errorMsg, error, {
-                    networkState: lightboxVideo.networkState,
-                    readyState: lightboxVideo.readyState,
-                    src: Array.from(lightboxVideo.querySelectorAll('source')).map(s => s.src)
-                });
-                
                 // Show visible error message
                 if (lightboxVideoError) {
                     lightboxVideoError.textContent = errorMsg;
