@@ -35,7 +35,7 @@ const VIDEOS = [
     {
         id: 'hora',
         title: { en: 'Hora by Stephan Rak', de: 'Hora von Stephan Rak' },
-        src: './videos/hora-stephan-rak.mp4',
+        src: './Hora by Stephan Rak.Finale.Donnersbergiade 2025.mp4',
         type: 'video/mp4',
         poster: './Hora by Stephan Rak.Finale.Donnersbergiade 2025-poster.jpg',
         caption: { en: 'Hora by Stephan Rak (Donnersbergiade 2025)', de: 'Hora von Stephan Rak (Donnersbergiade 2025)' }
@@ -1261,12 +1261,20 @@ function initLightbox() {
             return;
         }
         
-        // iOS/Safari robustness and MOV file support
+        // iOS/Safari robustness and video support
         lightboxVideo.setAttribute('playsinline', '');
         lightboxVideo.setAttribute('controls', '');
         lightboxVideo.setAttribute('webkit-playsinline', ''); // iOS support
         lightboxVideo.setAttribute('x5-playsinline', ''); // Android support
-        lightboxVideo.preload = 'auto'; // Changed to 'auto' for better MOV support
+        lightboxVideo.preload = 'auto'; // Preload for better playback
+        
+        // Ensure video is visible and has proper styling
+        lightboxVideo.style.display = 'block';
+        lightboxVideo.style.width = '100%';
+        lightboxVideo.style.height = 'auto';
+        lightboxVideo.style.maxWidth = '100%';
+        lightboxVideo.style.maxHeight = '80vh';
+        lightboxVideo.style.backgroundColor = '#000';
         
         // Error handling - set up BEFORE load()
         const handleError = () => {
@@ -1302,36 +1310,61 @@ function initLightbox() {
         };
         lightboxVideo.addEventListener('error', handleError, { once: true });
         
+        // Add event listeners for debugging and better playback
+        lightboxVideo.addEventListener('loadstart', () => {
+            console.log('Video loadstart event');
+        });
+        
+        lightboxVideo.addEventListener('loadedmetadata', () => {
+            console.log('Video loadedmetadata - readyState:', lightboxVideo.readyState);
+        });
+        
+        lightboxVideo.addEventListener('loadeddata', () => {
+            console.log('Video loadeddata - readyState:', lightboxVideo.readyState);
+        });
+        
+        lightboxVideo.addEventListener('canplay', () => {
+            console.log('Video canplay - readyState:', lightboxVideo.readyState);
+        });
+        
+        lightboxVideo.addEventListener('canplaythrough', () => {
+            console.log('Video canplaythrough - readyState:', lightboxVideo.readyState);
+        });
+        
         // Load the video
         lightboxVideo.load();
         
-        // CRITICAL: Call play() directly from click handler (user gesture allows it)
-        // This is the key fix - play immediately after load() when called from user click
-        lightboxVideo.play().catch(err => {
-            // If immediate play fails, try when enough data is loaded
-            console.log('Immediate play failed, will retry on canplay:', err.name, err.message);
-            
-            const playLightboxVideo = () => {
-                if (lightboxVideo.paused && lightboxVideo.readyState >= 2) {
-                    lightboxVideo.play().catch(playErr => {
-                        // Auto-play might be blocked by browser policy, that's okay
-                        // User can click play manually
-                        console.log('Video autoplay prevented (user interaction required):', playErr.name, playErr.message);
-                    });
-                }
-            };
-            
-            // Try to play when enough data is loaded
-            lightboxVideo.addEventListener('canplay', playLightboxVideo, { once: true });
-            
-            // Fallback: try when metadata loads (might work faster)
-            lightboxVideo.addEventListener('loadedmetadata', function tryPlay() {
-                if (lightboxVideo.readyState >= 2) {
-                    playLightboxVideo();
-                }
-                lightboxVideo.removeEventListener('loadedmetadata', tryPlay);
-            }, { once: true });
-        });
+        // Function to attempt playback
+        const attemptPlayback = () => {
+            if (lightboxVideo.readyState >= 2) { // HAVE_CURRENT_DATA or higher
+                lightboxVideo.play().catch(playErr => {
+                    console.log('Video play error:', playErr.name, playErr.message);
+                    // Auto-play might be blocked by browser policy, that's okay
+                    // User can click play manually - video should be visible now
+                });
+            }
+        };
+        
+        // Try to play when video can start playing
+        lightboxVideo.addEventListener('canplay', () => {
+            console.log('Video canplay - attempting playback');
+            attemptPlayback();
+        }, { once: true });
+        
+        // Also try when enough metadata is loaded (faster fallback)
+        lightboxVideo.addEventListener('loadedmetadata', () => {
+            console.log('Video loadedmetadata - readyState:', lightboxVideo.readyState);
+            if (lightboxVideo.readyState >= 2) {
+                attemptPlayback();
+            }
+        }, { once: true });
+        
+        // Fallback: try after a short delay (in case events don't fire)
+        setTimeout(() => {
+            if (lightboxVideo.readyState >= 1) { // HAVE_METADATA or higher
+                attemptPlayback();
+            }
+        }, 500);
     }
     
     // Legacy function for compatibility - redirects to setLightboxVideo
