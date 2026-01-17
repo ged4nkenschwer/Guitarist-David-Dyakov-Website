@@ -941,12 +941,164 @@ function initLightbox() {
         return null;
     }
     
-    // Get video from central configuration by ID
-    function getVideoFromConfig(videoId) {
-        return getVideoById(videoId);
+    // Function to get video sources from gallery item
+    function getVideoSources(item) {
+        const video = item.querySelector('.gallery-video video');
+        if (video) {
+            // First check if video has <source> elements (already loaded)
+            const sources = video.querySelectorAll('source');
+            if (sources.length > 0) {
+                const sourceData = [];
+                sources.forEach(source => {
+                    const src = source.getAttribute('src');
+                    if (src) {
+                        sourceData.push({
+                            src: src,
+                            type: source.getAttribute('type') || 'video/mp4'
+                        });
+                    }
+                });
+                if (sourceData.length > 0) return sourceData;
+            }
+            
+            // Fallback: use data-src attribute (lazy-loaded videos)
+            const dataSrc = video.getAttribute('data-src');
+            if (dataSrc) {
+                // Determine type from file extension
+                let type = 'video/mp4';
+                if (dataSrc.toLowerCase().endsWith('.mov')) {
+                    type = 'video/quicktime';
+                } else if (dataSrc.toLowerCase().endsWith('.webm')) {
+                    type = 'video/webm';
+                }
+                
+                return [{
+                    src: dataSrc,
+                    type: type
+                }];
+            }
+        }
+        
+        // Fallback: use data-video-id to get from central config
+        const videoId = item.getAttribute('data-video-id');
+        if (videoId) {
+            const videoConfig = getVideoById(videoId);
+            if (videoConfig && videoConfig.src) {
+                return [{
+                    src: videoConfig.src,
+                    type: videoConfig.type || 'video/quicktime'
+                }];
+            }
+        }
+        
+        return null;
     }
     
-    // Robust function to open video by ID (deterministic, uses absolute URLs)
+    // Robust function to set video in lightbox (called after modal is visible)
+    function setLightboxVideo(videoSources) {
+        if (!lightboxVideo || !videoSources || videoSources.length === 0) {
+            console.error('setLightboxVideo: Invalid parameters', { lightboxVideo, videoSources });
+            return;
+        }
+        
+        // Reset video completely
+        lightboxVideo.pause();
+        lightboxVideo.currentTime = 0;
+        lightboxVideo.removeAttribute('src');
+        
+        // Clear all existing sources
+        const existingSources = lightboxVideo.querySelectorAll('source');
+        existingSources.forEach(source => source.remove());
+        
+        // Validate and add sources
+        let hasValidSource = false;
+        videoSources.forEach(sourceData => {
+            if (!sourceData.src || sourceData.src.trim() === '') {
+                console.warn('setLightboxVideo: Empty source URL skipped', sourceData);
+                return;
+            }
+            
+            const source = document.createElement('source');
+            source.setAttribute('src', sourceData.src);
+            source.setAttribute('type', sourceData.type || 'video/mp4');
+            lightboxVideo.appendChild(source);
+            hasValidSource = true;
+            
+            console.log('setLightboxVideo: Added source', { src: sourceData.src, type: sourceData.type });
+        });
+        
+        if (!hasValidSource) {
+            console.error('setLightboxVideo: No valid sources found', videoSources);
+            return;
+        }
+        
+        // iOS/Safari robustness
+        lightboxVideo.setAttribute('playsinline', '');
+        lightboxVideo.setAttribute('controls', '');
+        lightboxVideo.preload = 'metadata';
+        
+        // Load the video
+        lightboxVideo.load();
+        
+        // Error handling
+        const handleError = () => {
+            const error = lightboxVideo.error;
+            if (error) {
+                let errorMsg = 'Video kann im Browser nicht abgespielt werden.';
+                switch (error.code) {
+                    case error.MEDIA_ERR_ABORTED:
+                        errorMsg = 'Video-Laden wurde abgebrochen.';
+                        break;
+                    case error.MEDIA_ERR_NETWORK:
+                        errorMsg = 'Netzwerkfehler beim Laden des Videos.';
+                        break;
+                    case error.MEDIA_ERR_DECODE:
+                        errorMsg = 'Video-Dekodierungsfehler.';
+                        break;
+                    case error.MEDIA_ERR_SRC_NOT_SUPPORTED:
+                        errorMsg = 'Video-Format wird nicht unterstützt oder Datei nicht gefunden.';
+                        break;
+                }
+                console.error('Video error:', errorMsg, error, {
+                    networkState: lightboxVideo.networkState,
+                    readyState: lightboxVideo.readyState,
+                    src: Array.from(lightboxVideo.querySelectorAll('source')).map(s => s.src)
+                });
+            }
+        };
+        lightboxVideo.addEventListener('error', handleError, { once: true });
+        
+        // Auto-play the video once it can play (user gesture allows it)
+        const playLightboxVideo = () => {
+            if (lightboxVideo.paused && lightboxVideo.readyState >= 2) {
+                lightboxVideo.play().catch(err => {
+                    // Auto-play might be blocked by browser policy, that's okay
+                    // User can click play manually
+                    console.log('Video autoplay prevented (user interaction required):', err.name, err.message);
+                });
+            }
+        };
+        
+        // Try to play when enough data is loaded
+        lightboxVideo.addEventListener('canplay', playLightboxVideo, { once: true });
+        
+        // Fallback: try when metadata loads (might work faster)
+        lightboxVideo.addEventListener('loadedmetadata', function tryPlay() {
+            if (lightboxVideo.readyState >= 2) {
+                playLightboxVideo();
+            }
+            lightboxVideo.removeEventListener('loadedmetadata', tryPlay);
+        }, { once: true });
+        
+        // Additional fallback: try play after modal is fully visible
+        setTimeout(() => {
+            if (lightboxVideo.paused && lightboxVideo.readyState >= 2) {
+                playLightboxVideo();
+            }
+        }, 100);
+    }
+    
+    // Legacy function for compatibility - redirects to setLightboxVideo
     function openVideoById(videoId) {
         const video = getVideoById(videoId);
         if (!video) {
@@ -1083,19 +1235,6 @@ function initLightbox() {
         });
     }
     
-    // Legacy function for compatibility
-    function setLightboxVideo(videoConfig) {
-        if (!videoConfig || !videoConfig.id) {
-            // Try to find by videoId if it's a string
-            if (typeof videoConfig === 'string') {
-                openVideoById(videoConfig);
-            } else {
-                console.error('setLightboxVideo: Invalid video config', videoConfig);
-            }
-            return;
-        }
-        openVideoById(videoConfig.id);
-    }
     
     // Make functions available globally
     window.openVideoById = openVideoById;
@@ -1158,19 +1297,14 @@ function initLightbox() {
             : (item.getAttribute('data-caption') || '');
         
         if (isVideo) {
-            // Handle video - use data-video-id to get video from central config
-            const videoId = item.getAttribute('data-video-id');
-            const videoConfig = videoId ? getVideoFromConfig(videoId) : null;
-            
-            if (videoConfig) {
-                const lightboxVideoContainer = document.getElementById('lightbox-video-container');
+            // Handle video - robust pattern: modal first, then set video
+            const videoSources = getVideoSources(item);
+            if (videoSources && videoSources.length > 0 && lightboxVideo) {
+                // Pause ALL gallery videos (including the one being opened)
+                pauseAllGalleryVideos();
                 
-                // Set caption based on current language
-                const currentLang = localStorage.getItem('language') || 'en';
-                const videoCaption = currentLang === 'de' 
-                    ? (videoConfig.caption.de || videoConfig.caption.en || '')
-                    : (videoConfig.caption.en || '');
-                lightboxCaption.textContent = videoCaption || caption;
+                // Set caption first
+                lightboxCaption.textContent = caption;
                 
                 // Show lightbox FIRST (important for play timing)
                 lightbox.style.display = 'block';
@@ -1178,9 +1312,12 @@ function initLightbox() {
                 document.body.style.overflow = 'hidden';
                 
                 // Hide image, show video container
+                const lightboxVideoContainer = document.getElementById('lightbox-video-container');
                 lightboxImg.style.display = 'none';
                 if (lightboxVideoContainer) {
                     lightboxVideoContainer.style.display = 'block';
+                } else {
+                    lightboxVideo.style.display = 'block';
                 }
                 
                 // Hide back-to-top button when lightbox opens
@@ -1189,19 +1326,10 @@ function initLightbox() {
                     backToTop.classList.remove('visible');
                 }
                 
-                // Now set up the video (after modal is visible) - use openVideoById directly
-                if (videoId) {
-                    openVideoById(videoId);
-                } else {
-                    console.error('Video ID not found for item:', item);
-                    lightbox.style.display = 'block';
-                    lightboxCaption.textContent = 'Video nicht gefunden.';
-                }
+                // Now set up the video (after modal is visible)
+                setLightboxVideo(videoSources);
             } else {
-                console.error('Video config not found for item:', item, 'videoId:', videoId);
-                // Show error in lightbox
-                lightbox.style.display = 'block';
-                lightboxCaption.textContent = 'Video nicht gefunden.';
+                console.error('Video sources not found for item:', item, 'videoSources:', videoSources);
             }
         } else {
             // Handle image
@@ -1235,25 +1363,10 @@ function initLightbox() {
     // Add click handlers to all gallery items (images and videos)
     allItems.forEach((item, index) => {
         item.addEventListener('click', function(e) {
-            // Don't open lightbox if clicking directly on video controls or buttons
-            if (e.target.closest('button') || e.target.closest('.close-lightbox')) {
+            // Don't open lightbox if clicking directly on video controls
+            if (e.target.closest('video') && e.target.tagName !== 'VIDEO') {
                 return;
             }
-            
-            // For video items, use data-video-id to open directly
-            const videoId = item.getAttribute('data-video-id');
-            if (videoId) {
-                e.preventDefault();
-                e.stopPropagation();
-                if (typeof openVideoById === 'function') {
-                    openVideoById(videoId);
-                } else if (typeof window.openVideoById === 'function') {
-                    window.openVideoById(videoId);
-                }
-                return;
-            }
-            
-            // For images, use index-based navigation
             openLightbox(index);
         });
     });
