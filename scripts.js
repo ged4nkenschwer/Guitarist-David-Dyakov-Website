@@ -132,7 +132,7 @@
     window.addEventListener('resize', updateHeaderHeight);
 })();
 
-// CTA Button: Scroll to Rossiniana video and optionally play
+// CTA Button: Scroll to Rossiniana video and open in lightbox
 (function initRossinianaCTA() {
     'use strict';
     
@@ -142,19 +142,47 @@
         
         e.preventDefault();
         
-        // Smooth scroll to video
+        // Find all gallery items to get the correct index
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const videoItems = Array.from(galleryItems).filter(item => {
+            return item.querySelector('.gallery-video');
+        });
+        
+        // Find the index of the rossiniana-finale item in the video items array
+        const rossinianaIndex = videoItems.findIndex(item => item.id === 'rossiniana-finale');
+        
+        if (rossinianaIndex === -1) {
+            // Fallback: just scroll to the element
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+        
+        // Get all items (images first, then videos) to find the correct lightbox index
+        const imageItems = Array.from(galleryItems).filter(item => {
+            return !item.querySelector('.gallery-video');
+        });
+        const allItems = [...imageItems, ...videoItems];
+        const lightboxIndex = allItems.findIndex(item => item.id === 'rossiniana-finale');
+        
+        if (lightboxIndex === -1) {
+            // Fallback: just scroll to the element
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+        
+        // Smooth scroll to video first
         target.scrollIntoView({ behavior: 'smooth', block: 'center' });
         
-        // After scroll, try to play video (user gesture allows it)
+        // After scroll, open the video in lightbox
         setTimeout(() => {
-            // Find the video element within the target
-            const video = target.querySelector('video');
-            if (video && video.readyState >= 2) { // HAVE_CURRENT_DATA or higher
-                video.play().catch(() => {
-                    // Gracefully ignore if autoplay is blocked
-                });
+            // Check if lightbox is initialized
+            if (typeof window.openLightbox === 'function') {
+                window.openLightbox(lightboxIndex);
+            } else {
+                // Fallback: trigger click on the gallery item to open lightbox
+                target.click();
             }
-        }, 500); // Wait for scroll to complete
+        }, 600); // Wait for scroll to complete
     }
     
     // Attach click handler when DOM is ready
@@ -913,6 +941,9 @@ function initLightbox() {
     
     // Function to open lightbox with specific index
     function openLightbox(index) {
+        // Make openLightbox available globally for CTA button
+        window.openLightbox = openLightbox;
+        
         if (index < 0 || index >= allItems.length) return;
         
         currentIndex = index;

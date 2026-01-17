@@ -851,6 +851,24 @@ body {
     border-color: var(--accent-gold) !important;
 }
 
+/* Hero button spacing - add gap between buttons */
+.hero-content .btn + .btn {
+    margin-left: 1rem;
+}
+
+/* Subtle colored button for Rossiniana CTA */
+.btn-cta-video.btn--subtle {
+    background: rgba(214, 180, 106, 0.15) !important;
+    border-color: rgba(214, 180, 106, 0.4) !important;
+    color: var(--accent-gold-soft) !important;
+}
+
+.btn-cta-video.btn--subtle:hover {
+    background: rgba(214, 180, 106, 0.25) !important;
+    border-color: var(--accent-gold) !important;
+    color: var(--accent-gold) !important;
+}
+
 .btn--subtle:focus-visible {
     outline: 2px solid currentColor;
     outline-offset: 2px;
@@ -3054,6 +3072,7 @@ textarea {
     /* Stack buttons on mobile if multiple */
     .hero .btn + .btn {
         margin-top: 0.75rem;
+        margin-left: 0; /* Remove horizontal gap on mobile */
     }
     
     /* Section titles - responsive, no overflow */
