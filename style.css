@@ -98,24 +98,6 @@ h3:not(.logo a):not(.section-title) {
     color: #B8945A !important;
 }
 
-/* ---------- Image Reveal System (Progressive Loading Fix) ---------- */
-/* Hide images until fully decoded to prevent scanline rendering */
-.img-reveal {
-    opacity: 0;
-    transition: opacity 180ms ease;
-}
-
-.img-reveal.is-ready {
-    opacity: 1;
-}
-
-/* Ensure images maintain aspect ratio to prevent layout jumps */
-.img-reveal {
-    display: block;
-    max-width: 100%;
-    height: auto;
-}
-
 /* All section titles get darker rose gold color with reflection sheen - LIKE IL DIABOLICO */
 /* Hover-only on desktop, scroll-triggered on mobile */
 .hero h1,
@@ -1695,22 +1677,18 @@ nav {
 .gallery-image {
     width: 100%;
     height: 250px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     border-radius: 8px;
+    filter: brightness(1.05) contrast(1.02) saturate(1.05);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     position: relative;
     overflow: hidden;
     will-change: transform, filter;
     transform: translateZ(0); /* Force GPU acceleration */
     backface-visibility: hidden;
     contain: layout style paint; /* Performance: isolate rendering */
-}
-
-.gallery-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    filter: brightness(1.05) contrast(1.02) saturate(1.05);
-    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .gallery-image::before {
@@ -1740,7 +1718,7 @@ nav {
     border-radius: 8px;
 }
 
-.gallery-item:hover .gallery-image img {
+.gallery-item:hover .gallery-image {
     transform: scale(1.05) translateZ(0);
     filter: brightness(1.1) contrast(1.05) saturate(1.1);
 }
