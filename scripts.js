@@ -918,6 +918,109 @@ function initLightbox() {
         return null;
     }
     
+    // Robust function to set video in lightbox (called after modal is visible)
+    function setLightboxVideo(videoSources) {
+        if (!lightboxVideo || !videoSources || videoSources.length === 0) {
+            console.error('setLightboxVideo: Invalid parameters', { lightboxVideo, videoSources });
+            return;
+        }
+        
+        // Reset video completely
+        lightboxVideo.pause();
+        lightboxVideo.currentTime = 0;
+        lightboxVideo.removeAttribute('src');
+        
+        // Clear all existing sources
+        const existingSources = lightboxVideo.querySelectorAll('source');
+        existingSources.forEach(source => source.remove());
+        
+        // Validate and add sources
+        let hasValidSource = false;
+        videoSources.forEach(sourceData => {
+            if (!sourceData.src || sourceData.src.trim() === '') {
+                console.warn('setLightboxVideo: Empty source URL skipped', sourceData);
+                return;
+            }
+            
+            const source = document.createElement('source');
+            source.setAttribute('src', sourceData.src);
+            source.setAttribute('type', sourceData.type || 'video/mp4');
+            lightboxVideo.appendChild(source);
+            hasValidSource = true;
+            
+            console.log('setLightboxVideo: Added source', { src: sourceData.src, type: sourceData.type });
+        });
+        
+        if (!hasValidSource) {
+            console.error('setLightboxVideo: No valid sources found', videoSources);
+            return;
+        }
+        
+        // iOS/Safari robustness
+        lightboxVideo.setAttribute('playsinline', '');
+        lightboxVideo.preload = 'metadata';
+        
+        // Load the video
+        lightboxVideo.load();
+        
+        // Error handling
+        const handleError = () => {
+            const error = lightboxVideo.error;
+            if (error) {
+                let errorMsg = 'Unknown video error';
+                switch (error.code) {
+                    case error.MEDIA_ERR_ABORTED:
+                        errorMsg = 'Video loading aborted';
+                        break;
+                    case error.MEDIA_ERR_NETWORK:
+                        errorMsg = 'Network error while loading video';
+                        break;
+                    case error.MEDIA_ERR_DECODE:
+                        errorMsg = 'Video decoding error';
+                        break;
+                    case error.MEDIA_ERR_SRC_NOT_SUPPORTED:
+                        errorMsg = 'Video format not supported or source not found';
+                        break;
+                }
+                console.error('Video error:', errorMsg, error, {
+                    networkState: lightboxVideo.networkState,
+                    readyState: lightboxVideo.readyState,
+                    src: Array.from(lightboxVideo.querySelectorAll('source')).map(s => s.src)
+                });
+            }
+        };
+        lightboxVideo.addEventListener('error', handleError, { once: true });
+        
+        // Auto-play the video once it can play (user gesture allows it)
+        const playLightboxVideo = () => {
+            if (lightboxVideo.paused && lightboxVideo.readyState >= 2) {
+                lightboxVideo.play().catch(err => {
+                    // Auto-play might be blocked by browser policy, that's okay
+                    // User can click play manually
+                    console.log('Video autoplay prevented (user interaction required):', err.name, err.message);
+                });
+            }
+        };
+        
+        // Try to play when enough data is loaded
+        lightboxVideo.addEventListener('canplay', playLightboxVideo, { once: true });
+        
+        // Fallback: try when metadata loads (might work faster)
+        lightboxVideo.addEventListener('loadedmetadata', function tryPlay() {
+            if (lightboxVideo.readyState >= 2) {
+                playLightboxVideo();
+            }
+            lightboxVideo.removeEventListener('loadedmetadata', tryPlay);
+        }, { once: true });
+        
+        // Additional fallback: try play after modal is fully visible
+        setTimeout(() => {
+            if (lightboxVideo.paused && lightboxVideo.readyState >= 2) {
+                playLightboxVideo();
+            }
+        }, 100);
+    }
+    
     // Helper function to pause all gallery videos
     function pauseAllGalleryVideos() {
         const allGalleryVideos = document.querySelectorAll('.gallery-video video');
@@ -980,76 +1083,33 @@ function initLightbox() {
             : (item.getAttribute('data-caption') || '');
         
         if (isVideo) {
-            // Handle video
+            // Handle video - robust pattern: modal first, then set video
             const videoSources = getVideoSources(item);
             if (videoSources && videoSources.length > 0 && lightboxVideo) {
                 // Pause ALL gallery videos (including the one being opened)
                 pauseAllGalleryVideos();
                 
-                // Hide image, show video
-                lightboxImg.style.display = 'none';
-                lightboxVideo.style.display = 'block';
-                
-                // Stop and reset lightbox video first
-                lightboxVideo.pause();
-                lightboxVideo.currentTime = 0;
-                
-                // Clear existing sources
-                const existingSources = lightboxVideo.querySelectorAll('source');
-                existingSources.forEach(source => source.remove());
-                
-                // Add all source elements from the original video
-                videoSources.forEach(sourceData => {
-                    const source = document.createElement('source');
-                    source.setAttribute('src', sourceData.src);
-                    source.setAttribute('type', sourceData.type || 'video/mp4');
-                    lightboxVideo.appendChild(source);
-                });
-                
-                // Set preload to auto so video loads and can play
-                lightboxVideo.preload = 'auto';
-                
-                // Load the video
-                lightboxVideo.load();
-                
-                // Auto-play the video once it can play (user gesture allows it)
-                const playLightboxVideo = () => {
-                    if (lightboxVideo.paused) {
-                        lightboxVideo.play().catch(err => {
-                            // Auto-play might be blocked by browser policy, that's okay
-                            // User can click play manually
-                            console.log('Video autoplay prevented (user interaction required):', err);
-                        });
-                    }
-                };
-                
-                // Try to play when enough data is loaded
-                lightboxVideo.addEventListener('canplay', playLightboxVideo, { once: true });
-                
-                // Fallback: try when metadata loads (might work faster)
-                lightboxVideo.addEventListener('loadedmetadata', function tryPlay() {
-                    if (lightboxVideo.readyState >= 2) {
-                        playLightboxVideo();
-                    }
-                    lightboxVideo.removeEventListener('loadedmetadata', tryPlay);
-                }, { once: true });
-                
-                // Additional fallback: try play after a short delay
-                setTimeout(() => {
-                    if (lightboxVideo.paused && lightboxVideo.readyState >= 2) {
-                        playLightboxVideo();
-                    }
-                }, 300);
-                
+                // Set caption first
                 lightboxCaption.textContent = caption;
+                
+                // Show lightbox FIRST (important for play timing)
                 lightbox.style.display = 'block';
                 document.body.style.overflow = 'hidden';
+                
+                // Hide image, show video container
+                lightboxImg.style.display = 'none';
+                lightboxVideo.style.display = 'block';
                 
                 // Hide back-to-top button when lightbox opens
                 const backToTop = document.getElementById('back-to-top');
                 if (backToTop) {
                     backToTop.classList.remove('visible');
                 }
+                
+                // Now set up the video (after modal is visible)
+                setLightboxVideo(videoSources);
+            } else {
+                console.error('Video sources not found for item:', item, 'videoSources:', videoSources);
             }
         } else {
             // Handle image
