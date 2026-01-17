@@ -670,15 +670,21 @@ function initVideoThumbnails() {
         
         if (!thumbnail) return;
         
-        // Use poster image from central config, or fallback to gradient
-        const posterSrc = videoConfig ? videoConfig.poster : null;
-        
-        // Remove any existing broken images
+        // Remove any existing broken images FIRST to prevent broken icons
         const existingImgs = thumbnail.querySelectorAll('img');
         existingImgs.forEach(img => img.remove());
         
+        // Always use gradient background - poster images don't exist
+        // This prevents broken image icons
+        if (canvas) {
+            canvas.style.background = 'linear-gradient(135deg, rgba(0,0,0,0.8), rgba(20,20,40,0.8))';
+            canvas.style.display = 'block';
+        }
+        
+        // Optional: Try to load poster if it exists (but don't show broken icon if it fails)
+        const posterSrc = videoConfig ? videoConfig.poster : null;
         if (posterSrc && canvas) {
-            // Try to load poster image
+            // Try to load poster image silently (hidden until loaded)
             const posterImg = document.createElement('img');
             posterImg.className = 'video-poster-img';
             posterImg.src = posterSrc;
@@ -688,26 +694,21 @@ function initVideoThumbnails() {
             posterImg.style.width = '100%';
             posterImg.style.height = '100%';
             posterImg.style.objectFit = 'cover';
+            posterImg.style.display = 'none'; // Hidden by default
             
-            // Hide image on error (broken image)
-            posterImg.addEventListener('error', function() {
-                this.style.display = 'none';
-                if (canvas) {
-                    canvas.style.background = 'linear-gradient(135deg, rgba(0,0,0,0.8), rgba(20,20,40,0.8))';
-                    canvas.style.display = 'block';
-                }
-            }, { once: true });
-            
-            // Show image on load
+            // Show image on load, keep hidden on error (no broken icon)
             posterImg.addEventListener('load', function() {
+                this.style.display = 'block';
                 if (canvas) canvas.style.display = 'none';
             }, { once: true });
             
+            // On error, keep hidden (no broken icon visible)
+            posterImg.addEventListener('error', function() {
+                // Keep hidden, gradient background remains visible
+                this.style.display = 'none';
+            }, { once: true });
+            
             thumbnail.insertBefore(posterImg, canvas);
-        } else if (canvas) {
-            // No poster available - use gradient background (no broken image icon)
-            canvas.style.background = 'linear-gradient(135deg, rgba(0,0,0,0.8), rgba(20,20,40,0.8))';
-            canvas.style.display = 'block';
         }
     });
 }
@@ -942,10 +943,27 @@ function initLightbox() {
     }
     
     // Function to get video sources from gallery item
+    // PRIMARY: Use data-video-id to get from central VIDEOS config
     function getVideoSources(item) {
+        // First priority: use data-video-id to get from central config
+        const videoId = item.getAttribute('data-video-id');
+        if (videoId) {
+            const videoConfig = getVideoById(videoId);
+            if (videoConfig && videoConfig.src) {
+                console.log('getVideoSources: Found video from config', { videoId, src: videoConfig.src });
+                return [{
+                    src: videoConfig.src,
+                    type: videoConfig.type || 'video/quicktime'
+                }];
+            } else {
+                console.error('getVideoSources: Video config not found for ID', videoId);
+            }
+        }
+        
+        // Fallback: check for <video> element with sources (legacy support)
         const video = item.querySelector('.gallery-video video');
         if (video) {
-            // First check if video has <source> elements (already loaded)
+            // Check if video has <source> elements (already loaded)
             const sources = video.querySelectorAll('source');
             if (sources.length > 0) {
                 const sourceData = [];
@@ -979,26 +997,26 @@ function initLightbox() {
             }
         }
         
-        // Fallback: use data-video-id to get from central config
-        const videoId = item.getAttribute('data-video-id');
-        if (videoId) {
-            const videoConfig = getVideoById(videoId);
-            if (videoConfig && videoConfig.src) {
-                return [{
-                    src: videoConfig.src,
-                    type: videoConfig.type || 'video/quicktime'
-                }];
-            }
-        }
-        
+        console.error('getVideoSources: No video sources found for item', item);
         return null;
     }
     
     // Robust function to set video in lightbox (called after modal is visible)
     function setLightboxVideo(videoSources) {
+        const lightboxVideoError = document.getElementById('lightbox-video-error');
+        
         if (!lightboxVideo || !videoSources || videoSources.length === 0) {
             console.error('setLightboxVideo: Invalid parameters', { lightboxVideo, videoSources });
+            if (lightboxVideoError) {
+                lightboxVideoError.textContent = 'Video-Quelle nicht gefunden.';
+                lightboxVideoError.classList.remove('hidden');
+            }
             return;
+        }
+        
+        // Hide error message initially
+        if (lightboxVideoError) {
+            lightboxVideoError.classList.add('hidden');
         }
         
         // Reset video completely
@@ -1020,7 +1038,7 @@ function initLightbox() {
             
             const source = document.createElement('source');
             source.setAttribute('src', sourceData.src);
-            source.setAttribute('type', sourceData.type || 'video/mp4');
+            source.setAttribute('type', sourceData.type || 'video/quicktime');
             lightboxVideo.appendChild(source);
             hasValidSource = true;
             
@@ -1029,6 +1047,10 @@ function initLightbox() {
         
         if (!hasValidSource) {
             console.error('setLightboxVideo: No valid sources found', videoSources);
+            if (lightboxVideoError) {
+                lightboxVideoError.textContent = 'Keine gültige Video-Quelle gefunden.';
+                lightboxVideoError.classList.remove('hidden');
+            }
             return;
         }
         
@@ -1064,6 +1086,12 @@ function initLightbox() {
                     readyState: lightboxVideo.readyState,
                     src: Array.from(lightboxVideo.querySelectorAll('source')).map(s => s.src)
                 });
+                
+                // Show visible error message
+                if (lightboxVideoError) {
+                    lightboxVideoError.textContent = errorMsg;
+                    lightboxVideoError.classList.remove('hidden');
+                }
             }
         };
         lightboxVideo.addEventListener('error', handleError, { once: true });
