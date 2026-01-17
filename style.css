@@ -1243,13 +1243,33 @@ nav {
 }
 
 .trigger-icon {
-    font-size: 0.8rem;
+    font-size: 0;
+    width: 0;
+    height: 0;
+    display: inline-block;
+    position: relative;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+}
+
+/* CSS-based arrow (more reliable than Unicode, encoding-independent) */
+.trigger-icon::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid currentColor;
     transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     display: inline-block;
 }
 
-.reveal-trigger.active .trigger-icon {
-    transform: rotate(180deg);
+.reveal-trigger.active .trigger-icon::after {
+    transform: translateY(-50%) rotate(180deg);
 }
 
 .achievement-content {
