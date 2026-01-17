@@ -943,22 +943,51 @@ function initVideoThumbnails() {
             return;
         }
         
-        // Set canvas dimensions
-        canvas.width = canvas.offsetWidth || 400;
-        canvas.height = canvas.offsetHeight || 250;
+        // Set canvas dimensions based on container size
+        const containerWidth = canvas.offsetWidth || 400;
+        const containerHeight = canvas.offsetHeight || 250;
+        canvas.width = containerWidth;
+        canvas.height = containerHeight;
         
         // When video metadata is loaded, seek to a good frame (e.g., 1 second in)
         video.addEventListener('loadedmetadata', function() {
             video.currentTime = 1; // Seek to 1 second
         }, { once: true });
         
-        // When video frame is ready, draw it to canvas
+        // When video frame is ready, draw it to canvas maintaining aspect ratio
         video.addEventListener('seeked', function() {
             try {
                 // Remove gradient background
                 canvas.style.background = '';
-                // Draw video frame to canvas
-                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                
+                // Calculate aspect ratios
+                const videoAspect = video.videoWidth / video.videoHeight;
+                const canvasAspect = canvas.width / canvas.height;
+                
+                let drawWidth, drawHeight, drawX, drawY;
+                
+                // Maintain aspect ratio - use "contain" behavior (like CSS object-fit: contain)
+                if (videoAspect > canvasAspect) {
+                    // Video is wider - fit to width
+                    drawWidth = canvas.width;
+                    drawHeight = canvas.width / videoAspect;
+                    drawX = 0;
+                    drawY = (canvas.height - drawHeight) / 2;
+                } else {
+                    // Video is taller - fit to height
+                    drawHeight = canvas.height;
+                    drawWidth = canvas.height * videoAspect;
+                    drawX = (canvas.width - drawWidth) / 2;
+                    drawY = 0;
+                }
+                
+                // Fill background with black (for letterboxing/pillarboxing)
+                ctx.fillStyle = '#000';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw video frame maintaining aspect ratio (no distortion)
+                ctx.drawImage(video, drawX, drawY, drawWidth, drawHeight);
+                
                 canvas.style.display = 'block';
                 console.log('generateThumbnailFromVideo: Thumbnail generated for', videoId);
             } catch (e) {
