@@ -47,7 +47,7 @@ function getVideoById(id) {
     return VIDEOS.find(v => v.id === id);
 }
 
-// Page Loader: Wait for ALL images to load (including background images)
+// Page Loader: Wait for ALL images to load (prioritizing hero background image)
 (function initPageLoader() {
     'use strict';
     
@@ -56,7 +56,7 @@ function getVideoById(id) {
     
     let loaderShown = false;
     let loaderHidden = false;
-    const MAX_WAIT_TIME = 10000; // 10 seconds timeout (increased for all images)
+    const MAX_WAIT_TIME = 12000; // 12 seconds timeout (increased for all images)
     
     // Check connection speed
     const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
@@ -86,75 +86,134 @@ function getVideoById(id) {
         }, 300);
     }
     
-    // Loader activation strategy
-    if (isProbablySlow) {
-        // Slow connection: show loader immediately
-        showLoader();
-    } else {
-        // Fast connection: show loader after 200ms if not ready (to avoid flicker)
-        setTimeout(() => {
-            if (!loaderHidden) {
-                showLoader();
-            }
-        }, 200);
+    // Loader activation strategy - show immediately to ensure page is hidden
+    showLoader();
+    
+    // Convert relative URL to absolute
+    function toAbsoluteUrl(url) {
+        if (url.startsWith('./')) {
+            return new URL(url.substring(2), window.location.href).href;
+        } else if (!url.startsWith('http') && !url.startsWith('//') && !url.startsWith('data:')) {
+            return new URL(url, window.location.href).href;
+        }
+        return url;
     }
     
-    // Collect all image sources from the page
+    // Get hero background image sources (PRIORITY)
+    function getHeroBackgroundImages() {
+        const heroImages = new Set();
+        
+        // 1. Check hero-critical img tag
+        const heroCritical = document.getElementById('hero-critical');
+        if (heroCritical) {
+            if (heroCritical.src) heroImages.add(toAbsoluteUrl(heroCritical.src));
+            // Check if it has error fallback
+            if (heroCritical.onerror) {
+                // Try to get the fallback JPG
+                heroImages.add(toAbsoluteUrl('./hero-guitarist.JPG'));
+            }
+        }
+        
+        // 2. Check hero section computed background-image
+        const heroSection = document.querySelector('.hero');
+        if (heroSection) {
+            const computedStyle = window.getComputedStyle(heroSection);
+            const bgImage = computedStyle.backgroundImage;
+            if (bgImage && bgImage !== 'none') {
+                // Extract all URLs from background-image (can have multiple)
+                const urlMatches = bgImage.match(/url\(['"]?([^'")]+)['"]?\)/g);
+                if (urlMatches) {
+                    urlMatches.forEach(match => {
+                        const urlMatch = match.match(/url\(['"]?([^'")]+)['"]?\)/);
+                        if (urlMatch && urlMatch[1] && !urlMatch[1].includes('gradient')) {
+                            heroImages.add(toAbsoluteUrl(urlMatch[1]));
+                        }
+                    });
+                }
+            }
+        }
+        
+        // 3. Explicitly add known hero images (fallback)
+        heroImages.add(toAbsoluteUrl('./hero-guitarist.webp'));
+        heroImages.add(toAbsoluteUrl('./hero-guitarist.JPG'));
+        heroImages.add(toAbsoluteUrl('./hero-guitarist-mobile.png'));
+        
+        // 4. Check hero img tag in picture element
+        const heroImg = document.querySelector('.hero img, .hero-image img');
+        if (heroImg) {
+            if (heroImg.src) heroImages.add(toAbsoluteUrl(heroImg.src));
+            if (heroImg.srcset) {
+                const srcsetUrls = heroImg.srcset.split(',').map(s => s.trim().split(' ')[0]);
+                srcsetUrls.forEach(url => heroImages.add(toAbsoluteUrl(url)));
+            }
+        }
+        
+        return Array.from(heroImages);
+    }
+    
+    // Collect all other image sources from the page (non-hero)
     function collectAllImageSources() {
         const imageSources = new Set();
+        const heroImages = getHeroBackgroundImages();
+        const heroImageSet = new Set(heroImages);
         
-        // 1. Collect all img tags
+        // 1. Collect all img tags (excluding hero images)
         const imgTags = document.querySelectorAll('img');
         imgTags.forEach(img => {
-            if (img.src) {
-                imageSources.add(img.src);
+            if (img.id === 'hero-critical') return; // Skip hero-critical, already handled
+            if (img.closest('.hero')) {
+                // Hero images are already handled
+                return;
+            }
+            if (img.src && !heroImageSet.has(toAbsoluteUrl(img.src))) {
+                imageSources.add(toAbsoluteUrl(img.src));
             }
             // Also check srcset
             if (img.srcset) {
                 const srcsetUrls = img.srcset.split(',').map(s => s.trim().split(' ')[0]);
-                srcsetUrls.forEach(url => imageSources.add(url));
+                srcsetUrls.forEach(url => {
+                    const absUrl = toAbsoluteUrl(url);
+                    if (!heroImageSet.has(absUrl)) {
+                        imageSources.add(absUrl);
+                    }
+                });
             }
         });
         
-        // 2. Collect all background-image URLs from style attributes
+        // 2. Collect all background-image URLs from style attributes (excluding hero)
         const elementsWithBg = document.querySelectorAll('[style*="background-image"]');
         elementsWithBg.forEach(el => {
+            // Skip hero section
+            if (el.closest('.hero')) return;
+            
             const style = el.getAttribute('style');
             if (style) {
                 const matches = style.match(/url\(['"]?([^'")]+)['"]?\)/g);
                 if (matches) {
                     matches.forEach(match => {
                         const urlMatch = match.match(/url\(['"]?([^'")]+)['"]?\)/);
-                        if (urlMatch && urlMatch[1]) {
-                            // Convert relative URLs to absolute
-                            let url = urlMatch[1];
-                            if (url.startsWith('./')) {
-                                url = new URL(url.substring(2), window.location.href).href;
-                            } else if (!url.startsWith('http') && !url.startsWith('//')) {
-                                url = new URL(url, window.location.href).href;
+                        if (urlMatch && urlMatch[1] && !urlMatch[1].includes('gradient')) {
+                            const absUrl = toAbsoluteUrl(urlMatch[1]);
+                            if (!heroImageSet.has(absUrl)) {
+                                imageSources.add(absUrl);
                             }
-                            imageSources.add(url);
                         }
                     });
                 }
             }
         });
         
-        // 3. Also check computed styles for background-image (for elements with inline styles)
-        // This catches gallery-image elements
+        // 3. Check gallery-image elements
         const galleryImages = document.querySelectorAll('.gallery-image');
         galleryImages.forEach(el => {
             const style = el.getAttribute('style');
             if (style) {
                 const match = style.match(/url\(['"]?([^'")]+)['"]?\)/);
                 if (match && match[1]) {
-                    let url = match[1];
-                    if (url.startsWith('./')) {
-                        url = new URL(url.substring(2), window.location.href).href;
-                    } else if (!url.startsWith('http') && !url.startsWith('//')) {
-                        url = new URL(url, window.location.href).href;
+                    const absUrl = toAbsoluteUrl(match[1]);
+                    if (!heroImageSet.has(absUrl)) {
+                        imageSources.add(absUrl);
                     }
-                    imageSources.add(url);
                 }
             }
         });
@@ -163,42 +222,71 @@ function getVideoById(id) {
     }
     
     // Preload an image and return a promise
-    function preloadImage(src) {
+    function preloadImage(src, priority = false) {
         return new Promise((resolve, reject) => {
             const img = new Image();
+            if (priority) {
+                // For priority images, set fetchpriority
+                img.fetchPriority = 'high';
+            }
             img.onload = () => resolve(src);
-            img.onerror = () => resolve(src); // Resolve even on error to not block loading
+            img.onerror = () => {
+                // For hero images, don't resolve on error - wait for fallback
+                // For other images, resolve to not block
+                if (priority) {
+                    // Hero image error - try to continue anyway after a delay
+                    setTimeout(() => resolve(src), 500);
+                } else {
+                    resolve(src);
+                }
+            };
             img.src = src;
             
             // If image is already cached, resolve immediately
-            if (img.complete) {
+            if (img.complete && img.naturalWidth > 0) {
                 resolve(src);
             }
         });
     }
     
-    // Wait for all images to load
+    // Wait for hero images FIRST, then all other images
     function waitForAllImages() {
-        const imageSources = collectAllImageSources();
+        const heroImages = getHeroBackgroundImages();
+        const otherImages = collectAllImageSources();
         
-        if (imageSources.length === 0) {
-            // No images found, wait for fonts and hide
-            waitForFontsAndHide();
-            return;
-        }
+        console.log('Hero images to load:', heroImages.length);
+        console.log('Other images to load:', otherImages.length);
         
-        // Preload all images
-        const imagePromises = imageSources.map(src => preloadImage(src));
+        // Step 1: Load hero images FIRST (CRITICAL)
+        const heroPromises = heroImages.map(src => preloadImage(src, true));
         
-        // Wait for all images to load (or timeout)
-        Promise.all(imagePromises)
+        Promise.all(heroPromises)
             .then(() => {
-                // All images loaded, wait for fonts and hide
-                waitForFontsAndHide();
+                // Step 2: After hero is loaded, load all other images
+                if (otherImages.length === 0) {
+                    waitForFontsAndHide();
+                    return;
+                }
+                
+                const otherPromises = otherImages.map(src => preloadImage(src, false));
+                Promise.all(otherPromises)
+                    .then(() => {
+                        waitForFontsAndHide();
+                    })
+                    .catch(() => {
+                        waitForFontsAndHide();
+                    });
             })
             .catch(() => {
-                // If there's an error, still wait for fonts and hide
-                waitForFontsAndHide();
+                // Even if hero fails, try to load other images
+                if (otherImages.length === 0) {
+                    waitForFontsAndHide();
+                } else {
+                    const otherPromises = otherImages.map(src => preloadImage(src, false));
+                    Promise.all(otherPromises)
+                        .then(() => waitForFontsAndHide())
+                        .catch(() => waitForFontsAndHide());
+                }
             });
     }
     
@@ -207,14 +295,14 @@ function getVideoById(id) {
         if (document.fonts && document.fonts.ready) {
             document.fonts.ready.then(() => {
                 // Small delay to ensure smooth transition
-                setTimeout(hideLoader, 100);
+                setTimeout(hideLoader, 150);
             }).catch(() => {
                 // If fonts.ready fails, hide anyway
-                setTimeout(hideLoader, 100);
+                setTimeout(hideLoader, 150);
             });
         } else {
             // Fonts API not available, hide after small delay
-            setTimeout(hideLoader, 100);
+            setTimeout(hideLoader, 150);
         }
     }
     
@@ -227,10 +315,10 @@ function getVideoById(id) {
     
     // Start checking when DOM is ready
     function startLoadingCheck() {
-        // Small delay to ensure all elements are in the DOM
+        // Small delay to ensure all elements are in the DOM and styles are computed
         setTimeout(() => {
             waitForAllImages();
-        }, 100);
+        }, 150);
     }
     
     if (document.readyState === 'loading') {
