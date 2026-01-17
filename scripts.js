@@ -523,12 +523,13 @@ function isElementInViewport(el) {
 }
 
 /**
- * Initialize lazy loading for gallery background images
+ * Initialize lazy loading for gallery images
  * Uses IntersectionObserver for better performance
  * Optimized: Only loads images when section is expanded AND in viewport
+ * Updated to work with <img> tags instead of background-image
  */
 function initLazyLoadGalleryImages() {
-    const galleryImages = document.querySelectorAll('.gallery-image');
+    const galleryImages = document.querySelectorAll('.gallery-image img');
     if (galleryImages.length === 0) return;
     
     // Check if parent section is expanded
@@ -538,61 +539,42 @@ function initLazyLoadGalleryImages() {
     };
     
     if (!('IntersectionObserver' in window)) {
-        // Fallback: load all images immediately when section is expanded
-        galleryImages.forEach(img => {
-            if (checkSectionExpanded(img)) {
-                const bgImage = img.getAttribute('style');
-                if (bgImage && bgImage.includes('background-image')) {
-                    const match = bgImage.match(/url\(['"]?([^'"]+)['"]?\)/);
-                    if (match && match[1]) {
-                        const link = document.createElement('link');
-                        link.rel = 'prefetch';
-                        link.as = 'image';
-                        link.href = match[1];
-                        document.head.appendChild(link);
-                    }
-                }
-            }
-        });
+        // Fallback: images will load naturally with loading="lazy" attribute
         return;
     }
     
     const imageObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting && checkSectionExpanded(entry.target)) {
-                const galleryImage = entry.target;
-                const bgImage = galleryImage.getAttribute('style');
+                const img = entry.target;
                 
-                // If image hasn't been loaded yet, load it
-                if (bgImage && bgImage.includes('background-image') && !galleryImage.dataset.loaded) {
-                    const match = bgImage.match(/url\(['"]?([^'"]+)['"]?\)/);
-                    if (match && match[1]) {
-                        // Try WebP first, fallback to original
-                        const originalSrc = match[1];
-                        const webpSrc = originalSrc.replace(/\.(jpg|jpeg|JPG|JPEG)$/i, '.webp');
-                        
-                        // Preload WebP version if available, fallback to original
-                        const link = document.createElement('link');
-                        link.rel = 'prefetch';
-                        link.as = 'image';
-                        link.href = webpSrc;
-                        link.onerror = function() {
-                            // If WebP fails, load original
-                            const fallbackLink = document.createElement('link');
-                            fallbackLink.rel = 'prefetch';
-                            fallbackLink.as = 'image';
-                            fallbackLink.href = originalSrc;
-                            document.head.appendChild(fallbackLink);
-                        };
-                        document.head.appendChild(link);
-                        
-                        // Mark as loaded
-                        galleryImage.dataset.loaded = 'true';
-                    }
+                // If image hasn't been loaded yet, prefetch it
+                if (!img.dataset.loaded && img.src) {
+                    // Try WebP first, fallback to original
+                    const originalSrc = img.src;
+                    const webpSrc = originalSrc.replace(/\.(jpg|jpeg|JPG|JPEG)$/i, '.webp');
+                    
+                    // Preload WebP version if available, fallback to original
+                    const link = document.createElement('link');
+                    link.rel = 'prefetch';
+                    link.as = 'image';
+                    link.href = webpSrc;
+                    link.onerror = function() {
+                        // If WebP fails, load original
+                        const fallbackLink = document.createElement('link');
+                        fallbackLink.rel = 'prefetch';
+                        fallbackLink.as = 'image';
+                        fallbackLink.href = originalSrc;
+                        document.head.appendChild(fallbackLink);
+                    };
+                    document.head.appendChild(link);
+                    
+                    // Mark as loaded
+                    img.dataset.loaded = 'true';
                 }
                 
                 // Stop observing once loaded
-                imageObserver.unobserve(galleryImage);
+                imageObserver.unobserve(img);
             }
         });
     }, {
@@ -914,6 +896,13 @@ function initLightbox() {
     
     // Function to get image source from gallery item
     function getImageSrc(item) {
+        // First priority: check for img tag (new structure)
+        const img = item.querySelector('.gallery-image img');
+        if (img) {
+            return img.getAttribute('src');
+        }
+        
+        // Fallback: check for background-image (legacy support)
         const galleryImage = item.querySelector('.gallery-image');
         if (galleryImage) {
             // First try inline style attribute
@@ -934,10 +923,11 @@ function initLightbox() {
                 }
             }
         }
-        // Fallback: check for img tag
-        const img = item.querySelector('img');
-        if (img) {
-            return img.getAttribute('src');
+        
+        // Final fallback: check for any img tag
+        const fallbackImg = item.querySelector('img');
+        if (fallbackImg) {
+            return fallbackImg.getAttribute('src');
         }
         return null;
     }
@@ -1381,10 +1371,33 @@ function initLightbox() {
                 }
                 lightboxImg.style.display = 'block';
                 
+                // Reset reveal state before loading new image
+                lightboxImg.classList.remove('is-ready');
+                
+                // Set image source and wait for decode before showing
                 lightboxImg.setAttribute('src', imgSrc);
                 lightboxCaption.textContent = caption;
                 lightbox.style.display = 'block';
                 document.body.style.overflow = 'hidden';
+                
+                // Wait for image to decode before revealing
+                (async function() {
+                    try {
+                        if (!lightboxImg.complete) {
+                            await new Promise((resolve, reject) => {
+                                lightboxImg.addEventListener('load', resolve, { once: true });
+                                lightboxImg.addEventListener('error', resolve, { once: true });
+                            });
+                        }
+                        if (lightboxImg.decode) {
+                            await lightboxImg.decode();
+                        }
+                    } catch (e) {
+                        console.warn('Lightbox image decode failed', e);
+                    } finally {
+                        lightboxImg.classList.add('is-ready');
+                    }
+                })();
                 
                 // Hide back-to-top button when lightbox opens
                 const backToTop = document.getElementById('back-to-top');
@@ -1524,4 +1537,115 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-}); 
+});
+
+/**
+ * Image Reveal System - Wait for decode before showing images
+ * Prevents scanline/progressive bar rendering by hiding images until fully decoded
+ */
+(function initImageReveal() {
+    'use strict';
+    
+    function reveal(img) {
+        img.classList.add('is-ready');
+    }
+    
+    async function prepare(img) {
+        try {
+            // If image is not complete, wait for load event
+            if (!img.complete) {
+                await new Promise((resolve, reject) => {
+                    img.addEventListener('load', resolve, { once: true });
+                    img.addEventListener('error', resolve, { once: true }); // Still reveal on error
+                });
+            }
+            
+            // If decode() is supported, wait for decode
+            if (img.decode) {
+                await img.decode();
+            }
+        } catch (e) {
+            // If decode fails, still reveal the image (don't leave it invisible forever)
+            console.warn('Image decode failed for', img.src, e);
+        } finally {
+            reveal(img);
+        }
+    }
+    
+    // Preload background images to prevent scanline rendering
+    function preloadBackgroundImages() {
+        const elementsWithBg = document.querySelectorAll('[style*="background-image"], .bio-image');
+        elementsWithBg.forEach(el => {
+            let bgUrl = null;
+            
+            // Get background-image from inline style
+            const inlineStyle = el.getAttribute('style');
+            if (inlineStyle) {
+                const match = inlineStyle.match(/background-image:\s*url\(['"]?([^'"]+)['"]?\)/);
+                if (match && match[1]) {
+                    bgUrl = match[1];
+                }
+            }
+            
+            // Get background-image from computed style (for .bio-image)
+            if (!bgUrl) {
+                const computedStyle = window.getComputedStyle(el);
+                const bgImage = computedStyle.backgroundImage;
+                if (bgImage && bgImage !== 'none') {
+                    const match = bgImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+                    if (match && match[1]) {
+                        bgUrl = match[1];
+                    }
+                }
+            }
+            
+            // Preload the image
+            if (bgUrl && !el.dataset.bgPreloaded) {
+                const img = new Image();
+                img.src = bgUrl;
+                el.dataset.bgPreloaded = 'true';
+            }
+        });
+    }
+    
+    // Find all images with img-reveal class
+    function initReveal() {
+        const imgs = document.querySelectorAll('img.img-reveal');
+        imgs.forEach(prepare);
+        
+        // Preload background images
+        preloadBackgroundImages();
+    }
+    
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initReveal);
+    } else {
+        initReveal();
+    }
+    
+    // Also handle dynamically added images (e.g., lightbox images)
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            mutation.addedNodes.forEach((node) => {
+                if (node.nodeType === 1) { // Element node
+                    // Check if the added node is an img with img-reveal class
+                    if (node.tagName === 'IMG' && node.classList.contains('img-reveal')) {
+                        prepare(node);
+                    }
+                    // Also check for img-reveal images within the added node
+                    const imgs = node.querySelectorAll && node.querySelectorAll('img.img-reveal');
+                    if (imgs) {
+                        imgs.forEach(prepare);
+                    }
+                }
+            });
+        });
+    });
+    
+    // Observe the document for dynamically added images
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+})();
