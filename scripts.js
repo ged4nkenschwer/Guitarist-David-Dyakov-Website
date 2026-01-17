@@ -11,7 +11,7 @@ const VIDEOS = [
     {
         id: 'capriccio-diabolico',
         title: { en: 'Capriccio Diabolico - Slow Movement', de: 'Capriccio Diabolico - Langsamer Satz' },
-        src: './videos/capriccio-diabolico-slow.mp4',
+        src: './Capricio Diabolico Slow Movement.Postojna Festival.mp4',
         type: 'video/mp4',
         poster: './Capricio Diabolico Slow Movement.Postojna Festival-poster.jpg',
         caption: { en: 'Capriccio Diabolico - Slow Movement (Postojna Festival)', de: 'Capriccio Diabolico - Langsamer Satz (Postojna Festival)' }
@@ -19,7 +19,7 @@ const VIDEOS = [
     {
         id: 'homenaje',
         title: { en: 'Homenaje - Manuel de Falla', de: 'Homenaje - Manuel de Falla' },
-        src: './videos/homenaje-manuel-de-falla.mp4',
+        src: './Homenaje pour Le Tombeau de Claude Debussy by Manuel de Falla.Finale.Postojna Festival.mp4',
         type: 'video/mp4',
         poster: './Homenaje pour Le Tombeau de Claude Debussy by Manuel de Falla.Finale.Postojna Festival-poster.jpg',
         caption: { en: 'Homenaje - Manuel de Falla (Postojna Festival)', de: 'Homenaje - Manuel de Falla (Postojna Festival)' }
@@ -27,7 +27,7 @@ const VIDEOS = [
     {
         id: 'rossiniana-finale',
         title: { en: 'Rossiniana Nr.1 op.119 - Finale', de: 'Rossiniana Nr.1 op.119 - Finale' },
-        src: './videos/rossiniana-op119-finale.mp4',
+        src: './Rossiniana Nr.1 op.119 .Finale . Postoja Guitar Festival 2025.mp4',
         type: 'video/mp4',
         poster: './Rossiniana Nr.1 op.119 .Finale . Postoja Guitar Festival 2025-poster.jpg',
         caption: { en: 'Rossiniana Nr.1 op.119 - Finale (Postojna Guitar Festival)', de: 'Rossiniana Nr.1 op.119 - Finale (Postojna Guitar Festival)' }
