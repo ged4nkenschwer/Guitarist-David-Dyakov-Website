@@ -1037,9 +1037,17 @@ function initLightbox() {
             }
             
             const source = document.createElement('source');
+            // Ensure URLs with spaces are properly handled (browser will encode automatically)
+            // Use the src as-is since relative paths work fine
             source.setAttribute('src', sourceData.src);
             source.setAttribute('type', sourceData.type || 'video/quicktime');
             lightboxVideo.appendChild(source);
+            
+            console.log('setLightboxVideo: Added source element', { 
+                src: sourceData.src, 
+                type: sourceData.type,
+                element: source
+            });
             hasValidSource = true;
             
             console.log('setLightboxVideo: Added source', { src: sourceData.src, type: sourceData.type });
@@ -1059,10 +1067,7 @@ function initLightbox() {
         lightboxVideo.setAttribute('controls', '');
         lightboxVideo.preload = 'metadata';
         
-        // Load the video
-        lightboxVideo.load();
-        
-        // Error handling
+        // Error handling - set up BEFORE load()
         const handleError = () => {
             const error = lightboxVideo.error;
             if (error) {
@@ -1096,34 +1101,36 @@ function initLightbox() {
         };
         lightboxVideo.addEventListener('error', handleError, { once: true });
         
-        // Auto-play the video once it can play (user gesture allows it)
-        const playLightboxVideo = () => {
-            if (lightboxVideo.paused && lightboxVideo.readyState >= 2) {
-                lightboxVideo.play().catch(err => {
-                    // Auto-play might be blocked by browser policy, that's okay
-                    // User can click play manually
-                    console.log('Video autoplay prevented (user interaction required):', err.name, err.message);
-                });
-            }
-        };
+        // Load the video
+        lightboxVideo.load();
         
-        // Try to play when enough data is loaded
-        lightboxVideo.addEventListener('canplay', playLightboxVideo, { once: true });
-        
-        // Fallback: try when metadata loads (might work faster)
-        lightboxVideo.addEventListener('loadedmetadata', function tryPlay() {
-            if (lightboxVideo.readyState >= 2) {
-                playLightboxVideo();
-            }
-            lightboxVideo.removeEventListener('loadedmetadata', tryPlay);
-        }, { once: true });
-        
-        // Additional fallback: try play after modal is fully visible
-        setTimeout(() => {
-            if (lightboxVideo.paused && lightboxVideo.readyState >= 2) {
-                playLightboxVideo();
-            }
-        }, 100);
+        // CRITICAL: Call play() directly from click handler (user gesture allows it)
+        // This is the key fix - play immediately after load() when called from user click
+        lightboxVideo.play().catch(err => {
+            // If immediate play fails, try when enough data is loaded
+            console.log('Immediate play failed, will retry on canplay:', err.name, err.message);
+            
+            const playLightboxVideo = () => {
+                if (lightboxVideo.paused && lightboxVideo.readyState >= 2) {
+                    lightboxVideo.play().catch(playErr => {
+                        // Auto-play might be blocked by browser policy, that's okay
+                        // User can click play manually
+                        console.log('Video autoplay prevented (user interaction required):', playErr.name, playErr.message);
+                    });
+                }
+            };
+            
+            // Try to play when enough data is loaded
+            lightboxVideo.addEventListener('canplay', playLightboxVideo, { once: true });
+            
+            // Fallback: try when metadata loads (might work faster)
+            lightboxVideo.addEventListener('loadedmetadata', function tryPlay() {
+                if (lightboxVideo.readyState >= 2) {
+                    playLightboxVideo();
+                }
+                lightboxVideo.removeEventListener('loadedmetadata', tryPlay);
+            }, { once: true });
+        });
     }
     
     // Legacy function for compatibility - redirects to setLightboxVideo
