@@ -837,6 +837,11 @@ function fixVideoGalleryOverflow() {
 function initVideoThumbnails() {
     const videoItems = document.querySelectorAll('.gallery-video');
     
+    if (videoItems.length === 0) {
+        console.log('initVideoThumbnails: No video items found');
+        return;
+    }
+    
     // Function to load thumbnail for a video container
     const loadThumbnail = (videoContainer) => {
         const galleryItem = videoContainer.closest('.gallery-item');
@@ -845,15 +850,22 @@ function initVideoThumbnails() {
         const thumbnail = videoContainer.querySelector('.video-thumbnail');
         const canvas = videoContainer.querySelector('.video-thumbnail-canvas');
         
-        if (!thumbnail) return;
+        if (!thumbnail) {
+            console.warn('loadThumbnail: No thumbnail element found', videoContainer);
+            return;
+        }
         
-        // Skip if already loaded
-        if (thumbnail.dataset.thumbnailLoaded === 'true') return;
-        thumbnail.dataset.thumbnailLoaded = 'true';
+        // Check if poster image already exists and is loaded
+        const existingPoster = thumbnail.querySelector('.video-poster-img');
+        if (existingPoster && existingPoster.complete && existingPoster.naturalWidth > 0) {
+            // Already loaded and working
+            return;
+        }
         
         // Remove any existing broken images FIRST to prevent broken icons
-        const existingImgs = thumbnail.querySelectorAll('img');
-        existingImgs.forEach(img => img.remove());
+        if (existingPoster) {
+            existingPoster.remove();
+        }
         
         // Always use gradient background as fallback
         if (canvas) {
@@ -863,64 +875,87 @@ function initVideoThumbnails() {
         
         // Load poster image if it exists
         const posterSrc = videoConfig ? videoConfig.poster : null;
-        if (posterSrc && canvas) {
-            // Try to load poster image silently (hidden until loaded)
-            const posterImg = document.createElement('img');
-            posterImg.className = 'video-poster-img';
-            posterImg.src = posterSrc;
-            posterImg.alt = videoConfig ? (videoConfig.title.en || '') : '';
-            posterImg.loading = 'eager'; // Changed to eager for better visibility
-            posterImg.decoding = 'async';
-            posterImg.style.width = '100%';
-            posterImg.style.height = '100%';
-            posterImg.style.objectFit = 'cover';
-            posterImg.style.display = 'none'; // Hidden by default
-            
-            // Show image on load, keep hidden on error (no broken icon)
-            posterImg.addEventListener('load', function() {
-                this.style.display = 'block';
-                if (canvas) canvas.style.display = 'none';
-            }, { once: true });
-            
-            // On error, keep hidden (no broken icon visible)
-            posterImg.addEventListener('error', function() {
-                // Keep hidden, gradient background remains visible
-                this.style.display = 'none';
-            }, { once: true });
-            
-            thumbnail.insertBefore(posterImg, canvas);
+        if (!posterSrc) {
+            console.warn('loadThumbnail: No poster source for video', { videoId, videoConfig });
+            return;
         }
+        
+        console.log('loadThumbnail: Loading poster for', videoId, posterSrc);
+        
+        // Create and load poster image
+        const posterImg = document.createElement('img');
+        posterImg.className = 'video-poster-img';
+        posterImg.src = posterSrc;
+        posterImg.alt = videoConfig ? (videoConfig.title.en || '') : '';
+        posterImg.loading = 'eager';
+        posterImg.decoding = 'async';
+        posterImg.style.width = '100%';
+        posterImg.style.height = '100%';
+        posterImg.style.objectFit = 'cover';
+        posterImg.style.position = 'absolute';
+        posterImg.style.top = '0';
+        posterImg.style.left = '0';
+        posterImg.style.display = 'block'; // Show immediately, will hide if error
+        
+        // Show image on load
+        posterImg.addEventListener('load', function() {
+            console.log('loadThumbnail: Poster loaded successfully', videoId);
+            this.style.display = 'block';
+            if (canvas) canvas.style.display = 'none';
+        }, { once: true });
+        
+        // On error, hide image and show canvas
+        posterImg.addEventListener('error', function() {
+            console.warn('loadThumbnail: Poster failed to load', videoId, posterSrc);
+            this.style.display = 'none';
+            if (canvas) canvas.style.display = 'block';
+        }, { once: true });
+        
+        thumbnail.insertBefore(posterImg, canvas);
     };
     
-    // Load thumbnails for all videos initially
-    videoItems.forEach(loadThumbnail);
+    // Find all video sections (there might be multiple achievement-reveal sections)
+    const allSections = document.querySelectorAll('#gallery .achievement-reveal');
+    const videoSections = Array.from(allSections).filter(section => {
+        // Check if this section contains video items
+        return section.querySelector('.gallery-video') !== null;
+    });
     
-    // Watch for section expansion to load thumbnails if not already loaded
-    const videosSection = document.querySelector('#gallery .achievement-reveal');
-    const videosContent = videosSection ? videosSection.querySelector('.achievement-content') : null;
-    
-    if (videosContent) {
-        const sectionObserver = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                    if (videosContent.classList.contains('revealed')) {
-                        // Section expanded - ensure all thumbnails are loaded
-                        videoItems.forEach(loadThumbnail);
+    // Watch for section expansion for each video section
+    videoSections.forEach(videosSection => {
+        const videosContent = videosSection.querySelector('.achievement-content');
+        
+        if (videosContent) {
+            // Load thumbnails when section expands
+            const sectionObserver = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                        if (videosContent.classList.contains('revealed')) {
+                            console.log('initVideoThumbnails: Section expanded, loading thumbnails');
+                            // Get video items within this section
+                            const sectionVideoItems = videosContent.querySelectorAll('.gallery-video');
+                            sectionVideoItems.forEach(loadThumbnail);
+                        }
                     }
-                }
+                });
             });
-        });
-        
-        sectionObserver.observe(videosContent, { 
-            attributes: true, 
-            attributeFilter: ['class'] 
-        });
-        
-        // Also check if already expanded
-        if (videosContent.classList.contains('revealed')) {
-            videoItems.forEach(loadThumbnail);
+            
+            sectionObserver.observe(videosContent, { 
+                attributes: true, 
+                attributeFilter: ['class'] 
+            });
+            
+            // Also check if already expanded and load immediately
+            if (videosContent.classList.contains('revealed')) {
+                console.log('initVideoThumbnails: Section already expanded, loading thumbnails');
+                const sectionVideoItems = videosContent.querySelectorAll('.gallery-video');
+                sectionVideoItems.forEach(loadThumbnail);
+            }
         }
-    }
+    });
+    
+    // Also try to load all thumbnails initially (in case section is already visible)
+    videoItems.forEach(loadThumbnail);
 }
 
 /**
