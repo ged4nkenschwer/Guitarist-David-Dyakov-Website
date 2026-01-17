@@ -11,51 +11,32 @@ const VIDEOS = [
     {
         id: 'capriccio-diabolico',
         title: { en: 'Capriccio Diabolico - Slow Movement', de: 'Capriccio Diabolico - Langsamer Satz' },
-        src: './videos/capriccio-diabolico-slow.mov',
-        // Provide multiple source formats for better browser compatibility
-        // Try MP4 MIME type first (some browsers can play MOV with mp4 type if H.264 encoded)
-        // Then fallback to quicktime MIME type
-        sources: [
-            { src: './videos/capriccio-diabolico-slow.mov', type: 'video/mp4' },
-            { src: './Capricio Diabolico Slow Movement.Postojna Festival.mov', type: 'video/quicktime' }
-        ],
-        type: 'video/quicktime',
+        src: './videos/capriccio-diabolico-slow.mp4',
+        type: 'video/mp4',
         poster: './Capricio Diabolico Slow Movement.Postojna Festival-poster.jpg',
         caption: { en: 'Capriccio Diabolico - Slow Movement (Postojna Festival)', de: 'Capriccio Diabolico - Langsamer Satz (Postojna Festival)' }
     },
     {
         id: 'homenaje',
         title: { en: 'Homenaje - Manuel de Falla', de: 'Homenaje - Manuel de Falla' },
-        src: './videos/homenaje-manuel-de-falla.mov',
-        sources: [
-            { src: './videos/homenaje-manuel-de-falla.mov', type: 'video/mp4' },
-            { src: './Homenaje pour Le Tombeau de Claude Debussy by Manuel de Falla.Finale.Postojna Festival.mov', type: 'video/quicktime' }
-        ],
-        type: 'video/quicktime',
+        src: './videos/homenaje-manuel-de-falla.mp4',
+        type: 'video/mp4',
         poster: './Homenaje pour Le Tombeau de Claude Debussy by Manuel de Falla.Finale.Postojna Festival-poster.jpg',
         caption: { en: 'Homenaje - Manuel de Falla (Postojna Festival)', de: 'Homenaje - Manuel de Falla (Postojna Festival)' }
     },
     {
         id: 'rossiniana-finale',
         title: { en: 'Rossiniana Nr.1 op.119 - Finale', de: 'Rossiniana Nr.1 op.119 - Finale' },
-        src: './videos/rossiniana-op119-finale.mov',
-        sources: [
-            { src: './videos/rossiniana-op119-finale.mov', type: 'video/mp4' },
-            { src: './Rossiniana Nr.1 op.119 .Finale . Postoja Guitar Festival 2025.mov', type: 'video/quicktime' }
-        ],
-        type: 'video/quicktime',
+        src: './videos/rossiniana-op119-finale.mp4',
+        type: 'video/mp4',
         poster: './Rossiniana Nr.1 op.119 .Finale . Postoja Guitar Festival 2025-poster.jpg',
         caption: { en: 'Rossiniana Nr.1 op.119 - Finale (Postojna Guitar Festival)', de: 'Rossiniana Nr.1 op.119 - Finale (Postojna Guitar Festival)' }
     },
     {
         id: 'hora',
         title: { en: 'Hora by Stephan Rak', de: 'Hora von Stephan Rak' },
-        src: './videos/hora-stephan-rak.mov',
-        sources: [
-            { src: './videos/hora-stephan-rak.mov', type: 'video/mp4' },
-            { src: './Hora by Stephan Rak.Finale.Donnersbergiade 2025.mov', type: 'video/quicktime' }
-        ],
-        type: 'video/quicktime',
+        src: './videos/hora-stephan-rak.mp4',
+        type: 'video/mp4',
         poster: './Hora by Stephan Rak.Finale.Donnersbergiade 2025-poster.jpg',
         caption: { en: 'Hora by Stephan Rak (Donnersbergiade 2025)', de: 'Hora von Stephan Rak (Donnersbergiade 2025)' }
     }
@@ -1154,7 +1135,7 @@ function initLightbox() {
                     console.log('getVideoSources: Found video from config', { videoId, src: videoConfig.src });
                     return [{
                         src: videoConfig.src,
-                        type: videoConfig.type || 'video/quicktime'
+                        type: videoConfig.type || 'video/mp4'
                     }];
                 }
             } else {
@@ -1243,24 +1224,21 @@ function initLightbox() {
             // Use the src as-is since relative paths work fine
             source.setAttribute('src', sourceData.src);
             
-            // Determine proper MIME type - MOV files can sometimes work with video/mp4 type
-            // or video/quicktime, depending on browser support
-            let mimeType = sourceData.type || 'video/quicktime';
+            // Determine proper MIME type based on file extension or provided type
+            let mimeType = sourceData.type;
             const srcLower = sourceData.src.toLowerCase();
             
-            // If it's a .mov file, try both mp4 and quicktime types for better compatibility
-            if (srcLower.endsWith('.mov')) {
-                // First try as MP4 (some browsers can play MOV as MP4)
-                if (!hasValidSource) {
+            // Auto-detect MIME type from file extension if not provided
+            if (!mimeType) {
+                if (srcLower.endsWith('.mp4')) {
                     mimeType = 'video/mp4';
-                } else {
-                    // Subsequent sources use quicktime
+                } else if (srcLower.endsWith('.mov')) {
                     mimeType = 'video/quicktime';
+                } else if (srcLower.endsWith('.webm')) {
+                    mimeType = 'video/webm';
+                } else {
+                    mimeType = 'video/mp4'; // Default to MP4 for best compatibility
                 }
-            } else if (srcLower.endsWith('.mp4')) {
-                mimeType = 'video/mp4';
-            } else if (srcLower.endsWith('.webm')) {
-                mimeType = 'video/webm';
             }
             
             source.setAttribute('type', mimeType);
