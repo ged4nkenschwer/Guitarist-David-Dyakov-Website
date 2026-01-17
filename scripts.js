@@ -11,7 +11,14 @@ const VIDEOS = [
     {
         id: 'capriccio-diabolico',
         title: { en: 'Capriccio Diabolico - Slow Movement', de: 'Capriccio Diabolico - Langsamer Satz' },
-        src: './Capricio Diabolico Slow Movement.Postojna Festival.mov',
+        src: './videos/capriccio-diabolico-slow.mov',
+        // Provide multiple source formats for better browser compatibility
+        // Try MP4 MIME type first (some browsers can play MOV with mp4 type if H.264 encoded)
+        // Then fallback to quicktime MIME type
+        sources: [
+            { src: './videos/capriccio-diabolico-slow.mov', type: 'video/mp4' },
+            { src: './Capricio Diabolico Slow Movement.Postojna Festival.mov', type: 'video/quicktime' }
+        ],
         type: 'video/quicktime',
         poster: './Capricio Diabolico Slow Movement.Postojna Festival-poster.jpg',
         caption: { en: 'Capriccio Diabolico - Slow Movement (Postojna Festival)', de: 'Capriccio Diabolico - Langsamer Satz (Postojna Festival)' }
@@ -19,7 +26,11 @@ const VIDEOS = [
     {
         id: 'homenaje',
         title: { en: 'Homenaje - Manuel de Falla', de: 'Homenaje - Manuel de Falla' },
-        src: './Homenaje pour Le Tombeau de Claude Debussy by Manuel de Falla.Finale.Postojna Festival.mov',
+        src: './videos/homenaje-manuel-de-falla.mov',
+        sources: [
+            { src: './videos/homenaje-manuel-de-falla.mov', type: 'video/mp4' },
+            { src: './Homenaje pour Le Tombeau de Claude Debussy by Manuel de Falla.Finale.Postojna Festival.mov', type: 'video/quicktime' }
+        ],
         type: 'video/quicktime',
         poster: './Homenaje pour Le Tombeau de Claude Debussy by Manuel de Falla.Finale.Postojna Festival-poster.jpg',
         caption: { en: 'Homenaje - Manuel de Falla (Postojna Festival)', de: 'Homenaje - Manuel de Falla (Postojna Festival)' }
@@ -27,7 +38,11 @@ const VIDEOS = [
     {
         id: 'rossiniana-finale',
         title: { en: 'Rossiniana Nr.1 op.119 - Finale', de: 'Rossiniana Nr.1 op.119 - Finale' },
-        src: './Rossiniana Nr.1 op.119 .Finale . Postoja Guitar Festival 2025.mov',
+        src: './videos/rossiniana-op119-finale.mov',
+        sources: [
+            { src: './videos/rossiniana-op119-finale.mov', type: 'video/mp4' },
+            { src: './Rossiniana Nr.1 op.119 .Finale . Postoja Guitar Festival 2025.mov', type: 'video/quicktime' }
+        ],
         type: 'video/quicktime',
         poster: './Rossiniana Nr.1 op.119 .Finale . Postoja Guitar Festival 2025-poster.jpg',
         caption: { en: 'Rossiniana Nr.1 op.119 - Finale (Postojna Guitar Festival)', de: 'Rossiniana Nr.1 op.119 - Finale (Postojna Guitar Festival)' }
@@ -35,7 +50,11 @@ const VIDEOS = [
     {
         id: 'hora',
         title: { en: 'Hora by Stephan Rak', de: 'Hora von Stephan Rak' },
-        src: './Hora by Stephan Rak.Finale.Donnersbergiade 2025.mov',
+        src: './videos/hora-stephan-rak.mov',
+        sources: [
+            { src: './videos/hora-stephan-rak.mov', type: 'video/mp4' },
+            { src: './Hora by Stephan Rak.Finale.Donnersbergiade 2025.mov', type: 'video/quicktime' }
+        ],
         type: 'video/quicktime',
         poster: './Hora by Stephan Rak.Finale.Donnersbergiade 2025-poster.jpg',
         caption: { en: 'Hora by Stephan Rak (Donnersbergiade 2025)', de: 'Hora von Stephan Rak (Donnersbergiade 2025)' }
@@ -1124,16 +1143,22 @@ function initLightbox() {
         const videoId = item.getAttribute('data-video-id');
         if (videoId) {
             const videoConfig = getVideoById(videoId);
-            if (videoConfig && videoConfig.src) {
-                // Ensure .mov files get video/quicktime type
-                let videoType = videoConfig.type || 'video/quicktime';
-                if (videoConfig.src.toLowerCase().endsWith('.mov')) {
-                    videoType = 'video/quicktime';
+            if (videoConfig) {
+                // Use sources array if available (for multiple format support)
+                if (videoConfig.sources && videoConfig.sources.length > 0) {
+                    console.log('getVideoSources: Found video sources from config', { videoId, sources: videoConfig.sources });
+                    return videoConfig.sources;
                 }
-                return [{
-                    src: videoConfig.src,
-                    type: videoType
-                }];
+                // Fallback to single src
+                if (videoConfig.src) {
+                    console.log('getVideoSources: Found video from config', { videoId, src: videoConfig.src });
+                    return [{
+                        src: videoConfig.src,
+                        type: videoConfig.type || 'video/quicktime'
+                    }];
+                }
+            } else {
+                console.error('getVideoSources: Video config not found for ID', videoId);
             }
         }
         
@@ -1174,6 +1199,7 @@ function initLightbox() {
             }
         }
         
+        console.error('getVideoSources: No video sources found for item', item);
         return null;
     }
     
@@ -1182,6 +1208,7 @@ function initLightbox() {
         const lightboxVideoError = document.getElementById('lightbox-video-error');
         
         if (!lightboxVideo || !videoSources || videoSources.length === 0) {
+            console.error('setLightboxVideo: Invalid parameters', { lightboxVideo, videoSources });
             if (lightboxVideoError) {
                 lightboxVideoError.textContent = 'Video-Quelle nicht gefunden.';
                 lightboxVideoError.classList.remove('hidden');
@@ -1207,6 +1234,7 @@ function initLightbox() {
         let hasValidSource = false;
         videoSources.forEach(sourceData => {
             if (!sourceData.src || sourceData.src.trim() === '') {
+                console.warn('setLightboxVideo: Empty source URL skipped', sourceData);
                 return;
             }
             
@@ -1214,17 +1242,40 @@ function initLightbox() {
             // Ensure URLs with spaces are properly handled (browser will encode automatically)
             // Use the src as-is since relative paths work fine
             source.setAttribute('src', sourceData.src);
-            // Ensure .mov files get video/quicktime type
-            let videoType = sourceData.type || 'video/quicktime';
-            if (sourceData.src.toLowerCase().endsWith('.mov')) {
-                videoType = 'video/quicktime';
+            
+            // Determine proper MIME type - MOV files can sometimes work with video/mp4 type
+            // or video/quicktime, depending on browser support
+            let mimeType = sourceData.type || 'video/quicktime';
+            const srcLower = sourceData.src.toLowerCase();
+            
+            // If it's a .mov file, try both mp4 and quicktime types for better compatibility
+            if (srcLower.endsWith('.mov')) {
+                // First try as MP4 (some browsers can play MOV as MP4)
+                if (!hasValidSource) {
+                    mimeType = 'video/mp4';
+                } else {
+                    // Subsequent sources use quicktime
+                    mimeType = 'video/quicktime';
+                }
+            } else if (srcLower.endsWith('.mp4')) {
+                mimeType = 'video/mp4';
+            } else if (srcLower.endsWith('.webm')) {
+                mimeType = 'video/webm';
             }
-            source.setAttribute('type', videoType);
+            
+            source.setAttribute('type', mimeType);
             lightboxVideo.appendChild(source);
+            
+            console.log('setLightboxVideo: Added source element', { 
+                src: sourceData.src, 
+                type: mimeType,
+                element: source
+            });
             hasValidSource = true;
         });
         
         if (!hasValidSource) {
+            console.error('setLightboxVideo: No valid sources found', videoSources);
             if (lightboxVideoError) {
                 lightboxVideoError.textContent = 'Keine gültige Video-Quelle gefunden.';
                 lightboxVideoError.classList.remove('hidden');
@@ -1232,10 +1283,12 @@ function initLightbox() {
             return;
         }
         
-        // iOS/Safari robustness
+        // iOS/Safari robustness and MOV file support
         lightboxVideo.setAttribute('playsinline', '');
         lightboxVideo.setAttribute('controls', '');
-        lightboxVideo.preload = 'metadata';
+        lightboxVideo.setAttribute('webkit-playsinline', ''); // iOS support
+        lightboxVideo.setAttribute('x5-playsinline', ''); // Android support
+        lightboxVideo.preload = 'auto'; // Changed to 'auto' for better MOV support
         
         // Error handling - set up BEFORE load()
         const handleError = () => {
@@ -1256,6 +1309,12 @@ function initLightbox() {
                         errorMsg = 'Video-Format wird nicht unterstützt oder Datei nicht gefunden.';
                         break;
                 }
+                console.error('Video error:', errorMsg, error, {
+                    networkState: lightboxVideo.networkState,
+                    readyState: lightboxVideo.readyState,
+                    src: Array.from(lightboxVideo.querySelectorAll('source')).map(s => s.src)
+                });
+                
                 // Show visible error message
                 if (lightboxVideoError) {
                     lightboxVideoError.textContent = errorMsg;
