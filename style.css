@@ -1870,12 +1870,18 @@ nav {
 
 .lightbox {
     display: none;
-    position: fixed;
-    z-index: 9999;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh; /* Dynamic viewport height for mobile (iOS Safari) */
+    position: fixed !important;
+    z-index: 2147483647 !important; /* Maximum z-index to ensure it's above everything */
+    inset: 0 !important;
+    left: 0 !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    min-height: 100vh !important; /* Fallback for browsers without dvh support */
+    height: 100dvh !important; /* Dynamic viewport height for mobile (iOS Safari) */
+    max-height: none !important;
     background-color: rgba(0, 0, 0, 0.95);
     overflow: hidden;
     touch-action: none;
@@ -1883,6 +1889,10 @@ nav {
     isolation: isolate;
     /* Prevent any background elements from showing through or capturing events */
     pointer-events: auto;
+    /* Ensure it's not constrained by any parent */
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box;
 }
 
 /* Ensure no other elements can appear above the lightbox */
@@ -1897,9 +1907,9 @@ nav {
     transform: translate(-50%, -50%);
     width: 90%;
     max-width: 1200px;
-    height: 80%;
-    max-height: 80vh;
-    max-height: 80dvh; /* Use dynamic viewport height */
+    height: auto;
+    max-height: calc(100dvh - 32px); /* Leave space for controls - use dynamic viewport */
+    max-height: calc(100vh - 32px); /* Fallback for browsers without dvh support */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1907,6 +1917,8 @@ nav {
     /* Ensure content doesn't overflow and controls are visible */
     padding: 20px;
     box-sizing: border-box;
+    /* Don't clip video controls */
+    overflow: visible;
 }
 
 .lightbox-content {
@@ -3228,24 +3240,39 @@ textarea {
         font-size: 1.5rem;
     }
     
-    /* Lightbox mobile optimizations */
+    /* Lightbox mobile optimizations - ensure full viewport coverage */
     .lightbox {
-        /* Ensure full viewport coverage on mobile */
+        /* Ensure full viewport coverage on mobile - override any ancestor constraints */
+        position: fixed !important;
+        z-index: 2147483647 !important; /* Maximum z-index */
         width: 100vw !important;
         height: 100vh !important;
+        min-height: 100vh !important; /* Fallback */
         height: 100dvh !important; /* Dynamic viewport height for mobile (iOS Safari) */
+        max-height: none !important;
         inset: 0 !important;
         left: 0 !important;
         top: 0 !important;
         right: 0 !important;
         bottom: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        /* Lightbox itself should prevent scrolling */
+        overflow: hidden !important;
+    }
+    
+    /* Ensure lightbox content wrapper doesn't clip video controls */
+    .lightbox-content-wrapper {
+        overflow: visible !important;
     }
     
     .lightbox-content-wrapper {
         width: 95%;
-        height: 90%;
-        max-height: 90dvh; /* Use dynamic viewport height */
+        height: auto;
+        max-height: calc(100dvh - 40px); /* Leave space for controls on mobile */
+        max-height: calc(100vh - 40px); /* Fallback */
         padding: 10px;
+        overflow: visible !important; /* Don't clip video controls */
     }
     
     .lightbox-content {
@@ -3253,13 +3280,16 @@ textarea {
     }
     
     #lightbox-video-container {
-        max-height: 75dvh; /* Use dynamic viewport height for video container */
+        max-height: calc(100dvh - 100px) !important; /* Leave space for controls on mobile */
+        max-height: calc(100vh - 100px) !important; /* Fallback */
+        overflow: visible !important; /* Don't clip controls */
     }
     
     #lightbox-video {
         max-width: 100%;
-        max-height: 70vh;
-        max-height: 70dvh; /* Use dynamic viewport height */
+        max-height: calc(100dvh - 100px) !important; /* Leave space for controls */
+        max-height: calc(100vh - 100px) !important; /* Fallback */
+        overflow: visible !important; /* Don't clip controls */
     }
     
     .close-lightbox {

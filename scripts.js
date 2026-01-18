@@ -398,6 +398,32 @@ function getVideoById(id) {
     }
 })();
 
+// Move lightbox to document.body IMMEDIATELY to avoid stacking context issues
+// This must happen before DOMContentLoaded to ensure it's not constrained by ancestors
+(function moveLightboxToBodyImmediate() {
+    'use strict';
+    function moveLightbox() {
+        const lightbox = document.getElementById('lightbox');
+        if (lightbox && lightbox.parentElement !== document.body) {
+            // Preserve all attributes and children when moving
+            document.body.appendChild(lightbox);
+            console.log('Lightbox moved to document.body');
+        }
+    }
+    
+    // Try immediately if DOM is ready
+    if (document.readyState === 'loading') {
+        // If still loading, try on DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', moveLightbox);
+    } else {
+        // DOM already ready, move immediately
+        moveLightbox();
+    }
+    
+    // Also try after a short delay as fallback
+    setTimeout(moveLightbox, 0);
+})();
+
 // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     'use strict';
@@ -418,16 +444,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize back-to-top button
     initBackToTop();
-
-    // Move lightbox to document.body to avoid stacking context issues
-    // This ensures it's not trapped in a parent stacking context
-    (function moveLightboxToBody() {
-        const lightbox = document.getElementById('lightbox');
-        if (lightbox && lightbox.parentElement !== document.body) {
-            // Preserve all attributes and children when moving
-            document.body.appendChild(lightbox);
-        }
-    })();
     
     // Initialize lightbox gallery
     initLightbox();
