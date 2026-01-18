@@ -1030,11 +1030,10 @@ nav {
 .hero {
     height: 100vh;
     display: flex;
-    align-items: flex-start; /* Changed from center to start at neck height */
-    justify-content: center;
+    align-items: center;
     position: relative;
     overflow: hidden;
-    padding-top: calc(var(--header-height, 80px) + 30vh); /* Space for header + position at neck height (~30% from top) */
+    padding-top: var(--header-height, 80px); /* Space for fixed header */
     background-color: var(--bg-main);
 }
 
@@ -1096,9 +1095,6 @@ nav {
     margin: 0 auto;
     position: relative;
     z-index: 3;
-    /* Ensure content starts at neck height, not covering face */
-    padding-top: 0;
-    width: 100%;
 }
 
 .tagline {
@@ -3020,10 +3016,10 @@ textarea {
         min-height: -webkit-fill-available; /* Fix for iOS Safari */
         overflow: hidden; /* Prevent horizontal overflow */
         padding: 0;
-        padding-top: calc(80px + env(safe-area-inset-top) + 25vh); /* Position at neck height on mobile (~25% from top) */
+        padding-top: calc(80px + env(safe-area-inset-top));
         padding-bottom: calc(4rem + env(safe-area-inset-bottom));
-        align-items: flex-start; /* Changed from center to start at neck height */
-        justify-content: center;
+        align-items: center;
+        justify-content: flex-start; /* Changed from center to allow content to start at neck height */
     }
     
     /* Mobile hero image - focus on hands */
@@ -3072,11 +3068,12 @@ textarea {
         padding: 2rem 20px;
         padding-bottom: calc(2rem + env(safe-area-inset-bottom));
         margin: 0 auto;
+        margin-top: 35vh; /* Push content down to start at neck height (approximately 35% from top) */
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start; /* Changed from center to start at top of content area */
         text-align: center;
         z-index: 3;
     }
@@ -3089,15 +3086,15 @@ textarea {
     
     /* Hero title - Mobile: ~30% smaller than desktop */
     .hero-title {
-        font-size: clamp(0.90rem, 1.0vw + 0.80rem, 1.10rem) !important; /* Reduced from desktop */
+        font-size: clamp(0.85rem, 1.0vw + 0.75rem, 1.05rem) !important; /* Slightly smaller to fit better */
         line-height: 1.2 !important;
-        margin-bottom: 0.8rem !important;
+        margin-bottom: 0.7rem !important;
         padding: 0 1rem !important;
     }
     
     .hero h1 {
-        font-size: clamp(2rem, 5vw, 2.5rem); /* Responsive scaling */
-        margin-bottom: 0.8rem;
+        font-size: clamp(1.8rem, 4.5vw, 2.3rem) !important; /* Slightly smaller to fit better */
+        margin-bottom: 0.7rem !important;
         padding: 0;
         line-height: 1.2;
         max-width: 100%;
@@ -3105,8 +3102,8 @@ textarea {
     }
     
     .tagline {
-        font-size: clamp(0.9rem, 2.5vw, 1.1rem); /* Responsive scaling */
-        margin-bottom: 1.5rem;
+        font-size: clamp(0.85rem, 2.2vw, 1.05rem) !important; /* Slightly smaller */
+        margin-bottom: 1.2rem !important;
         padding: 0;
         line-height: 1.3;
         max-width: 100%;
@@ -3114,28 +3111,30 @@ textarea {
     
     /* Hero KPI line - Mobile: ~25% smaller than desktop */
     .hero-kpis {
-        font-size: clamp(0.80rem, 1.2vw + 0.70rem, 0.95rem) !important; /* Desktop: clamp(1.05rem, 0.55vw + 0.95rem, 1.25rem) */
+        font-size: clamp(0.75rem, 1.1vw + 0.65rem, 0.90rem) !important; /* Slightly smaller */
         line-height: 1.2 !important;
+        margin-bottom: 1rem !important;
     }
     
     /* Hero tagline - Mobile: ~30% smaller than desktop, prevent descenders from being clipped */
     .hero-tagline {
-        font-size: clamp(0.90rem, 0.6vw + 0.75rem, 1.30rem) !important; /* Desktop: clamp(1.25rem, 0.8vw + 1.05rem, 1.85rem) */
+        font-size: clamp(0.85rem, 0.55vw + 0.70rem, 1.20rem) !important; /* Slightly smaller */
         line-height: 1.2 !important; /* Tighter line height for mobile */
         padding-bottom: 0.2em !important; /* Tiny buffer for descenders like g/y/p */
+        margin-bottom: 1.2rem !important;
     }
     
     .tagline-small {
-        font-size: 0.95rem !important;
-        margin-bottom: 2rem !important;
-        margin-top: -1rem !important;
+        font-size: 0.90rem !important;
+        margin-bottom: 1.5rem !important;
+        margin-top: -0.8rem !important;
         padding: 0 1rem !important;
     }
     
     .hero .btn {
-        margin: 0.5rem auto;
-        padding: 0.9rem 1.8rem;
-        font-size: clamp(0.9rem, 2vw, 1rem);
+        margin: 0.4rem auto !important;
+        padding: 0.85rem 1.6rem !important;
+        font-size: clamp(0.85rem, 1.8vw, 0.95rem) !important;
         width: auto;
         max-width: 100%;
         white-space: normal;
@@ -3425,6 +3424,7 @@ textarea {
     
     .hero-content {
         padding: 1.5rem 1rem 2.5rem 1rem !important;
+        margin-top: 32vh !important; /* Slightly less on smaller screens */
     }
     
     /* Hero title - Extra small screens - maintain smaller size */
