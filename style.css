@@ -3233,12 +3233,57 @@ textarea {
         gap: 1rem;
         width: 100%;
         max-width: 100%;
+        overflow: hidden; /* Prevent content from bleeding */
     }
     
     /* Gallery items responsive */
     .gallery-item {
         width: 100%;
         max-width: 100%;
+        overflow: hidden; /* Contain video thumbnails on mobile */
+        position: relative;
+        z-index: 1; /* Ensure proper stacking */
+        isolation: isolate; /* Create new stacking context */
+    }
+    
+    /* Video items need special handling on mobile */
+    .gallery-item:has(.gallery-video) {
+        overflow: hidden; /* Override visible overflow on mobile */
+    }
+    
+    /* Ensure video thumbnails are contained */
+    .gallery-video {
+        overflow: hidden;
+        max-height: 400px; /* Limit height on mobile */
+        position: relative;
+    }
+    
+    .video-thumbnail {
+        max-height: 300px; /* Limit thumbnail height on mobile */
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .video-thumbnail-canvas {
+        max-height: 100%;
+        max-width: 100%;
+        object-fit: contain; /* Maintain aspect ratio without overflow */
+        display: block;
+    }
+    
+    /* Ensure gallery sections contain their content */
+    .gallery-section {
+        overflow: hidden;
+    }
+    
+    /* Override visible overflow on mobile to prevent bleeding */
+    .achievement-content.revealed {
+        overflow: hidden !important; /* Prevent content from bleeding out on mobile */
+    }
+    
+    /* Ensure gallery grid contains everything */
+    .gallery-grid {
+        contain: layout style paint; /* CSS containment for better performance and isolation */
     }
     
     #lightbox-caption {
