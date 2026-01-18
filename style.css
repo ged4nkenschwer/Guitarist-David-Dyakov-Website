@@ -1029,20 +1029,15 @@ nav {
 /* ---------- Hero Section ---------- */
 .hero {
     height: 100vh;
-    height: 100dvh; /* Dynamic viewport height for mobile (iOS Safari) */
-    min-height: 100vh; /* Fallback for browsers without dvh support */
-    min-height: 100dvh; /* Dynamic viewport height fallback */
     display: flex;
     align-items: center;
     position: relative;
     overflow: hidden;
     padding-top: var(--header-height, 80px); /* Space for fixed header */
     background-color: var(--bg-main);
-    /* Ensure no background image - use picture element only */
-    background-image: none !important;
 }
 
-/* Hero image - responsive picture element (ONLY image source - no background) */
+/* Hero image - responsive picture element */
 .hero-image {
     position: absolute;
     top: 0;
@@ -1050,8 +1045,6 @@ nav {
     width: 100%;
     height: 100%;
     z-index: 0;
-    /* Ensure no duplicate background image */
-    background-image: none !important;
 }
 
 .hero-image img {
@@ -1060,8 +1053,6 @@ nav {
     object-fit: cover;
     object-position: center 45%; /* Shift down slightly to show hairline while keeping hands visible */
     filter: brightness(0.85) contrast(1.1);
-    /* Ensure single image rendering */
-    display: block;
 }
 
 .hero::before {
@@ -3022,7 +3013,6 @@ textarea {
     .hero {
         height: auto;
         min-height: 100vh;
-        min-height: 100dvh; /* Dynamic viewport height for mobile (iOS Safari) */
         min-height: -webkit-fill-available; /* Fix for iOS Safari */
         overflow: hidden; /* Prevent horizontal overflow */
         padding: 0;
@@ -3030,13 +3020,11 @@ textarea {
         padding-bottom: calc(4rem + env(safe-area-inset-bottom));
         align-items: center;
         justify-content: center;
-        /* Ensure no background image - use picture element only */
-        background-image: none !important;
     }
     
     /* Mobile hero image - ensure both hands are clearly visible */
     .hero-image img {
-        object-position: center 50% !important; /* Center horizontally to show both hands, vertical at 50% to show left hand (fretboard) and right hand (strumming) */
+        object-position: 50% 50% !important; /* Center horizontally to show both hands clearly */
     }
     
     /* Dark fades at top and bottom on mobile - matching desktop style */
