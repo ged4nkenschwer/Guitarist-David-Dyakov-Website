@@ -1871,17 +1871,16 @@ nav {
 .lightbox {
     display: none;
     position: fixed;
-    z-index: 9999; /* Very high z-index to ensure it's above everything */
+    z-index: 9999 !important; /* Ensure lightbox is above all content */
     left: 0;
     top: 0;
-    width: 100vw; /* Full viewport width */
-    height: 100vh; /* Full viewport height */
-    max-width: 100vw;
-    max-height: 100vh;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh; /* Ensure full viewport coverage */
     background-color: rgba(0, 0, 0, 0.95);
     overflow: hidden;
     touch-action: none;
-    overscroll-behavior: contain; /* Prevent scrolling behind lightbox */
+    isolation: isolate; /* Create new stacking context */
 }
 
 .lightbox-content-wrapper {
@@ -1952,7 +1951,7 @@ nav {
 }
 
 .close-lightbox {
-    position: fixed; /* Changed from absolute to fixed for better positioning */
+    position: absolute;
     bottom: 30px;
     right: 30px;
     color: var(--text-primary);
@@ -1966,7 +1965,7 @@ nav {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10002; /* Above video content */
+    z-index: 10000 !important; /* Ensure close button is above lightbox content */
     padding: 0;
     margin: 0;
 }
@@ -2004,7 +2003,7 @@ nav {
 }
 
 .lightbox-nav {
-    position: fixed; /* Changed from absolute to fixed for better positioning */
+    position: absolute;
     top: 50%;
     transform: translateY(-50%);
     background: var(--bg-surface);
@@ -2020,8 +2019,7 @@ nav {
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
-    z-index: 10002; /* Above video content */
-}
+    z-index: 10000 !important; /* Ensure nav buttons are above lightbox content */
 
 .lightbox-nav:hover {
     background: var(--bg-soft);
@@ -3207,33 +3205,35 @@ textarea {
     
     /* Lightbox mobile optimizations */
     .lightbox {
-        z-index: 9999 !important; /* Ensure highest z-index on mobile */
+        z-index: 9999 !important; /* Ensure lightbox is above all content on mobile */
         position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
         width: 100vw !important;
         height: 100vh !important;
+        min-height: 100vh !important;
+        top: 0 !important;
+        left: 0 !important;
     }
     
     .lightbox-content-wrapper {
         width: 95%;
         height: 90%;
         padding: 10px;
-        z-index: 10000; /* Above lightbox background */
+        z-index: 1; /* Ensure content is within lightbox stacking context */
     }
     
     .lightbox-content {
         max-height: 75%;
+        z-index: 1;
     }
     
     #lightbox-video {
         max-width: 100%;
         max-height: 70vh;
-        z-index: 10001; /* Ensure video is on top */
+        z-index: 1;
     }
     
     #lightbox-video-container {
-        z-index: 10001; /* Ensure video container is on top */
+        z-index: 1;
     }
     
     .close-lightbox {
