@@ -3057,18 +3057,19 @@ textarea {
     
     .hero-content,
     .hero-copy {
-        /* Use desktop composition - same structure */
         text-align: center;
-        max-width: 800px; /* Same as desktop */
+        max-width: 800px; /* Match desktop max-width */
         margin: 0 auto;
         position: relative;
         z-index: 3;
         width: 100%;
+        padding: 2rem 20px;
+        padding-bottom: calc(2rem + env(safe-area-inset-bottom));
         box-sizing: border-box;
-        padding: 0 20px;
-        /* Position at shoulder height by adjusting top margin/padding */
-        margin-top: 0 !important;
-        padding-top: calc(2rem + env(safe-area-inset-top)) !important; /* Adjust this to position at shoulder height */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center; /* Center vertically like desktop - starts at guitar body height */
     }
     
     /* Prevent Kaushan Script descenders from being clipped */
@@ -3077,19 +3078,17 @@ textarea {
         padding-bottom: 0.2em !important; /* Tiny buffer for descenders like g/y/p */
     }
     
-    /* Hero title - Mobile: Use desktop scaling with responsive clamp */
+    /* Hero title - Mobile: Desktop-like scaling */
     .hero-title {
-        /* Desktop doesn't have .hero-title, so use responsive scaling */
-        font-size: clamp(0.9rem, 1.0vw + 0.8rem, 1.1rem) !important;
-        line-height: 1.2 !important;
-        margin-bottom: 0.8rem !important;
-        padding: 0 1rem !important;
+        font-size: clamp(0.90rem, 1.0vw + 0.80rem, 1.10rem); /* Desktop-like proportions */
+        line-height: 1.2;
+        margin-bottom: 0.8rem;
+        padding: 0 1rem;
     }
     
     .hero h1 {
-        /* Desktop: 3.5rem, mobile: responsive but maintain desktop proportions */
-        font-size: clamp(2rem, 5vw, 3.5rem) !important; /* Desktop-like scaling */
-        margin-bottom: 1.5rem !important; /* Same as desktop */
+        font-size: clamp(2rem, 5vw, 3.5rem); /* Desktop-like scaling (desktop: 3.5rem) */
+        margin-bottom: 1rem; /* Desktop-like spacing */
         padding: 0;
         line-height: 1.2;
         max-width: 100%;
@@ -3097,39 +3096,37 @@ textarea {
     }
     
     .tagline {
-        /* Desktop: 1.4rem, mobile: responsive */
-        font-size: clamp(1rem, 2.5vw, 1.4rem) !important; /* Desktop-like scaling */
-        margin-bottom: 2rem !important; /* Same as desktop */
+        font-size: clamp(1rem, 2.5vw, 1.4rem); /* Desktop-like scaling (desktop: 1.4rem) */
+        margin-bottom: 2rem; /* Desktop-like spacing */
         padding: 0;
         line-height: 1.3;
         max-width: 100%;
     }
     
-    /* Hero KPI line - Mobile: Use desktop clamp values */
+    /* Hero KPI line - Mobile: Desktop-like scaling */
     .hero-kpis {
-        font-size: clamp(1.05rem, 0.55vw + 0.95rem, 1.25rem) !important; /* Same as desktop */
-        line-height: 1.25 !important; /* Same as desktop */
-        margin-bottom: 1rem !important;
+        font-size: clamp(0.95rem, 0.55vw + 0.85rem, 1.25rem); /* Desktop-like proportions */
+        line-height: 1.25;
+        margin-bottom: 1rem;
     }
     
-    /* Hero tagline - Mobile: Use desktop clamp values */
+    /* Hero tagline - Mobile: Desktop-like scaling */
     .hero-tagline {
-        font-size: clamp(1.25rem, 0.8vw + 1.05rem, 1.85rem) !important; /* Same as desktop */
-        line-height: 1.15 !important; /* Same as desktop */
-        padding-bottom: 0.2em !important;
-        margin-bottom: 1rem !important;
+        font-size: clamp(1.05rem, 0.8vw + 0.85rem, 1.85rem); /* Desktop-like proportions */
+        line-height: 1.15;
+        padding-bottom: 0.2em;
+        margin-bottom: 1rem;
     }
     
     .tagline-small {
-        font-size: 1.1rem !important; /* Same as desktop */
-        margin-bottom: 2rem !important; /* Same as desktop */
-        margin-top: -1rem !important; /* Same as desktop */
-        padding: 0 1rem !important;
+        font-size: clamp(0.95rem, 1vw + 0.85rem, 1.1rem); /* Desktop-like scaling */
+        margin-bottom: 2rem;
+        margin-top: -1rem;
+        padding: 0 1rem;
     }
     
     .hero .btn {
-        /* Desktop-like button styling with responsive scaling */
-        margin: 0.5rem auto;
+        margin: 0.5rem auto; /* Desktop-like spacing */
         padding: 0.9rem 1.8rem; /* Desktop-like padding */
         font-size: clamp(0.9rem, 2vw, 1rem); /* Desktop-like scaling */
         width: auto;
@@ -3140,22 +3137,22 @@ textarea {
         word-wrap: break-word;
         overflow-wrap: break-word;
         hyphens: auto;
-        line-height: 1.3;
+        line-height: 1.2;
     }
     
-    /* Fix text overflow for CTA video button on mobile - Desktop-like */
+    /* Fix text overflow for CTA video button on mobile - Desktop-like proportions */
     .hero .btn-cta-video {
         max-width: calc(100% - 2rem); /* Account for padding */
-        padding: 0.4rem 0.6rem !important; /* Compact but readable */
-        font-size: clamp(0.85rem, 2vw, 0.95rem) !important; /* Desktop-like scaling */
+        padding: 0.75rem 1rem; /* Desktop-like proportions */
+        font-size: clamp(0.85rem, 2vw, 0.95rem);
         white-space: normal !important;
         word-wrap: break-word !important;
         overflow-wrap: break-word !important;
         text-align: center;
-        line-height: 1.2 !important;
+        line-height: 1.3;
         hyphens: auto;
         border-width: 1px !important;
-        margin: 0.5rem auto !important;
+        margin: 0.5rem auto;
     }
     
     /* Stack buttons on mobile if multiple - Desktop-like spacing */
@@ -3422,61 +3419,60 @@ textarea {
     }
     
     .hero-content {
-        /* Use desktop composition - adjust only top padding for shoulder height */
-        padding: 0 1rem !important;
-        padding-top: calc(1.5rem + env(safe-area-inset-top)) !important; /* Adjust to position at shoulder height */
+        padding: 1.5rem 1rem 2.5rem 1rem; /* Desktop-like proportions */
+        justify-content: center; /* Center vertically like desktop */
     }
     
     /* Hero title - Extra small screens - Desktop-like scaling */
     .hero-title {
-        font-size: clamp(0.9rem, 1.0vw + 0.8rem, 1.1rem) !important;
-        line-height: 1.2 !important;
-        margin-bottom: 0.8rem !important;
+        font-size: clamp(0.85rem, 0.9vw + 0.75rem, 1.05rem);
+        line-height: 1.2;
+        margin-bottom: 0.8rem;
     }
     
     .hero h1 {
-        font-size: clamp(1.8rem, 5vw, 3.5rem) !important; /* Desktop-like scaling */
-        margin-bottom: 1.5rem !important;
-        line-height: 1.2 !important;
+        font-size: clamp(1.8rem, 4.5vw, 3rem); /* Desktop-like scaling */
+        margin-bottom: 1rem;
+        line-height: 1.2;
     }
     
     .tagline {
-        font-size: clamp(1rem, 2.5vw, 1.4rem) !important; /* Desktop-like scaling */
-        margin-bottom: 2rem !important;
-        line-height: 1.3 !important;
+        font-size: clamp(0.95rem, 2.3vw, 1.3rem); /* Desktop-like scaling */
+        margin-bottom: 2rem;
+        line-height: 1.3;
     }
     
     .tagline-small {
-        font-size: 1.1rem !important; /* Same as desktop */
-        margin-bottom: 2rem !important;
-        margin-top: -1rem !important;
+        font-size: clamp(0.9rem, 0.95vw + 0.8rem, 1.05rem); /* Desktop-like scaling */
+        margin-bottom: 2rem;
+        margin-top: -1rem;
     }
     
-    /* Hero KPI line - Extra small screens - Desktop clamp values */
+    /* Hero KPI line - Extra small screens - Desktop-like scaling */
     .hero-kpis {
-        font-size: clamp(1.05rem, 0.55vw + 0.95rem, 1.25rem) !important; /* Same as desktop */
-        line-height: 1.25 !important;
-        margin-bottom: 1rem !important;
+        font-size: clamp(0.9rem, 0.5vw + 0.8rem, 1.2rem);
+        line-height: 1.25;
+        margin-bottom: 1rem;
     }
     
-    /* Hero tagline - Extra small screens - Desktop clamp values */
+    /* Hero tagline - Extra small screens - Desktop-like scaling */
     .hero-tagline {
-        font-size: clamp(1.25rem, 0.8vw + 1.05rem, 1.85rem) !important; /* Same as desktop */
-        line-height: 1.15 !important;
-        margin-bottom: 1rem !important;
+        font-size: clamp(1rem, 0.75vw + 0.8rem, 1.75rem);
+        line-height: 1.15;
+        margin-bottom: 1rem;
     }
     
     .hero .btn {
-        padding: 0.9rem 1.5rem !important; /* Desktop-like */
-        font-size: clamp(0.9rem, 2vw, 1rem) !important; /* Desktop-like scaling */
-        margin: 0.5rem auto !important;
-        line-height: 1.3 !important;
+        padding: 0.9rem 1.5rem; /* Desktop-like proportions */
+        font-size: 0.95rem;
+        margin: 0.5rem auto;
+        line-height: 1.2;
     }
     
     .hero .btn-cta-video {
-        padding: 0.4rem 0.6rem !important; /* Compact but readable */
-        font-size: clamp(0.85rem, 2vw, 0.95rem) !important; /* Desktop-like scaling */
-        margin: 0.5rem auto !important;
+        padding: 0.7rem 0.9rem; /* Desktop-like proportions */
+        font-size: 0.9rem;
+        margin: 0.5rem auto;
     }
 
     .videos-grid {
