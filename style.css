@@ -3099,13 +3099,13 @@ textarea {
     /* Fix text overflow for CTA video button on mobile */
     .hero .btn-cta-video {
         max-width: calc(100% - 2rem); /* Account for padding */
-        padding: 0.6rem 0.8rem !important; /* Even smaller padding for smaller border */
+        padding: 0.4rem 0.6rem !important; /* Very tight padding for minimal border */
         font-size: clamp(0.85rem, 2vw, 0.95rem) !important;
         white-space: normal !important;
         word-wrap: break-word !important;
         overflow-wrap: break-word !important;
         text-align: center;
-        line-height: 1.3;
+        line-height: 1.2 !important; /* Tighter line height */
         hyphens: auto;
         border-width: 1px !important; /* Ensure border is not too thick */
     }
