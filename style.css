@@ -3091,18 +3091,22 @@ textarea {
         white-space: normal;
         display: inline-block;
         box-sizing: border-box;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
     }
     
-    /* Fix CTA video button text overflow on mobile */
-    .btn-cta-video {
+    /* Fix text overflow for CTA video button on mobile */
+    .hero .btn-cta-video {
+        max-width: calc(100% - 2rem); /* Account for padding */
+        padding: 0.9rem 1.2rem !important;
+        font-size: clamp(0.85rem, 2vw, 0.95rem) !important;
         white-space: normal !important;
         word-wrap: break-word !important;
         overflow-wrap: break-word !important;
-        hyphens: auto;
-        max-width: 100% !important;
-        padding: 0.9rem 1.2rem !important;
         text-align: center;
         line-height: 1.3;
+        hyphens: auto;
     }
     
     /* Stack buttons on mobile if multiple */
