@@ -3060,24 +3060,25 @@ textarea {
         position: relative; /* Changed from absolute to prevent overflow */
         bottom: auto;
         top: auto;
-        transform: none;
         left: auto;
         right: auto;
         max-width: 100%;
         width: 100%;
-        /* Position to start at neck height - very minimal top padding */
-        padding: 0.3rem 15px 1rem 15px; /* Minimal padding to start at neck height */
-        padding-top: calc(0.3rem + env(safe-area-inset-top)); /* Start at neck height */
-        padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+        /* Position content to start at shoulder height instead of nose tip */
+        padding: 0 20px;
+        padding-top: 35vh; /* Start at shoulder height (was centered at ~50vh) */
+        padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
         margin: 0 auto;
-        margin-top: 0; /* Remove any top margin */
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: flex-start; /* Start at top */
+        justify-content: flex-start; /* Start from top instead of center */
         text-align: center;
         z-index: 3;
+        /* Scale down the entire content block for compact appearance */
+        transform: scale(0.80); /* Scale down by 20% for more compact appearance */
+        transform-origin: top center;
     }
     
     /* Prevent Kaushan Script descenders from being clipped */
@@ -3086,57 +3087,57 @@ textarea {
         padding-bottom: 0.2em !important; /* Tiny buffer for descenders like g/y/p */
     }
     
-    /* Hero title - Mobile: Much smaller for neck height positioning */
+    /* Hero title - Mobile: ~30% smaller than desktop */
     .hero-title {
-        font-size: clamp(0.55rem, 0.6vw + 0.45rem, 0.65rem) !important; /* Much smaller */
-        line-height: 1.1 !important; /* Very tight line height */
-        margin-bottom: 0.2rem !important; /* Minimal spacing */
-        padding: 0 0.8rem !important;
+        font-size: clamp(0.90rem, 1.0vw + 0.80rem, 1.10rem) !important; /* Reduced from desktop */
+        line-height: 1.2 !important;
+        margin-bottom: 0.8rem !important;
+        padding: 0 1rem !important;
     }
     
     .hero h1 {
-        font-size: clamp(1.2rem, 3vw, 1.5rem) !important; /* Much smaller - 1.2-1.5rem */
-        margin-bottom: 0.2rem !important; /* Minimal spacing */
+        font-size: clamp(1.6rem, 4vw, 2rem) !important; /* Scaled down further - 20% smaller */
+        margin-bottom: 0.5rem !important; /* Reduced spacing */
         padding: 0;
-        line-height: 1.1 !important; /* Very tight line height */
+        line-height: 1.15 !important; /* Tighter line height */
         max-width: 100%;
         word-wrap: break-word;
     }
     
     .tagline {
-        font-size: clamp(0.6rem, 1.5vw, 0.7rem) !important; /* Much smaller */
-        margin-bottom: 0.3rem !important; /* Minimal spacing */
+        font-size: clamp(0.75rem, 2vw, 0.9rem) !important; /* Scaled down further - ~20% smaller */
+        margin-bottom: 0.8rem !important; /* Reduced spacing */
         padding: 0;
-        line-height: 1.15 !important; /* Tight line height */
+        line-height: 1.2 !important; /* Tighter line height */
         max-width: 100%;
     }
     
-    /* Hero KPI line - Mobile: Much smaller */
+    /* Hero KPI line - Mobile: scaled down further for compact layout */
     .hero-kpis {
-        font-size: clamp(0.5rem, 0.8vw + 0.4rem, 0.65rem) !important; /* Much smaller */
-        line-height: 1.1 !important; /* Very tight line height */
-        margin-bottom: 0.2rem !important; /* Minimal spacing */
+        font-size: clamp(0.65rem, 1vw + 0.60rem, 0.80rem) !important; /* Scaled down further - ~20% smaller */
+        line-height: 1.15 !important; /* Tighter line height */
+        margin-bottom: 0.5rem !important; /* Reduced spacing */
     }
     
-    /* Hero tagline - Mobile: Much smaller */
+    /* Hero tagline - Mobile: scaled down further for compact layout */
     .hero-tagline {
-        font-size: clamp(0.55rem, 0.4vw + 0.45rem, 0.75rem) !important; /* Much smaller */
-        line-height: 1.1 !important; /* Very tight line height */
-        padding-bottom: 0.05em !important; /* Minimal buffer */
-        margin-bottom: 0.3rem !important; /* Minimal spacing */
+        font-size: clamp(0.75rem, 0.5vw + 0.60rem, 1.05rem) !important; /* Scaled down further - ~20% smaller */
+        line-height: 1.15 !important; /* Tighter line height for mobile */
+        padding-bottom: 0.15em !important; /* Reduced buffer for descenders */
+        margin-bottom: 0.5rem !important; /* Reduced spacing */
     }
     
     .tagline-small {
-        font-size: 0.65rem !important; /* Much smaller */
-        margin-bottom: 0.5rem !important; /* Reduced spacing */
-        margin-top: -0.3rem !important; /* Reduced negative margin */
-        padding: 0 0.8rem !important;
+        font-size: 0.95rem !important;
+        margin-bottom: 2rem !important;
+        margin-top: -1rem !important;
+        padding: 0 1rem !important;
     }
     
     .hero .btn {
-        margin: 0.2rem auto !important; /* Minimal margin */
-        padding: 0.4rem 0.9rem !important; /* Much smaller padding */
-        font-size: clamp(0.6rem, 1.5vw, 0.7rem) !important; /* Much smaller */
+        margin: 0.4rem auto !important; /* Reduced margin */
+        padding: 0.7rem 1.4rem !important; /* Compacted padding */
+        font-size: clamp(0.8rem, 1.8vw, 0.9rem) !important; /* Scaled down */
         width: auto;
         max-width: 100%;
         white-space: normal;
@@ -3145,27 +3146,26 @@ textarea {
         word-wrap: break-word;
         overflow-wrap: break-word;
         hyphens: auto;
-        line-height: 1.15 !important; /* Tight line height */
     }
     
-    /* Fix text overflow for CTA video button on mobile - Much smaller */
+    /* Fix text overflow for CTA video button on mobile - compacted */
     .hero .btn-cta-video {
-        max-width: calc(100% - 1.5rem); /* Account for padding */
-        padding: 0.25rem 0.4rem !important; /* Very tight padding */
-        font-size: clamp(0.55rem, 1.5vw, 0.65rem) !important; /* Much smaller */
+        max-width: calc(100% - 2rem); /* Account for padding */
+        padding: 0.35rem 0.5rem !important; /* Even tighter padding */
+        font-size: clamp(0.75rem, 1.8vw, 0.85rem) !important; /* Scaled down */
         white-space: normal !important;
         word-wrap: break-word !important;
         overflow-wrap: break-word !important;
         text-align: center;
-        line-height: 1.1 !important; /* Very tight line height */
+        line-height: 1.15 !important; /* Tighter line height */
         hyphens: auto;
         border-width: 1px !important; /* Ensure border is not too thick */
-        margin: 0.2rem auto !important; /* Minimal margin */
+        margin: 0.4rem auto !important; /* Reduced margin */
     }
     
-    /* Stack buttons on mobile if multiple - Minimal spacing */
+    /* Stack buttons on mobile if multiple - compacted */
     .hero .btn + .btn {
-        margin-top: 0.3rem !important; /* Minimal spacing */
+        margin-top: 0.5rem !important; /* Reduced gap */
         margin-left: 0; /* Remove horizontal gap on mobile */
     }
     
@@ -3427,62 +3427,46 @@ textarea {
     }
     
     .hero-content {
-        padding: 0.2rem 0.8rem 0.8rem 0.8rem !important; /* Minimal padding for neck height */
-        padding-top: calc(0.2rem + env(safe-area-inset-top)) !important; /* Start at neck height */
-        justify-content: flex-start !important; /* Start at top */
+        padding-top: 32vh !important; /* Start at shoulder height on small screens */
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        padding-bottom: 1.5rem !important;
     }
     
-    /* Hero title - Extra small screens - Much smaller */
+    /* Hero title - Extra small screens - maintain smaller size */
     .hero-title {
-        font-size: clamp(0.5rem, 0.5vw + 0.4rem, 0.6rem) !important; /* Much smaller */
-        line-height: 1.05 !important;
-        margin-bottom: 0.15rem !important;
+        font-size: clamp(1.05rem, 1.2vw + 0.95rem, 1.25rem) !important;
+        line-height: 1.15 !important;
+        margin-bottom: 0.8rem !important;
     }
     
     .hero h1 {
-        font-size: 1.1rem !important; /* Much smaller - 1.1rem */
-        margin-bottom: 0.15rem !important;
-        line-height: 1.1 !important;
+        font-size: 2rem !important;
+        margin-bottom: 0.8rem !important;
     }
     
     .tagline {
-        font-size: 0.6rem !important; /* Much smaller */
-        margin-bottom: 0.25rem !important;
-        line-height: 1.1 !important;
+        font-size: 1rem !important;
+        margin-bottom: 1.5rem !important;
     }
     
     .tagline-small {
-        font-size: 0.6rem !important; /* Much smaller */
-        margin-bottom: 0.4rem !important;
-        margin-top: -0.25rem !important;
+        font-size: 0.9rem !important;
+        margin-bottom: 1.5rem !important;
+        margin-top: -0.8rem !important;
     }
     
-    /* Hero KPI line - Extra small screens - Much smaller */
+    /* Hero KPI line - Extra small screens */
     .hero-kpis {
-        font-size: clamp(0.45rem, 0.7vw + 0.35rem, 0.6rem) !important; /* Much smaller */
-        line-height: 1.05 !important;
-        margin-bottom: 0.15rem !important;
+        font-size: clamp(1.10rem, 1.6vw + 0.95rem, 1.25rem) !important;
     }
     
-    /* Hero tagline - Extra small screens - Much smaller */
-    .hero-tagline {
-        font-size: clamp(0.5rem, 0.3vw + 0.4rem, 0.65rem) !important; /* Much smaller */
-        line-height: 1.05 !important;
-        margin-bottom: 0.25rem !important;
-    }
+    /* Hero tagline - Extra small screens */
+    /* Base .hero-tagline styles apply globally, 480px breakpoint handles calibration */
     
     .hero .btn {
-        padding: 0.35rem 0.75rem !important; /* Much smaller */
-        font-size: 0.6rem !important; /* Much smaller */
-        margin: 0.15rem auto !important; /* Minimal margin */
-        line-height: 1.1 !important;
-    }
-    
-    .hero .btn-cta-video {
-        padding: 0.2rem 0.35rem !important; /* Very tight */
-        font-size: 0.55rem !important; /* Much smaller */
-        margin: 0.15rem auto !important;
-        line-height: 1.05 !important;
+        padding: 0.9rem 1.5rem !important;
+        font-size: 0.95rem !important;
     }
 
     .videos-grid {
