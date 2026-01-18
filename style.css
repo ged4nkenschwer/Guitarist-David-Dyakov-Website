@@ -3057,82 +3057,65 @@ textarea {
     
     .hero-content,
     .hero-copy {
-        position: absolute !important; /* Use absolute positioning like desktop */
-        bottom: auto;
-        top: 60% !important; /* Start at guitar body height (60% from top) */
-        left: 50% !important;
-        transform: translate(-50%, 0) !important; /* Center horizontally, no vertical centering */
-        max-width: 90% !important;
-        width: 90% !important;
-        /* Minimal padding - very compact */
-        padding: 0.3rem 15px 0.5rem 15px !important;
-        margin: 0 !important;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start !important; /* Start at top of container */
         text-align: center;
+        max-width: 800px; /* Same as desktop */
+        margin: 0 auto;
+        position: relative;
         z-index: 3;
+        /* Position to start at shoulder height - adjust top margin/padding */
+        padding: 0 20px;
+        padding-top: calc(0.5rem + env(safe-area-inset-top)); /* Start at shoulder height */
+        padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+        width: 100%;
+        box-sizing: border-box;
     }
     
-    /* Prevent Kaushan Script descenders from being clipped */
-    .hero-tagline {
-        line-height: 1.25 !important; /* Increased from 1.15 for better descender clearance */
-        padding-bottom: 0.2em !important; /* Tiny buffer for descenders like g/y/p */
-    }
-    
-    /* Hero title - Mobile: EXTREMELY compressed for guitar body positioning */
-    .hero-title {
-        font-size: clamp(0.45rem, 0.4vw + 0.35rem, 0.6rem) !important; /* EXTREMELY small */
-        line-height: 1.05 !important; /* Ultra tight */
-        margin-bottom: 0.1rem !important; /* Almost no spacing */
-        padding: 0 0.5rem !important;
-    }
+    /* Use desktop font sizes and spacing - same composition */
+    /* .hero-title uses desktop sizing - no override needed */
     
     .hero h1 {
-        font-size: clamp(0.9rem, 2.5vw, 1.2rem) !important; /* EXTREMELY compressed */
-        margin-bottom: 0.1rem !important; /* Almost no spacing */
+        font-size: clamp(1.8rem, 6vw, 2.5rem); /* Same as desktop h1 responsive */
+        margin-bottom: 1.5rem; /* Same as desktop */
         padding: 0;
-        line-height: 1.05 !important; /* Ultra tight */
+        line-height: 1.2;
         max-width: 100%;
         word-wrap: break-word;
     }
     
     .tagline {
-        font-size: clamp(0.5rem, 1.2vw, 0.65rem) !important; /* EXTREMELY small */
-        margin-bottom: 0.15rem !important; /* Almost no spacing */
+        font-size: 1.4rem; /* Same as desktop */
+        margin-bottom: 2rem; /* Same as desktop */
         padding: 0;
-        line-height: 1.05 !important; /* Ultra tight */
+        line-height: 1.3;
         max-width: 100%;
     }
     
-    /* Hero KPI line - Mobile: EXTREMELY compressed */
+    /* Hero KPI line - Same as desktop */
     .hero-kpis {
-        font-size: clamp(0.4rem, 0.6vw + 0.3rem, 0.55rem) !important; /* EXTREMELY small */
-        line-height: 1.05 !important; /* Ultra tight */
-        margin-bottom: 0.1rem !important; /* Almost no spacing */
+        font-size: clamp(1.05rem, 0.55vw + 0.95rem, 1.25rem); /* Same as desktop */
+        line-height: 1.25; /* Same as desktop */
+        margin-bottom: 0; /* No extra margin */
     }
     
-    /* Hero tagline - Mobile: EXTREMELY compressed */
+    /* Hero tagline - Same as desktop */
     .hero-tagline {
-        font-size: clamp(0.5rem, 0.3vw + 0.35rem, 0.65rem) !important; /* EXTREMELY small */
-        line-height: 1.05 !important; /* Ultra tight */
-        padding-bottom: 0.02em !important; /* Minimal buffer */
-        margin-bottom: 0.15rem !important; /* Almost no spacing */
+        font-size: clamp(1.25rem, 0.8vw + 1.05rem, 1.85rem); /* Same as desktop */
+        line-height: 1.15; /* Same as desktop */
+        padding-bottom: 0.2em; /* Buffer for descenders */
+        margin-bottom: 0; /* No extra margin */
     }
     
     .tagline-small {
-        font-size: 0.55rem !important; /* EXTREMELY small */
-        margin-bottom: 0.3rem !important; /* Minimal spacing */
-        margin-top: -0.2rem !important; /* Reduced negative margin */
-        padding: 0 0.5rem !important;
+        font-size: 1.1rem; /* Same as desktop */
+        margin-bottom: 2rem; /* Same as desktop */
+        margin-top: -1rem; /* Same as desktop */
+        padding: 0 1rem;
     }
     
     .hero .btn {
-        margin: 0.15rem auto !important; /* Ultra minimal margin */
-        padding: 0.3rem 0.7rem !important; /* EXTREMELY small padding */
-        font-size: clamp(0.5rem, 1.2vw, 0.6rem) !important; /* EXTREMELY small */
+        margin: 0.5rem auto; /* Similar spacing */
+        padding: 0.8rem 2rem; /* Same as desktop */
+        font-size: clamp(0.9rem, 2vw, 1rem); /* Responsive like desktop */
         width: auto;
         max-width: 100%;
         white-space: normal;
@@ -3141,28 +3124,27 @@ textarea {
         word-wrap: break-word;
         overflow-wrap: break-word;
         hyphens: auto;
-        line-height: 1.05 !important; /* Ultra tight */
     }
     
-    /* Fix text overflow for CTA video button on mobile - EXTREMELY compressed */
+    /* CTA video button - Keep desktop-like sizing */
     .hero .btn-cta-video {
-        max-width: calc(100% - 1rem); /* Account for padding */
-        padding: 0.2rem 0.35rem !important; /* EXTREMELY tight */
-        font-size: clamp(0.45rem, 1.2vw, 0.55rem) !important; /* EXTREMELY small */
+        max-width: calc(100% - 2rem);
+        padding: 0.4rem 0.6rem !important; /* Compact but readable */
+        font-size: clamp(0.85rem, 2vw, 0.95rem) !important;
         white-space: normal !important;
         word-wrap: break-word !important;
         overflow-wrap: break-word !important;
         text-align: center;
-        line-height: 1.05 !important; /* Ultra tight */
+        line-height: 1.2 !important;
         hyphens: auto;
         border-width: 1px !important;
-        margin: 0.15rem auto !important; /* Ultra minimal */
+        margin: 0.5rem auto !important;
     }
     
-    /* Stack buttons on mobile if multiple - Ultra minimal spacing */
+    /* Stack buttons on mobile if multiple */
     .hero .btn + .btn {
-        margin-top: 0.2rem !important; /* Ultra minimal */
-        margin-left: 0;
+        margin-top: 0.75rem;
+        margin-left: 0; /* Remove horizontal gap on mobile */
     }
     
     /* Section titles - responsive, no overflow */
@@ -3423,61 +3405,55 @@ textarea {
     }
     
     .hero-content {
-        top: 65% !important; /* Start slightly lower on small screens */
-        padding: 0.25rem 10px 0.4rem 10px !important; /* EXTREMELY compact */
-        justify-content: flex-start !important;
+        padding: 0 1rem;
+        padding-top: calc(0.5rem + env(safe-area-inset-top)); /* Start at shoulder height */
+        padding-bottom: calc(2rem + env(safe-area-inset-bottom));
     }
     
-    /* Hero title - Extra small screens - EXTREMELY compressed */
-    .hero-title {
-        font-size: clamp(0.4rem, 0.35vw + 0.3rem, 0.55rem) !important; /* EXTREMELY small */
-        line-height: 1.0 !important;
-        margin-bottom: 0.08rem !important;
-    }
+    /* Keep desktop composition on small screens too */
+    /* .hero-title uses desktop sizing */
     
     .hero h1 {
-        font-size: 0.85rem !important; /* EXTREMELY small */
-        margin-bottom: 0.08rem !important;
-        line-height: 1.0 !important;
+        font-size: 2rem !important; /* Responsive but readable */
+        margin-bottom: 1.5rem !important; /* Same as desktop */
+        line-height: 1.2 !important;
     }
     
     .tagline {
-        font-size: 0.5rem !important; /* EXTREMELY small */
-        margin-bottom: 0.1rem !important;
-        line-height: 1.0 !important;
+        font-size: 1.1rem !important; /* Slightly smaller but proportional */
+        margin-bottom: 2rem !important; /* Same as desktop */
+        line-height: 1.3 !important;
     }
     
     .tagline-small {
-        font-size: 0.5rem !important; /* EXTREMELY small */
-        margin-bottom: 0.25rem !important;
-        margin-top: -0.15rem !important;
+        font-size: 1rem !important; /* Proportional */
+        margin-bottom: 2rem !important; /* Same as desktop */
+        margin-top: -1rem !important; /* Same as desktop */
     }
     
-    /* Hero KPI line - Extra small screens - EXTREMELY compressed */
+    /* Hero KPI line - Keep desktop sizing */
     .hero-kpis {
-        font-size: clamp(0.35rem, 0.5vw + 0.25rem, 0.5rem) !important; /* EXTREMELY small */
-        line-height: 1.0 !important;
-        margin-bottom: 0.08rem !important;
+        font-size: clamp(1.05rem, 0.55vw + 0.95rem, 1.25rem) !important; /* Same as desktop */
+        line-height: 1.25 !important;
     }
     
-    /* Hero tagline - Extra small screens - EXTREMELY compressed */
+    /* Hero tagline - Keep desktop sizing */
     .hero-tagline {
-        font-size: clamp(0.45rem, 0.25vw + 0.3rem, 0.6rem) !important; /* EXTREMELY small */
-        line-height: 1.0 !important;
-        margin-bottom: 0.1rem !important;
+        font-size: clamp(1.25rem, 0.8vw + 1.05rem, 1.85rem) !important; /* Same as desktop */
+        line-height: 1.15 !important;
     }
     
     .hero .btn {
-        padding: 0.25rem 0.6rem !important; /* EXTREMELY small */
-        font-size: 0.5rem !important; /* EXTREMELY small */
-        margin: 0.1rem auto !important; /* Ultra minimal */
-        line-height: 1.0 !important;
+        padding: 0.8rem 1.5rem !important; /* Similar to desktop */
+        font-size: 0.95rem !important; /* Readable size */
+        margin: 0.5rem auto !important;
+        line-height: 1.2 !important;
     }
     
     .hero .btn-cta-video {
-        padding: 0.15rem 0.3rem !important; /* EXTREMELY tight */
-        font-size: 0.45rem !important; /* EXTREMELY small */
-        margin: 0.1rem auto !important;
+        padding: 0.4rem 0.6rem !important; /* Compact but readable */
+        font-size: 0.85rem !important; /* Readable size */
+        margin: 0.5rem auto !important;
     }
 
     .videos-grid {
