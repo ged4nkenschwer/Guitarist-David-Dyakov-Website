@@ -1213,22 +1213,37 @@ function initMobileMenu() {
                         
                         // Find the one that contains videos (has .gallery-video elements)
                         let videosReveal = null;
+                        let videosContent = null;
                         allReveals.forEach(reveal => {
                             if (reveal.querySelector('.gallery-video')) {
                                 videosReveal = reveal.querySelector('.reveal-trigger');
+                                videosContent = videosReveal ? videosReveal.nextElementSibling : null;
                             }
                         });
                         
-                        if (videosReveal) {
-                            const videosContent = videosReveal.nextElementSibling;
-                            
+                        if (videosReveal && videosContent) {
                             // Check if already revealed
-                            if (videosContent && !videosContent.classList.contains('revealed')) {
+                            const wasAlreadyRevealed = videosContent.classList.contains('revealed');
+                            
+                            if (!wasAlreadyRevealed) {
                                 // Trigger the reveal button click
                                 videosReveal.click();
                             }
+                            
+                            // After expansion animation, scroll to the end of the video grid
+                            setTimeout(() => {
+                                // Find the video grid within the videos content
+                                const videoGrid = videosContent.querySelector('.gallery-grid');
+                                if (videoGrid) {
+                                    // Scroll to the end of the video grid
+                                    videoGrid.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                                } else {
+                                    // Fallback: scroll to the videos content end
+                                    videosContent.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                                }
+                            }, wasAlreadyRevealed ? 100 : 900); // Wait for expansion animation if needed
                         }
-                    }, 600); // Wait for scroll to complete
+                    }, 600); // Wait for initial scroll to complete
                 }
             } else {
                 // Normal behavior for other links
