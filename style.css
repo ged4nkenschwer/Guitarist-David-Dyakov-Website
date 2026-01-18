@@ -1987,7 +1987,7 @@ nav {
 }
 
 .close-lightbox {
-    position: absolute;
+    position: fixed !important; /* Use fixed to ensure it's always visible */
     bottom: 30px;
     right: 30px;
     color: var(--text-primary);
@@ -2001,9 +2001,13 @@ nav {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 2001;
+    z-index: 2147483647 !important; /* Match lightbox z-index to ensure it's on top */
     padding: 0;
     margin: 0;
+    /* Ensure it's always visible and clickable */
+    pointer-events: auto;
+    opacity: 1;
+    visibility: visible;
 }
 
 .close-lightbox i {
@@ -2039,7 +2043,7 @@ nav {
 }
 
 .lightbox-nav {
-    position: absolute;
+    position: fixed !important; /* Use fixed to ensure it's always visible */
     top: 50%;
     transform: translateY(-50%);
     background: var(--bg-surface);
@@ -2055,7 +2059,11 @@ nav {
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
-    z-index: 2001;
+    z-index: 2147483647 !important; /* Match lightbox z-index to ensure it's on top */
+    /* Ensure it's always visible and clickable */
+    pointer-events: auto;
+    opacity: 1;
+    visibility: visible;
 }
 
 .lightbox-nav:hover {
@@ -3293,10 +3301,16 @@ textarea {
     }
     
     .close-lightbox {
+        position: fixed !important; /* Ensure it's visible on mobile */
         bottom: 20px;
         right: 20px;
         width: 45px;
         height: 45px;
+        z-index: 2147483647 !important; /* Match lightbox z-index */
+        /* Ensure it's visible and tappable on mobile */
+        pointer-events: auto !important;
+        opacity: 1 !important;
+        visibility: visible !important;
     }
     
     .close-lightbox i {
@@ -3304,10 +3318,16 @@ textarea {
     }
     
     .lightbox-nav {
+        position: fixed !important; /* Ensure it's visible on mobile */
         width: 50px;
         height: 50px;
         padding: 12px;
         font-size: 1.5rem;
+        z-index: 2147483647 !important; /* Match lightbox z-index */
+        /* Ensure it's visible and tappable on mobile */
+        pointer-events: auto !important;
+        opacity: 1 !important;
+        visibility: visible !important;
     }
     
     .prev-btn {
