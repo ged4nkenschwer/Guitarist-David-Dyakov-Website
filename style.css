@@ -1035,6 +1035,8 @@ nav {
     overflow: hidden;
     padding-top: var(--header-height, 80px); /* Space for fixed header */
     background-color: var(--bg-main);
+    /* Ensure no background-image conflicts - use picture element only */
+    background-image: none !important;
 }
 
 /* Hero image - responsive picture element */
@@ -3020,6 +3022,9 @@ textarea {
         padding-bottom: calc(4rem + env(safe-area-inset-bottom));
         align-items: center;
         justify-content: center;
+        /* Ensure no background-image conflicts - use picture element only */
+        background-image: none !important;
+        background: var(--bg-main) !important;
     }
     
     /* Mobile hero image - ensure both hands are clearly visible */
@@ -3076,9 +3081,8 @@ textarea {
         justify-content: flex-start; /* Start from top instead of center */
         text-align: center;
         z-index: 3;
-        /* Scale down the entire content block for compact appearance */
-        transform: scale(0.80); /* Scale down by 20% for more compact appearance */
-        transform-origin: top center;
+        /* Remove transform scale to prevent weird minimized appearance - use font-size scaling instead */
+        transform: none !important;
     }
     
     /* Prevent Kaushan Script descenders from being clipped */
