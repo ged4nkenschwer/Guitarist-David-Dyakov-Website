@@ -3011,15 +3011,16 @@ textarea {
     
     /* Hero section on mobile - responsive, no overflow */
     .hero {
-        height: auto;
+        height: 100vh !important; /* Match desktop - full viewport height */
         min-height: 100vh;
         min-height: -webkit-fill-available; /* Fix for iOS Safari */
         overflow: hidden; /* Prevent horizontal overflow */
-        padding: 0;
-        padding-top: calc(80px + env(safe-area-inset-top));
-        padding-bottom: calc(4rem + env(safe-area-inset-bottom));
-        align-items: center;
-        justify-content: center;
+        padding: 0 !important;
+        padding-top: calc(80px + env(safe-area-inset-top)) !important;
+        padding-bottom: 0 !important; /* Remove bottom padding to match desktop */
+        align-items: center !important; /* Match desktop - center vertically */
+        justify-content: center !important; /* Match desktop - center horizontally */
+        display: flex !important; /* Ensure flex layout */
     }
     
     /* Mobile hero image - focus on hands */
@@ -3057,21 +3058,24 @@ textarea {
     
     .hero-content,
     .hero-copy {
-        position: absolute !important; /* Use absolute like desktop for precise positioning */
-        bottom: 15% !important; /* Position at guitar body height (lower on screen) */
-        left: 50% !important;
-        transform: translateX(-50%) !important; /* Center horizontally */
-        top: auto !important;
-        right: auto !important;
-        max-width: 90% !important;
-        width: 90% !important;
-        padding: 0 !important; /* Remove padding for tighter spacing */
-        margin: 0 !important;
+        position: relative; /* Match desktop positioning */
+        bottom: auto;
+        top: auto;
+        transform: none;
+        left: auto;
+        right: auto;
+        max-width: 800px !important; /* Match desktop max-width */
+        width: 100%;
+        /* Match desktop composition - centered like desktop but compact */
+        padding: 0 !important;
+        margin: 0 auto !important;
+        margin-top: auto !important; /* Push down to center vertically */
+        margin-bottom: auto !important;
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center !important;
+        justify-content: center !important; /* Center like desktop */
         text-align: center;
         z-index: 3;
     }
@@ -3082,57 +3086,57 @@ textarea {
         padding-bottom: 0.2em !important; /* Tiny buffer for descenders like g/y/p */
     }
     
-    /* Hero title - Mobile: Compressed but proportional to desktop */
+    /* Hero title - Mobile: EXTREMELY compact to match desktop composition */
     .hero-title {
-        font-size: clamp(0.65rem, 0.7vw + 0.55rem, 0.8rem) !important; /* Compressed */
-        line-height: 1.15 !important;
-        margin-bottom: 0.25rem !important;
-        padding: 0 !important;
+        font-size: clamp(0.5rem, 0.5vw + 0.4rem, 0.65rem) !important; /* EXTREMELY small */
+        line-height: 1.05 !important; /* Ultra tight */
+        margin-bottom: 0.15rem !important; /* Minimal */
+        padding: 0 1rem !important;
     }
     
     .hero h1 {
-        font-size: clamp(1.4rem, 3.5vw, 1.8rem) !important; /* Compressed but readable */
-        margin-bottom: 0.3rem !important;
+        font-size: clamp(1rem, 2.5vw, 1.3rem) !important; /* EXTREMELY compact - desktop is 3.5rem */
+        margin-bottom: 0.15rem !important; /* Minimal */
         padding: 0;
-        line-height: 1.15 !important;
+        line-height: 1.05 !important; /* Ultra tight */
         max-width: 100%;
         word-wrap: break-word;
     }
     
     .tagline {
-        font-size: clamp(0.7rem, 1.8vw, 0.85rem) !important; /* Compressed */
-        margin-bottom: 0.4rem !important;
+        font-size: clamp(0.5rem, 1.2vw, 0.65rem) !important; /* EXTREMELY small - desktop is 1.4rem */
+        margin-bottom: 0.25rem !important; /* Minimal */
         padding: 0;
-        line-height: 1.15 !important;
+        line-height: 1.05 !important; /* Ultra tight */
         max-width: 100%;
     }
     
-    /* Hero KPI line - Mobile: Compressed */
+    /* Hero KPI line - Mobile: EXTREMELY compact */
     .hero-kpis {
-        font-size: clamp(0.6rem, 0.9vw + 0.5rem, 0.75rem) !important; /* Compressed */
-        line-height: 1.15 !important;
-        margin-bottom: 0.25rem !important;
+        font-size: clamp(0.45rem, 0.7vw + 0.35rem, 0.6rem) !important; /* EXTREMELY small */
+        line-height: 1.05 !important; /* Ultra tight */
+        margin-bottom: 0.15rem !important; /* Minimal */
     }
     
-    /* Hero tagline - Mobile: Compressed */
+    /* Hero tagline - Mobile: EXTREMELY compact */
     .hero-tagline {
-        font-size: clamp(0.7rem, 0.5vw + 0.55rem, 0.9rem) !important; /* Compressed */
-        line-height: 1.15 !important;
-        padding-bottom: 0.1em !important;
-        margin-bottom: 0.4rem !important;
+        font-size: clamp(0.5rem, 0.35vw + 0.4rem, 0.65rem) !important; /* EXTREMELY small */
+        line-height: 1.05 !important; /* Ultra tight */
+        padding-bottom: 0.05em !important; /* Minimal */
+        margin-bottom: 0.25rem !important; /* Minimal */
     }
     
     .tagline-small {
-        font-size: 0.75rem !important; /* Compressed */
-        margin-bottom: 0.6rem !important;
-        margin-top: -0.4rem !important;
-        padding: 0 !important;
+        font-size: 0.55rem !important; /* EXTREMELY small */
+        margin-bottom: 0.4rem !important; /* Minimal */
+        margin-top: -0.25rem !important; /* Minimal negative */
+        padding: 0 1rem !important;
     }
     
     .hero .btn {
-        margin: 0.3rem auto !important; /* Compressed margin */
-        padding: 0.5rem 1rem !important; /* Compressed padding */
-        font-size: clamp(0.7rem, 1.8vw, 0.8rem) !important; /* Compressed */
+        margin: 0.15rem auto !important; /* EXTREMELY minimal */
+        padding: 0.3rem 0.7rem !important; /* EXTREMELY compact */
+        font-size: clamp(0.5rem, 1.2vw, 0.6rem) !important; /* EXTREMELY small */
         width: auto;
         max-width: 100%;
         white-space: normal;
@@ -3141,27 +3145,27 @@ textarea {
         word-wrap: break-word;
         overflow-wrap: break-word;
         hyphens: auto;
-        line-height: 1.15 !important;
+        line-height: 1.05 !important; /* Ultra tight */
     }
     
-    /* Fix text overflow for CTA video button on mobile - Compressed */
+    /* Fix text overflow for CTA video button on mobile - EXTREMELY compact */
     .hero .btn-cta-video {
-        max-width: calc(100% - 1rem) !important;
-        padding: 0.3rem 0.5rem !important; /* Compressed padding */
-        font-size: clamp(0.65rem, 1.8vw, 0.75rem) !important; /* Compressed */
+        max-width: calc(100% - 2rem);
+        padding: 0.2rem 0.35rem !important; /* EXTREMELY tight */
+        font-size: clamp(0.45rem, 1.2vw, 0.55rem) !important; /* EXTREMELY small */
         white-space: normal !important;
         word-wrap: break-word !important;
         overflow-wrap: break-word !important;
         text-align: center;
-        line-height: 1.15 !important;
+        line-height: 1.05 !important; /* Ultra tight */
         hyphens: auto;
         border-width: 1px !important;
-        margin: 0.3rem auto !important;
+        margin: 0.15rem auto !important; /* EXTREMELY minimal */
     }
     
-    /* Stack buttons on mobile if multiple - Compressed spacing */
+    /* Stack buttons on mobile if multiple - EXTREMELY minimal spacing */
     .hero .btn + .btn {
-        margin-top: 0.4rem !important; /* Compressed spacing */
+        margin-top: 0.2rem !important; /* EXTREMELY minimal */
         margin-left: 0;
     }
     
@@ -3423,61 +3427,61 @@ textarea {
     }
     
     .hero-content {
-        bottom: 12% !important; /* Slightly higher on very small screens */
-        max-width: 95% !important;
-        width: 95% !important;
+        padding: 0 !important; /* Match desktop - no padding */
+        justify-content: center !important; /* Match desktop - center */
+        max-width: 800px !important; /* Match desktop */
     }
     
-    /* Hero title - Extra small screens - Compressed */
+    /* Hero title - Extra small screens - EXTREMELY compact */
     .hero-title {
-        font-size: clamp(0.6rem, 0.6vw + 0.5rem, 0.75rem) !important;
-        line-height: 1.1 !important;
-        margin-bottom: 0.2rem !important;
+        font-size: clamp(0.45rem, 0.4vw + 0.35rem, 0.55rem) !important; /* EXTREMELY small */
+        line-height: 1.0 !important;
+        margin-bottom: 0.1rem !important;
     }
     
     .hero h1 {
-        font-size: clamp(1.2rem, 3vw, 1.5rem) !important;
-        margin-bottom: 0.25rem !important;
-        line-height: 1.1 !important;
+        font-size: 0.9rem !important; /* EXTREMELY small */
+        margin-bottom: 0.1rem !important;
+        line-height: 1.0 !important;
     }
     
     .tagline {
-        font-size: clamp(0.65rem, 1.6vw, 0.8rem) !important;
-        margin-bottom: 0.35rem !important;
-        line-height: 1.1 !important;
+        font-size: 0.5rem !important; /* EXTREMELY small */
+        margin-bottom: 0.2rem !important;
+        line-height: 1.0 !important;
     }
     
     .tagline-small {
-        font-size: 0.7rem !important;
-        margin-bottom: 0.5rem !important;
-        margin-top: -0.35rem !important;
+        font-size: 0.5rem !important; /* EXTREMELY small */
+        margin-bottom: 0.3rem !important;
+        margin-top: -0.2rem !important;
     }
     
-    /* Hero KPI line - Extra small screens - Compressed */
+    /* Hero KPI line - Extra small screens - EXTREMELY compact */
     .hero-kpis {
-        font-size: clamp(0.55rem, 0.8vw + 0.45rem, 0.7rem) !important;
-        line-height: 1.1 !important;
+        font-size: clamp(0.4rem, 0.6vw + 0.3rem, 0.55rem) !important; /* EXTREMELY small */
+        line-height: 1.0 !important;
+        margin-bottom: 0.1rem !important;
+    }
+    
+    /* Hero tagline - Extra small screens - EXTREMELY compact */
+    .hero-tagline {
+        font-size: clamp(0.45rem, 0.25vw + 0.35rem, 0.6rem) !important; /* EXTREMELY small */
+        line-height: 1.0 !important;
         margin-bottom: 0.2rem !important;
     }
     
-    /* Hero tagline - Extra small screens - Compressed */
-    .hero-tagline {
-        font-size: clamp(0.65rem, 0.45vw + 0.5rem, 0.85rem) !important;
-        line-height: 1.1 !important;
-        margin-bottom: 0.35rem !important;
-    }
-    
     .hero .btn {
-        padding: 0.45rem 0.9rem !important;
-        font-size: clamp(0.65rem, 1.6vw, 0.75rem) !important;
-        margin: 0.25rem auto !important;
-        line-height: 1.1 !important;
+        padding: 0.25rem 0.6rem !important; /* EXTREMELY compact */
+        font-size: 0.5rem !important; /* EXTREMELY small */
+        margin: 0.1rem auto !important; /* EXTREMELY minimal */
+        line-height: 1.0 !important;
     }
     
     .hero .btn-cta-video {
-        padding: 0.25rem 0.45rem !important;
-        font-size: clamp(0.6rem, 1.6vw, 0.7rem) !important;
-        margin: 0.25rem auto !important;
+        padding: 0.15rem 0.3rem !important; /* EXTREMELY tight */
+        font-size: 0.45rem !important; /* EXTREMELY small */
+        margin: 0.1rem auto !important;
     }
 
     .videos-grid {
