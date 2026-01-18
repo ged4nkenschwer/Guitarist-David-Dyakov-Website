@@ -1184,9 +1184,57 @@ function initMobileMenu() {
     // Close menu when clicking on a nav link - cache selector
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            menuToggle.classList.remove('active');
-            navMenu.classList.remove('active');
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            
+            // Special handling for Videos link - expand videos section
+            // Check if this is the Videos nav link (points to #gallery and has data-en="Videos")
+            const isVideosLink = href === '#gallery' && (
+                this.getAttribute('data-en') === 'Videos' || 
+                this.textContent.trim().toLowerCase() === 'videos'
+            );
+            
+            if (isVideosLink) {
+                e.preventDefault();
+                
+                // Close mobile menu
+                menuToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                
+                // Scroll to gallery section
+                const gallerySection = document.getElementById('gallery');
+                if (gallerySection) {
+                    gallerySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    
+                    // After scrolling, find and trigger the videos reveal button
+                    setTimeout(() => {
+                        // Find all achievement-reveal sections in gallery
+                        const allReveals = document.querySelectorAll('#gallery .achievement-reveal');
+                        
+                        // Find the one that contains videos (has .gallery-video elements)
+                        let videosReveal = null;
+                        allReveals.forEach(reveal => {
+                            if (reveal.querySelector('.gallery-video')) {
+                                videosReveal = reveal.querySelector('.reveal-trigger');
+                            }
+                        });
+                        
+                        if (videosReveal) {
+                            const videosContent = videosReveal.nextElementSibling;
+                            
+                            // Check if already revealed
+                            if (videosContent && !videosContent.classList.contains('revealed')) {
+                                // Trigger the reveal button click
+                                videosReveal.click();
+                            }
+                        }
+                    }, 600); // Wait for scroll to complete
+                }
+            } else {
+                // Normal behavior for other links
+                menuToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
         });
     });
 }
