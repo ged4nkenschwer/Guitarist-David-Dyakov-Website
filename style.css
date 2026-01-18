@@ -3022,9 +3022,9 @@ textarea {
         justify-content: center;
     }
     
-    /* Mobile hero image - focus on hands */
+    /* Mobile hero image - ensure both hands are clearly visible */
     .hero-image img {
-        object-position: 60% 40% !important; /* Keep face centered/right, both hands visible */
+        object-position: center 50% !important; /* Center horizontally to show both hands, vertical at 50% to show left hand (fretboard) and right hand (strumming) */
     }
     
     /* Dark fades at top and bottom on mobile - matching desktop style */
