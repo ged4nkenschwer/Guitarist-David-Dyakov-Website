@@ -1877,31 +1877,63 @@ function initLightbox() {
             // Handle image
             const imgSrc = getImageSrc(item);
             if (imgSrc) {
-                // Hide video container, show image
+                // First, properly clean up video if it was playing
                 const lightboxVideoContainer = document.getElementById('lightbox-video-container');
                 const lightboxVideo = document.getElementById('lightbox-video');
+                if (lightboxVideo) {
+                    lightboxVideo.pause();
+                    lightboxVideo.currentTime = 0;
+                    lightboxVideo.removeAttribute('src');
+                    // Clear all source elements
+                    const existingSources = lightboxVideo.querySelectorAll('source');
+                    existingSources.forEach(source => source.remove());
+                    lightboxVideo.load(); // Reset video element
+                    lightboxVideo.style.display = 'none';
+                }
                 if (lightboxVideoContainer) {
                     lightboxVideoContainer.style.display = 'none';
                 }
-                if (lightboxVideo) {
-                    lightboxVideo.pause();
-                }
-                lightboxImg.style.display = 'block';
                 
-                lightboxImg.setAttribute('src', imgSrc);
-                lightboxCaption.textContent = caption;
+                // Show lightbox FIRST (important for proper display)
                 lightbox.style.display = 'block';
+                lightbox.setAttribute('aria-hidden', 'false');
                 // Lock body scroll and prevent touch scrolling
                 document.body.style.overflow = 'hidden';
                 document.body.style.position = 'fixed';
                 document.body.style.width = '100%';
                 document.body.style.height = '100%';
                 
+                // Now show and load the image
+                lightboxImg.style.display = 'block';
+                // Clear any previous src to force reload
+                lightboxImg.removeAttribute('src');
+                // Set the new src
+                lightboxImg.setAttribute('src', imgSrc);
+                lightboxCaption.textContent = caption;
+                
+                // Force image to load (in case it was cached or not loading)
+                lightboxImg.onload = function() {
+                    console.log('Image loaded successfully:', imgSrc);
+                };
+                lightboxImg.onerror = function() {
+                    console.error('Failed to load image:', imgSrc);
+                    // Try to reload
+                    const currentSrc = lightboxImg.getAttribute('src');
+                    if (currentSrc) {
+                        lightboxImg.setAttribute('src', '');
+                        setTimeout(() => {
+                            lightboxImg.setAttribute('src', currentSrc);
+                        }, 100);
+                    }
+                };
+                
                 // Hide back-to-top button when lightbox opens
                 const backToTop = document.getElementById('back-to-top');
                 if (backToTop) {
                     backToTop.classList.remove('visible');
                 }
+            } else {
+                console.error('Image source not found for item:', item);
             }
         }
     }
