@@ -1987,7 +1987,7 @@ nav {
 }
 
 .close-lightbox {
-    position: fixed !important; /* Use fixed to ensure it's always visible */
+    position: fixed !important; /* Fixed to viewport, not relative to lightbox */
     bottom: 30px;
     right: 30px;
     color: var(--text-primary);
@@ -2001,13 +2001,12 @@ nav {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 2147483647 !important; /* Match lightbox z-index to ensure it's on top */
+    z-index: 2147483647 !important; /* Same as lightbox, but above content */
     padding: 0;
     margin: 0;
     /* Ensure it's always visible and clickable */
     pointer-events: auto;
     opacity: 1;
-    visibility: visible;
 }
 
 .close-lightbox i {
@@ -2043,7 +2042,7 @@ nav {
 }
 
 .lightbox-nav {
-    position: fixed !important; /* Use fixed to ensure it's always visible */
+    position: absolute;
     top: 50%;
     transform: translateY(-50%);
     background: var(--bg-surface);
@@ -2059,11 +2058,7 @@ nav {
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
-    z-index: 2147483647 !important; /* Match lightbox z-index to ensure it's on top */
-    /* Ensure it's always visible and clickable */
-    pointer-events: auto;
-    opacity: 1;
-    visibility: visible;
+    z-index: 2001;
 }
 
 .lightbox-nav:hover {
@@ -3022,9 +3017,9 @@ textarea {
         justify-content: center;
     }
     
-    /* Mobile hero image - ensure both hands are clearly visible */
+    /* Mobile hero image - focus on hands */
     .hero-image img {
-        object-position: 50% 50% !important; /* Center horizontally to show both hands clearly */
+        object-position: 60% 40% !important; /* Keep face centered/right, both hands visible */
     }
     
     /* Dark fades at top and bottom on mobile - matching desktop style */
@@ -3060,25 +3055,21 @@ textarea {
         position: relative; /* Changed from absolute to prevent overflow */
         bottom: auto;
         top: auto;
+        transform: none;
         left: auto;
         right: auto;
         max-width: 100%;
         width: 100%;
-        /* Position content to start at shoulder height instead of nose tip */
-        padding: 0 20px;
-        padding-top: 35vh; /* Start at shoulder height (was centered at ~50vh) */
-        padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
+        padding: 2rem 20px;
+        padding-bottom: calc(2rem + env(safe-area-inset-bottom));
         margin: 0 auto;
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: flex-start; /* Start from top instead of center */
+        justify-content: center;
         text-align: center;
         z-index: 3;
-        /* Scale down the entire content block for compact appearance */
-        transform: scale(0.80); /* Scale down by 20% for more compact appearance */
-        transform-origin: top center;
     }
     
     /* Prevent Kaushan Script descenders from being clipped */
@@ -3096,35 +3087,33 @@ textarea {
     }
     
     .hero h1 {
-        font-size: clamp(1.6rem, 4vw, 2rem) !important; /* Scaled down further - 20% smaller */
-        margin-bottom: 0.5rem !important; /* Reduced spacing */
+        font-size: clamp(2rem, 5vw, 2.5rem); /* Responsive scaling */
+        margin-bottom: 0.8rem;
         padding: 0;
-        line-height: 1.15 !important; /* Tighter line height */
+        line-height: 1.2;
         max-width: 100%;
         word-wrap: break-word;
     }
     
     .tagline {
-        font-size: clamp(0.75rem, 2vw, 0.9rem) !important; /* Scaled down further - ~20% smaller */
-        margin-bottom: 0.8rem !important; /* Reduced spacing */
+        font-size: clamp(0.9rem, 2.5vw, 1.1rem); /* Responsive scaling */
+        margin-bottom: 1.5rem;
         padding: 0;
-        line-height: 1.2 !important; /* Tighter line height */
+        line-height: 1.3;
         max-width: 100%;
     }
     
-    /* Hero KPI line - Mobile: scaled down further for compact layout */
+    /* Hero KPI line - Mobile: ~25% smaller than desktop */
     .hero-kpis {
-        font-size: clamp(0.65rem, 1vw + 0.60rem, 0.80rem) !important; /* Scaled down further - ~20% smaller */
-        line-height: 1.15 !important; /* Tighter line height */
-        margin-bottom: 0.5rem !important; /* Reduced spacing */
+        font-size: clamp(0.80rem, 1.2vw + 0.70rem, 0.95rem) !important; /* Desktop: clamp(1.05rem, 0.55vw + 0.95rem, 1.25rem) */
+        line-height: 1.2 !important;
     }
     
-    /* Hero tagline - Mobile: scaled down further for compact layout */
+    /* Hero tagline - Mobile: ~30% smaller than desktop, prevent descenders from being clipped */
     .hero-tagline {
-        font-size: clamp(0.75rem, 0.5vw + 0.60rem, 1.05rem) !important; /* Scaled down further - ~20% smaller */
-        line-height: 1.15 !important; /* Tighter line height for mobile */
-        padding-bottom: 0.15em !important; /* Reduced buffer for descenders */
-        margin-bottom: 0.5rem !important; /* Reduced spacing */
+        font-size: clamp(0.90rem, 0.6vw + 0.75rem, 1.30rem) !important; /* Desktop: clamp(1.25rem, 0.8vw + 1.05rem, 1.85rem) */
+        line-height: 1.2 !important; /* Tighter line height for mobile */
+        padding-bottom: 0.2em !important; /* Tiny buffer for descenders like g/y/p */
     }
     
     .tagline-small {
@@ -3135,9 +3124,9 @@ textarea {
     }
     
     .hero .btn {
-        margin: 0.4rem auto !important; /* Reduced margin */
-        padding: 0.7rem 1.4rem !important; /* Compacted padding */
-        font-size: clamp(0.8rem, 1.8vw, 0.9rem) !important; /* Scaled down */
+        margin: 0.5rem auto;
+        padding: 0.9rem 1.8rem;
+        font-size: clamp(0.9rem, 2vw, 1rem);
         width: auto;
         max-width: 100%;
         white-space: normal;
@@ -3148,24 +3137,23 @@ textarea {
         hyphens: auto;
     }
     
-    /* Fix text overflow for CTA video button on mobile - compacted */
+    /* Fix text overflow for CTA video button on mobile */
     .hero .btn-cta-video {
         max-width: calc(100% - 2rem); /* Account for padding */
-        padding: 0.35rem 0.5rem !important; /* Even tighter padding */
-        font-size: clamp(0.75rem, 1.8vw, 0.85rem) !important; /* Scaled down */
+        padding: 0.4rem 0.6rem !important; /* Very tight padding for minimal border */
+        font-size: clamp(0.85rem, 2vw, 0.95rem) !important;
         white-space: normal !important;
         word-wrap: break-word !important;
         overflow-wrap: break-word !important;
         text-align: center;
-        line-height: 1.15 !important; /* Tighter line height */
+        line-height: 1.2 !important; /* Tighter line height */
         hyphens: auto;
         border-width: 1px !important; /* Ensure border is not too thick */
-        margin: 0.4rem auto !important; /* Reduced margin */
     }
     
-    /* Stack buttons on mobile if multiple - compacted */
+    /* Stack buttons on mobile if multiple */
     .hero .btn + .btn {
-        margin-top: 0.5rem !important; /* Reduced gap */
+        margin-top: 0.75rem;
         margin-left: 0; /* Remove horizontal gap on mobile */
     }
     
@@ -3308,16 +3296,12 @@ textarea {
     }
     
     .close-lightbox {
-        position: fixed !important; /* Ensure it's visible on mobile */
+        position: fixed !important; /* Fixed to viewport on mobile */
         bottom: 20px;
         right: 20px;
         width: 45px;
         height: 45px;
-        z-index: 2147483647 !important; /* Match lightbox z-index */
-        /* Ensure it's visible and tappable on mobile */
-        pointer-events: auto !important;
-        opacity: 1 !important;
-        visibility: visible !important;
+        z-index: 2147483647 !important; /* Ensure it's above everything */
     }
     
     .close-lightbox i {
@@ -3325,16 +3309,10 @@ textarea {
     }
     
     .lightbox-nav {
-        position: fixed !important; /* Ensure it's visible on mobile */
         width: 50px;
         height: 50px;
         padding: 12px;
         font-size: 1.5rem;
-        z-index: 2147483647 !important; /* Match lightbox z-index */
-        /* Ensure it's visible and tappable on mobile */
-        pointer-events: auto !important;
-        opacity: 1 !important;
-        visibility: visible !important;
     }
     
     .prev-btn {
@@ -3427,10 +3405,7 @@ textarea {
     }
     
     .hero-content {
-        padding-top: 32vh !important; /* Start at shoulder height on small screens */
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
-        padding-bottom: 1.5rem !important;
+        padding: 1.5rem 1rem 2.5rem 1rem !important;
     }
     
     /* Hero title - Extra small screens - maintain smaller size */
