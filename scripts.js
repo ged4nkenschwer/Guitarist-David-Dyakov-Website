@@ -419,6 +419,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize back-to-top button
     initBackToTop();
 
+    // Move lightbox to document.body to avoid stacking context issues
+    // This ensures it's not trapped in a parent stacking context
+    (function moveLightboxToBody() {
+        const lightbox = document.getElementById('lightbox');
+        if (lightbox && lightbox.parentElement !== document.body) {
+            // Preserve all attributes and children when moving
+            document.body.appendChild(lightbox);
+        }
+    })();
+    
     // Initialize lightbox gallery
     initLightbox();
     
@@ -1633,7 +1643,11 @@ function initLightbox() {
         // Show modal FIRST (important for play timing)
         lightbox.style.display = 'block';
         lightbox.setAttribute('aria-hidden', 'false');
+        // Lock body scroll and prevent touch scrolling
         document.body.style.overflow = 'hidden';
+        document.body.style.position = 'fixed';
+        document.body.style.width = '100%';
+        document.body.style.height = '100%';
         
         // Hide image, show video container
         const lightboxImg = document.getElementById('lightbox-img');
@@ -1757,7 +1771,11 @@ function initLightbox() {
     function closeLightbox() {
         lightbox.style.display = 'none';
         lightbox.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = 'auto';
+        // Restore body scroll
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.width = '';
+        document.body.style.height = '';
         
         // Stop and reset lightbox video
         const lightboxVideo = document.getElementById('lightbox-video');
@@ -1813,7 +1831,11 @@ function initLightbox() {
                 // Show lightbox FIRST (important for play timing)
                 lightbox.style.display = 'block';
                 lightbox.setAttribute('aria-hidden', 'false');
+                // Lock body scroll and prevent touch scrolling
                 document.body.style.overflow = 'hidden';
+                document.body.style.position = 'fixed';
+                document.body.style.width = '100%';
+                document.body.style.height = '100%';
                 
                 // Hide image, show video container
                 const lightboxVideoContainer = document.getElementById('lightbox-video-container');
@@ -1853,7 +1875,11 @@ function initLightbox() {
                 lightboxImg.setAttribute('src', imgSrc);
                 lightboxCaption.textContent = caption;
                 lightbox.style.display = 'block';
+                // Lock body scroll and prevent touch scrolling
                 document.body.style.overflow = 'hidden';
+                document.body.style.position = 'fixed';
+                document.body.style.width = '100%';
+                document.body.style.height = '100%';
                 
                 // Hide back-to-top button when lightbox opens
                 const backToTop = document.getElementById('back-to-top');
