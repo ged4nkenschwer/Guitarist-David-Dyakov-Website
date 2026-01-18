@@ -1035,8 +1035,6 @@ nav {
     overflow: hidden;
     padding-top: var(--header-height, 80px); /* Space for fixed header */
     background-color: var(--bg-main);
-    /* Ensure no background-image conflicts - use picture element only */
-    background-image: none !important;
 }
 
 /* Hero image - responsive picture element */
@@ -3022,14 +3020,16 @@ textarea {
         padding-bottom: calc(4rem + env(safe-area-inset-bottom));
         align-items: center;
         justify-content: center;
-        /* Ensure no background-image conflicts - use picture element only */
-        background-image: none !important;
-        background: var(--bg-main) !important;
     }
     
-    /* Mobile hero image - ensure both hands are clearly visible */
-    .hero-image img {
-        object-position: center 50% !important; /* Center horizontally to show both hands, vertical at 50% to show left hand (fretboard) and right hand (strumming) */
+    /* Mobile hero image - hide picture element to prevent double image, use background-image from inline styles instead */
+    .hero-image {
+        display: none !important; /* Hide picture element on mobile to prevent double image with background-image */
+    }
+    
+    /* Mobile hero image positioning - ensure both hands are clearly visible via background-image */
+    .hero {
+        background-position: center 50% !important; /* Center horizontally to show both hands, vertical at 50% */
     }
     
     /* Dark fades at top and bottom on mobile - matching desktop style */
