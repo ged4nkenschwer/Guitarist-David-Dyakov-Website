@@ -3011,7 +3011,7 @@ textarea {
         min-height: -webkit-fill-available; /* Fix for iOS Safari */
         overflow: hidden; /* Prevent horizontal overflow */
         padding: 0;
-        padding-top: 32vh; /* Start content just below chin/neck level */
+        padding-top: 25vh; /* Start content just below chin - not covering face */
         padding-bottom: calc(2rem + env(safe-area-inset-bottom));
         align-items: center;
         justify-content: flex-start; /* Align content to start after padding-top */
@@ -3090,13 +3090,26 @@ textarea {
     }
     
     .hero h1 {
-        font-size: clamp(2.2rem, 6vw, 3rem) !important; /* Main title - largest element */
-        margin-bottom: 0.6rem;
+        font-size: clamp(2.4rem, 7vw, 3.5rem) !important; /* Film title style - largest */
+        margin-bottom: 0.3rem;
         padding: 0;
-        line-height: 1.1;
+        line-height: 1.0;
         max-width: 100%;
         word-wrap: break-word;
         font-weight: 700 !important;
+        letter-spacing: 0.15em !important; /* Film title letter spacing */
+        text-transform: uppercase !important;
+    }
+    
+    /* Hero subtitle - film style dash line */
+    .hero-subtitle {
+        font-size: clamp(0.85rem, 2.5vw, 1.1rem) !important;
+        color: var(--accent-gold) !important;
+        letter-spacing: 0.1em !important;
+        margin-bottom: 0.8rem !important;
+        font-family: var(--font-elegant) !important;
+        font-weight: 400 !important;
+        text-transform: uppercase !important;
     }
     
     .tagline {
@@ -3406,7 +3419,7 @@ textarea {
     
     /* Extra small screens - iPhone SE and similar */
     .hero {
-        padding-top: 30vh !important; /* Content starts just below chin/neck level */
+        padding-top: 23vh !important; /* Content starts just below chin */
         padding-bottom: calc(1.5rem + env(safe-area-inset-bottom)) !important;
     }
     
@@ -3424,8 +3437,14 @@ textarea {
     }
     
     .hero h1 {
-        font-size: 2rem !important; /* Main title - largest */
-        margin-bottom: 0.5rem !important;
+        font-size: 2.2rem !important; /* Film title style */
+        margin-bottom: 0.2rem !important;
+        letter-spacing: 0.12em !important;
+    }
+    
+    .hero-subtitle {
+        font-size: 0.8rem !important;
+        margin-bottom: 0.6rem !important;
     }
     
     .tagline {
@@ -3473,7 +3492,7 @@ textarea {
 /* Very small screens - 480px and below */
 @media (max-width: 480px) {
     .hero {
-        padding-top: 28vh !important; /* Content starts just below chin/neck level */
+        padding-top: 22vh !important; /* Content starts just below chin */
     }
     
     .hero-content {
@@ -3489,7 +3508,12 @@ textarea {
     }
     
     .hero h1 {
-        font-size: 1.8rem !important; /* Main title - largest */
+        font-size: 2rem !important; /* Film title style */
+        letter-spacing: 0.1em !important;
+    }
+    
+    .hero-subtitle {
+        font-size: 0.75rem !important;
     }
     
     .hero .btn {
