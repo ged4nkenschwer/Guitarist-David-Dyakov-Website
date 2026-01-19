@@ -116,10 +116,11 @@ h1.section-title, h2.section-title, h3.section-title,
     display: inline-block;
     background: linear-gradient(90deg, 
         #B8945A 0%, 
-        #B8945A 40%,
-        var(--accent-gold) 50%,
-        var(--accent-gold-soft) 55%,
-        var(--accent-gold) 60%,
+        #B8945A 35%,
+        #D4C4A0 45%,
+        #FFFFFF 50%,
+        #D4C4A0 55%,
+        #B8945A 65%,
         #B8945A 100%);
     -webkit-background-clip: text;
     background-clip: text;
@@ -228,10 +229,11 @@ a:hover {
     color: #B8945A !important;
     background: linear-gradient(90deg, 
         #B8945A 0%, 
-        #B8945A 40%,
-        var(--accent-gold) 50%,
-        var(--accent-gold-soft) 55%,
-        var(--accent-gold) 60%,
+        #B8945A 35%,
+        #D4C4A0 45%,
+        #FFFFFF 50%,
+        #D4C4A0 55%,
+        #B8945A 65%,
         #B8945A 100%) !important;
     -webkit-background-clip: text !important;
     background-clip: text !important;
@@ -273,10 +275,11 @@ a:hover {
     position: relative !important;
     background: linear-gradient(90deg, 
         #B8945A 0%, 
-        #B8945A 40%,
-        var(--accent-gold) 50%,
-        var(--accent-gold-soft) 55%,
-        var(--accent-gold) 60%,
+        #B8945A 35%,
+        #D4C4A0 45%,
+        #FFFFFF 50%,
+        #D4C4A0 55%,
+        #B8945A 65%,
         #B8945A 100%) !important;
     -webkit-background-clip: text !important;
     background-clip: text !important;
@@ -2186,10 +2189,11 @@ nav {
     color: #B8945A;
     background: linear-gradient(90deg, 
         #B8945A 0%, 
-        #B8945A 40%,
-        var(--accent-gold) 50%,
-        var(--accent-gold-soft) 55%,
-        var(--accent-gold) 60%,
+        #B8945A 35%,
+        #D4C4A0 45%,
+        #FFFFFF 50%,
+        #D4C4A0 55%,
+        #B8945A 65%,
         #B8945A 100%);
     -webkit-background-clip: text;
     background-clip: text;
@@ -2270,10 +2274,11 @@ nav {
     color: #B8945A;
     background: linear-gradient(90deg, 
         #B8945A 0%, 
-        #B8945A 40%,
-        var(--accent-gold) 50%,
-        var(--accent-gold-soft) 55%,
-        var(--accent-gold) 60%,
+        #B8945A 35%,
+        #D4C4A0 45%,
+        #FFFFFF 50%,
+        #D4C4A0 55%,
+        #B8945A 65%,
         #B8945A 100%);
     -webkit-background-clip: text;
     background-clip: text;
