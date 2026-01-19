@@ -648,50 +648,79 @@ function initMobileTitleSheen() {
     // Track which titles have had their entrance animation
     const animatedTitles = new Set();
     
+    // Function to animate a single title
+    function animateTitle(title, delay = 0) {
+        if (animatedTitles.has(title)) return;
+        animatedTitles.add(title);
+        
+        setTimeout(() => {
+            // Ensure starting position
+            title.style.backgroundPosition = '-100% 0';
+            
+            // Force reflow to ensure the starting position is applied
+            title.offsetHeight;
+            
+            // Animate sheen from left to right
+            title.style.transition = 'background-position 1.2s ease-out';
+            title.style.backgroundPosition = '100% 0';
+            
+            console.log('Animating sheen for:', title.textContent.substring(0, 30));
+            
+            // After animation completes, remove transition for scroll effect
+            setTimeout(() => {
+                title.style.transition = 'none';
+            }, 1250);
+        }, delay);
+    }
+    
     // ========== PART 1: Auto-animate on first appearance ==========
-    // Wait for page to fully load before starting entrance animations
     const startEntranceAnimations = () => {
+        console.log('Starting entrance animations...');
+        
+        // First: Immediately animate titles already in viewport (like hero)
+        const viewportHeight = window.innerHeight;
+        let visibleCount = 0;
+        
+        goldenTitles.forEach((title, index) => {
+            const rect = title.getBoundingClientRect();
+            // Check if already visible in viewport
+            if (rect.top < viewportHeight && rect.bottom > 0) {
+                animateTitle(title, visibleCount * 150); // Stagger by 150ms
+                visibleCount++;
+            }
+        });
+        
+        console.log('Animated', visibleCount, 'visible titles immediately');
+        
+        // Then: Set up IntersectionObserver for titles that will scroll into view
         if ('IntersectionObserver' in window) {
             const entranceObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting && !animatedTitles.has(entry.target)) {
-                        // Mark as animated
-                        animatedTitles.add(entry.target);
-                        
-                        // Small stagger delay based on position for visual effect
-                        const delay = Array.from(goldenTitles).indexOf(entry.target) * 50;
-                        
-                        setTimeout(() => {
-                            // Animate sheen from left to right (slower for visibility)
-                            entry.target.style.transition = 'background-position 1s ease-out';
-                            entry.target.style.backgroundPosition = '100% 0';
-                            
-                            // After animation, reset for scroll effect (on mobile)
-                            setTimeout(() => {
-                                entry.target.style.transition = 'none';
-                            }, 1050);
-                        }, delay);
+                        animateTitle(entry.target, 100);
                     }
                 });
             }, {
-                threshold: 0.15,
-                rootMargin: '0px 0px -10% 0px'
+                threshold: 0.1,
+                rootMargin: '50px 0px 0px 0px' // Trigger slightly before fully visible
             });
             
             goldenTitles.forEach(title => {
-                entranceObserver.observe(title);
+                if (!animatedTitles.has(title)) {
+                    entranceObserver.observe(title);
+                }
             });
             
-            console.log('Title entrance animation initialized');
+            console.log('IntersectionObserver set up for remaining titles');
         }
     };
     
-    // Delay entrance animations until page is fully loaded + small buffer
+    // Delay entrance animations until page is fully loaded + buffer
     if (document.readyState === 'complete') {
-        setTimeout(startEntranceAnimations, 500);
+        setTimeout(startEntranceAnimations, 800);
     } else {
         window.addEventListener('load', () => {
-            setTimeout(startEntranceAnimations, 500);
+            setTimeout(startEntranceAnimations, 800);
         });
     }
     
