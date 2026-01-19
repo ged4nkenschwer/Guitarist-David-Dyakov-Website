@@ -292,14 +292,14 @@ a:hover {
     text-align: center;
 }
 
-/* Hero role subtitle */
+/* Hero role subtitle - same size as David Dyakov */
 .hero-role {
     color: var(--accent-gold) !important;
-    font-family: var(--font-classic);
-    font-size: clamp(1.4rem, 3vw, 2rem);
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 6vw, 4rem);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: none;
     margin-bottom: 1rem;
     text-align: center;
     background: linear-gradient(90deg, 
@@ -1100,7 +1100,7 @@ nav {
     height: 100%;
     object-fit: cover;
     object-position: center 45%; /* Shift down slightly to show hairline while keeping hands visible */
-    filter: brightness(0.85) contrast(1.1);
+    filter: brightness(0.65) contrast(1.1);
 }
 
 .hero::before {
@@ -3246,7 +3246,7 @@ textarea {
     }
     
     .hero-role {
-        font-size: clamp(1.1rem, 4vw, 1.5rem);
+        font-size: clamp(2.2rem, 8vw, 3.5rem);
         margin-bottom: 0.8rem;
     }
     
