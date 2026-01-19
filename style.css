@@ -3017,9 +3017,9 @@ textarea {
         justify-content: flex-start; /* Align content to start after padding-top */
     }
     
-    /* Mobile hero image - show full head with hairline */
+    /* Mobile hero image - show full head with all hair */
     .hero-image img {
-        object-position: 60% 15% !important; /* Show hairline at top, face visible */
+        object-position: 50% 0% !important; /* Show full head from top - all hair visible */
     }
     
     /* Dark fades at top and bottom on mobile - matching desktop style */
