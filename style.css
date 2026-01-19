@@ -3017,9 +3017,9 @@ textarea {
         justify-content: flex-start; /* Align content to start after padding-top */
     }
     
-    /* Mobile hero image - focus on hands */
+    /* Mobile hero image - use default positioning */
     .hero-image img {
-        object-position: 60% 40% !important; /* Keep face centered/right, both hands visible */
+        object-position: center center !important; /* Default - no manipulation */
     }
     
     /* Dark fades at top and bottom on mobile - matching desktop style */
