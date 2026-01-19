@@ -3043,9 +3043,11 @@ textarea {
     
     /* Hero section on mobile - responsive, no overflow */
     .hero {
-        height: auto;
+        height: 100vh;
+        height: 100svh; /* Small viewport height - better for mobile browsers */
+        height: -webkit-fill-available; /* Fix for iOS Safari */
         min-height: 100vh;
-        min-height: -webkit-fill-available; /* Fix for iOS Safari */
+        min-height: 100svh;
         overflow: hidden; /* Prevent horizontal overflow */
         padding: 0;
         padding-top: 20vh; /* Start content higher - below chin */
@@ -3054,9 +3056,16 @@ textarea {
         justify-content: flex-start; /* Align content to start after padding-top */
     }
     
-    /* Mobile hero image - show full head with all hair */
+    /* Mobile hero image - show full head with all hair, fill screen */
+    .hero-image {
+        height: 100vh !important;
+        height: 100svh !important;
+        height: -webkit-fill-available !important;
+    }
+    
     .hero-image img {
         object-position: 50% 0% !important; /* Show full head from top - all hair visible */
+        height: 100% !important;
     }
     
     /* Dark fades at top and bottom on mobile - matching desktop style */
