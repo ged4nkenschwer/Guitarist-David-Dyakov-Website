@@ -1124,6 +1124,33 @@ nav {
     font-weight: 600;
 }
 
+/* Highlight for "25+ First Prizes" */
+.highlight-prize {
+    display: inline-block;
+    color: #FFD700;
+    font-weight: 700;
+    text-shadow: 
+        0 0 10px rgba(255, 215, 0, 0.6),
+        0 0 20px rgba(255, 215, 0, 0.4),
+        0 0 30px rgba(255, 215, 0, 0.2);
+    animation: prize-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes prize-glow {
+    0% {
+        text-shadow: 
+            0 0 10px rgba(255, 215, 0, 0.6),
+            0 0 20px rgba(255, 215, 0, 0.4),
+            0 0 30px rgba(255, 215, 0, 0.2);
+    }
+    100% {
+        text-shadow: 
+            0 0 15px rgba(255, 215, 0, 0.8),
+            0 0 30px rgba(255, 215, 0, 0.6),
+            0 0 45px rgba(255, 215, 0, 0.4);
+    }
+}
+
 /* Hero tagline - Handwritten style with Kaushan Script font */
 .hero-tagline {
     font-family: "Kaushan Script", cursive;
@@ -1170,17 +1197,12 @@ nav {
     position: relative;
     border-radius: 8px;
     overflow: hidden;
+    background-image: url('./david-portrait.jpg');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-}
-
-.bio-image img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    border-radius: 8px;
 }
 
 .bio-image:hover {
@@ -2223,17 +2245,12 @@ nav {
     position: relative;
     border-radius: 8px;
     overflow: hidden;
+    background-image: url('./teaching-guitar.jpg');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-}
-
-.masterclass-image img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    border-radius: 8px;
 }
 
 .masterclass-image:hover {
@@ -3234,13 +3251,9 @@ textarea {
         height: 350px !important;
         min-height: 350px !important;
         margin-bottom: 1.5rem;
-    }
-    
-    .bio-image img {
-        display: block !important;
-        width: 100% !important;
-        height: 100% !important;
-        min-height: 350px !important;
+        background-image: url('./david-portrait.jpg') !important;
+        background-size: cover !important;
+        background-position: center top !important;
     }
     
     .bio-text {
@@ -3257,13 +3270,9 @@ textarea {
         height: 300px !important;
         min-height: 300px !important;
         margin-bottom: 1.5rem;
-    }
-    
-    .masterclass-image img {
-        display: block !important;
-        width: 100% !important;
-        height: 100% !important;
-        min-height: 300px !important;
+        background-image: url('./teaching-guitar.jpg') !important;
+        background-size: cover !important;
+        background-position: center top !important;
     }
     
     .masterclass-info {
