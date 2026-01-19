@@ -608,7 +608,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /**
  * Initialize Title Sheen Effects
- * 1. Auto-animate sheen when titles first enter viewport
+ * 1. Auto-animate sheen when titles first enter viewport (with delay after page load)
  * 2. On mobile: sheen follows scroll position continuously
  */
 function initMobileTitleSheen() {
@@ -642,33 +642,50 @@ function initMobileTitleSheen() {
     const animatedTitles = new Set();
     
     // ========== PART 1: Auto-animate on first appearance ==========
-    if ('IntersectionObserver' in window) {
-        const entranceObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !animatedTitles.has(entry.target)) {
-                    // Mark as animated
-                    animatedTitles.add(entry.target);
-                    
-                    // Animate sheen from left to right
-                    entry.target.style.transition = 'background-position 0.8s ease-out';
-                    entry.target.style.backgroundPosition = '100% 0';
-                    
-                    // After animation, reset for scroll effect (on mobile)
-                    setTimeout(() => {
-                        entry.target.style.transition = 'none';
-                    }, 850);
-                }
+    // Wait for page to fully load before starting entrance animations
+    const startEntranceAnimations = () => {
+        if ('IntersectionObserver' in window) {
+            const entranceObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !animatedTitles.has(entry.target)) {
+                        // Mark as animated
+                        animatedTitles.add(entry.target);
+                        
+                        // Small stagger delay based on position for visual effect
+                        const delay = Array.from(goldenTitles).indexOf(entry.target) * 50;
+                        
+                        setTimeout(() => {
+                            // Animate sheen from left to right (slower for visibility)
+                            entry.target.style.transition = 'background-position 1s ease-out';
+                            entry.target.style.backgroundPosition = '100% 0';
+                            
+                            // After animation, reset for scroll effect (on mobile)
+                            setTimeout(() => {
+                                entry.target.style.transition = 'none';
+                            }, 1050);
+                        }, delay);
+                    }
+                });
+            }, {
+                threshold: 0.15,
+                rootMargin: '0px 0px -10% 0px'
             });
-        }, {
-            threshold: 0.2,
-            rootMargin: '0px 0px -5% 0px'
+            
+            goldenTitles.forEach(title => {
+                entranceObserver.observe(title);
+            });
+            
+            console.log('Title entrance animation initialized');
+        }
+    };
+    
+    // Delay entrance animations until page is fully loaded + small buffer
+    if (document.readyState === 'complete') {
+        setTimeout(startEntranceAnimations, 500);
+    } else {
+        window.addEventListener('load', () => {
+            setTimeout(startEntranceAnimations, 500);
         });
-        
-        goldenTitles.forEach(title => {
-            entranceObserver.observe(title);
-        });
-        
-        console.log('Title entrance animation initialized');
     }
     
     // ========== PART 2: Scroll-responsive sheen (mobile only) ==========
