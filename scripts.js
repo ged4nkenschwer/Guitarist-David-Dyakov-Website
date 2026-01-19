@@ -488,6 +488,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize Press Quotes animations
     initPressQuotesAnimations();
     
+    // Initialize Mobile Title Sheen Effect (scroll-triggered golden reflection)
+    initMobileTitleSheen();
+    
     // Initialize lazy loading for gallery background images
     initLazyLoadGalleryImages();
     
@@ -602,6 +605,77 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
+/**
+ * Initialize Mobile Title Sheen Effect
+ * Triggers the golden reflection animation on scroll for mobile devices
+ */
+function initMobileTitleSheen() {
+    // Only run on touch devices (mobile/tablet)
+    const isTouchDevice = window.matchMedia('(hover: none)').matches || 
+                          window.matchMedia('(pointer: coarse)').matches ||
+                          'ontouchstart' in window;
+    
+    if (!isTouchDevice) {
+        console.log('Desktop detected - title sheen will use hover instead');
+        return;
+    }
+    
+    if (!('IntersectionObserver' in window)) {
+        console.log('IntersectionObserver not supported');
+        return;
+    }
+    
+    // Select all golden titles that should have the sheen effect
+    const goldenTitles = document.querySelectorAll(
+        '.section-title, ' +
+        '.hero h1, ' +
+        '.masterclass-info h3, ' +
+        '.contact-info h3, ' +
+        '.bio-text h3, ' +
+        '.social-info h3, ' +
+        '.main-quote h3, ' +
+        '.video-title, ' +
+        '#follow-me h2, ' +
+        '#biography h2, ' +
+        '#gallery h2, ' +
+        '#press h2, ' +
+        '#masterclasses h2, ' +
+        '#contact h2'
+    );
+    
+    if (goldenTitles.length === 0) {
+        console.log('No golden titles found');
+        return;
+    }
+    
+    console.log('Mobile title sheen: Found', goldenTitles.length, 'titles');
+    
+    const titleObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Add sheen animation class
+                entry.target.classList.add('title-sheen-active');
+                
+                // Remove class after animation completes to allow re-trigger
+                setTimeout(() => {
+                    entry.target.classList.remove('title-sheen-active');
+                }, 800); // Match animation duration
+                
+                // Don't unobserve - allow re-trigger when scrolling back
+            }
+        });
+    }, {
+        threshold: 0.3, // Trigger when 30% visible
+        rootMargin: '0px 0px -10% 0px' // Trigger slightly before fully in view
+    });
+    
+    goldenTitles.forEach(title => {
+        titleObserver.observe(title);
+    });
+    
+    console.log('Mobile title sheen initialized');
+}
 
 /**
  * Initialize Press Quotes animations
