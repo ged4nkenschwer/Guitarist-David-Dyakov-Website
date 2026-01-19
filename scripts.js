@@ -608,7 +608,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /**
  * Initialize Mobile Title Sheen Effect
- * Triggers the golden reflection animation on scroll for mobile devices
+ * Sheen follows scroll position continuously on mobile devices
  */
 function initMobileTitleSheen() {
     // Only run on touch devices (mobile/tablet)
@@ -621,15 +621,11 @@ function initMobileTitleSheen() {
         return;
     }
     
-    if (!('IntersectionObserver' in window)) {
-        console.log('IntersectionObserver not supported');
-        return;
-    }
-    
     // Select all golden titles that should have the sheen effect
     const goldenTitles = document.querySelectorAll(
         '.section-title, ' +
         '.hero h1, ' +
+        '.hero-subtitle, ' +
         '.masterclass-info h3, ' +
         '.contact-info h3, ' +
         '.bio-text h3, ' +
@@ -651,30 +647,47 @@ function initMobileTitleSheen() {
     
     console.log('Mobile title sheen: Found', goldenTitles.length, 'titles');
     
-    const titleObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // Add sheen animation class
-                entry.target.classList.add('title-sheen-active');
+    let ticking = false;
+    
+    function updateSheenPositions() {
+        const viewportHeight = window.innerHeight;
+        
+        goldenTitles.forEach(title => {
+            const rect = title.getBoundingClientRect();
+            
+            // Check if element is in viewport
+            if (rect.top < viewportHeight && rect.bottom > 0) {
+                // Calculate position in viewport (0 = top, 1 = bottom)
+                const visibleCenter = rect.top + rect.height / 2;
+                const viewportProgress = visibleCenter / viewportHeight;
                 
-                // Remove class after animation completes to allow re-trigger
-                setTimeout(() => {
-                    entry.target.classList.remove('title-sheen-active');
-                }, 800); // Match animation duration
+                // Map to background-position (-100% to 100%)
+                // When at top of viewport: sheen at end (100%)
+                // When at bottom of viewport: sheen at start (-100%)
+                const sheenPosition = 100 - (viewportProgress * 200);
                 
-                // Don't unobserve - allow re-trigger when scrolling back
+                // Apply the sheen position directly
+                title.style.backgroundPosition = `${sheenPosition}% 0`;
             }
         });
-    }, {
-        threshold: 0.3, // Trigger when 30% visible
-        rootMargin: '0px 0px -10% 0px' // Trigger slightly before fully in view
-    });
+        
+        ticking = false;
+    }
     
-    goldenTitles.forEach(title => {
-        titleObserver.observe(title);
-    });
+    function onScroll() {
+        if (!ticking) {
+            requestAnimationFrame(updateSheenPositions);
+            ticking = true;
+        }
+    }
     
-    console.log('Mobile title sheen initialized');
+    // Listen to scroll events
+    window.addEventListener('scroll', onScroll, { passive: true });
+    
+    // Initial update
+    updateSheenPositions();
+    
+    console.log('Mobile title sheen initialized - scroll responsive');
 }
 
 /**
