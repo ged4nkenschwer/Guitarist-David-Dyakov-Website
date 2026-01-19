@@ -3011,7 +3011,7 @@ textarea {
         min-height: -webkit-fill-available; /* Fix for iOS Safari */
         overflow: hidden; /* Prevent horizontal overflow */
         padding: 0;
-        padding-top: 45vh; /* Start content at ~neck height (45% from top) */
+        padding-top: 52vh; /* Start content below chin level */
         padding-bottom: calc(2rem + env(safe-area-inset-bottom));
         align-items: center;
         justify-content: flex-start; /* Align content to start after padding-top */
@@ -3070,8 +3070,8 @@ textarea {
         justify-content: flex-start;
         text-align: center;
         z-index: 3;
-        /* Scale down all content proportionally */
-        transform: scale(0.85);
+        /* Scale down all content proportionally - slightly larger */
+        transform: scale(0.92);
         transform-origin: center top;
     }
     
@@ -3405,13 +3405,13 @@ textarea {
     
     /* Extra small screens - iPhone SE and similar */
     .hero {
-        padding-top: 42vh !important; /* Content starts at ~neck height */
+        padding-top: 50vh !important; /* Content starts below chin level */
         padding-bottom: calc(1.5rem + env(safe-area-inset-bottom)) !important;
     }
     
     .hero-content {
         padding: 0.8rem 0.8rem 1.5rem 0.8rem !important;
-        transform: scale(0.82) !important;
+        transform: scale(0.88) !important;
         transform-origin: center top !important;
     }
     
@@ -3472,28 +3472,28 @@ textarea {
 /* Very small screens - 480px and below */
 @media (max-width: 480px) {
     .hero {
-        padding-top: 40vh !important; /* Content starts at ~neck height */
+        padding-top: 48vh !important; /* Content starts below chin level */
     }
     
     .hero-content {
-        transform: scale(0.78) !important;
+        transform: scale(0.85) !important;
     }
     
     .hero-kpis {
-        font-size: clamp(0.60rem, 0.9vw + 0.50rem, 0.75rem) !important;
+        font-size: clamp(0.65rem, 1.0vw + 0.55rem, 0.80rem) !important;
     }
     
     .hero-tagline {
-        font-size: clamp(0.70rem, 0.5vw + 0.55rem, 0.95rem) !important;
+        font-size: clamp(0.75rem, 0.6vw + 0.60rem, 1.0rem) !important;
     }
     
     .hero h1 {
-        font-size: 1.4rem !important;
+        font-size: 1.5rem !important;
     }
     
     .hero .btn {
-        padding: 0.5rem 1rem !important;
-        font-size: 0.75rem !important;
+        padding: 0.55rem 1.1rem !important;
+        font-size: 0.8rem !important;
     }
 }
 
