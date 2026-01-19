@@ -3011,10 +3011,10 @@ textarea {
         min-height: -webkit-fill-available; /* Fix for iOS Safari */
         overflow: hidden; /* Prevent horizontal overflow */
         padding: 0;
-        padding-top: 0; /* Image starts directly below header */
+        padding-top: 12vh; /* Start content just below chin */
         padding-bottom: calc(2rem + env(safe-area-inset-bottom));
-        align-items: flex-end; /* Content at bottom */
-        justify-content: flex-end;
+        align-items: center;
+        justify-content: flex-start; /* Align content to start after padding-top */
     }
     
     /* Mobile hero image - focus on hands */
@@ -3052,12 +3052,12 @@ textarea {
     
     .hero-content,
     .hero-copy {
-        position: absolute; /* Position content over image */
+        position: relative; /* Changed from absolute to prevent overflow */
         bottom: auto;
-        top: 38%; /* Start below chin level */
-        left: 0;
-        right: 0;
+        top: auto;
         transform: none;
+        left: auto;
+        right: auto;
         max-width: 100%;
         width: 100%;
         padding: 1rem 20px;
@@ -3090,22 +3090,22 @@ textarea {
     }
     
     .hero h1 {
-        font-size: clamp(3.2rem, 9vw, 4.5rem) !important; /* Name - largest element */
+        font-size: clamp(3.0rem, 8vw, 4rem) !important; /* Name - largest element */
         margin-bottom: 0.3rem;
         padding: 0;
         line-height: 1.0;
         max-width: 100%;
         word-wrap: break-word;
         font-weight: 700 !important;
-        letter-spacing: 0.05em !important;
+        letter-spacing: 0.06em !important;
     }
     
     /* Hero subtitle - same style as name but smaller */
     .hero-subtitle {
-        font-size: clamp(1.2rem, 4vw, 1.6rem) !important;
+        font-size: clamp(1.1rem, 3.5vw, 1.5rem) !important;
         color: var(--accent-gold) !important;
         letter-spacing: 0.04em !important;
-        margin-bottom: 1rem !important;
+        margin-bottom: 0.9rem !important;
         font-family: var(--font-classic) !important;
         font-weight: 500 !important;
     }
@@ -3417,13 +3417,8 @@ textarea {
     
     /* Extra small screens - iPhone SE and similar */
     .hero {
-        padding-top: 0 !important; /* Image starts directly below header */
+        padding-top: 10vh !important; /* Content starts just below chin */
         padding-bottom: calc(1.5rem + env(safe-area-inset-bottom)) !important;
-    }
-    
-    .hero-content,
-    .hero-copy {
-        top: 35% !important; /* Start below chin level */
     }
     
     .hero-content {
@@ -3434,19 +3429,19 @@ textarea {
     
     /* Hero title - Extra small screens */
     .hero-title {
-        font-size: clamp(0.80rem, 1.0vw + 0.70rem, 1.0rem) !important;
+        font-size: clamp(0.85rem, 1.1vw + 0.75rem, 1.05rem) !important;
         line-height: 1.15 !important;
         margin-bottom: 0.4rem !important;
     }
     
     .hero h1 {
-        font-size: 2.6rem !important; /* Name largest */
+        font-size: 2.5rem !important; /* Name largest */
         margin-bottom: 0.2rem !important;
         letter-spacing: 0.05em !important;
     }
     
     .hero-subtitle {
-        font-size: 1.05rem !important;
+        font-size: 1.0rem !important;
         margin-bottom: 0.7rem !important;
     }
     
@@ -3503,33 +3498,20 @@ textarea {
 /* Very small screens - 480px and below */
 @media (max-width: 480px) {
     .hero {
-        padding-top: 0 !important; /* Image starts directly below header */
-    }
-    
-    .hero-content,
-    .hero-copy {
-        top: 32% !important; /* Start below chin level */
+        padding-top: 8vh !important; /* Content starts just below chin */
     }
     
     .hero-content {
         transform: scale(0.85) !important;
     }
     
-    .hero-kpis {
-        font-size: clamp(0.65rem, 1.0vw + 0.55rem, 0.80rem) !important;
-    }
-    
-    .hero-tagline {
-        font-size: clamp(0.75rem, 0.6vw + 0.60rem, 1.0rem) !important;
-    }
-    
     .hero h1 {
-        font-size: 2.4rem !important; /* Name largest */
+        font-size: 2.3rem !important; /* Name largest */
         letter-spacing: 0.04em !important;
     }
     
     .hero-subtitle {
-        font-size: 1rem !important;
+        font-size: 0.95rem !important;
     }
     
     .hero-kpis {
