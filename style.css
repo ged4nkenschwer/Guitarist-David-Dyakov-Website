@@ -3011,7 +3011,7 @@ textarea {
         min-height: -webkit-fill-available; /* Fix for iOS Safari */
         overflow: hidden; /* Prevent horizontal overflow */
         padding: 0;
-        padding-top: 28vh; /* Start content below face */
+        padding-top: 20vh; /* Start content higher - below chin */
         padding-bottom: calc(2rem + env(safe-area-inset-bottom));
         align-items: center;
         justify-content: flex-start; /* Align content to start after padding-top */
@@ -3418,7 +3418,7 @@ textarea {
     
     /* Extra small screens - iPhone SE and similar */
     .hero {
-        padding-top: 26vh !important; /* Content starts below face */
+        padding-top: 18vh !important; /* Content starts higher - below chin */
         padding-bottom: calc(1.5rem + env(safe-area-inset-bottom)) !important;
     }
     
@@ -3500,7 +3500,7 @@ textarea {
 /* Very small screens - 480px and below */
 @media (max-width: 480px) {
     .hero {
-        padding-top: 24vh !important; /* Content starts below face */
+        padding-top: 16vh !important; /* Content starts higher - below chin */
     }
     
     .hero-content {
