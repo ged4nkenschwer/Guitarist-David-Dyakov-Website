@@ -292,13 +292,13 @@ a:hover {
     text-align: center;
 }
 
-/* Hero role subtitle - smaller than David Dyakov */
+/* Hero role subtitle - slightly smaller than David Dyakov, same style */
 .hero-role {
     color: var(--accent-gold) !important;
     font-family: var(--font-display);
-    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
-    font-weight: 500;
-    letter-spacing: 0.05em;
+    font-size: clamp(2.4rem, 5vw, 3.2rem);
+    font-weight: 700;
+    letter-spacing: 0.04em;
     text-transform: none;
     margin-bottom: 1rem;
     text-align: center;
@@ -1156,7 +1156,7 @@ nav {
 
 /* Hero KPI line - Responsive sizing with clamp */
 .hero-kpis {
-    font-size: clamp(1.15rem, 0.7vw + 1.05rem, 1.45rem);
+    font-size: clamp(1.25rem, 0.8vw + 1.15rem, 1.6rem);
     line-height: 1.25;
     font-weight: 600;
 }
@@ -3197,7 +3197,7 @@ textarea {
     
     /* Hero KPI line - Mobile: larger */
     .hero-kpis {
-        font-size: clamp(0.95rem, 1.5vw + 0.80rem, 1.15rem) !important;
+        font-size: clamp(1.0rem, 1.8vw + 0.85rem, 1.25rem) !important;
         line-height: 1.2 !important;
         margin-bottom: 0.5rem !important;
     }
@@ -3246,7 +3246,7 @@ textarea {
     }
     
     .hero-role {
-        font-size: clamp(1.3rem, 4vw, 1.8rem);
+        font-size: clamp(2rem, 6vw, 2.8rem);
         margin-bottom: 0.8rem;
     }
     
