@@ -607,26 +607,11 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /**
- * Initialize Mobile Title Sheen Effect
- * Sheen follows scroll position continuously on mobile devices
+ * Initialize Title Sheen Effects
+ * 1. Auto-animate sheen when titles first enter viewport
+ * 2. On mobile: sheen follows scroll position continuously
  */
 function initMobileTitleSheen() {
-    // Check if this is a touch/mobile device
-    const isTouchDevice = window.matchMedia('(hover: none)').matches || 
-                          window.matchMedia('(pointer: coarse)').matches ||
-                          'ontouchstart' in window ||
-                          navigator.maxTouchPoints > 0;
-    
-    // Also check screen width as fallback
-    const isMobileWidth = window.innerWidth <= 768;
-    
-    if (!isTouchDevice && !isMobileWidth) {
-        console.log('Desktop detected - title sheen will use hover instead');
-        return;
-    }
-    
-    console.log('Mobile/Touch device detected - enabling scroll sheen');
-    
     // Select all golden titles that should have the sheen effect
     const goldenTitles = document.querySelectorAll(
         '.section-title, ' +
@@ -651,7 +636,55 @@ function initMobileTitleSheen() {
         return;
     }
     
-    console.log('Mobile title sheen: Found', goldenTitles.length, 'titles');
+    console.log('Title sheen: Found', goldenTitles.length, 'titles');
+    
+    // Track which titles have had their entrance animation
+    const animatedTitles = new Set();
+    
+    // ========== PART 1: Auto-animate on first appearance ==========
+    if ('IntersectionObserver' in window) {
+        const entranceObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !animatedTitles.has(entry.target)) {
+                    // Mark as animated
+                    animatedTitles.add(entry.target);
+                    
+                    // Animate sheen from left to right
+                    entry.target.style.transition = 'background-position 0.8s ease-out';
+                    entry.target.style.backgroundPosition = '100% 0';
+                    
+                    // After animation, reset for scroll effect (on mobile)
+                    setTimeout(() => {
+                        entry.target.style.transition = 'none';
+                    }, 850);
+                }
+            });
+        }, {
+            threshold: 0.2,
+            rootMargin: '0px 0px -5% 0px'
+        });
+        
+        goldenTitles.forEach(title => {
+            entranceObserver.observe(title);
+        });
+        
+        console.log('Title entrance animation initialized');
+    }
+    
+    // ========== PART 2: Scroll-responsive sheen (mobile only) ==========
+    const isTouchDevice = window.matchMedia('(hover: none)').matches || 
+                          window.matchMedia('(pointer: coarse)').matches ||
+                          'ontouchstart' in window ||
+                          navigator.maxTouchPoints > 0;
+    
+    const isMobileWidth = window.innerWidth <= 768;
+    
+    if (!isTouchDevice && !isMobileWidth) {
+        console.log('Desktop detected - scroll sheen disabled, using hover');
+        return;
+    }
+    
+    console.log('Mobile/Touch device detected - enabling scroll sheen');
     
     let ticking = false;
     
@@ -659,6 +692,9 @@ function initMobileTitleSheen() {
         const viewportHeight = window.innerHeight;
         
         goldenTitles.forEach(title => {
+            // Skip if entrance animation hasn't completed yet
+            if (!animatedTitles.has(title)) return;
+            
             const rect = title.getBoundingClientRect();
             
             // Check if element is in viewport
@@ -668,12 +704,10 @@ function initMobileTitleSheen() {
                 const viewportProgress = visibleCenter / viewportHeight;
                 
                 // Map to background-position (-100% to 100%)
-                // When at top of viewport: sheen at end (100%)
-                // When at bottom of viewport: sheen at start (-100%)
                 const sheenPosition = Math.round(100 - (viewportProgress * 200));
                 
-                // Apply the sheen position directly with !important via setProperty
-                title.style.setProperty('background-position', `${sheenPosition}% 0`, 'important');
+                // Apply the sheen position
+                title.style.backgroundPosition = `${sheenPosition}% 0`;
             }
         });
         
@@ -687,17 +721,12 @@ function initMobileTitleSheen() {
         }
     }
     
-    // Listen to scroll events
-    window.addEventListener('scroll', onScroll, { passive: true });
-    
-    // Also listen to touchmove for smoother mobile experience
-    window.addEventListener('touchmove', onScroll, { passive: true });
-    
-    // Initial update
-    setTimeout(updateSheenPositions, 100);
-    updateSheenPositions();
-    
-    console.log('Mobile title sheen initialized - scroll responsive');
+    // Delay scroll listener to let entrance animations complete first
+    setTimeout(() => {
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('touchmove', onScroll, { passive: true });
+        console.log('Mobile scroll sheen activated');
+    }, 1000);
 }
 
 /**

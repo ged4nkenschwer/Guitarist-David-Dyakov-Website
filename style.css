@@ -163,21 +163,6 @@ h1.section-title, h2.section-title, h3.section-title,
     }
 }
 
-/* Hero titles: Auto-animate sheen on page load */
-.hero h1,
-.hero-subtitle {
-    animation: hero-shine-entrance 1.5s ease-out 0.5s forwards;
-}
-
-@keyframes hero-shine-entrance {
-    0% {
-        background-position: -100% 0;
-    }
-    100% {
-        background-position: 100% 0;
-    }
-}
-
 /* Mobile/Touch: Remove transition for scroll-responsive sheen */
 @media (hover: none), (pointer: coarse) {
     .hero h1,
@@ -245,9 +230,9 @@ a:hover {
     background: linear-gradient(90deg, 
         #B8945A 0%, 
         #B8945A 35%,
-        #D4C4A0 45%,
-        #FFFFFF 50%,
-        #D4C4A0 55%,
+        #CDBF9A 45%,
+        #E8DFC8 50%,
+        #CDBF9A 55%,
         #B8945A 65%,
         #B8945A 100%) !important;
     -webkit-background-clip: text !important;
@@ -291,9 +276,9 @@ a:hover {
     background: linear-gradient(90deg, 
         #B8945A 0%, 
         #B8945A 35%,
-        #D4C4A0 45%,
-        #FFFFFF 50%,
-        #D4C4A0 55%,
+        #CDBF9A 45%,
+        #E8DFC8 50%,
+        #CDBF9A 55%,
         #B8945A 65%,
         #B8945A 100%) !important;
     -webkit-background-clip: text !important;
