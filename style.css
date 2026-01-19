@@ -3011,15 +3011,15 @@ textarea {
         min-height: -webkit-fill-available; /* Fix for iOS Safari */
         overflow: hidden; /* Prevent horizontal overflow */
         padding: 0;
-        padding-top: 32vh; /* Start content below face - keep full head with hairline visible */
+        padding-top: 28vh; /* Start content below face */
         padding-bottom: calc(2rem + env(safe-area-inset-bottom));
         align-items: center;
         justify-content: flex-start; /* Align content to start after padding-top */
     }
     
-    /* Mobile hero image - focus on hands */
+    /* Mobile hero image - show full head with hairline */
     .hero-image img {
-        object-position: 60% 40% !important; /* Keep face centered/right, both hands visible */
+        object-position: 60% 15% !important; /* Show hairline at top, face visible */
     }
     
     /* Dark fades at top and bottom on mobile - matching desktop style */
@@ -3090,22 +3090,22 @@ textarea {
     }
     
     .hero h1 {
-        font-size: clamp(2.6rem, 7vw, 3.5rem) !important; /* Name - largest element */
+        font-size: clamp(3.0rem, 8vw, 4rem) !important; /* Name - largest element */
         margin-bottom: 0.3rem;
         padding: 0;
         line-height: 1.0;
         max-width: 100%;
         word-wrap: break-word;
         font-weight: 700 !important;
-        letter-spacing: 0.05em !important;
+        letter-spacing: 0.06em !important;
     }
     
     /* Hero subtitle - same style as name but smaller */
     .hero-subtitle {
-        font-size: clamp(0.85rem, 2.5vw, 1.2rem) !important;
+        font-size: clamp(1.1rem, 3.5vw, 1.5rem) !important;
         color: var(--accent-gold) !important;
         letter-spacing: 0.04em !important;
-        margin-bottom: 0.8rem !important;
+        margin-bottom: 0.9rem !important;
         font-family: var(--font-classic) !important; /* Same as h1 */
         font-weight: 500 !important;
         white-space: nowrap !important; /* Keep dashes on same line */
@@ -3119,19 +3119,19 @@ textarea {
         max-width: 100%;
     }
     
-    /* Hero KPI line - Mobile: readable */
+    /* Hero KPI line - Mobile: larger */
     .hero-kpis {
-        font-size: clamp(0.75rem, 1.1vw + 0.65rem, 0.95rem) !important;
-        line-height: 1.15 !important;
-        margin-bottom: 0.3rem !important;
+        font-size: clamp(0.85rem, 1.3vw + 0.70rem, 1.05rem) !important;
+        line-height: 1.2 !important;
+        margin-bottom: 0.4rem !important;
     }
     
-    /* Hero tagline - Mobile: readable, prevent descenders from being clipped */
+    /* Hero tagline - Mobile: larger */
     .hero-tagline {
-        font-size: clamp(0.90rem, 0.6vw + 0.75rem, 1.20rem) !important;
-        line-height: 1.15 !important;
+        font-size: clamp(1.0rem, 0.8vw + 0.85rem, 1.35rem) !important;
+        line-height: 1.2 !important;
         padding-bottom: 0.15em !important;
-        margin-bottom: 0.8rem !important;
+        margin-bottom: 0.9rem !important;
     }
     
     .tagline-small {
@@ -3418,7 +3418,7 @@ textarea {
     
     /* Extra small screens - iPhone SE and similar */
     .hero {
-        padding-top: 30vh !important; /* Content starts below face - keep full head with hairline visible */
+        padding-top: 26vh !important; /* Content starts below face */
         padding-bottom: calc(1.5rem + env(safe-area-inset-bottom)) !important;
     }
     
@@ -3436,15 +3436,23 @@ textarea {
     }
     
     .hero h1 {
-        font-size: 2.4rem !important; /* Name largest */
+        font-size: 2.5rem !important; /* Name largest */
         margin-bottom: 0.2rem !important;
-        letter-spacing: 0.04em !important;
+        letter-spacing: 0.05em !important;
     }
     
     .hero-subtitle {
-        font-size: 0.85rem !important;
-        margin-bottom: 0.6rem !important;
+        font-size: 1.0rem !important;
+        margin-bottom: 0.7rem !important;
         white-space: nowrap !important;
+    }
+    
+    .hero-kpis {
+        font-size: clamp(0.80rem, 1.2vw + 0.65rem, 0.95rem) !important;
+    }
+    
+    .hero-tagline {
+        font-size: clamp(0.95rem, 0.7vw + 0.80rem, 1.25rem) !important;
     }
     
     .tagline {
@@ -3492,7 +3500,7 @@ textarea {
 /* Very small screens - 480px and below */
 @media (max-width: 480px) {
     .hero {
-        padding-top: 28vh !important; /* Content starts below face - keep full head with hairline visible */
+        padding-top: 24vh !important; /* Content starts below face */
     }
     
     .hero-content {
@@ -3512,9 +3520,22 @@ textarea {
         letter-spacing: 0.04em !important;
     }
     
+    .hero h1 {
+        font-size: 2.3rem !important; /* Name largest */
+        letter-spacing: 0.04em !important;
+    }
+    
     .hero-subtitle {
-        font-size: 0.75rem !important;
+        font-size: 0.95rem !important;
         white-space: nowrap !important;
+    }
+    
+    .hero-kpis {
+        font-size: clamp(0.75rem, 1.1vw + 0.60rem, 0.90rem) !important;
+    }
+    
+    .hero-tagline {
+        font-size: clamp(0.90rem, 0.6vw + 0.75rem, 1.15rem) !important;
     }
     
     .hero .btn {
