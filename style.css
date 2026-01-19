@@ -1124,12 +1124,14 @@ nav {
     font-weight: 600;
 }
 
-/* Highlight for "Prizes" text */
+/* Highlight for "Prizes" text - Desktop & Mobile */
 .prizes-highlight {
-    font-size: 1.2em;
+    font-size: 1.25em;
     font-weight: 700;
-    color: var(--accent-gold);
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    color: var(--accent-gold) !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    display: inline;
+    letter-spacing: 0.02em;
 }
 
 /* Hero tagline - Handwritten style with Kaushan Script font */
