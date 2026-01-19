@@ -3011,7 +3011,7 @@ textarea {
         min-height: -webkit-fill-available; /* Fix for iOS Safari */
         overflow: hidden; /* Prevent horizontal overflow */
         padding: 0;
-        padding-top: 25vh; /* Start content just below chin - not covering face */
+        padding-top: 18vh; /* Start content higher - just below chin */
         padding-bottom: calc(2rem + env(safe-area-inset-bottom));
         align-items: center;
         justify-content: flex-start; /* Align content to start after padding-top */
@@ -3097,19 +3097,17 @@ textarea {
         max-width: 100%;
         word-wrap: break-word;
         font-weight: 700 !important;
-        letter-spacing: 0.15em !important; /* Film title letter spacing */
-        text-transform: uppercase !important;
+        letter-spacing: 0.08em !important; /* Elegant letter spacing */
     }
     
-    /* Hero subtitle - film style dash line */
+    /* Hero subtitle - same style as name */
     .hero-subtitle {
-        font-size: clamp(0.85rem, 2.5vw, 1.1rem) !important;
+        font-size: clamp(1.0rem, 3vw, 1.3rem) !important;
         color: var(--accent-gold) !important;
-        letter-spacing: 0.1em !important;
+        letter-spacing: 0.05em !important;
         margin-bottom: 0.8rem !important;
-        font-family: var(--font-elegant) !important;
-        font-weight: 400 !important;
-        text-transform: uppercase !important;
+        font-family: var(--font-classic) !important; /* Same as h1 - Playfair Display */
+        font-weight: 500 !important;
     }
     
     .tagline {
@@ -3419,7 +3417,7 @@ textarea {
     
     /* Extra small screens - iPhone SE and similar */
     .hero {
-        padding-top: 23vh !important; /* Content starts just below chin */
+        padding-top: 16vh !important; /* Content starts higher - just below chin */
         padding-bottom: calc(1.5rem + env(safe-area-inset-bottom)) !important;
     }
     
@@ -3437,13 +3435,13 @@ textarea {
     }
     
     .hero h1 {
-        font-size: 2.2rem !important; /* Film title style */
+        font-size: 2.2rem !important;
         margin-bottom: 0.2rem !important;
-        letter-spacing: 0.12em !important;
+        letter-spacing: 0.06em !important;
     }
     
     .hero-subtitle {
-        font-size: 0.8rem !important;
+        font-size: 0.9rem !important;
         margin-bottom: 0.6rem !important;
     }
     
@@ -3492,7 +3490,7 @@ textarea {
 /* Very small screens - 480px and below */
 @media (max-width: 480px) {
     .hero {
-        padding-top: 22vh !important; /* Content starts just below chin */
+        padding-top: 15vh !important; /* Content starts higher - just below chin */
     }
     
     .hero-content {
@@ -3508,12 +3506,12 @@ textarea {
     }
     
     .hero h1 {
-        font-size: 2rem !important; /* Film title style */
-        letter-spacing: 0.1em !important;
+        font-size: 2rem !important;
+        letter-spacing: 0.05em !important;
     }
     
     .hero-subtitle {
-        font-size: 0.75rem !important;
+        font-size: 0.85rem !important;
     }
     
     .hero .btn {
