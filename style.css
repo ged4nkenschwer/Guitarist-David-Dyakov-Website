@@ -101,6 +101,8 @@ h3:not(.logo a):not(.section-title) {
 /* All section titles get darker rose gold color with reflection sheen - LIKE IL DIABOLICO */
 /* Hover-only on desktop, scroll-triggered on mobile */
 .hero h1,
+.hero-title,
+.hero-subtitle,
 #follow-me h2.section-title,
 #biography h2.section-title,
 #gallery h2.section-title,
@@ -133,6 +135,8 @@ h1.section-title, h2.section-title, h3.section-title,
 /* Desktop: Hover effect */
 @media (hover: hover) and (pointer: fine) {
     .hero h1:hover,
+    .hero-title:hover,
+    .hero-subtitle:hover,
     #follow-me h2.section-title:hover,
     #biography h2.section-title:hover,
     #gallery h2.section-title:hover,
@@ -166,6 +170,7 @@ h1.section-title, h2.section-title, h3.section-title,
 /* Mobile/Touch: Remove transition for scroll-responsive sheen */
 @media (hover: none), (pointer: coarse) {
     .hero h1,
+    .hero-title,
     .hero-subtitle,
     .section-title,
     h1.section-title, h2.section-title, h3.section-title,
@@ -175,6 +180,8 @@ h1.section-title, h2.section-title, h3.section-title,
     .social-info h3,
     .main-quote h3,
     .video-title,
+    .logo a,
+    .footer-logo,
     #follow-me h2.section-title,
     #biography h2.section-title,
     #gallery h2.section-title,

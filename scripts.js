@@ -613,22 +613,29 @@ document.addEventListener('DOMContentLoaded', function() {
  */
 function initMobileTitleSheen() {
     // Select all golden titles that should have the sheen effect
+    // Use a comprehensive selector to catch all golden text elements
     const goldenTitles = document.querySelectorAll(
         '.section-title, ' +
+        '.hero-title, ' +
         '.hero h1, ' +
+        'h1.hero-title, ' +
         '.hero-subtitle, ' +
+        'p.hero-subtitle, ' +
         '.masterclass-info h3, ' +
         '.contact-info h3, ' +
         '.bio-text h3, ' +
         '.social-info h3, ' +
         '.main-quote h3, ' +
         '.video-title, ' +
-        '#follow-me h2, ' +
-        '#biography h2, ' +
-        '#gallery h2, ' +
-        '#press h2, ' +
-        '#masterclasses h2, ' +
-        '#contact h2'
+        '.footer-logo, ' +
+        '.logo a, ' +
+        '#follow-me h2.section-title, ' +
+        '#biography h2.section-title, ' +
+        '#gallery h2.section-title, ' +
+        '#press h2.section-title, ' +
+        '#masterclasses h2.section-title, ' +
+        '#contact h2.section-title, ' +
+        'h2.section-title'
     );
     
     if (goldenTitles.length === 0) {
