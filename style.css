@@ -3232,12 +3232,18 @@ textarea {
     /* Ensure bio image is visible and properly sized on mobile */
     .bio-image {
         display: block !important;
-        width: 100%;
-        min-width: 100%;
-        max-width: 100%;
-        height: 300px;
-        margin-bottom: 1.5rem;
-        order: -1; /* Show image first on mobile */
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        height: 300px !important;
+        min-height: 300px !important;
+        margin-bottom: 1.5rem !important;
+        order: -1 !important; /* Show image first on mobile */
+        background-image: url('./david-portrait.jpg') !important;
+        background-size: cover !important;
+        background-position: center !important;
     }
     
     .bio-text {
@@ -3248,12 +3254,18 @@ textarea {
     /* Ensure masterclass/lessons image is visible on mobile */
     .masterclass-image {
         display: block !important;
-        width: 100%;
-        min-width: 100%;
-        max-width: 100%;
-        height: 280px;
-        margin-bottom: 1.5rem;
-        order: -1; /* Show image first on mobile */
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        height: 280px !important;
+        min-height: 280px !important;
+        margin-bottom: 1.5rem !important;
+        order: -1 !important; /* Show image first on mobile */
+        background-image: url('./teaching-guitar1.jpg') !important;
+        background-size: cover !important;
+        background-position: center !important;
     }
     
     .contact-content {
