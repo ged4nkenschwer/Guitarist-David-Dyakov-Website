@@ -701,19 +701,22 @@ function initMobileTitleSheen() {
             const entranceObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting && !animatedTitles.has(entry.target)) {
+                        console.log('SHEEN: Scroll trigger for:', entry.target.textContent.substring(0, 25));
                         animateTitle(entry.target, 50);
                     }
                 });
             }, {
-                threshold: 0.05,
-                rootMargin: '100px 0px 0px 0px'
+                threshold: 0.01, // Very low threshold - trigger as soon as any part is visible
+                rootMargin: '50px 0px -50px 0px' // Trigger 50px before entering viewport
             });
             
+            // Observe ALL titles, not just the ones not yet animated
             goldenTitles.forEach(title => {
-                if (!animatedTitles.has(title)) {
-                    entranceObserver.observe(title);
-                }
+                entranceObserver.observe(title);
+                console.log('SHEEN: Observing:', title.textContent.substring(0, 25));
             });
+            
+            console.log('SHEEN: Observer set up for', goldenTitles.length, 'titles');
         }
     };
     
