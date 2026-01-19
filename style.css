@@ -162,6 +162,28 @@ h1.section-title, h2.section-title, h3.section-title,
     }
 }
 
+/* Mobile/Touch: Remove transition for scroll-responsive sheen */
+@media (hover: none), (pointer: coarse) {
+    .hero h1,
+    .hero-subtitle,
+    .section-title,
+    h1.section-title, h2.section-title, h3.section-title,
+    .masterclass-info h3,
+    .contact-info h3,
+    .bio-text h3,
+    .social-info h3,
+    .main-quote h3,
+    .video-title,
+    #follow-me h2.section-title,
+    #biography h2.section-title,
+    #gallery h2.section-title,
+    #press h2.section-title,
+    #masterclasses h2.section-title,
+    #contact h2.section-title {
+        transition: none !important;
+    }
+}
+
 h1 {
     font-size: 3.5rem;
 }

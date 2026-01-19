@@ -87,7 +87,7 @@ function getVideoById(id) {
     }
     
     // Loader activation strategy - show immediately to ensure page is hidden
-    showLoader();
+        showLoader();
     
     // Convert relative URL to absolute
     function toAbsoluteUrl(url) {
@@ -236,7 +236,7 @@ function getVideoById(id) {
                 if (priority) {
                     // Hero image error - try to continue anyway after a delay
                     setTimeout(() => resolve(src), 500);
-                } else {
+    } else {
                     resolve(src);
                 }
             };
@@ -280,8 +280,8 @@ function getVideoById(id) {
             .catch(() => {
                 // Even if hero fails, try to load other images
                 if (otherImages.length === 0) {
-                    waitForFontsAndHide();
-                } else {
+            waitForFontsAndHide();
+        } else {
                     const otherPromises = otherImages.map(src => preloadImage(src, false));
                     Promise.all(otherPromises)
                         .then(() => waitForFontsAndHide())
@@ -444,7 +444,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize back-to-top button
     initBackToTop();
-    
+
     // Initialize lightbox gallery
     initLightbox();
     
@@ -611,15 +611,21 @@ document.addEventListener('DOMContentLoaded', function() {
  * Sheen follows scroll position continuously on mobile devices
  */
 function initMobileTitleSheen() {
-    // Only run on touch devices (mobile/tablet)
+    // Check if this is a touch/mobile device
     const isTouchDevice = window.matchMedia('(hover: none)').matches || 
                           window.matchMedia('(pointer: coarse)').matches ||
-                          'ontouchstart' in window;
+                          'ontouchstart' in window ||
+                          navigator.maxTouchPoints > 0;
     
-    if (!isTouchDevice) {
+    // Also check screen width as fallback
+    const isMobileWidth = window.innerWidth <= 768;
+    
+    if (!isTouchDevice && !isMobileWidth) {
         console.log('Desktop detected - title sheen will use hover instead');
         return;
     }
+    
+    console.log('Mobile/Touch device detected - enabling scroll sheen');
     
     // Select all golden titles that should have the sheen effect
     const goldenTitles = document.querySelectorAll(
@@ -664,10 +670,10 @@ function initMobileTitleSheen() {
                 // Map to background-position (-100% to 100%)
                 // When at top of viewport: sheen at end (100%)
                 // When at bottom of viewport: sheen at start (-100%)
-                const sheenPosition = 100 - (viewportProgress * 200);
+                const sheenPosition = Math.round(100 - (viewportProgress * 200));
                 
-                // Apply the sheen position directly
-                title.style.backgroundPosition = `${sheenPosition}% 0`;
+                // Apply the sheen position directly with !important via setProperty
+                title.style.setProperty('background-position', `${sheenPosition}% 0`, 'important');
             }
         });
         
@@ -684,7 +690,11 @@ function initMobileTitleSheen() {
     // Listen to scroll events
     window.addEventListener('scroll', onScroll, { passive: true });
     
+    // Also listen to touchmove for smoother mobile experience
+    window.addEventListener('touchmove', onScroll, { passive: true });
+    
     // Initial update
+    setTimeout(updateSheenPositions, 100);
     updateSheenPositions();
     
     console.log('Mobile title sheen initialized - scroll responsive');
@@ -1000,11 +1010,11 @@ function initVideoThumbnails() {
             
             // Create and load poster image
             const posterImg = document.createElement('img');
-            posterImg.className = 'video-poster-img';
-            posterImg.src = posterSrc;
+                posterImg.className = 'video-poster-img';
+                posterImg.src = posterSrc;
             posterImg.alt = videoConfig ? (videoConfig.title.en || '') : '';
             posterImg.loading = 'eager';
-            posterImg.decoding = 'async';
+                posterImg.decoding = 'async';
             posterImg.style.width = '100%';
             posterImg.style.height = '100%';
             posterImg.style.objectFit = 'cover';
@@ -1028,7 +1038,7 @@ function initVideoThumbnails() {
                 generateThumbnailFromVideo(videoSrc, canvas, videoId);
             }, { once: true });
             
-            thumbnail.insertBefore(posterImg, canvas);
+                thumbnail.insertBefore(posterImg, canvas);
         } else if (videoSrc) {
             // No poster image, generate thumbnail from video
             console.log('loadThumbnail: No poster, generating thumbnail from video', videoId);
@@ -1065,7 +1075,7 @@ function initVideoThumbnails() {
         // When video metadata is loaded, seek to a good frame (e.g., 1 second in)
         video.addEventListener('loadedmetadata', function() {
             video.currentTime = 1; // Seek to 1 second
-        }, { once: true });
+            }, { once: true });
         
         // When video frame is ready, draw it to canvas maintaining aspect ratio
         video.addEventListener('seeked', function() {
@@ -1101,7 +1111,7 @@ function initVideoThumbnails() {
                 // Draw video frame maintaining aspect ratio (no distortion)
                 ctx.drawImage(video, drawX, drawY, drawWidth, drawHeight);
                 
-                canvas.style.display = 'block';
+            canvas.style.display = 'block';
                 console.log('generateThumbnailFromVideo: Thumbnail generated for', videoId);
             } catch (e) {
                 console.warn('generateThumbnailFromVideo: Error drawing to canvas', e);
@@ -1311,8 +1321,8 @@ function initMobileMenu() {
                 e.preventDefault();
                 
                 // Close mobile menu
-                menuToggle.classList.remove('active');
-                navMenu.classList.remove('active');
+            menuToggle.classList.remove('active');
+            navMenu.classList.remove('active');
                 
                 // Scroll to gallery section
                 const gallerySection = document.getElementById('gallery');
@@ -1494,11 +1504,11 @@ function initLightbox() {
             // Check if video has <source> elements (already loaded)
             const sources = video.querySelectorAll('source');
             if (sources.length > 0) {
-                const sourceData = [];
-                sources.forEach(source => {
+            const sourceData = [];
+            sources.forEach(source => {
                     const src = source.getAttribute('src');
                     if (src) {
-                        sourceData.push({
+                sourceData.push({
                             src: src,
                             type: source.getAttribute('type') || 'video/mp4'
                         });
