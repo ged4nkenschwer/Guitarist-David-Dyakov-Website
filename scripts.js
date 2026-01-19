@@ -674,50 +674,41 @@ function initMobileTitleSheen() {
     }
     
     // ========== PART 1: Auto-animate on first appearance ==========
+    // Simple scroll-based check (more reliable than IntersectionObserver)
+    function checkAndAnimateVisibleTitles() {
+        const viewportHeight = window.innerHeight;
+        
+        goldenTitles.forEach((title) => {
+            if (animatedTitles.has(title)) return;
+            
+            const rect = title.getBoundingClientRect();
+            // Trigger when element is 80% into viewport from bottom
+            const triggerPoint = viewportHeight * 0.9;
+            
+            if (rect.top < triggerPoint && rect.bottom > 0) {
+                console.log('SHEEN: Animating on scroll:', title.textContent.substring(0, 25));
+                animateTitle(title, 0);
+            }
+        });
+    }
+    
     const startEntranceAnimations = () => {
         console.log('SHEEN: Starting entrance animations...');
         
-        // Animate titles already in viewport
-        const viewportHeight = window.innerHeight;
-        let visibleCount = 0;
+        // First check: animate titles already in viewport
+        checkAndAnimateVisibleTitles();
         
-        goldenTitles.forEach((title) => {
-            const rect = title.getBoundingClientRect();
-            const isVisible = rect.top < viewportHeight && rect.bottom > 0 && rect.height > 0;
-            
-            console.log('SHEEN check:', title.textContent.substring(0, 20), 
-                'top:', rect.top, 'vh:', viewportHeight, 'visible:', isVisible);
-            
-            if (isVisible) {
-                animateTitle(title, visibleCount * 200); // 200ms stagger
-                visibleCount++;
-            }
-        });
+        // Set up scroll listener for remaining titles
+        let scrollTimeout;
+        const onScroll = () => {
+            if (scrollTimeout) clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(checkAndAnimateVisibleTitles, 50);
+        };
         
-        console.log('SHEEN: Animated', visibleCount, 'visible titles');
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('touchmove', onScroll, { passive: true });
         
-        // Set up IntersectionObserver for scroll-in titles
-        if ('IntersectionObserver' in window) {
-            const entranceObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting && !animatedTitles.has(entry.target)) {
-                        console.log('SHEEN: Scroll trigger for:', entry.target.textContent.substring(0, 25));
-                        animateTitle(entry.target, 50);
-                    }
-                });
-            }, {
-                threshold: 0.01, // Very low threshold - trigger as soon as any part is visible
-                rootMargin: '50px 0px -50px 0px' // Trigger 50px before entering viewport
-            });
-            
-            // Observe ALL titles, not just the ones not yet animated
-            goldenTitles.forEach(title => {
-                entranceObserver.observe(title);
-                console.log('SHEEN: Observing:', title.textContent.substring(0, 25));
-            });
-            
-            console.log('SHEEN: Observer set up for', goldenTitles.length, 'titles');
-        }
+        console.log('SHEEN: Scroll listener active');
     };
     
     // Wait for page to be fully loaded and loader to be hidden
