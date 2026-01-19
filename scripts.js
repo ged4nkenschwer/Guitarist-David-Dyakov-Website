@@ -612,15 +612,15 @@ document.addEventListener('DOMContentLoaded', function() {
  * 2. On mobile: sheen follows scroll position continuously
  */
 function initMobileTitleSheen() {
+    console.log('=== SHEEN INIT STARTED ===');
+    
     // Select all golden titles that should have the sheen effect
-    // Use a comprehensive selector to catch all golden text elements
     const goldenTitles = document.querySelectorAll(
-        '.section-title, ' +
-        '.hero-title, ' +
         '.hero h1, ' +
-        'h1.hero-title, ' +
+        '.hero-title, ' +
         '.hero-subtitle, ' +
-        'p.hero-subtitle, ' +
+        '.section-title, ' +
+        'h2.section-title, ' +
         '.masterclass-info h3, ' +
         '.contact-info h3, ' +
         '.bio-text h3, ' +
@@ -628,81 +628,85 @@ function initMobileTitleSheen() {
         '.main-quote h3, ' +
         '.video-title, ' +
         '.footer-logo, ' +
-        '.logo a, ' +
-        '#follow-me h2.section-title, ' +
-        '#biography h2.section-title, ' +
-        '#gallery h2.section-title, ' +
-        '#press h2.section-title, ' +
-        '#masterclasses h2.section-title, ' +
-        '#contact h2.section-title, ' +
-        'h2.section-title'
+        '.logo a'
     );
     
     if (goldenTitles.length === 0) {
-        console.log('No golden titles found');
+        console.log('SHEEN: No golden titles found!');
         return;
     }
     
-    console.log('Title sheen: Found', goldenTitles.length, 'titles');
+    console.log('SHEEN: Found', goldenTitles.length, 'titles:', 
+        Array.from(goldenTitles).map(t => t.textContent.substring(0, 20)));
     
     // Track which titles have had their entrance animation
     const animatedTitles = new Set();
     
-    // Function to animate a single title
+    // Function to animate a single title with visible sheen
     function animateTitle(title, delay = 0) {
         if (animatedTitles.has(title)) return;
         animatedTitles.add(title);
         
         setTimeout(() => {
-            // Ensure starting position
-            title.style.backgroundPosition = '-100% 0';
+            // Force starting position with !important
+            title.style.setProperty('background-position', '-100% 0', 'important');
+            title.style.setProperty('transition', 'none', 'important');
             
-            // Force reflow to ensure the starting position is applied
-            title.offsetHeight;
+            // Force reflow
+            void title.offsetWidth;
             
-            // Animate sheen from left to right
-            title.style.transition = 'background-position 1.2s ease-out';
-            title.style.backgroundPosition = '100% 0';
-            
-            console.log('Animating sheen for:', title.textContent.substring(0, 30));
-            
-            // After animation completes, remove transition for scroll effect
-            setTimeout(() => {
-                title.style.transition = 'none';
-            }, 1250);
+            // Small delay to ensure starting position is rendered
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    // Now animate
+                    title.style.setProperty('transition', 'background-position 1.5s ease-out', 'important');
+                    title.style.setProperty('background-position', '100% 0', 'important');
+                    
+                    console.log('SHEEN ANIMATING:', title.textContent.substring(0, 25));
+                    
+                    // After animation, clear for scroll effect
+                    setTimeout(() => {
+                        title.style.removeProperty('transition');
+                    }, 1600);
+                });
+            });
         }, delay);
     }
     
     // ========== PART 1: Auto-animate on first appearance ==========
     const startEntranceAnimations = () => {
-        console.log('Starting entrance animations...');
+        console.log('SHEEN: Starting entrance animations...');
         
-        // First: Immediately animate titles already in viewport (like hero)
+        // Animate titles already in viewport
         const viewportHeight = window.innerHeight;
         let visibleCount = 0;
         
-        goldenTitles.forEach((title, index) => {
+        goldenTitles.forEach((title) => {
             const rect = title.getBoundingClientRect();
-            // Check if already visible in viewport
-            if (rect.top < viewportHeight && rect.bottom > 0) {
-                animateTitle(title, visibleCount * 150); // Stagger by 150ms
+            const isVisible = rect.top < viewportHeight && rect.bottom > 0 && rect.height > 0;
+            
+            console.log('SHEEN check:', title.textContent.substring(0, 20), 
+                'top:', rect.top, 'vh:', viewportHeight, 'visible:', isVisible);
+            
+            if (isVisible) {
+                animateTitle(title, visibleCount * 200); // 200ms stagger
                 visibleCount++;
             }
         });
         
-        console.log('Animated', visibleCount, 'visible titles immediately');
+        console.log('SHEEN: Animated', visibleCount, 'visible titles');
         
-        // Then: Set up IntersectionObserver for titles that will scroll into view
+        // Set up IntersectionObserver for scroll-in titles
         if ('IntersectionObserver' in window) {
             const entranceObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting && !animatedTitles.has(entry.target)) {
-                        animateTitle(entry.target, 100);
+                        animateTitle(entry.target, 50);
                     }
                 });
             }, {
-                threshold: 0.1,
-                rootMargin: '50px 0px 0px 0px' // Trigger slightly before fully visible
+                threshold: 0.05,
+                rootMargin: '100px 0px 0px 0px'
             });
             
             goldenTitles.forEach(title => {
@@ -710,18 +714,27 @@ function initMobileTitleSheen() {
                     entranceObserver.observe(title);
                 }
             });
-            
-            console.log('IntersectionObserver set up for remaining titles');
         }
     };
     
-    // Delay entrance animations until page is fully loaded + buffer
+    // Wait for page to be fully loaded and loader to be hidden
+    const waitAndStart = () => {
+        // Check if page loader is still visible
+        const loader = document.getElementById('page-loader');
+        if (loader && loader.offsetParent !== null) {
+            // Loader still visible, wait more
+            setTimeout(waitAndStart, 200);
+            return;
+        }
+        
+        // Start animations after a delay
+        setTimeout(startEntranceAnimations, 500);
+    };
+    
     if (document.readyState === 'complete') {
-        setTimeout(startEntranceAnimations, 800);
+        waitAndStart();
     } else {
-        window.addEventListener('load', () => {
-            setTimeout(startEntranceAnimations, 800);
-        });
+        window.addEventListener('load', waitAndStart);
     }
     
     // ========== PART 2: Scroll-responsive sheen (mobile only) ==========
