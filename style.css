@@ -3011,10 +3011,10 @@ textarea {
         min-height: -webkit-fill-available; /* Fix for iOS Safari */
         overflow: hidden; /* Prevent horizontal overflow */
         padding: 0;
-        padding-top: calc(80px + env(safe-area-inset-top));
-        padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+        padding-top: 45vh; /* Start content at ~neck height (45% from top) */
+        padding-bottom: calc(2rem + env(safe-area-inset-bottom));
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start; /* Align content to start after padding-top */
     }
     
     /* Mobile hero image - focus on hands */
@@ -3060,9 +3060,8 @@ textarea {
         right: auto;
         max-width: 100%;
         width: 100%;
-        padding: 2rem 20px;
-        padding-top: 35vh; /* Push content down to start at neck height */
-        padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+        padding: 1rem 20px;
+        padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
         margin: 0 auto;
         box-sizing: border-box;
         display: flex;
@@ -3071,6 +3070,9 @@ textarea {
         justify-content: flex-start;
         text-align: center;
         z-index: 3;
+        /* Scale down all content proportionally */
+        transform: scale(0.85);
+        transform-origin: center top;
     }
     
     /* Prevent Kaushan Script descenders from being clipped */
@@ -3079,55 +3081,57 @@ textarea {
         padding-bottom: 0.2em !important; /* Tiny buffer for descenders like g/y/p */
     }
     
-    /* Hero title - Mobile: ~30% smaller than desktop */
+    /* Hero title - Mobile: smaller and compact */
     .hero-title {
-        font-size: clamp(0.75rem, 0.9vw + 0.65rem, 0.90rem) !important; /* Further reduced, proportional */
+        font-size: clamp(0.80rem, 0.9vw + 0.70rem, 1.0rem) !important;
         line-height: 1.2 !important;
-        margin-bottom: 0.6rem !important;
-        padding: 0 1rem !important;
+        margin-bottom: 0.5rem !important;
+        padding: 0 0.5rem !important;
     }
     
     .hero h1 {
-        font-size: clamp(1.6rem, 4vw, 2rem); /* Smaller, proportional scaling */
-        margin-bottom: 0.6rem;
+        font-size: clamp(1.6rem, 4.5vw, 2.2rem); /* Smaller scaling */
+        margin-bottom: 0.5rem;
         padding: 0;
-        line-height: 1.2;
+        line-height: 1.15;
         max-width: 100%;
         word-wrap: break-word;
     }
     
     .tagline {
-        font-size: clamp(0.75rem, 2vw, 0.9rem); /* Smaller, proportional scaling */
-        margin-bottom: 1.2rem;
+        font-size: clamp(0.8rem, 2.2vw, 1rem); /* Smaller scaling */
+        margin-bottom: 1rem;
         padding: 0;
-        line-height: 1.3;
+        line-height: 1.25;
         max-width: 100%;
     }
     
-    /* Hero KPI line - Mobile: smaller and proportional */
+    /* Hero KPI line - Mobile: smaller */
     .hero-kpis {
-        font-size: clamp(0.65rem, 1.0vw + 0.55rem, 0.80rem) !important; /* Further reduced, proportional */
-        line-height: 1.2 !important;
+        font-size: clamp(0.70rem, 1.0vw + 0.60rem, 0.85rem) !important;
+        line-height: 1.15 !important;
+        margin-bottom: 0.3rem !important;
     }
     
-    /* Hero tagline - Mobile: smaller and proportional, prevent descenders from being clipped */
+    /* Hero tagline - Mobile: smaller, prevent descenders from being clipped */
     .hero-tagline {
-        font-size: clamp(0.75rem, 0.5vw + 0.60rem, 1.05rem) !important; /* Further reduced, proportional */
-        line-height: 1.2 !important; /* Tighter line height for mobile */
-        padding-bottom: 0.2em !important; /* Tiny buffer for descenders like g/y/p */
+        font-size: clamp(0.80rem, 0.5vw + 0.65rem, 1.10rem) !important;
+        line-height: 1.15 !important;
+        padding-bottom: 0.15em !important;
+        margin-bottom: 0.8rem !important;
     }
     
     .tagline-small {
-        font-size: 0.80rem !important;
-        margin-bottom: 1.5rem !important;
-        margin-top: -0.8rem !important;
-        padding: 0 1rem !important;
+        font-size: 0.85rem !important;
+        margin-bottom: 1.2rem !important;
+        margin-top: -0.5rem !important;
+        padding: 0 0.5rem !important;
     }
     
     .hero .btn {
-        margin: 0.4rem auto;
-        padding: 0.7rem 1.4rem; /* Smaller, proportional */
-        font-size: clamp(0.75rem, 1.6vw, 0.85rem); /* Smaller, proportional */
+        margin: 0.3rem auto;
+        padding: 0.7rem 1.4rem;
+        font-size: clamp(0.8rem, 1.8vw, 0.9rem);
         width: auto;
         max-width: 100%;
         white-space: normal;
@@ -3140,22 +3144,22 @@ textarea {
     
     /* Fix text overflow for CTA video button on mobile */
     .hero .btn-cta-video {
-        max-width: calc(100% - 2rem); /* Account for padding */
-        padding: 0.35rem 0.5rem !important; /* Smaller, proportional */
-        font-size: clamp(0.70rem, 1.6vw, 0.80rem) !important; /* Smaller, proportional */
+        max-width: calc(100% - 1rem);
+        padding: 0.35rem 0.5rem !important;
+        font-size: clamp(0.75rem, 1.8vw, 0.85rem) !important;
         white-space: normal !important;
         word-wrap: break-word !important;
         overflow-wrap: break-word !important;
         text-align: center;
-        line-height: 1.2 !important; /* Tighter line height */
+        line-height: 1.15 !important;
         hyphens: auto;
-        border-width: 1px !important; /* Ensure border is not too thick */
+        border-width: 1px !important;
     }
     
     /* Stack buttons on mobile if multiple */
     .hero .btn + .btn {
-        margin-top: 0.75rem;
-        margin-left: 0; /* Remove horizontal gap on mobile */
+        margin-top: 0.5rem;
+        margin-left: 0;
     }
     
     /* Section titles - responsive, no overflow */
@@ -3392,57 +3396,61 @@ textarea {
 
 @media (max-width: 576px) {
     h1 {
-        font-size: 2.2rem;
+        font-size: 1.8rem;
     }
 
     h2 {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
     }
     
     /* Extra small screens - iPhone SE and similar */
     .hero {
-        padding-top: calc(70px + env(safe-area-inset-top)) !important;
-        padding-bottom: calc(3rem + env(safe-area-inset-bottom)) !important;
+        padding-top: 42vh !important; /* Content starts at ~neck height */
+        padding-bottom: calc(1.5rem + env(safe-area-inset-bottom)) !important;
     }
     
     .hero-content {
-        padding: 1.5rem 1rem 2.5rem 1rem !important;
+        padding: 0.8rem 0.8rem 1.5rem 0.8rem !important;
+        transform: scale(0.82) !important;
+        transform-origin: center top !important;
     }
     
-    /* Hero title - Extra small screens - maintain smaller size */
+    /* Hero title - Extra small screens - smaller */
     .hero-title {
-        font-size: clamp(1.05rem, 1.2vw + 0.95rem, 1.25rem) !important;
+        font-size: clamp(0.75rem, 1.0vw + 0.65rem, 0.95rem) !important;
         line-height: 1.15 !important;
-        margin-bottom: 0.8rem !important;
+        margin-bottom: 0.4rem !important;
     }
     
     .hero h1 {
-        font-size: 2rem !important;
-        margin-bottom: 0.8rem !important;
+        font-size: 1.5rem !important;
+        margin-bottom: 0.4rem !important;
     }
     
     .tagline {
-        font-size: 1rem !important;
-        margin-bottom: 1.5rem !important;
+        font-size: 0.85rem !important;
+        margin-bottom: 0.8rem !important;
     }
     
     .tagline-small {
-        font-size: 0.9rem !important;
-        margin-bottom: 1.5rem !important;
-        margin-top: -0.8rem !important;
+        font-size: 0.75rem !important;
+        margin-bottom: 1rem !important;
+        margin-top: -0.4rem !important;
     }
     
     /* Hero KPI line - Extra small screens */
     .hero-kpis {
-        font-size: clamp(1.10rem, 1.6vw + 0.95rem, 1.25rem) !important;
+        font-size: clamp(0.65rem, 1.0vw + 0.55rem, 0.80rem) !important;
     }
     
     /* Hero tagline - Extra small screens */
-    /* Base .hero-tagline styles apply globally, 480px breakpoint handles calibration */
+    .hero-tagline {
+        font-size: clamp(0.75rem, 0.5vw + 0.60rem, 1.0rem) !important;
+    }
     
     .hero .btn {
-        padding: 0.9rem 1.5rem !important;
-        font-size: 0.95rem !important;
+        padding: 0.6rem 1.2rem !important;
+        font-size: 0.8rem !important;
     }
 
     .videos-grid {
@@ -3463,12 +3471,29 @@ textarea {
 
 /* Very small screens - 480px and below */
 @media (max-width: 480px) {
+    .hero {
+        padding-top: 40vh !important; /* Content starts at ~neck height */
+    }
+    
+    .hero-content {
+        transform: scale(0.78) !important;
+    }
+    
     .hero-kpis {
-        font-size: clamp(1.12rem, 1.6vw + 0.95rem, 1.28rem) !important;
+        font-size: clamp(0.60rem, 0.9vw + 0.50rem, 0.75rem) !important;
     }
     
     .hero-tagline {
-        font-size: clamp(1.35rem, 1.4vw + 1.10rem, 1.95rem) !important;
+        font-size: clamp(0.70rem, 0.5vw + 0.55rem, 0.95rem) !important;
+    }
+    
+    .hero h1 {
+        font-size: 1.4rem !important;
+    }
+    
+    .hero .btn {
+        padding: 0.5rem 1rem !important;
+        font-size: 0.75rem !important;
     }
 }
 
