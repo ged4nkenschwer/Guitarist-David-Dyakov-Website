@@ -619,6 +619,7 @@ function initMobileTitleSheen() {
         '.hero h1, ' +
         '.hero-title, ' +
         '.hero-subtitle, ' +
+        '.hero-role, ' +
         '.section-title, ' +
         'h2.section-title, ' +
         '.masterclass-info h3, ' +
