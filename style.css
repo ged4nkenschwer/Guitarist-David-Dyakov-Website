@@ -3011,10 +3011,10 @@ textarea {
         min-height: -webkit-fill-available; /* Fix for iOS Safari */
         overflow: hidden; /* Prevent horizontal overflow */
         padding: 0;
-        padding-top: 12vh; /* Start content just below chin */
+        padding-top: 0; /* Image starts directly below header */
         padding-bottom: calc(2rem + env(safe-area-inset-bottom));
-        align-items: center;
-        justify-content: flex-start; /* Align content to start after padding-top */
+        align-items: flex-end; /* Content at bottom */
+        justify-content: flex-end;
     }
     
     /* Mobile hero image - focus on hands */
@@ -3052,12 +3052,12 @@ textarea {
     
     .hero-content,
     .hero-copy {
-        position: relative; /* Changed from absolute to prevent overflow */
+        position: absolute; /* Position content over image */
         bottom: auto;
-        top: auto;
+        top: 38%; /* Start below chin level */
+        left: 0;
+        right: 0;
         transform: none;
-        left: auto;
-        right: auto;
         max-width: 100%;
         width: 100%;
         padding: 1rem 20px;
@@ -3417,8 +3417,13 @@ textarea {
     
     /* Extra small screens - iPhone SE and similar */
     .hero {
-        padding-top: 10vh !important; /* Content starts just below chin */
+        padding-top: 0 !important; /* Image starts directly below header */
         padding-bottom: calc(1.5rem + env(safe-area-inset-bottom)) !important;
+    }
+    
+    .hero-content,
+    .hero-copy {
+        top: 35% !important; /* Start below chin level */
     }
     
     .hero-content {
@@ -3498,7 +3503,12 @@ textarea {
 /* Very small screens - 480px and below */
 @media (max-width: 480px) {
     .hero {
-        padding-top: 8vh !important; /* Content starts just below chin */
+        padding-top: 0 !important; /* Image starts directly below header */
+    }
+    
+    .hero-content,
+    .hero-copy {
+        top: 32% !important; /* Start below chin level */
     }
     
     .hero-content {
