@@ -1119,7 +1119,7 @@ nav {
 
 /* Hero KPI line - Responsive sizing with clamp */
 .hero-kpis {
-    font-size: clamp(1.05rem, 0.55vw + 0.95rem, 1.25rem);
+    font-size: clamp(1.15rem, 0.7vw + 1.05rem, 1.45rem);
     line-height: 1.25;
     font-weight: 600;
 }
@@ -3160,9 +3160,9 @@ textarea {
     
     /* Hero KPI line - Mobile: larger */
     .hero-kpis {
-        font-size: clamp(0.85rem, 1.3vw + 0.70rem, 1.05rem) !important;
+        font-size: clamp(0.95rem, 1.5vw + 0.80rem, 1.15rem) !important;
         line-height: 1.2 !important;
-        margin-bottom: 0.4rem !important;
+        margin-bottom: 0.5rem !important;
     }
     
     /* Hero tagline - Mobile: larger */
