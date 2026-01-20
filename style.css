@@ -869,17 +869,23 @@ body {
         0 0 40px rgba(214, 180, 106, 0.1);
 }
 
-/* CTA Video Button - Slightly different styling */
+/* CTA Video Button - Same style as regular button */
 .btn-cta-video {
     margin-top: 1rem;
-    background-color: var(--accent-gold);
-    color: var(--bg-main);
-    font-weight: 600;
+    background-color: var(--accent-ink);
+    color: var(--text-primary);
+    border: 1px solid var(--accent-gold);
+    font-weight: 500;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-cta-video:hover {
-    background-color: var(--accent-gold-soft);
-    color: var(--bg-main);
+    background-color: #2d3f57;
+    border-color: var(--accent-gold-soft);
+    color: var(--text-primary);
 }
 
 /* Subtle button variant - lower visual weight */
@@ -898,22 +904,31 @@ body {
     border-color: var(--accent-gold) !important;
 }
 
+/* Hero buttons - centered text */
+.hero-content .btn {
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
 /* Hero button spacing - add gap between buttons */
 .hero-content .btn + .btn {
     margin-left: 1rem;
 }
 
-/* Subtle colored button for Rossiniana CTA */
+/* Subtle colored button for Rossiniana CTA - same as regular button */
 .btn-cta-video.btn--subtle {
-    background: rgba(214, 180, 106, 0.15) !important;
-    border-color: rgba(214, 180, 106, 0.4) !important;
-    color: var(--accent-gold-soft) !important;
+    background: var(--accent-ink) !important;
+    border: 1px solid var(--accent-gold) !important;
+    color: var(--text-primary) !important;
+    text-align: center;
 }
 
 .btn-cta-video.btn--subtle:hover {
-    background: rgba(214, 180, 106, 0.25) !important;
-    border-color: var(--accent-gold) !important;
-    color: var(--accent-gold) !important;
+    background: #2d3f57 !important;
+    border-color: var(--accent-gold-soft) !important;
+    color: var(--text-primary) !important;
 }
 
 .btn--subtle:focus-visible {
