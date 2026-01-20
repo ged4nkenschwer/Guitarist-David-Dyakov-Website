@@ -69,7 +69,10 @@ function getVideoById(id) {
     function showLoader() {
         if (loaderShown) return;
         loaderShown = true;
-        document.body.classList.add('is-loading');
+        // is-loading is already set on body in HTML for instant effect
+        if (!document.body.classList.contains('is-loading')) {
+            document.body.classList.add('is-loading');
+        }
     }
     
     function hideLoader() {
@@ -82,12 +85,14 @@ function getVideoById(id) {
         
         // Remove loader from DOM after fade-out completes (250ms transition + 50ms buffer)
         setTimeout(() => {
-            loader.remove();
+            if (loader && loader.parentNode) {
+                loader.remove();
+            }
         }, 300);
     }
     
-    // Loader activation strategy - show immediately to ensure page is hidden
-        showLoader();
+    // Loader is already showing via HTML class, mark as shown
+    loaderShown = true;
     
     // Convert relative URL to absolute
     function toAbsoluteUrl(url) {

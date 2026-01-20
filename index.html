@@ -125,8 +125,8 @@
     }
     </script>
 </head>
-<body>
-    <!-- Mobile-Only Page Loader -->
+<body class="is-loading">
+    <!-- Page Loader - visible immediately until content loads -->
     <div id="page-loader" aria-busy="true" aria-live="polite">
         <div class="loader-bg" aria-hidden="true"></div>
         <div class="spinner" role="status" aria-label="Loading"></div>
@@ -137,9 +137,6 @@
     
     <!-- App Wrapper for blur effect -->
     <div id="app">
-        <!-- Loading Screen (existing, kept for compatibility) -->
-        <div class="loading" id="loading"></div>
-        
         <!-- Header -->
     <header id="header">
         <div class="container">
