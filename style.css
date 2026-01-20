@@ -3080,7 +3080,7 @@ textarea {
         min-height: 100svh;
         overflow: hidden; /* Prevent horizontal overflow */
         padding: 0;
-        padding-top: 6vh; /* Start content much higher */
+        padding-top: 15vh; /* Content lower - below face */
         padding-bottom: calc(2rem + env(safe-area-inset-bottom));
         align-items: center;
         justify-content: flex-start; /* Align content to start after padding-top */
@@ -3217,26 +3217,29 @@ textarea {
         padding: 0 0.5rem !important;
     }
     
-    .hero .btn {
-        margin: 0.4rem auto;
-        padding: 0.8rem 1.5rem;
-        font-size: clamp(0.85rem, 2vw, 0.95rem);
+    .hero .btn,
+    .hero .btn-cta-video {
+        margin: 0.5rem auto !important;
+        padding: 0.9rem 1.8rem !important;
+        font-size: clamp(0.9rem, 2.2vw, 1rem) !important;
         width: auto;
-        max-width: 90%;
+        max-width: 85%;
         white-space: normal;
-        display: block;
+        display: block !important;
         box-sizing: border-box;
         word-wrap: break-word;
         overflow-wrap: break-word;
-        hyphens: auto;
         text-align: center;
+        background-color: var(--accent-gold) !important;
+        color: var(--bg-main) !important;
+        border: none !important;
     }
     
     /* Stack buttons on mobile - centered */
     .hero .btn + .btn {
-        margin-top: 0.5rem;
-        margin-left: auto;
-        margin-right: auto;
+        margin-top: 0.6rem !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
     
     /* Hero dash and role on mobile */
@@ -3518,7 +3521,7 @@ textarea {
     
     /* Extra small screens - iPhone SE and similar */
     .hero {
-        padding-top: 5vh !important; /* Content much higher */
+        padding-top: 12vh !important; /* Content lower */
         padding-bottom: calc(1.5rem + env(safe-area-inset-bottom)) !important;
     }
     
@@ -3609,7 +3612,7 @@ textarea {
 /* Very small screens - 480px and below */
 @media (max-width: 480px) {
     .hero {
-        padding-top: 4vh !important; /* Content much higher */
+        padding-top: 10vh !important; /* Content lower */
     }
     
     /* Smaller images on very small screens */
