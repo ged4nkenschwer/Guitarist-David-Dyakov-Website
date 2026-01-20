@@ -1192,6 +1192,11 @@ nav {
     flex-wrap: wrap;
     align-items: center;
     gap: 3rem;
+    overflow: visible; /* Prevent internal scrollbar */
+}
+
+#biography {
+    overflow: visible;
 }
 
 /* Prevent flex items from overflowing */
@@ -1254,6 +1259,7 @@ nav {
 .bio-text {
     flex: 2;
     min-width: 300px;
+    overflow: visible; /* Remove scrollbar */
 }
 
 /* Increase biography body text size */
@@ -3230,9 +3236,10 @@ textarea {
         word-wrap: break-word;
         overflow-wrap: break-word;
         text-align: center;
-        background-color: var(--accent-gold) !important;
-        color: var(--bg-main) !important;
-        border: none !important;
+        /* Same style as "Inquire Now" button - dark background with gold border */
+        background-color: var(--accent-ink) !important;
+        color: var(--text-primary) !important;
+        border: 1px solid var(--accent-gold) !important;
     }
     
     /* Stack buttons on mobile - centered */
@@ -3303,6 +3310,7 @@ textarea {
     .bio-text {
         width: 100%;
         min-width: 100%;
+        overflow: visible !important; /* Remove scrollbar */
     }
     
     /* Ensure masterclass/lessons image is visible on mobile */
