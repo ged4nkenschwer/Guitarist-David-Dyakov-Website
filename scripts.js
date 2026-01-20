@@ -660,33 +660,35 @@ function initMobileTitleSheen() {
         
         setTimeout(() => {
             // Force starting position
-            title.style.setProperty('background-position', '-100% 0', 'important');
-            title.style.setProperty('transition', 'none', 'important');
+            title.style.backgroundPosition = '-100% 0';
+            title.style.transition = 'none';
             
             // Force reflow
             void title.offsetWidth;
             
             // Animate
             requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    title.style.setProperty('transition', 'background-position 1.2s ease-out', 'important');
-                    title.style.setProperty('background-position', '100% 0', 'important');
-                    
-                    console.log('SHEEN ANIMATING:', title.textContent.substring(0, 25));
-                    
-                    // After animation completes
-                    setTimeout(() => {
-                        if (isMobile) {
-                            // Mobile: Keep styles for scroll effect
-                            title.style.removeProperty('transition');
-                        } else {
-                            // Desktop: Remove all inline styles so CSS :hover works
-                            title.style.removeProperty('background-position');
-                            title.style.removeProperty('transition');
-                            console.log('SHEEN: Desktop - cleared inline styles for hover');
+                title.style.transition = 'background-position 1.2s ease-out';
+                title.style.backgroundPosition = '100% 0';
+                
+                console.log('SHEEN ANIMATING:', title.textContent.substring(0, 25));
+                
+                // After animation completes
+                setTimeout(() => {
+                    if (isMobile) {
+                        // Mobile: Remove transition, keep position for scroll effect
+                        title.style.transition = '';
+                    } else {
+                        // Desktop: Remove ALL inline styles completely so CSS :hover works
+                        title.style.backgroundPosition = '';
+                        title.style.transition = '';
+                        // Also try removing the style attribute entirely
+                        if (!title.getAttribute('style') || title.getAttribute('style').trim() === '') {
+                            title.removeAttribute('style');
                         }
-                    }, 1300);
-                });
+                        console.log('SHEEN: Desktop - hover ready for:', title.textContent.substring(0, 20));
+                    }
+                }, 1300);
             });
         }, delay);
     }
@@ -747,40 +749,48 @@ function initMobileTitleSheen() {
     
     console.log('SHEEN: Mobile mode - enabling scroll-responsive sheen');
     
-    let ticking = false;
-    
     function updateSheenPositions() {
         const viewportHeight = window.innerHeight;
         
         goldenTitles.forEach(title => {
-            if (!animatedTitles.has(title)) return;
-            
             const rect = title.getBoundingClientRect();
             
-            if (rect.top < viewportHeight && rect.bottom > 0) {
+            // More generous viewport check - element anywhere near viewport
+            if (rect.top < viewportHeight + 100 && rect.bottom > -100) {
+                // Higher sensitivity: map smaller viewport range to full sheen range
                 const visibleCenter = rect.top + rect.height / 2;
-                const viewportProgress = visibleCenter / viewportHeight;
-                const sheenPosition = Math.round(100 - (viewportProgress * 200));
+                // Use 60% of viewport for full effect (more sensitive)
+                const viewportCenter = viewportHeight * 0.5;
+                const distanceFromCenter = visibleCenter - viewportCenter;
+                const normalizedDistance = distanceFromCenter / (viewportHeight * 0.3);
+                
+                // Clamp and map to -100% to 100%
+                const sheenPosition = Math.max(-100, Math.min(100, -normalizedDistance * 100));
+                
                 title.style.backgroundPosition = `${sheenPosition}% 0`;
             }
         });
-        
-        ticking = false;
     }
     
+    // Use requestAnimationFrame for smooth updates
+    let rafId = null;
     function onScrollSheen() {
-        if (!ticking) {
-            requestAnimationFrame(updateSheenPositions);
-            ticking = true;
-        }
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(updateSheenPositions);
     }
     
-    // Delay scroll sheen to let entrance animations complete
+    // Start immediately and also on scroll
     setTimeout(() => {
+        updateSheenPositions(); // Initial update
         window.addEventListener('scroll', onScrollSheen, { passive: true });
         window.addEventListener('touchmove', onScrollSheen, { passive: true });
+        window.addEventListener('touchend', onScrollSheen, { passive: true });
+        
+        // Also update periodically for smoother effect
+        setInterval(updateSheenPositions, 100);
+        
         console.log('SHEEN: Mobile scroll effect activated');
-    }, 2000);
+    }, 1500);
 }
 
 /**
