@@ -3197,9 +3197,9 @@ textarea {
     
     /* Hero KPI line - Mobile: larger */
     .hero-kpis {
-        font-size: clamp(1.0rem, 1.8vw + 0.85rem, 1.25rem) !important;
-        line-height: 1.2 !important;
-        margin-bottom: 0.5rem !important;
+        font-size: clamp(1.1rem, 2.2vw + 0.95rem, 1.4rem) !important;
+        line-height: 1.25 !important;
+        margin-bottom: 0.6rem !important;
     }
     
     /* Hero tagline - Mobile: larger */
@@ -3557,7 +3557,7 @@ textarea {
     }
     
     .hero-kpis {
-        font-size: clamp(0.80rem, 1.2vw + 0.65rem, 0.95rem) !important;
+        font-size: clamp(0.95rem, 1.5vw + 0.80rem, 1.15rem) !important;
     }
     
     .hero-tagline {
@@ -3577,7 +3577,7 @@ textarea {
     
     /* Hero KPI line - Extra small screens */
     .hero-kpis {
-        font-size: clamp(0.70rem, 1.0vw + 0.60rem, 0.85rem) !important;
+        font-size: clamp(0.85rem, 1.3vw + 0.70rem, 1.0rem) !important;
     }
     
     /* Hero tagline - Extra small screens */
@@ -3626,7 +3626,7 @@ textarea {
     }
     
     .hero-kpis {
-        font-size: clamp(0.65rem, 1.0vw + 0.55rem, 0.80rem) !important;
+        font-size: clamp(0.80rem, 1.2vw + 0.70rem, 0.95rem) !important;
     }
     
     .hero-tagline {
@@ -3641,10 +3641,6 @@ textarea {
     .hero-subtitle {
         font-size: 1.1rem !important; /* BIGGER */
         white-space: nowrap !important;
-    }
-    
-    .hero-kpis {
-        font-size: clamp(0.75rem, 1.1vw + 0.60rem, 0.90rem) !important;
     }
     
     .hero-tagline {
