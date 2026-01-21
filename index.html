@@ -657,6 +657,15 @@
                         </label>
                     </div>
                     
+                    <!-- Privacy Policy Consent (Required) -->
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="privacy-consent" name="privacy_consent" value="yes" required>
+                        <label for="privacy-consent" data-en="I have read the <a href='datenschutz.html'>Privacy Policy</a> and agree to the processing of my data to handle my inquiry. *" 
+                               data-de="Ich habe die <a href='datenschutz.html'>Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Daten zur Bearbeitung meiner Anfrage einverstanden. *">
+                            I have read the <a href="datenschutz.html">Privacy Policy</a> and agree to the processing of my data to handle my inquiry. *
+                        </label>
+                    </div>
+                    
                     <!-- Hidden fields for service integration -->
                     <input type="hidden" name="form_type" value="combined">
                     <input type="hidden" name="source" value="website">
@@ -686,6 +695,10 @@
                 <div class="spotify-player">
                     <iframe src="https://open.spotify.com/embed/artist/5Y4rHZVGuvUib8wAHd7g4h?utm_source=generator&theme=0" width="300" height="80" frameborder="0" allowtransparency="true" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="David Dyakov Spotify Player" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
+            </div>
+            <div class="footer-links" style="display:flex;gap:1.5rem;justify-content:center;margin-top:1rem;">
+                <a href="#contact" style="color:#C3BEB3;text-decoration:none;font-size:0.9rem;transition:color 0.3s;" data-en="Contact" data-de="Kontakt">Contact</a>
+                <a href="datenschutz.html" style="color:#C3BEB3;text-decoration:none;font-size:0.9rem;transition:color 0.3s;" data-en="Privacy Policy" data-de="Datenschutz">Privacy Policy</a>
             </div>
             <div class="copyright">
                 <p>&copy; <span id="year"></span> David Dyakov - Classical Guitarist. All Rights Reserved.</p>
