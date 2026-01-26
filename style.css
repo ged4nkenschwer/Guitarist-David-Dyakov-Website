@@ -1012,10 +1012,12 @@ nav {
 .nav-menu {
     display: flex;
     list-style: none;
+    align-items: center; /* Vertical alignment */
 }
 
 .nav-menu li {
     margin-left: 1.5rem;
+    white-space: nowrap; /* Prevent wrapping */
 }
 
 .nav-link {
@@ -1023,6 +1025,7 @@ nav {
     font-weight: 400;
     position: relative;
     padding: 0.5rem 0;
+    white-space: nowrap; /* Prevent text wrapping */
 }
 
 .nav-link:hover,
