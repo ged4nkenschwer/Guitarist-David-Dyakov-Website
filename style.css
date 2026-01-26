@@ -1114,7 +1114,7 @@ nav {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 38%; /* Shifted down to show full head with hair above header */
+    object-position: center 25%; /* Shifted down more to show complete head with all hair */
     filter: brightness(0.65) contrast(1.1);
 }
 
@@ -2290,43 +2290,12 @@ nav {
     position: relative;
     border-radius: 8px;
     overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-}
-
-/* Soften the lessons image to reduce pixelation - use pseudo-element for the image */
-.masterclass-image::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
     background-image: url('./teaching-guitar1.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    /* Soften the image - removes harsh pixelation edges */
-    filter: blur(0.8px) contrast(0.97) brightness(1.02);
-    z-index: 0;
-}
-
-/* Soft overlay to further reduce pixelation appearance */
-.masterclass-image::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-        135deg,
-        rgba(16, 19, 27, 0.08) 0%,
-        rgba(16, 19, 27, 0.03) 50%,
-        rgba(16, 19, 27, 0.08) 100%
-    );
-    z-index: 1;
-    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 .masterclass-image:hover {
