@@ -3,10 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Prevent caching to ensure latest version always loads -->
-    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, proxy-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
     
     <!-- Primary SEO Meta Tags -->
     <title>David Dyakov &mdash; International Award-Winning Guitar Virtuoso</title>
@@ -49,22 +45,17 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     
-    <!-- Preconnect for Performance - Critical resources first -->
+    <!-- Preconnect for Performance - Critical resources only -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <!-- Kaushan Script font for handwritten tagline -->
-    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
-    
     <!-- Resource hints - Optimized for fastest loading -->
     <link rel="preload" href="style.css" as="style" fetchpriority="high">
-    <!-- Preload hero image with WebP fallback -->
-    <link rel="preload" href="./hero-guitarist.webp" as="image" fetchpriority="high" type="image/webp" imagesrcset="./hero-guitarist.webp 1x, ./hero-guitarist-2x.webp 2x">
-    <link rel="preload" href="./hero-guitarist.JPG" as="image" fetchpriority="high" type="image/jpeg" imagesrcset="./hero-guitarist.JPG 1x, ./hero-guitarist-2x.JPG 2x">
+    <!-- Preload hero image - WebP only (browser will use JPG fallback in picture element) -->
+    <link rel="preload" href="./hero-guitarist.JPG" as="image" fetchpriority="high">
     
     <!-- DNS prefetch for non-critical external resources -->
     <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
-    <link rel="dns-prefetch" href="//www.youtube.com">
     <link rel="dns-prefetch" href="//open.spotify.com">
     
     <!-- Critical CSS (inlined for fastest rendering - above the fold) -->
@@ -74,7 +65,7 @@
         html{scroll-behavior:smooth;font-size:16px}
         body{margin:0;font-family:'Roboto',Arial,sans-serif;background:#05070B;color:#F5F2EA;overflow-x:hidden;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
         .container{width:90%;max-width:1200px;margin:0 auto;padding:0 15px}
-        #header{position:fixed;top:0;left:0;width:100%;background-color:#10131B;backdrop-filter:blur(5px);z-index:1000;padding:1rem 0;border-bottom:1px solid #262B37}
+        #header{position:fixed;top:0;left:0;width:100%;background-color:#10131B;backdrop-filter:blur(5px);z-index:1000;padding:0.6rem 0;border-bottom:1px solid #262B37}
         .hero{min-height:100vh;min-height:100dvh;min-height:-webkit-fill-available;display:flex;align-items:center;justify-content:center;position:relative;background-color:#05070B}
         @media (max-width:768px){.hero{height:auto!important;min-height:100vh;min-height:100dvh;min-height:-webkit-fill-available;padding:0!important;padding-top:calc(80px + env(safe-area-inset-top))!important;padding-bottom:calc(4rem + env(safe-area-inset-bottom))!important}.hero-content{padding:2rem 1rem 3rem 1rem!important;width:100%!important;max-width:100%!important;box-sizing:border-box!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important}.hero h1{font-size:2.5rem!important;margin-bottom:1rem!important;padding:0 1rem!important}.tagline{font-size:1.1rem!important;margin-bottom:2rem!important;padding:0 1rem!important}.hero .btn{margin-bottom:0!important;margin-top:0.5rem!important;padding:1rem 2rem!important;font-size:1rem!important;max-width:calc(100% - 2rem)!important;white-space:nowrap!important}}
         @media (max-width:576px){.hero{padding-top:calc(70px + env(safe-area-inset-top))!important;padding-bottom:calc(3rem + env(safe-area-inset-bottom))!important}.hero-content{padding:1.5rem 1rem 2.5rem 1rem!important}.hero h1{font-size:2rem!important;margin-bottom:0.8rem!important}.tagline{font-size:1rem!important;margin-bottom:1.5rem!important}.hero .btn{padding:0.9rem 1.5rem!important;font-size:0.95rem!important}}
@@ -93,11 +84,11 @@
     <!-- Non-critical CSS loaded asynchronously -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
-    <!-- Fonts - Load only critical weights first, rest async with font-display: swap -->
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Roboto:wght@400&display=swap&font-display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;800;900&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&family=Roboto:wght@300;500&display=swap&font-display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700;800;900&family=Libre+Baskerville:wght@400;700&family=Roboto:wght@300;400;500&display=swap&font-display=swap" rel="stylesheet"></noscript>
+    <!-- Fonts - Load only essential weights (Cinzel for headings, Roboto for UI) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <!-- Additional font weights loaded async for non-critical elements -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Libre+Baskerville:wght@400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Libre+Baskerville:wght@400&display=swap" rel="stylesheet"></noscript>
     
     <!-- Structured Data for Musician -->
     <script type="application/ld+json">
@@ -131,9 +122,6 @@
         <div class="loader-bg" aria-hidden="true"></div>
         <div class="spinner" role="status" aria-label="Loading"></div>
     </div>
-    
-    <!-- Critical Hero Asset (hidden, used for loading detection) -->
-    <img id="hero-critical" src="./hero-guitarist.webp" alt="" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none" onerror="this.src='./hero-guitarist.JPG'" data-critical="true">
     
     <!-- App Wrapper for blur effect -->
     <div id="app">
@@ -222,11 +210,11 @@
                 </a>
             </div>
             
-            <!-- Spotify Player Widget -->
+            <!-- Spotify Player Widget - Lazy loaded -->
             <div class="spotify-widget-container animate-on-scroll">
                 <h3 data-en="Selected Recordings" data-de="Ausgewählte Aufnahmen">Selected Recordings</h3>
-                <div class="spotify-widget">
-                    <iframe src="https://open.spotify.com/embed/artist/5Y4rHZVGuvUib8wAHd7g4h?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allowtransparency="true" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="David Dyakov Spotify Player" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <div class="spotify-widget" data-spotify-src="https://open.spotify.com/embed/artist/5Y4rHZVGuvUib8wAHd7g4h?utm_source=generator&theme=0">
+                    <!-- Spotify iframe loads when scrolled into view -->
                 </div>
             </div>
         </div>
@@ -694,8 +682,8 @@
                         <a href="https://www.facebook.com/david.dyakov" target="_blank" class="social-link" aria-label="Connect with David Dyakov on Facebook"><i class="fab fa-facebook-f"></i></a>
                     </div>
                 </div>
-                <div class="spotify-player">
-                    <iframe src="https://open.spotify.com/embed/artist/5Y4rHZVGuvUib8wAHd7g4h?utm_source=generator&theme=0" width="300" height="80" frameborder="0" allowtransparency="true" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="David Dyakov Spotify Player" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <div class="spotify-player" data-spotify-src="https://open.spotify.com/embed/artist/5Y4rHZVGuvUib8wAHd7g4h?utm_source=generator&theme=0" data-width="300" data-height="80">
+                    <!-- Spotify iframe loads when scrolled into view -->
                 </div>
             </div>
             <div class="footer-links" style="display:flex;gap:1.5rem;justify-content:center;margin-top:1rem;">
@@ -714,149 +702,12 @@
     </div>
     <!-- End App Wrapper -->
 
-    <!-- Critical inline performance script -->
+    <!-- Minimal inline script - main logic in scripts.js -->
     <script>
-        // Page Loader: Set is-loading class based on connection speed
-        (function() {
-            // Check connection speed
-            const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-            const isProbablySlow = !!conn && (
-                conn.saveData || 
-                ["slow-2g", "2g", "3g"].includes(conn.effectiveType) || 
-                (typeof conn.downlink === "number" && conn.downlink < 1.5)
-            );
-            
-            // If slow connection, show loader immediately
-            if (isProbablySlow) {
-                document.body.classList.add('is-loading');
-            }
-            // Otherwise, loader will be shown after 200ms if not ready (handled in scripts.js)
-        })();
-        
-        // Performance optimizations
-        (function() {
-            // Gallery images are now lazy-loaded via IntersectionObserver in scripts.js
-            // No manual preloading needed - reduces initial load
-            
-            // Optimized video loading - IntersectionObserver: only load when in viewport AND section expanded
-            (function() {
-                const initVideoLoading = () => {
-                    const videos = document.querySelectorAll('#gallery video[preload="none"]');
-                    if (videos.length === 0) return;
-                    
-                    // Function to load video sources (only when needed)
-                    const loadVideoSources = (video) => {
-                        if (video.dataset.sourcesLoaded === 'true') return;
-                        video.dataset.sourcesLoaded = 'true';
-                        
-                        const videoSrc = video.getAttribute('data-src');
-                        if (!videoSrc) return;
-                        
-                        // Add QuickTime source
-                        const quicktimeSource = document.createElement('source');
-                        quicktimeSource.setAttribute('src', videoSrc);
-                        quicktimeSource.setAttribute('type', 'video/quicktime');
-                        video.appendChild(quicktimeSource);
-                        
-                        // Add MP4 source as fallback
-                        const mp4Source = document.createElement('source');
-                        mp4Source.setAttribute('src', videoSrc);
-                        mp4Source.setAttribute('type', 'video/mp4');
-                        video.appendChild(mp4Source);
-                        
-                        // Load metadata only (not full video)
-                        video.preload = 'metadata';
-                        video.load();
-                    };
-                    
-                    // Watch for videos section expansion
-                    const videosSection = document.querySelector('#gallery .achievement-reveal');
-                    const videosContent = videosSection ? videosSection.querySelector('.achievement-content') : null;
-                    let sectionExpanded = videosContent && videosContent.classList.contains('revealed');
-                    
-                    if (videosContent) {
-                        const sectionObserver = new MutationObserver((mutations) => {
-                            mutations.forEach((mutation) => {
-                                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                                    sectionExpanded = videosContent.classList.contains('revealed');
-                                    // If section is expanded, check which videos are in viewport
-                                    if (sectionExpanded) {
-                                        videos.forEach(video => {
-                                            const rect = video.getBoundingClientRect();
-                                            const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
-                                            if (isInViewport) {
-                                                loadVideoSources(video);
-                                            }
-                                        });
-                                    }
-                                }
-                            });
-                        });
-                        sectionObserver.observe(videosContent, { attributes: true, attributeFilter: ['class'] });
-                    }
-                    
-                    // IntersectionObserver: load video sources when in viewport AND section is expanded
-                    if ('IntersectionObserver' in window) {
-                        const videoObserver = new IntersectionObserver((entries) => {
-                            entries.forEach(entry => {
-                                if (entry.isIntersecting && sectionExpanded) {
-                                    loadVideoSources(entry.target);
-                                    // Stop observing once loaded
-                                    videoObserver.unobserve(entry.target);
-                                }
-                            });
-                        }, {
-                            rootMargin: '100px' // Start loading 100px before video enters viewport
-                        });
-                        
-                        videos.forEach(video => {
-                            videoObserver.observe(video);
-                        });
-                    }
-                    
-                    // When user clicks play, ensure video can play smoothly
-                    videos.forEach(video => {
-                        video.addEventListener('play', function() {
-                            // Ensure sources are loaded
-                            if (!this.dataset.sourcesLoaded) {
-                                loadVideoSources(this);
-                            }
-                            // If only metadata is loaded, start buffering more
-                            if (this.readyState < 3 && this.preload === 'metadata') {
-                                this.preload = 'auto'; // Start loading full video
-                            }
-                        }, { once: true });
-                    });
-                };
-                
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', initVideoLoading);
-                } else {
-                    initVideoLoading();
-                }
-            })();
-            
-            // Hide loading screen as soon as DOM is ready (faster perceived load time)
-            function hideLoading() {
-                const loading = document.getElementById('loading');
-                if (loading) {
-                    loading.style.opacity = '0';
-                    setTimeout(() => {
-                        loading.style.display = 'none';
-                    }, 200);
-                }
-            }
-            
-            // Hide loading screen when DOM is ready (faster than window.load)
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', hideLoading);
-            } else {
-                hideLoading(); // DOM already ready
-            }
-            
-            // Fallback: hide after max 2 seconds even if DOMContentLoaded doesn't fire
-            setTimeout(hideLoading, 2000);
-        })();
+        // Ensure body has is-loading class for page loader
+        if (!document.body.classList.contains('is-loading')) {
+            document.body.classList.add('is-loading');
+        }
     </script>
     
     <!-- Scripts - Optimized loading order for fastest performance -->

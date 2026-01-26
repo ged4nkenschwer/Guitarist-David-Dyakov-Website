@@ -153,22 +153,11 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Headers for HTML files (no cache to ensure latest version always loads)
-[[headers]]
-  for = "/index.html"
-  [headers.values]
-    Cache-Control = "no-store, no-cache, must-revalidate, proxy-revalidate"
-    Pragma = "no-cache"
-    Expires = "0"
-    X-Content-Type-Options = "nosniff"
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
-
-# Headers for other HTML files (shorter cache, allow revalidation)
+# Headers for HTML files (short cache with revalidation for good performance)
 [[headers]]
   for = "/*.html"
   [headers.values]
-    Cache-Control = "public, max-age=300, must-revalidate"
+    Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"
     X-Content-Type-Options = "nosniff"
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"

@@ -47,33 +47,15 @@ function getVideoById(id) {
     return VIDEOS.find(v => v.id === id);
 }
 
-// Page Loader: Wait for ALL images to load (prioritizing hero background image)
+// Page Loader: Wait ONLY for hero image (fast initial load)
 (function initPageLoader() {
     'use strict';
     
     const loader = document.getElementById('page-loader');
     if (!loader) return;
     
-    let loaderShown = false;
     let loaderHidden = false;
-    const MAX_WAIT_TIME = 12000; // 12 seconds timeout (increased for all images)
-    
-    // Check connection speed
-    const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-    const isProbablySlow = !!conn && (
-        conn.saveData || 
-        ["slow-2g", "2g", "3g"].includes(conn.effectiveType) || 
-        (typeof conn.downlink === "number" && conn.downlink < 1.5)
-    );
-    
-    function showLoader() {
-        if (loaderShown) return;
-        loaderShown = true;
-        // is-loading is already set on body in HTML for instant effect
-        if (!document.body.classList.contains('is-loading')) {
-            document.body.classList.add('is-loading');
-        }
-    }
+    const MAX_WAIT_TIME = 3000; // 3 seconds max - show content quickly
     
     function hideLoader() {
         if (loaderHidden) return;
@@ -83,7 +65,7 @@ function getVideoById(id) {
         document.body.classList.remove('is-loading');
         document.body.classList.add('is-loaded');
         
-        // Remove loader from DOM after fade-out completes (250ms transition + 50ms buffer)
+        // Remove loader from DOM after fade-out completes
         setTimeout(() => {
             if (loader && loader.parentNode) {
                 loader.remove();
@@ -91,224 +73,25 @@ function getVideoById(id) {
         }, 300);
     }
     
-    // Loader is already showing via HTML class, mark as shown
-    loaderShown = true;
-    
-    // Convert relative URL to absolute
-    function toAbsoluteUrl(url) {
-        if (url.startsWith('./')) {
-            return new URL(url.substring(2), window.location.href).href;
-        } else if (!url.startsWith('http') && !url.startsWith('//') && !url.startsWith('data:')) {
-            return new URL(url, window.location.href).href;
-        }
-        return url;
-    }
-    
-    // Get hero background image sources (PRIORITY)
-    function getHeroBackgroundImages() {
-        const heroImages = new Set();
+    // Wait ONLY for the hero image in the picture element
+    function waitForHeroImage() {
+        const heroImg = document.querySelector('.hero-image img');
         
-        // 1. Check hero-critical img tag
-        const heroCritical = document.getElementById('hero-critical');
-        if (heroCritical) {
-            if (heroCritical.src) heroImages.add(toAbsoluteUrl(heroCritical.src));
-            // Check if it has error fallback
-            if (heroCritical.onerror) {
-                // Try to get the fallback JPG
-                heroImages.add(toAbsoluteUrl('./hero-guitarist.JPG'));
-            }
+        if (!heroImg) {
+            // No hero image found, hide loader immediately
+            hideLoader();
+            return;
         }
         
-        // 2. Check hero section computed background-image
-        const heroSection = document.querySelector('.hero');
-        if (heroSection) {
-            const computedStyle = window.getComputedStyle(heroSection);
-            const bgImage = computedStyle.backgroundImage;
-            if (bgImage && bgImage !== 'none') {
-                // Extract all URLs from background-image (can have multiple)
-                const urlMatches = bgImage.match(/url\(['"]?([^'")]+)['"]?\)/g);
-                if (urlMatches) {
-                    urlMatches.forEach(match => {
-                        const urlMatch = match.match(/url\(['"]?([^'")]+)['"]?\)/);
-                        if (urlMatch && urlMatch[1] && !urlMatch[1].includes('gradient')) {
-                            heroImages.add(toAbsoluteUrl(urlMatch[1]));
-                        }
-                    });
-                }
-            }
+        // If hero image is already loaded (cached), hide immediately
+        if (heroImg.complete && heroImg.naturalHeight > 0) {
+            hideLoader();
+            return;
         }
         
-        // 3. Explicitly add known hero images (fallback)
-        heroImages.add(toAbsoluteUrl('./hero-guitarist.webp'));
-        heroImages.add(toAbsoluteUrl('./hero-guitarist.JPG'));
-        heroImages.add(toAbsoluteUrl('./hero-guitarist-mobile.png'));
-        
-        // 4. Check hero img tag in picture element
-        const heroImg = document.querySelector('.hero img, .hero-image img');
-        if (heroImg) {
-            if (heroImg.src) heroImages.add(toAbsoluteUrl(heroImg.src));
-            if (heroImg.srcset) {
-                const srcsetUrls = heroImg.srcset.split(',').map(s => s.trim().split(' ')[0]);
-                srcsetUrls.forEach(url => heroImages.add(toAbsoluteUrl(url)));
-            }
-        }
-        
-        return Array.from(heroImages);
-    }
-    
-    // Collect all other image sources from the page (non-hero)
-    function collectAllImageSources() {
-        const imageSources = new Set();
-        const heroImages = getHeroBackgroundImages();
-        const heroImageSet = new Set(heroImages);
-        
-        // 1. Collect all img tags (excluding hero images)
-        const imgTags = document.querySelectorAll('img');
-        imgTags.forEach(img => {
-            if (img.id === 'hero-critical') return; // Skip hero-critical, already handled
-            if (img.closest('.hero')) {
-                // Hero images are already handled
-                return;
-            }
-            if (img.src && !heroImageSet.has(toAbsoluteUrl(img.src))) {
-                imageSources.add(toAbsoluteUrl(img.src));
-            }
-            // Also check srcset
-            if (img.srcset) {
-                const srcsetUrls = img.srcset.split(',').map(s => s.trim().split(' ')[0]);
-                srcsetUrls.forEach(url => {
-                    const absUrl = toAbsoluteUrl(url);
-                    if (!heroImageSet.has(absUrl)) {
-                        imageSources.add(absUrl);
-                    }
-                });
-            }
-        });
-        
-        // 2. Collect all background-image URLs from style attributes (excluding hero)
-        const elementsWithBg = document.querySelectorAll('[style*="background-image"]');
-        elementsWithBg.forEach(el => {
-            // Skip hero section
-            if (el.closest('.hero')) return;
-            
-            const style = el.getAttribute('style');
-            if (style) {
-                const matches = style.match(/url\(['"]?([^'")]+)['"]?\)/g);
-                if (matches) {
-                    matches.forEach(match => {
-                        const urlMatch = match.match(/url\(['"]?([^'")]+)['"]?\)/);
-                        if (urlMatch && urlMatch[1] && !urlMatch[1].includes('gradient')) {
-                            const absUrl = toAbsoluteUrl(urlMatch[1]);
-                            if (!heroImageSet.has(absUrl)) {
-                                imageSources.add(absUrl);
-                            }
-                        }
-                    });
-                }
-            }
-        });
-        
-        // 3. Check gallery-image elements
-        const galleryImages = document.querySelectorAll('.gallery-image');
-        galleryImages.forEach(el => {
-            const style = el.getAttribute('style');
-            if (style) {
-                const match = style.match(/url\(['"]?([^'")]+)['"]?\)/);
-                if (match && match[1]) {
-                    const absUrl = toAbsoluteUrl(match[1]);
-                    if (!heroImageSet.has(absUrl)) {
-                        imageSources.add(absUrl);
-                    }
-                }
-            }
-        });
-        
-        return Array.from(imageSources);
-    }
-    
-    // Preload an image and return a promise
-    function preloadImage(src, priority = false) {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            if (priority) {
-                // For priority images, set fetchpriority
-                img.fetchPriority = 'high';
-            }
-            img.onload = () => resolve(src);
-            img.onerror = () => {
-                // For hero images, don't resolve on error - wait for fallback
-                // For other images, resolve to not block
-                if (priority) {
-                    // Hero image error - try to continue anyway after a delay
-                    setTimeout(() => resolve(src), 500);
-    } else {
-                    resolve(src);
-                }
-            };
-            img.src = src;
-            
-            // If image is already cached, resolve immediately
-            if (img.complete && img.naturalWidth > 0) {
-                resolve(src);
-            }
-        });
-    }
-    
-    // Wait for hero images FIRST, then all other images
-    function waitForAllImages() {
-        const heroImages = getHeroBackgroundImages();
-        const otherImages = collectAllImageSources();
-        
-        console.log('Hero images to load:', heroImages.length);
-        console.log('Other images to load:', otherImages.length);
-        
-        // Step 1: Load hero images FIRST (CRITICAL)
-        const heroPromises = heroImages.map(src => preloadImage(src, true));
-        
-        Promise.all(heroPromises)
-            .then(() => {
-                // Step 2: After hero is loaded, load all other images
-                if (otherImages.length === 0) {
-                    waitForFontsAndHide();
-                    return;
-                }
-                
-                const otherPromises = otherImages.map(src => preloadImage(src, false));
-                Promise.all(otherPromises)
-                    .then(() => {
-                        waitForFontsAndHide();
-                    })
-                    .catch(() => {
-                        waitForFontsAndHide();
-                    });
-            })
-            .catch(() => {
-                // Even if hero fails, try to load other images
-                if (otherImages.length === 0) {
-            waitForFontsAndHide();
-        } else {
-                    const otherPromises = otherImages.map(src => preloadImage(src, false));
-                    Promise.all(otherPromises)
-                        .then(() => waitForFontsAndHide())
-                        .catch(() => waitForFontsAndHide());
-                }
-            });
-    }
-    
-    // Wait for fonts to be ready (if available), then hide loader
-    function waitForFontsAndHide() {
-        if (document.fonts && document.fonts.ready) {
-            document.fonts.ready.then(() => {
-                // Small delay to ensure smooth transition
-                setTimeout(hideLoader, 150);
-            }).catch(() => {
-                // If fonts.ready fails, hide anyway
-                setTimeout(hideLoader, 150);
-            });
-        } else {
-            // Fonts API not available, hide after small delay
-            setTimeout(hideLoader, 150);
-        }
+        // Wait for hero image to load
+        heroImg.addEventListener('load', hideLoader, { once: true });
+        heroImg.addEventListener('error', hideLoader, { once: true }); // Hide even on error
     }
     
     // Timeout fallback: hide loader after max wait time
@@ -319,17 +102,67 @@ function getVideoById(id) {
     }, MAX_WAIT_TIME);
     
     // Start checking when DOM is ready
-    function startLoadingCheck() {
-        // Small delay to ensure all elements are in the DOM and styles are computed
-        setTimeout(() => {
-            waitForAllImages();
-        }, 150);
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', waitForHeroImage);
+    } else {
+        waitForHeroImage();
+    }
+})();
+
+// Lazy load Spotify iframes when scrolled into view
+(function initLazySpotify() {
+    'use strict';
+    
+    function loadSpotifyIframe(container) {
+        if (container.querySelector('iframe')) return; // Already loaded
+        
+        const src = container.getAttribute('data-spotify-src');
+        if (!src) return;
+        
+        const width = container.getAttribute('data-width') || '100%';
+        const height = container.getAttribute('data-height') || '152';
+        
+        const iframe = document.createElement('iframe');
+        iframe.src = src;
+        iframe.width = width;
+        iframe.height = height;
+        iframe.frameBorder = '0';
+        iframe.allowTransparency = true;
+        iframe.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
+        iframe.loading = 'lazy';
+        iframe.title = 'David Dyakov Spotify Player';
+        iframe.referrerPolicy = 'no-referrer-when-downgrade';
+        
+        container.appendChild(iframe);
+    }
+    
+    function init() {
+        const spotifyContainers = document.querySelectorAll('[data-spotify-src]');
+        if (spotifyContainers.length === 0) return;
+        
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        loadSpotifyIframe(entry.target);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                rootMargin: '200px' // Start loading 200px before entering viewport
+            });
+            
+            spotifyContainers.forEach(container => observer.observe(container));
+        } else {
+            // Fallback: load all immediately
+            spotifyContainers.forEach(loadSpotifyIframe);
+        }
     }
     
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', startLoadingCheck);
+        document.addEventListener('DOMContentLoaded', init);
     } else {
-        startLoadingCheck();
+        init();
     }
 })();
 
@@ -2179,8 +2012,8 @@ function initFormSubmissions() {
     if (!header) return;
     
     // Cache initial styles to avoid layout thrashing
-    const defaultPadding = '1rem 0';
-    const scrolledPadding = '0.7rem 0';
+    const defaultPadding = '0.6rem 0';
+    const scrolledPadding = '0.5rem 0';
     const defaultShadow = 'none';
     const scrolledShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
     
