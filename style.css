@@ -255,12 +255,12 @@ a:hover {
 /* Special treatment for hero h1 to ensure it maintains proper styling - WITH REFLECTION */
 .hero h1 {
     width: 100% !important; /* Ensure full width for proper alignment */
+    font-size: clamp(4rem, 8vw, 5.5rem) !important; /* Larger David Dyakov title */
     margin-bottom: 0.3rem !important;
     display: block !important;
     text-align: center !important;
     color: #B8945A !important;
     position: relative !important;
-    font-size: clamp(4rem, 8vw, 6rem) !important; /* Larger title */
     background: linear-gradient(90deg, 
         #B8945A 0%, 
         #B8945A 35%,
@@ -1098,7 +1098,7 @@ nav {
 .hero {
     height: 100vh;
     display: flex;
-    align-items: center; /* Center content vertically */
+    align-items: center; /* Center content vertically with head */
     justify-content: center;
     position: relative;
     overflow: hidden;
@@ -1120,7 +1120,7 @@ nav {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 30%; /* Head centered, text at chest level */
+    object-position: center 35%; /* Center head with content */
     filter: brightness(0.65) contrast(1.1);
 }
 
