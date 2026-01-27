@@ -3107,7 +3107,7 @@ textarea {
         min-height: 100svh;
         overflow: hidden; /* Prevent horizontal overflow */
         padding: 0;
-        padding-top: 22vh; /* Content lower - below face */
+        padding-top: 28vh; /* Content lower - at chest level, below face */
         padding-bottom: calc(2rem + env(safe-area-inset-bottom));
         align-items: center;
         justify-content: flex-start; /* Align content to start after padding-top */
@@ -3132,10 +3132,10 @@ textarea {
         bottom: 0 !important;
         height: auto !important;
         background: linear-gradient(180deg, 
-            rgba(5, 7, 11, 0.4) 0%, 
-            transparent 30%,
-            transparent 70%,
-            rgba(5, 7, 11, 0.6) 100%
+            rgba(5, 7, 11, 0.2) 0%, 
+            transparent 15%,
+            transparent 75%,
+            rgba(5, 7, 11, 0.5) 100%
         ) !important;
         z-index: 1 !important; /* above image, below text */
     }
