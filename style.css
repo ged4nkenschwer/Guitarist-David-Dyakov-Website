@@ -3100,36 +3100,29 @@ textarea {
     
     /* Hero section on mobile - matching desktop style */
     .hero {
-        height: 100vh;
-        height: 100svh;
+        height: 115vh; /* Same as desktop */
         min-height: 100vh;
         min-height: 100svh;
         overflow: hidden;
         padding: 0;
-        padding-top: 30vh; /* Content at chest level */
+        padding-top: 25vh; /* Same as desktop - content at chest level */
         padding-bottom: calc(2rem + env(safe-area-inset-bottom));
         align-items: center;
         justify-content: flex-start;
     }
     
-    /* Mobile hero image - zoomed out to show full upper body */
+    /* Mobile hero image - same as desktop */
     .hero-image {
-        height: 100% !important;
-        display: flex !important;
-        align-items: flex-start !important;
-        justify-content: center !important;
+        height: 115vh !important;
     }
     
     .hero-image img {
-        object-fit: contain !important; /* Zoom out - show full image width */
-        object-position: center top !important; /* Align to top */
-        width: 100% !important;
-        height: auto !important;
-        min-height: 100% !important;
-        filter: brightness(0.65) contrast(1.1) !important;
+        object-position: center 5% !important; /* Same as desktop - show complete head */
+        height: 100% !important;
+        filter: brightness(0.65) contrast(1.1) !important; /* Same as desktop */
     }
     
-    /* Dark fades on mobile - matching desktop style */
+    /* Dark fades on mobile - same as desktop */
     .hero::before {
         top: 0 !important;
         bottom: 0 !important;
@@ -3161,6 +3154,7 @@ textarea {
         position: relative;
         bottom: auto;
         top: auto;
+        transform: none;
         left: auto;
         right: auto;
         max-width: 800px; /* Same as desktop */
@@ -3175,26 +3169,25 @@ textarea {
         justify-content: flex-start;
         text-align: center;
         z-index: 3;
-        transform: none; /* No scaling - same size as desktop */
     }
     
     /* Prevent Kaushan Script descenders from being clipped */
     .hero-tagline {
-        line-height: 1.15 !important; /* Same as desktop */
-        padding-bottom: 0.2em !important;
+        line-height: 1.25 !important; /* Increased from 1.15 for better descender clearance */
+        padding-bottom: 0.2em !important; /* Tiny buffer for descenders like g/y/p */
     }
     
     /* Hero title - Mobile: same as desktop */
     .hero-title {
-        font-size: clamp(0.85rem, 1.0vw + 0.75rem, 1.1rem) !important;
+        font-size: clamp(1rem, 2vw + 0.8rem, 1.4rem) !important;
         line-height: 1.2 !important;
-        margin-bottom: 0.4rem !important;
+        margin-bottom: 0.5rem !important;
         padding: 0 0.5rem !important;
     }
     
     .hero h1 {
-        font-size: clamp(4rem, 8vw, 5.5rem) !important; /* Same as desktop */
-        margin-bottom: 0.3rem;
+        font-size: clamp(3rem, 12vw, 4.5rem) !important; /* David Dyakov - like desktop */
+        margin-bottom: 0.4rem;
         padding: 0;
         line-height: 1.0;
         max-width: 100%;
@@ -3205,18 +3198,18 @@ textarea {
     
     /* Hero subtitle - same style as name but smaller */
     .hero-subtitle {
-        font-size: clamp(1.3rem, 4.5vw, 1.8rem) !important; /* BIGGER */
+        font-size: clamp(1.8rem, 5vw, 2.4rem) !important; /* Same as desktop */
         color: var(--accent-gold) !important;
         letter-spacing: 0.04em !important;
         margin-bottom: 1rem !important;
-        font-family: var(--font-classic) !important; /* Same as h1 */
+        font-family: var(--font-classic) !important;
         font-weight: 500 !important;
         white-space: nowrap !important; /* Keep dashes on same line */
     }
     
     .tagline {
-        font-size: clamp(0.9rem, 2.5vw, 1.1rem); /* Slightly larger */
-        margin-bottom: 1rem;
+        font-size: clamp(1.1rem, 3vw, 1.4rem); /* Same as desktop */
+        margin-bottom: 1.5rem;
         padding: 0;
         line-height: 1.25;
         max-width: 100%;
@@ -3224,17 +3217,17 @@ textarea {
     
     /* Hero KPI line - Mobile: same as desktop */
     .hero-kpis {
-        font-size: clamp(1.25rem, 0.8vw + 1.15rem, 1.6rem) !important; /* Same as desktop */
-        line-height: 1.25 !important;
-        margin-bottom: 2rem !important;
+        font-size: clamp(1.1rem, 3vw, 1.5rem) !important;
+        line-height: 1.3 !important;
+        margin-bottom: 1rem !important;
     }
     
     /* Hero tagline - Mobile: same as desktop */
     .hero-tagline {
-        font-size: clamp(1.5rem, 1.2vw + 1.2rem, 2.2rem) !important; /* Same as desktop */
-        line-height: 1.15 !important;
+        font-size: clamp(1.2rem, 3.5vw, 1.8rem) !important;
+        line-height: 1.2 !important;
         padding-bottom: 0.15em !important;
-        margin-bottom: 2rem !important;
+        margin-bottom: 0.9rem !important;
     }
     
     .tagline-small {
@@ -3277,8 +3270,8 @@ textarea {
     }
     
     .hero-role {
-        font-size: clamp(2rem, 6vw, 2.8rem);
-        margin-bottom: 0.8rem;
+        font-size: clamp(1.8rem, 6vw, 2.8rem); /* Same as desktop */
+        margin-bottom: 1rem;
     }
     
     /* Section titles - responsive, no overflow */
@@ -3540,7 +3533,19 @@ textarea {
 }
 
 @media (max-width: 576px) {
-    /* Keep desktop-like appearance on small screens */
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    /* Extra small screens - iPhone SE and similar */
+    .hero {
+        padding-top: 18vh !important; /* Content lower */
+        padding-bottom: calc(1.5rem + env(safe-area-inset-bottom)) !important;
+    }
     
     /* Biography and Lessons images on smaller screens */
     .bio-image {
@@ -3551,22 +3556,42 @@ textarea {
         height: 240px !important;
     }
     
-    /* Hero - same as desktop, no scaling */
     .hero-content {
-        transform: none !important;
+        padding: 0.8rem 0.8rem 1.5rem 0.8rem !important;
+        transform: scale(0.88) !important;
+        transform-origin: center top !important;
     }
     
-    /* Hero fonts - same as desktop */
+    /* Hero title - Extra small screens */
+    .hero-title {
+        font-size: clamp(0.80rem, 1.0vw + 0.70rem, 1.0rem) !important;
+        line-height: 1.15 !important;
+        margin-bottom: 0.4rem !important;
+    }
+    
     .hero h1 {
-        font-size: clamp(4rem, 8vw, 5.5rem) !important;
+        font-size: 3rem !important; /* Name largest - BIGGER */
+        margin-bottom: 0.3rem !important;
+        letter-spacing: 0.05em !important;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem !important; /* BIGGER */
+        margin-bottom: 0.8rem !important;
+        white-space: nowrap !important;
     }
     
     .hero-kpis {
-        font-size: clamp(1.25rem, 0.8vw + 1.15rem, 1.6rem) !important;
+        font-size: clamp(1.1rem, 2vw + 0.95rem, 1.3rem) !important;
     }
     
     .hero-tagline {
-        font-size: clamp(1.5rem, 1.2vw + 1.2rem, 2.2rem) !important;
+        font-size: clamp(1.05rem, 0.8vw + 0.90rem, 1.4rem) !important;
+    }
+    
+    .tagline {
+        font-size: 1.0rem !important;
+        margin-bottom: 0.8rem !important;
     }
     
     .tagline-small {
@@ -3608,6 +3633,10 @@ textarea {
 
 /* Very small screens - 480px and below */
 @media (max-width: 480px) {
+    .hero {
+        padding-top: 16vh !important; /* Content lower */
+    }
+    
     /* Smaller images on very small screens */
     .bio-image {
         height: 220px !important;
@@ -3617,22 +3646,31 @@ textarea {
         height: 200px !important;
     }
     
-    /* Hero - same as desktop, no scaling */
     .hero-content {
-        transform: none !important;
-    }
-    
-    /* Hero fonts - same as desktop */
-    .hero h1 {
-        font-size: clamp(4rem, 8vw, 5.5rem) !important;
+        transform: scale(0.85) !important;
     }
     
     .hero-kpis {
-        font-size: clamp(1.25rem, 0.8vw + 1.15rem, 1.6rem) !important;
+        font-size: clamp(0.95rem, 1.5vw + 0.80rem, 1.1rem) !important;
     }
     
     .hero-tagline {
-        font-size: clamp(1.5rem, 1.2vw + 1.2rem, 2.2rem) !important;
+        font-size: clamp(0.9rem, 0.7vw + 0.75rem, 1.15rem) !important;
+    }
+    
+    .hero h1 {
+        font-size: 2.6rem !important; /* Name largest - BIGGER */
+        letter-spacing: 0.04em !important;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem !important; /* BIGGER */
+        white-space: nowrap !important;
+    }
+    
+    .hero .btn {
+        padding: 0.55rem 1.1rem !important;
+        font-size: 0.8rem !important;
     }
 }
 
