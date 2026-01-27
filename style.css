@@ -3090,31 +3090,30 @@ textarea {
 }
 
 @media (max-width: 768px) {
-    /* Keep font sizes similar to desktop */
     h1 {
-        font-size: clamp(2.5rem, 8vw, 3.5rem); /* Larger like desktop */
+        font-size: clamp(1.8rem, 6vw, 2.5rem); /* Responsive scaling */
     }
 
     h2 {
-        font-size: clamp(1.8rem, 6vw, 2.5rem); /* Larger like desktop */
+        font-size: clamp(1.5rem, 5vw, 2rem); /* Responsive scaling */
     }
     
-    /* Hero section on mobile - match desktop style */
+    /* Hero section on mobile - matching desktop style */
     .hero {
-        height: 115vh; /* Same as desktop - taller to show hands */
+        height: 115vh; /* Same as desktop */
         min-height: 100vh;
         min-height: 100svh;
-        overflow: hidden; /* Prevent horizontal overflow */
+        overflow: hidden;
         padding: 0;
         padding-top: 25vh; /* Same as desktop - content at chest level */
         padding-bottom: calc(2rem + env(safe-area-inset-bottom));
         align-items: center;
-        justify-content: flex-start; /* Align content to start after padding-top */
+        justify-content: flex-start;
     }
     
     /* Mobile hero image - same as desktop */
     .hero-image {
-        height: 115vh !important; /* Match hero height */
+        height: 115vh !important;
     }
     
     .hero-image img {
@@ -3123,7 +3122,7 @@ textarea {
         filter: brightness(0.65) contrast(1.1) !important; /* Same as desktop */
     }
     
-    /* Dark fades at top and bottom on mobile - same as desktop */
+    /* Dark fades on mobile - matching desktop style */
     .hero::before {
         top: 0 !important;
         bottom: 0 !important;
@@ -3134,7 +3133,7 @@ textarea {
             transparent 80%,
             rgba(5, 7, 11, 0.5) 100%
         ) !important;
-        z-index: 1 !important; /* above image, below text */
+        z-index: 1 !important;
     }
     
     .hero::after {
@@ -3147,7 +3146,7 @@ textarea {
             var(--bg-main) 100%
         ) !important;
         opacity: 1 !important;
-        z-index: 1 !important; /* above image, below text */
+        z-index: 1 !important;
     }
     
     .hero-content,
@@ -3173,22 +3172,22 @@ textarea {
     }
     
     /* Prevent Kaushan Script descenders from being clipped */
-.hero-tagline {
-        line-height: 1.15 !important;
+    .hero-tagline {
+        line-height: 1.15 !important; /* Same as desktop */
         padding-bottom: 0.2em !important;
     }
     
     /* Hero title - Mobile: same as desktop */
     .hero-title {
-        font-size: clamp(1rem, 1.5vw + 0.9rem, 1.3rem) !important;
+        font-size: clamp(0.85rem, 1.0vw + 0.75rem, 1.1rem) !important;
         line-height: 1.2 !important;
         margin-bottom: 0.4rem !important;
         padding: 0 0.5rem !important;
     }
-
+    
     .hero h1 {
-        font-size: clamp(4rem, 10vw, 5.5rem) !important; /* Same size as desktop */
-        margin-bottom: 0.4rem;
+        font-size: clamp(4rem, 8vw, 5.5rem) !important; /* Same as desktop */
+        margin-bottom: 0.3rem;
         padding: 0;
         line-height: 1.0;
         max-width: 100%;
@@ -3216,19 +3215,19 @@ textarea {
         max-width: 100%;
     }
     
-    /* Hero KPI line - Same as desktop */
+    /* Hero KPI line - Mobile: same as desktop */
     .hero-kpis {
-        font-size: clamp(1.25rem, 1.5vw + 1.15rem, 1.6rem) !important;
+        font-size: clamp(1.25rem, 0.8vw + 1.15rem, 1.6rem) !important; /* Same as desktop */
         line-height: 1.25 !important;
-        margin-bottom: 0.7rem !important;
+        margin-bottom: 2rem !important;
     }
     
-    /* Hero tagline - Same as desktop */
+    /* Hero tagline - Mobile: same as desktop */
     .hero-tagline {
-        font-size: clamp(1.5rem, 1.5vw + 1.2rem, 2.2rem) !important;
+        font-size: clamp(1.5rem, 1.2vw + 1.2rem, 2.2rem) !important; /* Same as desktop */
         line-height: 1.15 !important;
         padding-bottom: 0.15em !important;
-        margin-bottom: 0.9rem !important;
+        margin-bottom: 2rem !important;
     }
     
     .tagline-small {
