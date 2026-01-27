@@ -978,6 +978,10 @@ body {
     align-items: center;
 }
 
+.logo {
+    flex-shrink: 0; /* Prevent logo from shrinking in flex container */
+}
+
 .logo a {
     font-family: 'Playfair Display', serif;
     font-size: 1.8rem;
@@ -1164,6 +1168,7 @@ nav {
     margin: 0 auto;
     position: relative;
     z-index: 3;
+    padding-top: 12vh; /* Push content down to chest level */
 }
 
 .tagline {
