@@ -3090,43 +3090,40 @@ textarea {
 }
 
 @media (max-width: 768px) {
+    /* Keep font sizes similar to desktop */
     h1 {
-        font-size: clamp(1.8rem, 6vw, 2.5rem); /* Responsive scaling */
+        font-size: clamp(2.5rem, 8vw, 3.5rem); /* Larger like desktop */
     }
 
     h2 {
-        font-size: clamp(1.5rem, 5vw, 2rem); /* Responsive scaling */
+        font-size: clamp(1.8rem, 6vw, 2.5rem); /* Larger like desktop */
     }
     
-    /* Hero section on mobile - responsive, no overflow */
+    /* Hero section on mobile - match desktop style */
     .hero {
-        height: 100vh;
-        height: 100svh; /* Small viewport height - better for mobile browsers */
-        height: -webkit-fill-available; /* Fix for iOS Safari */
+        height: 115vh; /* Same as desktop - taller to show hands */
         min-height: 100vh;
         min-height: 100svh;
         overflow: hidden; /* Prevent horizontal overflow */
         padding: 0;
-        padding-top: 28vh; /* Content lower - at chest level, below face */
+        padding-top: 25vh; /* Same as desktop - content at chest level */
         padding-bottom: calc(2rem + env(safe-area-inset-bottom));
         align-items: center;
         justify-content: flex-start; /* Align content to start after padding-top */
     }
     
-    /* Mobile hero image - show full head with all hair, fill screen */
+    /* Mobile hero image - same as desktop */
     .hero-image {
-        height: 100vh !important;
-        height: 100svh !important;
-        height: -webkit-fill-available !important;
+        height: 115vh !important; /* Match hero height */
     }
     
     .hero-image img {
-        object-position: 50% 0% !important; /* Show full head from top - all hair visible */
+        object-position: center 5% !important; /* Same as desktop - show complete head */
         height: 100% !important;
-        filter: brightness(0.55) contrast(1.1) !important; /* Darker on mobile like desktop */
+        filter: brightness(0.65) contrast(1.1) !important; /* Same as desktop */
     }
     
-    /* Dark fades at top and bottom on mobile - matching desktop style */
+    /* Dark fades at top and bottom on mobile - same as desktop */
     .hero::before {
         top: 0 !important;
         bottom: 0 !important;
@@ -3143,11 +3140,10 @@ textarea {
     .hero::after {
         top: auto !important;
         bottom: 0 !important;
-        height: 150px !important;
+        height: 80px !important; /* Same as desktop */
         background: linear-gradient(to bottom, 
             transparent 0%,
-            rgba(5, 7, 11, 0.3) 30%,
-            rgba(5, 7, 11, 0.7) 70%,
+            rgba(5, 7, 11, 0.4) 50%,
             var(--bg-main) 100%
         ) !important;
         opacity: 1 !important;
@@ -3156,13 +3152,12 @@ textarea {
     
     .hero-content,
     .hero-copy {
-        position: relative; /* Changed from absolute to prevent overflow */
+        position: relative;
         bottom: auto;
         top: auto;
-        transform: none;
         left: auto;
         right: auto;
-        max-width: 100%;
+        max-width: 800px; /* Same as desktop */
         width: 100%;
         padding: 1rem 20px;
         padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
@@ -3174,27 +3169,25 @@ textarea {
         justify-content: flex-start;
         text-align: center;
         z-index: 3;
-        /* Scale down all content proportionally - slightly larger */
-        transform: scale(0.92);
-        transform-origin: center top;
+        transform: none; /* No scaling - same size as desktop */
     }
     
     /* Prevent Kaushan Script descenders from being clipped */
-    .hero-tagline {
-        line-height: 1.25 !important; /* Increased from 1.15 for better descender clearance */
-        padding-bottom: 0.2em !important; /* Tiny buffer for descenders like g/y/p */
+.hero-tagline {
+        line-height: 1.15 !important;
+        padding-bottom: 0.2em !important;
     }
     
-    /* Hero title - Mobile: compact but readable */
+    /* Hero title - Mobile: same as desktop */
     .hero-title {
-        font-size: clamp(0.85rem, 1.0vw + 0.75rem, 1.1rem) !important;
+        font-size: clamp(1rem, 1.5vw + 0.9rem, 1.3rem) !important;
         line-height: 1.2 !important;
         margin-bottom: 0.4rem !important;
         padding: 0 0.5rem !important;
     }
-    
+
     .hero h1 {
-        font-size: clamp(3.5rem, 10vw, 5rem) !important; /* Name - BIGGER */
+        font-size: clamp(4rem, 10vw, 5.5rem) !important; /* Same size as desktop */
         margin-bottom: 0.4rem;
         padding: 0;
         line-height: 1.0;
@@ -3223,17 +3216,17 @@ textarea {
         max-width: 100%;
     }
     
-    /* Hero KPI line - Mobile: larger */
+    /* Hero KPI line - Same as desktop */
     .hero-kpis {
-        font-size: clamp(1.25rem, 2.8vw + 1.1rem, 1.6rem) !important;
-        line-height: 1.3 !important;
+        font-size: clamp(1.25rem, 1.5vw + 1.15rem, 1.6rem) !important;
+        line-height: 1.25 !important;
         margin-bottom: 0.7rem !important;
     }
     
-    /* Hero tagline - Mobile: larger */
+    /* Hero tagline - Same as desktop */
     .hero-tagline {
-        font-size: clamp(1.15rem, 1.0vw + 1.0rem, 1.5rem) !important;
-        line-height: 1.2 !important;
+        font-size: clamp(1.5rem, 1.5vw + 1.2rem, 2.2rem) !important;
+        line-height: 1.15 !important;
         padding-bottom: 0.15em !important;
         margin-bottom: 0.9rem !important;
     }
