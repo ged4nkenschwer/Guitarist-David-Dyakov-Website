@@ -1100,7 +1100,8 @@ nav {
 
 /* ---------- Hero Section ---------- */
 .hero {
-    height: 100vh;
+    height: 115vh; /* Taller to show more of image including hands */
+    min-height: 100vh;
     display: flex;
     align-items: center; /* Center content vertically with head */
     justify-content: center;
@@ -1151,11 +1152,10 @@ nav {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 150px;
+    height: 80px;
     background: linear-gradient(to bottom, 
         transparent 0%,
-        rgba(5, 7, 11, 0.3) 30%,
-        rgba(5, 7, 11, 0.7) 70%,
+        rgba(5, 7, 11, 0.4) 50%,
         var(--bg-main) 100%
     );
     pointer-events: none;
