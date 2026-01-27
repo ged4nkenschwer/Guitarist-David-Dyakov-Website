@@ -1097,10 +1097,11 @@ nav {
 .hero {
     height: 100vh;
     display: flex;
-    align-items: center;
+    align-items: flex-end; /* Position content at bottom (chest level) */
     position: relative;
     overflow: hidden;
     padding-top: var(--header-height, 80px); /* Space for fixed header */
+    padding-bottom: 8vh; /* Push content up from very bottom */
     background-color: var(--bg-main);
 }
 
