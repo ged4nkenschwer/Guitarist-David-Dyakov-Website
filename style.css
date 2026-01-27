@@ -984,6 +984,7 @@ body {
     position: relative;
     display: inline-block;
     font-weight: 600;
+    white-space: nowrap; /* Prevent logo from wrapping */
     background: linear-gradient(90deg, 
         #B8945A 0%, 
         #B8945A 35%,
