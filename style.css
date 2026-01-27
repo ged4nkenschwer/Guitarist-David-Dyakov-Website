@@ -3100,26 +3100,30 @@ textarea {
     
     /* Hero section on mobile - matching desktop style */
     .hero {
-        height: 115vh; /* Same as desktop */
+        height: 100vh;
+        height: 100svh;
         min-height: 100vh;
         min-height: 100svh;
         overflow: hidden;
         padding: 0;
-        padding-top: 25vh; /* Same as desktop - content at chest level */
+        padding-top: 35vh; /* Content lower - at chest level */
         padding-bottom: calc(2rem + env(safe-area-inset-bottom));
-        align-items: center;
+        align-items: flex-start;
         justify-content: flex-start;
     }
     
-    /* Mobile hero image - same as desktop */
+    /* Mobile hero image - zoomed out to show full body with elbows */
     .hero-image {
-        height: 115vh !important;
+        height: 100vh !important;
+        height: 100svh !important;
     }
     
     .hero-image img {
-        object-position: center 5% !important; /* Same as desktop - show complete head */
+        object-fit: contain !important; /* Show full image, not cropped */
+        object-position: center top !important; /* Align to top */
         height: 100% !important;
-        filter: brightness(0.65) contrast(1.1) !important; /* Same as desktop */
+        width: 100% !important;
+        filter: brightness(0.65) contrast(1.1) !important;
     }
     
     /* Dark fades on mobile - matching desktop style */
@@ -3156,7 +3160,7 @@ textarea {
         top: auto;
         left: auto;
         right: auto;
-        max-width: 800px; /* Same as desktop */
+        max-width: 800px;
         width: 100%;
         padding: 1rem 20px;
         padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
@@ -3168,73 +3172,49 @@ textarea {
         justify-content: flex-start;
         text-align: center;
         z-index: 3;
-        transform: none; /* No scaling - same size as desktop */
+        transform: none;
     }
     
-    /* Prevent Kaushan Script descenders from being clipped */
-    .hero-tagline {
-        line-height: 1.15 !important; /* Same as desktop */
-        padding-bottom: 0.2em !important;
-    }
-    
-    /* Hero title - Mobile: same as desktop */
-    .hero-title {
-        font-size: clamp(0.85rem, 1.0vw + 0.75rem, 1.1rem) !important;
-        line-height: 1.2 !important;
-        margin-bottom: 0.4rem !important;
-        padding: 0 0.5rem !important;
-    }
-    
+    /* Hero h1 - EXACT same as desktop */
     .hero h1 {
-        font-size: clamp(4rem, 8vw, 5.5rem) !important; /* Same as desktop */
-        margin-bottom: 0.3rem;
-        padding: 0;
-        line-height: 1.0;
-        max-width: 100%;
-        word-wrap: break-word;
+        font-size: clamp(4rem, 8vw, 5.5rem) !important;
+        margin-bottom: 0.3rem !important;
+        padding: 0 !important;
+        line-height: 1.0 !important;
         font-weight: 700 !important;
         letter-spacing: 0.06em !important;
     }
     
-    /* Hero subtitle - same style as name but smaller */
-    .hero-subtitle {
-        font-size: clamp(1.3rem, 4.5vw, 1.8rem) !important; /* BIGGER */
-        color: var(--accent-gold) !important;
-        letter-spacing: 0.04em !important;
-        margin-bottom: 1rem !important;
-        font-family: var(--font-classic) !important; /* Same as h1 */
-        font-weight: 500 !important;
-        white-space: nowrap !important; /* Keep dashes on same line */
-    }
-    
-    .tagline {
-        font-size: clamp(0.9rem, 2.5vw, 1.1rem); /* Slightly larger */
-        margin-bottom: 1rem;
-        padding: 0;
-        line-height: 1.25;
-        max-width: 100%;
-    }
-    
-    /* Hero KPI line - Mobile: same as desktop */
-    .hero-kpis {
-        font-size: clamp(1.25rem, 0.8vw + 1.15rem, 1.6rem) !important; /* Same as desktop */
-        line-height: 1.25 !important;
-        margin-bottom: 2rem !important;
-    }
-    
-    /* Hero tagline - Mobile: same as desktop */
+    /* Hero tagline - EXACT same as desktop */
     .hero-tagline {
-        font-size: clamp(1.5rem, 1.2vw + 1.2rem, 2.2rem) !important; /* Same as desktop */
+        font-family: "Kaushan Script", cursive !important;
+        font-size: clamp(1.5rem, 1.2vw + 1.2rem, 2.2rem) !important;
         line-height: 1.15 !important;
-        padding-bottom: 0.15em !important;
+        letter-spacing: 0.2px !important;
         margin-bottom: 2rem !important;
+    }
+    
+    /* Hero KPI line - EXACT same as desktop */
+    .hero-kpis {
+        font-size: clamp(1.25rem, 0.8vw + 1.15rem, 1.6rem) !important;
+        line-height: 1.25 !important;
+        font-weight: 600 !important;
+        margin-bottom: 2rem !important;
+    }
+    
+    /* Tagline - EXACT same as desktop */
+    .tagline {
+        font-family: var(--font-elegant) !important;
+        font-size: 1.4rem !important;
+        margin-bottom: 2rem !important;
+        font-style: italic !important;
+        letter-spacing: 0.5px !important;
+        color: var(--text-muted) !important;
     }
     
     .tagline-small {
         font-size: 1.05rem !important;
         margin-bottom: 1.2rem !important;
-        margin-top: -0.3rem !important;
-        padding: 0 0.5rem !important;
     }
     
     .hero .btn,
