@@ -1124,7 +1124,7 @@ nav {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 20%; /* Show full head including hair */
+    object-position: center 5%; /* Show complete head from very top */
     filter: brightness(0.65) contrast(1.1);
 }
 
@@ -1136,9 +1136,9 @@ nav {
     right: 0;
     bottom: 0;
     background: linear-gradient(180deg, 
-        rgba(5, 7, 11, 0.2) 0%, 
-        transparent 15%,
-        transparent 75%,
+        rgba(5, 7, 11, 0.1) 0%, 
+        transparent 10%,
+        transparent 80%,
         rgba(5, 7, 11, 0.5) 100%
     );
     pointer-events: none;
@@ -3132,9 +3132,9 @@ textarea {
         bottom: 0 !important;
         height: auto !important;
         background: linear-gradient(180deg, 
-            rgba(5, 7, 11, 0.2) 0%, 
-            transparent 15%,
-            transparent 75%,
+            rgba(5, 7, 11, 0.1) 0%, 
+            transparent 10%,
+            transparent 80%,
             rgba(5, 7, 11, 0.5) 100%
         ) !important;
         z-index: 1 !important; /* above image, below text */
