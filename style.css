@@ -3119,11 +3119,11 @@ textarea {
     
     .hero-image img {
         object-fit: contain !important; /* Show full image */
-        object-position: center top !important;
+        object-position: 40% top !important; /* Shift right to show right elbow/guitar strings */
         height: auto !important;
         min-height: 100% !important;
         width: 100% !important;
-        transform: scale(1.05) translateY(0%) !important; /* More zoomed out, align with menu */
+        transform: scale(1.05) translateY(0%) !important;
         transform-origin: center top !important;
         filter: brightness(0.65) contrast(1.1) !important;
     }
@@ -3692,7 +3692,7 @@ textarea {
     
     .hero-image img {
         object-fit: contain !important;
-        object-position: center top !important;
+        object-position: 40% top !important; /* Shift right to show right elbow */
         transform: scale(1.05) translateY(0%) !important;
         transform-origin: center top !important;
     }
