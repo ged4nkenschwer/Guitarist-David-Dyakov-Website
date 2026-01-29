@@ -3171,10 +3171,16 @@ textarea {
         z-index: 3;
     }
     
-    /* Prevent Kaushan Script descenders from being clipped */
-    .hero-tagline {
-        line-height: 1.25 !important; /* Increased from 1.15 for better descender clearance */
-        padding-bottom: 0.2em !important; /* Tiny buffer for descenders like g/y/p */
+    /* Prevent Kaushan Script descenders from being clipped - include all font properties */
+    .hero-tagline,
+    .hero-tagline.tagline,
+    .hero-tagline.tagline-small {
+        font-family: "Kaushan Script", cursive !important;
+        font-style: normal !important;
+        font-weight: 400 !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
+        line-height: 1.15 !important;
+        padding-bottom: 0.2em !important;
     }
     
     /* Hero title - Mobile: same as desktop */
@@ -3234,12 +3240,15 @@ textarea {
         margin-bottom: 1rem !important;
     }
     
-    /* Hero tagline - Mobile: same as desktop */
-    .hero-tagline {
+    /* Hero tagline - Mobile: same as desktop - higher specificity to override .tagline */
+    .hero-tagline.tagline,
+    .hero-tagline.tagline-small,
+    p.hero-tagline {
         font-family: "Kaushan Script", cursive !important; /* Same as desktop */
         font-size: clamp(1.2rem, 3vw, 1.8rem) !important;
         line-height: 1.15 !important; /* Same as desktop */
         font-style: normal !important; /* Kaushan Script is not italic */
+        font-weight: 400 !important; /* Same as desktop */
         letter-spacing: 0.2px !important; /* Same as desktop */
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important; /* Same as desktop */
         color: var(--text-muted) !important; /* Same as desktop */
@@ -3610,12 +3619,16 @@ textarea {
         color: var(--text-muted) !important;
     }
     
-    .hero-tagline {
+    .hero-tagline.tagline,
+    .hero-tagline.tagline-small,
+    p.hero-tagline {
         font-family: "Kaushan Script", cursive !important;
         font-size: clamp(1rem, 3vw, 1.3rem) !important;
         line-height: 1.15 !important;
         font-style: normal !important;
+        font-weight: 400 !important;
         letter-spacing: 0.2px !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
         color: var(--text-muted) !important;
     }
     
@@ -3684,12 +3697,16 @@ textarea {
         color: var(--text-muted) !important;
     }
     
-    .hero-tagline {
+    .hero-tagline.tagline,
+    .hero-tagline.tagline-small,
+    p.hero-tagline {
         font-family: "Kaushan Script", cursive !important;
         font-size: clamp(0.9rem, 2.5vw, 1.1rem) !important;
         line-height: 1.15 !important;
         font-style: normal !important;
+        font-weight: 400 !important;
         letter-spacing: 0.2px !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
         color: var(--text-muted) !important;
     }
     
