@@ -3098,28 +3098,28 @@ textarea {
         font-size: clamp(1.5rem, 5vw, 2rem); /* Responsive scaling */
     }
     
-    /* Hero section on mobile - matching desktop style */
+    /* Hero section on mobile - taller to show hands and full head */
     .hero {
-        height: 115vh; /* Same as desktop */
+        height: 140vh; /* Taller to show more of image */
         min-height: 100vh;
         min-height: 100svh;
         overflow: hidden;
         padding: 0;
-        padding-top: 35vh; /* Content at chest level - below face */
+        padding-top: 45vh; /* Content at chest level - well below face */
         padding-bottom: calc(2rem + env(safe-area-inset-bottom));
         align-items: center;
         justify-content: flex-start;
     }
     
-    /* Mobile hero image - same as desktop */
+    /* Mobile hero image - taller to show hands */
     .hero-image {
-        height: 115vh !important;
+        height: 140vh !important;
     }
     
     .hero-image img {
-        object-position: center 5% !important; /* Same as desktop - show complete head */
+        object-position: center 0% !important; /* Show from very top - full head visible */
         height: 100% !important;
-        filter: brightness(0.65) contrast(1.1) !important; /* Same as desktop */
+        filter: brightness(0.65) contrast(1.1) !important;
     }
     
     /* Dark fades on mobile - same as desktop */
@@ -3573,8 +3573,17 @@ textarea {
     
     /* Extra small screens - iPhone SE and similar */
     .hero {
-        padding-top: 18vh !important; /* Content lower */
+        height: 135vh !important; /* Taller to show hands */
+        padding-top: 42vh !important; /* Content at chest level */
         padding-bottom: calc(1.5rem + env(safe-area-inset-bottom)) !important;
+    }
+    
+    .hero-image {
+        height: 135vh !important;
+    }
+    
+    .hero-image img {
+        object-position: center 0% !important; /* Full head visible */
     }
     
     /* Biography and Lessons images on smaller screens */
@@ -3675,7 +3684,16 @@ textarea {
 /* Very small screens - 480px and below */
 @media (max-width: 480px) {
     .hero {
-        padding-top: 30vh !important; /* Content at chest level */
+        height: 130vh !important; /* Taller to show hands */
+        padding-top: 40vh !important; /* Content at chest level */
+    }
+    
+    .hero-image {
+        height: 130vh !important;
+    }
+    
+    .hero-image img {
+        object-position: center 0% !important; /* Full head visible */
     }
     
     /* Smaller images on very small screens */
