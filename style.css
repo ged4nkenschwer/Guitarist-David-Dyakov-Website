@@ -3224,9 +3224,13 @@ textarea {
     
     /* Hero KPI line - Mobile: same as desktop */
     .hero-kpis {
+        font-family: var(--font-elegant) !important; /* Same as desktop */
         font-size: clamp(1.1rem, 2.5vw, 1.5rem) !important;
         line-height: 1.25 !important; /* Same as desktop */
         font-weight: 600 !important; /* Same as desktop */
+        font-style: italic !important; /* Same as desktop - tagline class */
+        letter-spacing: 0.5px !important; /* Same as desktop */
+        color: var(--text-muted) !important; /* Same as desktop */
         margin-bottom: 1rem !important;
     }
     
@@ -3235,8 +3239,10 @@ textarea {
         font-family: "Kaushan Script", cursive !important; /* Same as desktop */
         font-size: clamp(1.2rem, 3vw, 1.8rem) !important;
         line-height: 1.15 !important; /* Same as desktop */
+        font-style: normal !important; /* Kaushan Script is not italic */
         letter-spacing: 0.2px !important; /* Same as desktop */
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important; /* Same as desktop */
+        color: var(--text-muted) !important; /* Same as desktop */
         padding-bottom: 0.15em !important;
         margin-bottom: 1.5rem !important;
     }
@@ -3595,16 +3601,22 @@ textarea {
     }
     
     .hero-kpis {
+        font-family: var(--font-elegant) !important;
         font-size: clamp(0.95rem, 2.5vw, 1.2rem) !important;
         line-height: 1.25 !important;
         font-weight: 600 !important;
+        font-style: italic !important;
+        letter-spacing: 0.5px !important;
+        color: var(--text-muted) !important;
     }
     
     .hero-tagline {
         font-family: "Kaushan Script", cursive !important;
         font-size: clamp(1rem, 3vw, 1.3rem) !important;
         line-height: 1.15 !important;
+        font-style: normal !important;
         letter-spacing: 0.2px !important;
+        color: var(--text-muted) !important;
     }
     
     .tagline {
@@ -3612,6 +3624,7 @@ textarea {
         font-size: clamp(0.9rem, 2.5vw, 1.1rem) !important;
         font-style: italic !important;
         letter-spacing: 0.5px !important;
+        color: var(--text-muted) !important;
         margin-bottom: 1.5rem !important;
     }
     
@@ -3662,16 +3675,22 @@ textarea {
     }
     
     .hero-kpis {
+        font-family: var(--font-elegant) !important;
         font-size: clamp(0.9rem, 2.5vw, 1.1rem) !important;
         line-height: 1.25 !important;
         font-weight: 600 !important;
+        font-style: italic !important;
+        letter-spacing: 0.5px !important;
+        color: var(--text-muted) !important;
     }
     
     .hero-tagline {
         font-family: "Kaushan Script", cursive !important;
         font-size: clamp(0.9rem, 2.5vw, 1.1rem) !important;
         line-height: 1.15 !important;
+        font-style: normal !important;
         letter-spacing: 0.2px !important;
+        color: var(--text-muted) !important;
     }
     
     .hero h1 {
