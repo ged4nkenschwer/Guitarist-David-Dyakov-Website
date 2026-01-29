@@ -3117,8 +3117,10 @@ textarea {
     }
     
     .hero-image img {
-        object-position: center 12% !important; /* Show head below menu bar */
+        object-fit: contain !important; /* Show full image including hands */
+        object-position: center top !important; /* Align to top */
         height: 100% !important;
+        width: 100% !important;
         filter: brightness(0.65) contrast(1.1) !important;
     }
     
@@ -3684,7 +3686,8 @@ textarea {
     }
     
     .hero-image img {
-        object-position: center 10% !important; /* Show head below menu */
+        object-fit: contain !important; /* Show full image including hands */
+        object-position: center top !important;
     }
     
     /* Smaller images on very small screens */
