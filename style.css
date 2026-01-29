@@ -3111,9 +3111,10 @@ textarea {
         justify-content: flex-start;
     }
     
-    /* Mobile hero image - taller to show hands */
+    /* Mobile hero image - align with menu bottom */
     .hero-image {
-        height: 140vh !important;
+        height: calc(140vh - 60px) !important;
+        top: 60px !important; /* Start directly below menu bar */
     }
     
     .hero-image img {
@@ -3685,13 +3686,14 @@ textarea {
     }
     
     .hero-image {
-        height: 145vh !important;
+        height: calc(145vh - 60px) !important;
+        top: 60px !important; /* Start directly below menu bar */
     }
     
     .hero-image img {
         object-fit: contain !important;
         object-position: center top !important;
-        transform: scale(1.05) translateY(0%) !important; /* More zoomed out, align with menu */
+        transform: scale(1.05) translateY(0%) !important;
         transform-origin: center top !important;
     }
     
