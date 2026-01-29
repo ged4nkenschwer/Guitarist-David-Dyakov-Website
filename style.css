@@ -3117,8 +3117,8 @@ textarea {
     }
     
     .hero-image img {
-        object-fit: contain !important; /* Show full image including hands */
-        object-position: center top !important; /* Align to top */
+        object-fit: cover !important; /* Fill vertically */
+        object-position: center 25% !important; /* Focus on upper body with hands */
         height: 100% !important;
         width: 100% !important;
         filter: brightness(0.65) contrast(1.1) !important;
@@ -3686,8 +3686,8 @@ textarea {
     }
     
     .hero-image img {
-        object-fit: contain !important; /* Show full image including hands */
-        object-position: center top !important;
+        object-fit: cover !important; /* Fill vertically */
+        object-position: center 25% !important; /* Focus on upper body */
     }
     
     /* Smaller images on very small screens */
