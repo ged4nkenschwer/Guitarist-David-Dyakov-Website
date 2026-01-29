@@ -3100,12 +3100,12 @@ textarea {
     
     /* Hero section on mobile - taller to show hands and full head */
     .hero {
-        height: 140vh; /* Taller to show more of image */
+        height: 140vh; /* Taller to show more of image including hands */
         min-height: 100vh;
         min-height: 100svh;
         overflow: hidden;
         padding: 0;
-        padding-top: 45vh; /* Content at chest level - well below face */
+        padding-top: 38vh; /* Content at chest level - below face */
         padding-bottom: calc(2rem + env(safe-area-inset-bottom));
         align-items: center;
         justify-content: flex-start;
@@ -3117,7 +3117,7 @@ textarea {
     }
     
     .hero-image img {
-        object-position: center 0% !important; /* Show from very top - full head visible */
+        object-position: center 12% !important; /* Show head below menu bar */
         height: 100% !important;
         filter: brightness(0.65) contrast(1.1) !important;
     }
@@ -3573,17 +3573,8 @@ textarea {
     
     /* Extra small screens - iPhone SE and similar */
     .hero {
-        height: 135vh !important; /* Taller to show hands */
-        padding-top: 42vh !important; /* Content at chest level */
+        padding-top: 18vh !important; /* Content lower */
         padding-bottom: calc(1.5rem + env(safe-area-inset-bottom)) !important;
-    }
-    
-    .hero-image {
-        height: 135vh !important;
-    }
-    
-    .hero-image img {
-        object-position: center 0% !important; /* Full head visible */
     }
     
     /* Biography and Lessons images on smaller screens */
@@ -3684,16 +3675,16 @@ textarea {
 /* Very small screens - 480px and below */
 @media (max-width: 480px) {
     .hero {
-        height: 130vh !important; /* Taller to show hands */
-        padding-top: 40vh !important; /* Content at chest level */
+        height: 145vh !important; /* Taller to show hands */
+        padding-top: 35vh !important; /* Content at chest level */
     }
     
     .hero-image {
-        height: 130vh !important;
+        height: 145vh !important;
     }
     
     .hero-image img {
-        object-position: center 0% !important; /* Full head visible */
+        object-position: center 10% !important; /* Show head below menu */
     }
     
     /* Smaller images on very small screens */
@@ -3706,7 +3697,7 @@ textarea {
     }
     
     .hero-content {
-        transform: scale(0.85) !important;
+        transform: scale(0.88) !important;
     }
     
     .hero-kpis {
