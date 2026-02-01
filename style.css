@@ -57,6 +57,10 @@
 html {
     scroll-behavior: smooth;
     font-size: 16px;
+    /* Prevent automatic text size adjustment on mobile */
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
 body {
@@ -70,6 +74,8 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    /* Consistent font rendering across devices */
+    font-variant-ligatures: common-ligatures;
 }
 
 /* Modern Heading Styles - Clean and Elegant */
@@ -3188,22 +3194,21 @@ textarea {
         padding-bottom: 0.2em !important;
     }
     
-    /* Hero title - Mobile: same as desktop */
+    /* Hero title - Mobile: fixed sizes for consistency across devices */
     .hero-title {
-        font-size: clamp(1rem, 2vw + 0.8rem, 1.4rem) !important;
+        font-size: 1.1rem !important;
         line-height: 1.2 !important;
         margin-bottom: 0.5rem !important;
         padding: 0 0.5rem !important;
     }
     
     .hero h1 {
-        font-size: clamp(3.5rem, 12vw, 5.5rem) !important; /* Same ratio as desktop */
+        font-size: 3.2rem !important; /* Fixed size for consistency */
         margin-bottom: 0.3rem !important;
         padding: 0;
         line-height: 1.0;
         max-width: 100%;
         word-wrap: break-word;
-        /* Same as desktop */
         font-family: var(--font-classic) !important;
         font-weight: 600 !important;
         letter-spacing: normal !important;
@@ -3212,59 +3217,59 @@ textarea {
     
     /* Hero subtitle - same style as name but smaller */
     .hero-subtitle {
-        font-size: clamp(1.8rem, 5vw, 2.4rem) !important; /* Same as desktop */
+        font-size: 2rem !important; /* Fixed size */
         color: var(--accent-gold) !important;
         letter-spacing: 0.04em !important;
         margin-bottom: 1rem !important;
         font-family: var(--font-classic) !important;
         font-weight: 500 !important;
-        white-space: nowrap !important; /* Keep dashes on same line */
+        white-space: nowrap !important;
     }
     
     .tagline {
-        font-family: var(--font-elegant) !important; /* Same as desktop */
-        font-size: clamp(1.1rem, 2.5vw, 1.4rem) !important; /* Same as desktop */
-        font-style: italic !important; /* Same as desktop */
-        letter-spacing: 0.5px !important; /* Same as desktop */
-        color: var(--text-muted) !important; /* Same as desktop */
-        margin-bottom: 2rem !important; /* Same as desktop */
+        font-family: var(--font-elegant) !important;
+        font-size: 1.15rem !important; /* Fixed size */
+        font-style: italic !important;
+        letter-spacing: 0.5px !important;
+        color: var(--text-muted) !important;
+        margin-bottom: 2rem !important;
         padding: 0;
-        line-height: 1.6 !important; /* Same as desktop */
+        line-height: 1.6 !important;
         max-width: 100%;
     }
     
-    /* Hero KPI line - Mobile: same as desktop */
+    /* Hero KPI line - Mobile: fixed sizes */
     .hero-kpis {
-        font-family: var(--font-elegant) !important; /* Same as desktop */
-        font-size: clamp(1.15rem, 3.5vw, 1.6rem) !important; /* Same ratio as desktop */
-        line-height: 1.25 !important; /* Same as desktop */
-        font-weight: 600 !important; /* Same as desktop */
-        font-style: italic !important; /* Same as desktop - tagline class */
-        letter-spacing: 0.5px !important; /* Same as desktop */
-        color: var(--text-muted) !important; /* Same as desktop */
+        font-family: var(--font-elegant) !important;
+        font-size: 1.05rem !important; /* Fixed size for consistency */
+        line-height: 1.25 !important;
+        font-weight: 600 !important;
+        font-style: italic !important;
+        letter-spacing: 0.5px !important;
+        color: var(--text-muted) !important;
         margin-bottom: 1rem !important;
     }
     
-    /* Hero tagline - Mobile: same as desktop - higher specificity to override .tagline */
+    /* Hero tagline - Mobile: fixed sizes */
     .hero-tagline.tagline,
     .hero-tagline.tagline-small,
     p.hero-tagline {
-        font-family: "Kaushan Script", cursive !important; /* Same as desktop */
-        font-size: clamp(1.2rem, 3vw, 1.8rem) !important;
-        line-height: 1.15 !important; /* Same as desktop */
-        font-style: normal !important; /* Kaushan Script is not italic */
-        font-weight: 400 !important; /* Same as desktop */
-        letter-spacing: 0.2px !important; /* Same as desktop */
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important; /* Same as desktop */
-        color: var(--text-muted) !important; /* Same as desktop */
+        font-family: "Kaushan Script", cursive !important;
+        font-size: 1.25rem !important; /* Fixed size for consistency */
+        line-height: 1.15 !important;
+        font-style: normal !important;
+        font-weight: 400 !important;
+        letter-spacing: 0.2px !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
+        color: var(--text-muted) !important;
         padding-bottom: 0.15em !important;
         margin-bottom: 1.5rem !important;
     }
     
     .tagline-small {
-        font-size: clamp(1rem, 2.5vw, 1.3rem) !important; /* Same as desktop */
-        margin-bottom: 2rem !important; /* Same as desktop */
-        margin-top: -0.5rem !important; /* Same as desktop */
+        font-size: 1.1rem !important; /* Fixed size */
+        margin-bottom: 2rem !important;
+        margin-top: -0.5rem !important;
         padding: 0 0.5rem !important;
     }
     
@@ -3301,7 +3306,7 @@ textarea {
     }
     
     .hero-role {
-        font-size: clamp(2rem, 7vw, 3.2rem) !important; /* Same ratio as desktop */
+        font-size: 1.8rem !important; /* Fixed size for consistency */
         font-family: var(--font-display) !important;
         font-weight: 700 !important;
         letter-spacing: 0.04em !important;
@@ -3310,7 +3315,7 @@ textarea {
     
     /* Section titles - responsive, no overflow */
     .section-title {
-        font-size: clamp(1.8rem, 5vw, 2.5rem);
+        font-size: 1.8rem !important; /* Fixed size */
         word-wrap: break-word;
         overflow-wrap: break-word;
         hyphens: auto;
