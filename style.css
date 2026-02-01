@@ -3119,11 +3119,11 @@ textarea {
     
     .hero-image img {
         object-fit: cover !important; /* Fill screen */
-        object-position: center 15% !important; /* Centered, show head */
+        object-position: 55% 18% !important; /* Shift right to show more left hand */
         height: 100% !important;
         width: 100% !important;
         transform: none !important;
-        filter: brightness(0.6) contrast(1.1) !important;
+        filter: brightness(0.5) contrast(1.15) saturate(1.2) !important; /* Darker, more saturated */
     }
     
     /* Dark fades on mobile - subtle like screenshot */
@@ -3692,9 +3692,9 @@ textarea {
     
     .hero-image img {
         object-fit: cover !important;
-        object-position: center 15% !important;
+        object-position: 55% 18% !important; /* Shift right to show more left hand */
         transform: none !important;
-        filter: brightness(0.6) contrast(1.1) !important;
+        filter: brightness(0.5) contrast(1.15) saturate(1.2) !important; /* Darker, more saturated */
     }
     
     /* Smaller images on very small screens */
