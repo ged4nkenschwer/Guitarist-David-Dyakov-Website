@@ -3098,28 +3098,28 @@ textarea {
         font-size: clamp(1.5rem, 5vw, 2rem); /* Responsive scaling */
     }
     
-    /* Hero section on mobile - taller to show more of image */
+    /* Hero section on mobile - optimized height */
     .hero {
-        height: 115vh; /* Taller to show more hands */
+        height: 105vh; /* Reduced to close gap with next section */
         min-height: 100vh;
         min-height: 100svh;
         overflow: hidden;
         padding: 0;
-        padding-top: 30vh; /* Content at chest level */
+        padding-top: 28vh; /* Move content up to chest level */
         padding-bottom: calc(2rem + env(safe-area-inset-bottom));
         align-items: center;
         justify-content: flex-start;
     }
     
-    /* Mobile hero image - taller to show more */
+    /* Mobile hero image - align with menu bottom */
     .hero-image {
-        height: calc(115vh - 60px) !important;
+        height: calc(105vh - 60px) !important;
         top: 60px !important; /* Start directly below menu bar */
     }
     
     .hero-image img {
         object-fit: cover !important; /* Fill screen */
-        object-position: center 30% !important; /* Show more of left arm */
+        object-position: center 15% !important; /* Centered, show head */
         height: 100% !important;
         width: 100% !important;
         transform: none !important;
@@ -3271,14 +3271,15 @@ textarea {
     .hero .btn,
     .hero .btn-cta-video {
         margin: 0.5rem auto !important;
-        padding: 0.8rem 1.2rem !important;
-        font-size: 0.85rem !important;
-        width: fit-content !important;
-        max-width: 95% !important;
-        white-space: nowrap !important;
-        display: inline-block !important;
-        box-sizing: border-box !important;
-        overflow: visible !important;
+        padding: 1rem 1.5rem !important;
+        font-size: 0.95rem !important;
+        width: auto;
+        max-width: 95%; /* More space for long text */
+        white-space: nowrap; /* Keep text on one line */
+        display: block !important;
+        box-sizing: border-box;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
         text-align: center;
         /* Same style as "Inquire Now" button - dark background with gold border */
         background-color: var(--accent-ink) !important;
@@ -3655,8 +3656,10 @@ textarea {
     }
     
     .hero .btn {
-        padding: 0.9rem 1.8rem !important; /* Closer to desktop */
-        font-size: 0.95rem !important;
+        padding: 0.9rem 1.2rem !important;
+        font-size: 0.85rem !important;
+        white-space: nowrap !important;
+        max-width: 98% !important;
     }
 
     .videos-grid {
@@ -3678,18 +3681,18 @@ textarea {
 /* Very small screens - 480px and below */
 @media (max-width: 480px) {
     .hero {
-        height: 115vh !important; /* Taller to show more hands */
-        padding-top: 28vh !important; /* Content at chest level */
+        height: 105vh !important; /* Reduced to close gap */
+        padding-top: 25vh !important; /* Move content up to chest level */
     }
     
     .hero-image {
-        height: calc(115vh - 60px) !important;
+        height: calc(105vh - 60px) !important;
         top: 60px !important; /* Start directly below menu bar */
     }
     
     .hero-image img {
         object-fit: cover !important;
-        object-position: center 30% !important; /* Show more of left arm */
+        object-position: center 15% !important;
         transform: none !important;
         filter: brightness(0.6) contrast(1.1) !important;
     }
@@ -3743,8 +3746,10 @@ textarea {
     }
     
     .hero .btn {
-        padding: 0.8rem 1.5rem !important; /* Closer to desktop */
-        font-size: 0.9rem !important;
+        padding: 0.8rem 1rem !important;
+        font-size: 0.8rem !important;
+        white-space: nowrap !important;
+        max-width: 100% !important;
     }
 }
 
