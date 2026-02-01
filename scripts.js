@@ -1557,6 +1557,9 @@ function initLightbox() {
         lightboxVideo.setAttribute('x5-playsinline', ''); // Android support
         lightboxVideo.preload = 'auto'; // Preload for better playback
         
+        // Set volume to maximum
+        lightboxVideo.volume = 1.0;
+        
         // Ensure video is visible and has proper styling
         lightboxVideo.style.display = 'block';
         lightboxVideo.style.width = '100%';
@@ -1746,6 +1749,9 @@ function initLightbox() {
         lightboxVideo.setAttribute('playsinline', '');
         lightboxVideo.setAttribute('controls', '');
         lightboxVideo.preload = 'metadata';
+        
+        // Set volume to maximum
+        lightboxVideo.volume = 1.0;
         
         // Load the video
         lightboxVideo.load();
