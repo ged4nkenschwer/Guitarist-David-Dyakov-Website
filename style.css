@@ -3118,27 +3118,24 @@ textarea {
     }
     
     .hero-image img {
-        object-fit: contain !important; /* Show full image */
-        object-position: 55% top !important; /* Shift slightly right */
-        height: auto !important;
-        min-height: 100% !important;
+        object-fit: cover !important; /* Fill screen */
+        object-position: center 15% !important; /* Centered, show head */
+        height: 100% !important;
         width: 100% !important;
-        transform: scale(1.05) translateX(3%) !important; /* Shift right */
-        transform-origin: center top !important;
-        filter: brightness(0.5) contrast(1.15) !important; /* Darker like desktop */
+        transform: none !important;
+        filter: brightness(0.6) contrast(1.1) !important;
     }
     
-    /* Dark fades on mobile - more prominent */
+    /* Dark fades on mobile - subtle like screenshot */
     .hero::before {
         top: 0 !important;
         bottom: 0 !important;
         height: auto !important;
         background: linear-gradient(180deg, 
-            rgba(5, 7, 11, 0.3) 0%, 
-            rgba(5, 7, 11, 0.1) 15%,
-            transparent 40%,
-            rgba(5, 7, 11, 0.4) 70%,
-            rgba(5, 7, 11, 0.7) 100%
+            rgba(5, 7, 11, 0.1) 0%, 
+            transparent 20%,
+            transparent 60%,
+            rgba(5, 7, 11, 0.5) 100%
         ) !important;
         z-index: 1 !important;
     }
@@ -3146,11 +3143,10 @@ textarea {
     .hero::after {
         top: auto !important;
         bottom: 0 !important;
-        height: 150px !important; /* More prominent gradient */
+        height: 200px !important; /* Smooth gradient at bottom */
         background: linear-gradient(to bottom, 
             transparent 0%,
-            rgba(5, 7, 11, 0.5) 40%,
-            rgba(5, 7, 11, 0.8) 70%,
+            rgba(5, 7, 11, 0.4) 50%,
             var(--bg-main) 100%
         ) !important;
         opacity: 1 !important;
@@ -3693,11 +3689,10 @@ textarea {
     }
     
     .hero-image img {
-        object-fit: contain !important;
-        object-position: 55% top !important; /* Shift slightly right */
-        transform: scale(1.05) translateX(3%) !important; /* Shift right */
-        transform-origin: center top !important;
-        filter: brightness(0.5) contrast(1.15) !important; /* Darker like desktop */
+        object-fit: cover !important;
+        object-position: center 15% !important;
+        transform: none !important;
+        filter: brightness(0.6) contrast(1.1) !important;
     }
     
     /* Smaller images on very small screens */
