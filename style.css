@@ -1138,9 +1138,9 @@ nav {
     bottom: 0;
     background: linear-gradient(180deg, 
         rgba(5, 7, 11, 0.1) 0%, 
-        transparent 10%,
-        transparent 80%,
-        rgba(5, 7, 11, 0.5) 100%
+        transparent 15%,
+        transparent 70%,
+        rgba(5, 7, 11, 0.6) 100%
     );
     pointer-events: none;
     z-index: 1;
@@ -1152,10 +1152,10 @@ nav {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 80px;
+    height: 120px;
     background: linear-gradient(to bottom, 
         transparent 0%,
-        rgba(5, 7, 11, 0.4) 50%,
+        rgba(5, 7, 11, 0.5) 50%,
         var(--bg-main) 100%
     );
     pointer-events: none;
@@ -1168,7 +1168,7 @@ nav {
     margin: 0 auto;
     position: relative;
     z-index: 3;
-    padding-top: 25vh; /* Push content down to chest level - below face */
+    padding-top: 32vh; /* Push content down further - below chest */
 }
 
 .tagline {
@@ -3119,7 +3119,7 @@ textarea {
     
     .hero-image img {
         object-fit: cover !important; /* Fill screen */
-        object-position: 52% 18% !important; /* Shift right */
+        object-position: 48% 18% !important; /* Slightly left */
         height: 100% !important;
         width: 100% !important;
         transform: none !important;
@@ -3692,7 +3692,7 @@ textarea {
     
     .hero-image img {
         object-fit: cover !important;
-        object-position: 52% 18% !important; /* Shift right */
+        object-position: 48% 18% !important; /* Slightly left */
         transform: none !important;
         filter: brightness(0.45) contrast(1.1) !important; /* Darker */
     }
