@@ -1106,14 +1106,15 @@ nav {
 
 /* ---------- Hero Section ---------- */
 .hero {
-    height: 115vh; /* Taller to show more of image including hands */
+    height: 120vh; /* Taller to show buttons and hands */
     min-height: 100vh;
     display: flex;
-    align-items: center; /* Center content vertically with head */
+    align-items: center;
     justify-content: center;
     position: relative;
     overflow: hidden;
-    padding-top: var(--header-height, 80px); /* Space for fixed header */
+    padding-top: var(--header-height, 80px);
+    padding-bottom: 2rem; /* Space for buttons */
     background-color: var(--bg-main);
 }
 
@@ -1174,7 +1175,8 @@ nav {
     margin: 0 auto;
     position: relative;
     z-index: 3;
-    padding-top: 32vh; /* Push content down further - below chest */
+    padding-top: 28vh; /* Push content down - below chest, but leave room for buttons */
+    padding-bottom: 3rem; /* Ensure buttons have space */
 }
 
 .tagline {
