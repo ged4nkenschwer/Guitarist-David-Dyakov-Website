@@ -1160,7 +1160,13 @@ function setLanguage(lang) {
     document.querySelectorAll('[data-en][data-de]').forEach(element => {
         // Skip reveal trigger buttons - they need special handling based on their state
         if (!element.classList.contains('reveal-trigger')) {
-            element.textContent = element.getAttribute(`data-${lang}`);
+            const content = element.getAttribute(`data-${lang}`);
+            // Use innerHTML if content contains HTML tags (like links), otherwise use textContent
+            if (content && content.includes('<')) {
+                element.innerHTML = content;
+            } else {
+                element.textContent = content;
+            }
         }
     });
     
