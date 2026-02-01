@@ -3098,33 +3098,33 @@ textarea {
         font-size: clamp(1.5rem, 5vw, 2rem); /* Responsive scaling */
     }
     
-    /* Hero section on mobile - full screen */
+    /* Hero section on mobile - taller to show hands and full head */
     .hero {
-        height: 100vh; /* Full screen */
+        height: 140vh; /* Taller to show more of image including hands */
         min-height: 100vh;
         min-height: 100svh;
         overflow: hidden;
         padding: 0;
-        padding-top: 55vh; /* Content in lower half */
+        padding-top: 38vh; /* Content at chest level - below face */
         padding-bottom: calc(2rem + env(safe-area-inset-bottom));
         align-items: center;
         justify-content: flex-start;
     }
     
-    /* Mobile hero image - fill screen, show full head + hands */
+    /* Mobile hero image - align with menu bottom */
     .hero-image {
-        height: 100vh !important;
-        top: 0 !important;
-        background: var(--bg-main) !important; /* Match page background */
+        height: calc(140vh - 60px) !important;
+        top: 60px !important; /* Start directly below menu bar */
     }
     
     .hero-image img {
-        object-fit: contain !important; /* Show full image - head + both hands */
+        object-fit: contain !important; /* Show full image */
         object-position: center top !important;
-        height: 100% !important;
+        height: auto !important;
+        min-height: 100% !important;
         width: 100% !important;
-        padding-top: 60px !important; /* Space for menu */
-        box-sizing: border-box !important;
+        transform: scale(1.05) translateY(0%) !important; /* More zoomed out, align with menu */
+        transform-origin: center top !important;
         filter: brightness(0.65) contrast(1.1) !important;
     }
     
@@ -3145,10 +3145,11 @@ textarea {
     .hero::after {
         top: auto !important;
         bottom: 0 !important;
-        height: 80px !important; /* Same as desktop */
+        height: 50vh !important; /* Larger gradient to fill bottom of screen */
         background: linear-gradient(to bottom, 
             transparent 0%,
-            rgba(5, 7, 11, 0.4) 50%,
+            rgba(5, 7, 11, 0.3) 30%,
+            rgba(5, 7, 11, 0.7) 60%,
             var(--bg-main) 100%
         ) !important;
         opacity: 1 !important;
@@ -3681,20 +3682,20 @@ textarea {
 /* Very small screens - 480px and below */
 @media (max-width: 480px) {
     .hero {
-        height: 100vh !important; /* Full screen */
-        padding-top: 55vh !important; /* Content in lower half */
+        height: 145vh !important; /* Taller to show hands */
+        padding-top: 35vh !important; /* Content at chest level */
     }
     
     .hero-image {
-        height: 100vh !important;
-        top: 0 !important;
+        height: calc(145vh - 60px) !important;
+        top: 60px !important; /* Start directly below menu bar */
     }
     
     .hero-image img {
-        object-fit: contain !important; /* Show full image - head + hands */
+        object-fit: contain !important;
         object-position: center top !important;
-        padding-top: 55px !important; /* Smaller menu on small screens */
-        box-sizing: border-box !important;
+        transform: scale(1.05) translateY(0%) !important;
+        transform-origin: center top !important;
     }
     
     /* Smaller images on very small screens */
