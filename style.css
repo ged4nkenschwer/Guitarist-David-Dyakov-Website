@@ -3271,15 +3271,14 @@ textarea {
     .hero .btn,
     .hero .btn-cta-video {
         margin: 0.5rem auto !important;
-        padding: 1rem 2rem !important; /* Same as desktop */
-        font-size: 1rem !important; /* Same as desktop */
-        width: auto;
-        max-width: 90%;
-        white-space: normal;
-        display: block !important;
-        box-sizing: border-box;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
+        padding: 0.8rem 1.2rem !important;
+        font-size: 0.85rem !important;
+        width: fit-content !important;
+        max-width: 95% !important;
+        white-space: nowrap !important;
+        display: inline-block !important;
+        box-sizing: border-box !important;
+        overflow: visible !important;
         text-align: center;
         /* Same style as "Inquire Now" button - dark background with gold border */
         background-color: var(--accent-ink) !important;
