@@ -3119,11 +3119,11 @@ textarea {
     
     .hero-image img {
         object-fit: cover !important; /* Fill screen */
-        object-position: 45% 18% !important; /* Shift left */
+        object-position: 52% 18% !important; /* Shift right */
         height: 100% !important;
         width: 100% !important;
         transform: none !important;
-        filter: brightness(0.5) contrast(1.1) !important; /* Dark like PC, no extra saturation */
+        filter: brightness(0.45) contrast(1.1) !important; /* Darker */
     }
     
     /* Dark fades on mobile - subtle like screenshot */
@@ -3692,9 +3692,9 @@ textarea {
     
     .hero-image img {
         object-fit: cover !important;
-        object-position: 45% 18% !important; /* Shift left */
+        object-position: 52% 18% !important; /* Shift right */
         transform: none !important;
-        filter: brightness(0.5) contrast(1.1) !important; /* Dark like PC, no extra saturation */
+        filter: brightness(0.45) contrast(1.1) !important; /* Darker */
     }
     
     /* Smaller images on very small screens */
@@ -3773,24 +3773,7 @@ textarea {
     position: relative;
 }
 
-.quote-container::before, .quote-container::after {
-    content: '"';
-    font-family: 'Playfair Display', serif;
-    font-size: 4rem;
-    color: var(--accent-wood);
-    opacity: 0.3;
-    position: absolute;
-}
-
-.quote-container::before {
-    top: -1rem;
-    left: -1rem;
-}
-
-.quote-container::after {
-    bottom: -2rem;
-    right: -1rem;
-}
+/* Decorative quote marks removed - using inline quote marks instead */
 
 .quote-container blockquote {
     position: relative;
