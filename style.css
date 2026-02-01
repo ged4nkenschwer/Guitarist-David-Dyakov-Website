@@ -3807,6 +3807,12 @@ textarea {
     letter-spacing: 0.3px;
 }
 
+/* Quote marks in pale gold */
+.quote-mark {
+    color: var(--accent-gold-soft);
+    font-style: normal;
+}
+
 .quote-container cite {
     font-family: var(--font-classic);
     color: var(--accent-gold);
