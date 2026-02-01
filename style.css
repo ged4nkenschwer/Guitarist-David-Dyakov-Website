@@ -3098,32 +3098,31 @@ textarea {
         font-size: clamp(1.5rem, 5vw, 2rem); /* Responsive scaling */
     }
     
-    /* Hero section on mobile - optimized height */
+    /* Hero section on mobile - taller to show more of image */
     .hero {
-        height: 105vh; /* Reduced to close gap with next section */
+        height: 115vh; /* Taller to show more hands */
         min-height: 100vh;
         min-height: 100svh;
         overflow: hidden;
         padding: 0;
-        padding-top: 28vh; /* Move content up to chest level */
+        padding-top: 30vh; /* Content at chest level */
         padding-bottom: calc(2rem + env(safe-area-inset-bottom));
         align-items: center;
         justify-content: flex-start;
     }
     
-    /* Mobile hero image - align with menu bottom */
+    /* Mobile hero image - taller to show more */
     .hero-image {
-        height: calc(105vh - 60px) !important;
+        height: calc(115vh - 60px) !important;
         top: 60px !important; /* Start directly below menu bar */
     }
     
     .hero-image img {
         object-fit: cover !important; /* Fill screen */
-        object-position: center 22% !important; /* Show head + more hands */
+        object-position: center 20% !important; /* Show head + more torso/hands */
         height: 100% !important;
         width: 100% !important;
-        transform: scale(0.95) !important; /* Slight zoom out */
-        transform-origin: center 20% !important;
+        transform: none !important;
         filter: brightness(0.6) contrast(1.1) !important;
     }
     
@@ -3679,20 +3678,19 @@ textarea {
 /* Very small screens - 480px and below */
 @media (max-width: 480px) {
     .hero {
-        height: 105vh !important; /* Reduced to close gap */
-        padding-top: 25vh !important; /* Move content up to chest level */
+        height: 115vh !important; /* Taller to show more hands */
+        padding-top: 28vh !important; /* Content at chest level */
     }
     
     .hero-image {
-        height: calc(105vh - 60px) !important;
+        height: calc(115vh - 60px) !important;
         top: 60px !important; /* Start directly below menu bar */
     }
     
     .hero-image img {
         object-fit: cover !important;
-        object-position: center 22% !important; /* Show head + more hands */
-        transform: scale(0.95) !important; /* Slight zoom out */
-        transform-origin: center 20% !important;
+        object-position: center 20% !important; /* Show head + more torso/hands */
+        transform: none !important;
         filter: brightness(0.6) contrast(1.1) !important;
     }
     
