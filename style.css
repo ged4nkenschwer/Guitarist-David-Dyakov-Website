@@ -3098,14 +3098,14 @@ textarea {
         font-size: clamp(1.5rem, 5vw, 2rem); /* Responsive scaling */
     }
     
-    /* Hero section on mobile - taller to show hands and full head */
+    /* Hero section on mobile - optimized height */
     .hero {
-        height: 140vh; /* Taller to show more of image including hands */
+        height: 105vh; /* Reduced to close gap with next section */
         min-height: 100vh;
         min-height: 100svh;
         overflow: hidden;
         padding: 0;
-        padding-top: 38vh; /* Content at chest level - below face */
+        padding-top: 28vh; /* Move content up to chest level */
         padding-bottom: calc(2rem + env(safe-area-inset-bottom));
         align-items: center;
         justify-content: flex-start;
@@ -3113,7 +3113,7 @@ textarea {
     
     /* Mobile hero image - align with menu bottom */
     .hero-image {
-        height: calc(140vh - 60px) !important;
+        height: calc(105vh - 60px) !important;
         top: 60px !important; /* Start directly below menu bar */
     }
     
@@ -3145,7 +3145,7 @@ textarea {
     .hero::after {
         top: auto !important;
         bottom: 0 !important;
-        height: 50vh !important; /* Larger gradient to fill bottom of screen */
+        height: 35vh !important; /* Gradient for bottom transition */
         background: linear-gradient(to bottom, 
             transparent 0%,
             rgba(5, 7, 11, 0.3) 30%,
@@ -3682,12 +3682,12 @@ textarea {
 /* Very small screens - 480px and below */
 @media (max-width: 480px) {
     .hero {
-        height: 145vh !important; /* Taller to show hands */
-        padding-top: 35vh !important; /* Content at chest level */
+        height: 105vh !important; /* Reduced to close gap */
+        padding-top: 25vh !important; /* Move content up to chest level */
     }
     
     .hero-image {
-        height: calc(145vh - 60px) !important;
+        height: calc(105vh - 60px) !important;
         top: 60px !important; /* Start directly below menu bar */
     }
     
