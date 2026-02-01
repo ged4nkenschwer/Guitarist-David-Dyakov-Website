@@ -3119,7 +3119,7 @@ textarea {
     
     .hero-image img {
         object-fit: cover !important; /* Fill screen */
-        object-position: center 20% !important; /* Show head + more torso/hands */
+        object-position: center 30% !important; /* Show more of left arm */
         height: 100% !important;
         width: 100% !important;
         transform: none !important;
@@ -3689,7 +3689,7 @@ textarea {
     
     .hero-image img {
         object-fit: cover !important;
-        object-position: center 20% !important; /* Show head + more torso/hands */
+        object-position: center 30% !important; /* Show more of left arm */
         transform: none !important;
         filter: brightness(0.6) contrast(1.1) !important;
     }
