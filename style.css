@@ -3119,11 +3119,11 @@ textarea {
     
     .hero-image img {
         object-fit: contain !important; /* Show full image */
-        object-position: center top !important;
+        object-position: 55% top !important; /* Shift slightly right */
         height: auto !important;
         min-height: 100% !important;
         width: 100% !important;
-        transform: scale(1.05) translateY(0%) !important; /* More zoomed out, align with menu */
+        transform: scale(1.05) translateX(3%) !important; /* Shift right */
         transform-origin: center top !important;
         filter: brightness(0.65) contrast(1.1) !important;
     }
@@ -3145,11 +3145,10 @@ textarea {
     .hero::after {
         top: auto !important;
         bottom: 0 !important;
-        height: 35vh !important; /* Gradient for bottom transition */
+        height: 120px !important; /* Seamless gradient like desktop */
         background: linear-gradient(to bottom, 
             transparent 0%,
-            rgba(5, 7, 11, 0.3) 30%,
-            rgba(5, 7, 11, 0.7) 60%,
+            rgba(5, 7, 11, 0.4) 50%,
             var(--bg-main) 100%
         ) !important;
         opacity: 1 !important;
@@ -3693,8 +3692,8 @@ textarea {
     
     .hero-image img {
         object-fit: contain !important;
-        object-position: center top !important;
-        transform: scale(1.05) translateY(0%) !important;
+        object-position: 55% top !important; /* Shift slightly right */
+        transform: scale(1.05) translateX(3%) !important; /* Shift right */
         transform-origin: center top !important;
     }
     
