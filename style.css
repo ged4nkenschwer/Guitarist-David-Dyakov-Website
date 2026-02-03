@@ -3126,12 +3126,12 @@ textarea {
     }
     
     .hero-image img {
-        object-fit: cover !important; /* Fill screen */
-        object-position: 55% 18% !important; /* Shift right to show left hand/wrist */
+        object-fit: contain !important; /* Show full 2:3 image without cropping */
+        object-position: center top !important; /* Align to top */
         height: 100% !important;
         width: 100% !important;
         transform: none !important;
-        filter: brightness(0.45) contrast(1.1) !important; /* Darker */
+        filter: brightness(0.5) contrast(1.1) !important; /* Slightly darker for readability */
     }
     
     /* Dark fades on mobile - subtle like screenshot */
@@ -3588,11 +3588,11 @@ textarea {
         padding-bottom: calc(1.5rem + env(safe-area-inset-bottom)) !important;
     }
     
-    /* Hero image - show left hand/wrist */
+    /* Hero image - show full 2:3 image */
     .hero-image img {
-        object-fit: cover !important;
-        object-position: 55% 18% !important; /* Shift right to show left hand/wrist */
-        filter: brightness(0.45) contrast(1.1) !important;
+        object-fit: contain !important; /* Show full image without cropping */
+        object-position: center top !important;
+        filter: brightness(0.5) contrast(1.1) !important;
     }
     
     /* Biography and Lessons images on smaller screens */
@@ -3705,10 +3705,10 @@ textarea {
     }
     
     .hero-image img {
-        object-fit: cover !important;
-        object-position: 55% 18% !important; /* Shift right to show left hand/wrist */
+        object-fit: contain !important; /* Show full 2:3 image without cropping */
+        object-position: center top !important;
         transform: none !important;
-        filter: brightness(0.45) contrast(1.1) !important; /* Darker */
+        filter: brightness(0.5) contrast(1.1) !important;
     }
     
     /* Smaller images on very small screens */
