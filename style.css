@@ -3108,12 +3108,12 @@ textarea {
     
     /* Hero section on mobile - optimized height */
     .hero {
-        height: 105vh; /* Reduced to close gap with next section */
+        height: 100vh; /* Full viewport height */
         min-height: 100vh;
         min-height: 100svh;
         overflow: hidden;
         padding: 0;
-        padding-top: 28vh; /* Move content up to chest level */
+        padding-top: 22vh; /* Move content higher up (but not on face) */
         padding-bottom: calc(2rem + env(safe-area-inset-bottom));
         align-items: center;
         justify-content: flex-start;
@@ -3121,7 +3121,7 @@ textarea {
     
     /* Mobile hero image - align with menu bottom */
     .hero-image {
-        height: calc(105vh - 60px) !important;
+        height: calc(100vh - 60px) !important;
         top: 60px !important; /* Start directly below menu bar */
     }
     
@@ -3134,16 +3134,18 @@ textarea {
         filter: brightness(0.5) contrast(1.1) !important; /* Slightly darker for readability */
     }
     
-    /* Dark fades on mobile - subtle like screenshot */
+    /* Dark gradient starting at stool height - seamless transition */
     .hero::before {
         top: 0 !important;
         bottom: 0 !important;
         height: auto !important;
         background: linear-gradient(180deg, 
             rgba(5, 7, 11, 0.1) 0%, 
-            transparent 20%,
-            transparent 60%,
-            rgba(5, 7, 11, 0.5) 100%
+            transparent 15%,
+            transparent 45%,
+            rgba(5, 7, 11, 0.3) 60%,
+            rgba(5, 7, 11, 0.7) 80%,
+            var(--bg-main) 100%
         ) !important;
         z-index: 1 !important;
     }
@@ -3151,12 +3153,11 @@ textarea {
     .hero::after {
         top: auto !important;
         bottom: 0 !important;
-        height: 50vh !important; /* Tall gradient starting at stool height */
+        height: 40vh !important; /* Large gradient from stool height to bottom */
         background: linear-gradient(to bottom, 
             transparent 0%,
-            rgba(5, 7, 11, 0.15) 20%,
-            rgba(5, 7, 11, 0.4) 45%,
-            rgba(5, 7, 11, 0.75) 70%,
+            rgba(5, 7, 11, 0.5) 30%,
+            rgba(5, 7, 11, 0.85) 60%,
             var(--bg-main) 100%
         ) !important;
         opacity: 1 !important;
@@ -3586,7 +3587,7 @@ textarea {
     
     /* Extra small screens - iPhone SE and similar */
     .hero {
-        padding-top: 18vh !important; /* Content lower */
+        padding-top: 20vh !important; /* Content higher up but not on face */
         padding-bottom: calc(1.5rem + env(safe-area-inset-bottom)) !important;
     }
     
@@ -3697,12 +3698,12 @@ textarea {
 /* Very small screens - 480px and below */
 @media (max-width: 480px) {
     .hero {
-        height: 105vh !important; /* Reduced to close gap */
-        padding-top: 25vh !important; /* Move content up to chest level */
+        height: 100vh !important; /* Full viewport */
+        padding-top: 20vh !important; /* Content higher up but not on face */
     }
     
     .hero-image {
-        height: calc(105vh - 60px) !important;
+        height: calc(100vh - 60px) !important;
         top: 60px !important; /* Start directly below menu bar */
     }
     
