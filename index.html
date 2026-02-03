@@ -48,15 +48,19 @@
     <!-- Preconnect for Performance - Critical resources only -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     
     <!-- Resource hints - Optimized for fastest loading -->
     <link rel="preload" href="style.css" as="style" fetchpriority="high">
-    <!-- Preload hero image - WebP only (browser will use JPG fallback in picture element) -->
-    <link rel="preload" href="./hero-guitarist.JPG" as="image" fetchpriority="high">
+    <!-- Preload hero images - desktop and mobile -->
+    <link rel="preload" href="./hero-guitarist.JPG" as="image" fetchpriority="high" media="(min-width: 768px)">
+    <link rel="preload" href="./hero-guitarist-mobile.png" as="image" fetchpriority="high" media="(max-width: 767px)">
     
     <!-- DNS prefetch for non-critical external resources -->
     <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
     <link rel="dns-prefetch" href="//open.spotify.com">
+    <link rel="dns-prefetch" href="//www.instagram.com">
+    <link rel="dns-prefetch" href="//www.facebook.com">
     
     <!-- Critical CSS (inlined for fastest rendering - above the fold) -->
     <style>
@@ -82,13 +86,10 @@
     <!-- Stylesheets - Optimized loading -->
     <link rel="stylesheet" href="style.css" media="all">
     <!-- Non-critical CSS loaded asynchronously -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'" crossorigin="anonymous">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
-    <!-- Fonts - Load only essential weights (Cinzel for headings, Roboto for UI) -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Roboto:wght@400&family=Kaushan+Script&display=swap" rel="stylesheet">
-    <!-- Additional font weights loaded async for non-critical elements -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Libre+Baskerville:wght@400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Libre+Baskerville:wght@400&family=Kaushan+Script&display=swap" rel="stylesheet"></noscript>
+    <!-- Fonts - Combined for single request, display=swap for fast text rendering -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Playfair+Display:wght@600&family=Roboto:wght@400&family=Kaushan+Script&family=Libre+Baskerville:wght@400&display=swap" rel="stylesheet">
     
     <!-- Structured Data for Musician -->
     <script type="application/ld+json">
