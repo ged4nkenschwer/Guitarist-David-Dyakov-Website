@@ -3391,61 +3391,26 @@ textarea {
         background-position: center !important;
     }
     
-    /* Ensure masterclass info content is fully visible on mobile - no internal scrolling */
+    /* Fix masterclass-info on mobile - prevent internal scrolling and button cutoff */
     .masterclass-info {
-        width: 100% !important;
-        min-width: 100% !important;
-        max-width: 100% !important;
-        height: auto !important;
-        max-height: none !important;
-        overflow: visible !important;
-        overflow-y: visible !important;
-        overflow-x: visible !important;
-        -webkit-overflow-scrolling: auto !important;
+        width: 100%;
+        min-width: 0 !important; /* Override desktop min-width: 300px */
+        max-width: 100%;
+        overflow: visible !important; /* Prevent internal scrollbar */
         flex: 1 1 auto !important;
     }
     
-    /* Remove scrollbar from all elements inside masterclass-info */
-    .masterclass-info *,
-    .masterclass-info .en-content,
-    .masterclass-info .de-content,
-    .masterclass-info .teaching-features,
-    .masterclass-info .feature-item {
+    /* Ensure masterclasses section doesn't clip content */
+    #masterclasses {
         overflow: visible !important;
-        overflow-y: visible !important;
-        overflow-x: visible !important;
-        max-height: none !important;
-        -webkit-overflow-scrolling: auto !important;
     }
     
-    /* Ensure the Inquire Now button is fully visible */
-    .masterclass-info .btn {
-        margin-top: 1.5rem !important;
-        margin-bottom: 1rem !important;
-        display: inline-block !important;
-        visibility: visible !important;
-    }
-    
-    /* Ensure masterclasses section doesn't clip content - COMPLETE FIX */
-    #masterclasses,
-    #masterclasses > .container,
-    #masterclasses .masterclasses-content {
+    #masterclasses .container {
         overflow: visible !important;
-        overflow-y: visible !important;
-        overflow-x: hidden !important;
-        height: auto !important;
-        max-height: none !important;
-        -webkit-overflow-scrolling: auto !important;
     }
     
     .masterclasses-content {
         overflow: visible !important;
-        height: auto !important;
-    }
-    
-    /* Keep overflow hidden only for the image (for border-radius) */
-    #masterclasses .masterclass-image {
-        overflow: hidden !important;
     }
     
     .contact-content {
