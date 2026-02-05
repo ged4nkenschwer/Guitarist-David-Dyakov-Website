@@ -3327,10 +3327,10 @@ textarea {
         padding: 2.5rem 0;
     }
     
-    /* Pull first section closer to hero image */
+    /* First section after hero - tighter spacing but no overlap */
     #follow-me {
-        padding-top: 1.5rem !important;
-        margin-top: -2rem !important; /* Overlap with hero gradient */
+        padding-top: 1rem !important;
+        margin-top: 0 !important;
     }
 
     .biography-content,
