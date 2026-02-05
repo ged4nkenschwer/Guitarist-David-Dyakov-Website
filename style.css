@@ -3115,6 +3115,8 @@ textarea {
         padding-top: 60px !important; /* Space for fixed header */
         display: block !important;
         position: relative;
+        margin-bottom: -3rem !important; /* Overlap into next section for buttons */
+        z-index: 5 !important;
     }
     
     /* Mobile hero image - full width, natural aspect ratio */
@@ -3161,7 +3163,7 @@ textarea {
     .hero-content,
     .hero-copy {
         position: absolute !important;
-        bottom: 5% !important; /* Position at bottom of image */
+        bottom: 0 !important; /* At very bottom, buttons overlap into next section */
         left: 50% !important;
         transform: translateX(-50%) !important;
         top: auto !important;
@@ -3169,6 +3171,7 @@ textarea {
         max-width: 95% !important;
         width: 95% !important;
         padding: 0.5rem 10px !important;
+        padding-bottom: 1rem !important;
         margin: 0 !important;
         box-sizing: border-box;
         display: flex;
@@ -3176,7 +3179,7 @@ textarea {
         align-items: center;
         justify-content: flex-end;
         text-align: center;
-        z-index: 3;
+        z-index: 10 !important; /* Above follow-me section */
     }
     
     /* Prevent Kaushan Script descenders from being clipped - include all font properties */
@@ -3327,10 +3330,12 @@ textarea {
         padding: 2.5rem 0;
     }
     
-    /* First section after hero - compact gap, hero buttons stay visible */
+    /* First section after hero - overlapped by hero, title pushed down */
     #follow-me {
-        padding-top: 1.5rem !important;
+        padding-top: 4rem !important; /* Space for overlapping hero buttons */
         margin-top: 0 !important;
+        position: relative;
+        z-index: 1;
     }
 
     .biography-content,
