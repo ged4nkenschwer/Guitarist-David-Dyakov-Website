@@ -3398,11 +3398,24 @@ textarea {
         max-width: 100%;
         overflow: visible !important; /* Prevent internal scrollbar */
         flex: 1 1 auto !important;
+        height: auto !important;
+        max-height: none !important;
+        padding-bottom: 1rem !important; /* Space for button */
+    }
+    
+    /* Ensure Inquire Now button is fully visible */
+    .masterclass-info .btn {
+        display: inline-block !important;
+        visibility: visible !important;
+        margin-top: 1.5rem !important;
+        margin-bottom: 1rem !important;
+        position: relative !important;
     }
     
     /* Ensure masterclasses section doesn't clip content */
     #masterclasses {
         overflow: visible !important;
+        padding-bottom: 3rem !important;
     }
     
     #masterclasses .container {
@@ -3411,6 +3424,8 @@ textarea {
     
     .masterclasses-content {
         overflow: visible !important;
+        height: auto !important;
+        max-height: none !important;
     }
     
     .contact-content {
