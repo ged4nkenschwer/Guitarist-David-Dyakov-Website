@@ -3106,82 +3106,75 @@ textarea {
         font-size: clamp(1.5rem, 5vw, 2rem); /* Responsive scaling */
     }
     
-    /* Hero section on mobile - optimized height */
+    /* Hero section on mobile - image-height based, no viewport stretch */
     .hero {
-        height: 100vh; /* Full viewport height */
-        min-height: 100vh;
-        min-height: 100svh;
-        overflow: hidden;
-        padding: 0;
-        padding-top: 22vh; /* Move content higher up (but not on face) */
-        padding-bottom: calc(2rem + env(safe-area-inset-bottom));
-        align-items: center;
-        justify-content: flex-start;
+        height: auto !important; /* Let image determine height */
+        min-height: auto !important;
+        overflow: visible;
+        padding: 0 !important;
+        padding-top: 60px !important; /* Space for fixed header */
+        display: block !important;
+        position: relative;
     }
     
-    /* Mobile hero image - align with menu bottom */
+    /* Mobile hero image - full width, natural aspect ratio */
     .hero-image {
-        height: calc(100vh - 60px) !important;
-        top: 60px !important; /* Start directly below menu bar */
+        position: relative !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: auto !important;
     }
     
     .hero-image img {
-        object-fit: contain !important; /* Show full 2:3 image without cropping */
-        object-position: center top !important; /* Align to top */
-        height: 100% !important;
         width: 100% !important;
-        transform: none !important;
-        filter: brightness(0.5) contrast(1.1) !important; /* Slightly darker for readability */
+        height: auto !important; /* Natural aspect ratio */
+        object-fit: contain !important;
+        display: block !important;
+        filter: brightness(0.55) contrast(1.1) !important;
     }
     
-    /* Dark gradient starting at stool height - seamless transition */
+    /* Dark gradient at bottom - bleeding into image */
     .hero::before {
-        top: 0 !important;
+        content: '' !important;
+        position: absolute !important;
         bottom: 0 !important;
-        height: auto !important;
-        background: linear-gradient(180deg, 
-            rgba(5, 7, 11, 0.1) 0%, 
-            transparent 15%,
-            transparent 45%,
-            rgba(5, 7, 11, 0.3) 60%,
-            rgba(5, 7, 11, 0.7) 80%,
+        left: 0 !important;
+        right: 0 !important;
+        top: auto !important;
+        height: 50% !important;
+        background: linear-gradient(to bottom, 
+            transparent 0%,
+            rgba(5, 7, 11, 0.2) 20%,
+            rgba(5, 7, 11, 0.5) 45%,
+            rgba(5, 7, 11, 0.8) 70%,
             var(--bg-main) 100%
         ) !important;
         z-index: 1 !important;
+        pointer-events: none !important;
     }
     
     .hero::after {
-        top: auto !important;
-        bottom: 0 !important;
-        height: 40vh !important; /* Large gradient from stool height to bottom */
-        background: linear-gradient(to bottom, 
-            transparent 0%,
-            rgba(5, 7, 11, 0.5) 30%,
-            rgba(5, 7, 11, 0.85) 60%,
-            var(--bg-main) 100%
-        ) !important;
-        opacity: 1 !important;
-        z-index: 1 !important;
+        display: none !important; /* Not needed */
     }
     
     .hero-content,
     .hero-copy {
-        position: relative;
-        bottom: auto;
-        top: auto;
-        transform: none;
-        left: auto;
-        right: auto;
-        max-width: 800px; /* Same as desktop */
-        width: 100%;
-        padding: 1rem 20px;
-        padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
-        margin: 0 auto;
+        position: absolute !important;
+        bottom: 5% !important; /* Position at bottom of image */
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        top: auto !important;
+        right: auto !important;
+        max-width: 95% !important;
+        width: 95% !important;
+        padding: 0.5rem 10px !important;
+        margin: 0 !important;
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: flex-end;
         text-align: center;
         z-index: 3;
     }
@@ -3191,25 +3184,26 @@ textarea {
     .hero-tagline.tagline,
     .hero-tagline.tagline-small {
         font-family: "Kaushan Script", cursive !important;
-        font-size: 20.8px !important; /* Exact size from desktop */
+        font-size: 0.85rem !important; /* Smaller for compact layout */
         font-style: normal !important;
         font-weight: 400 !important;
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
         line-height: 1.15 !important;
-        padding-bottom: 0.2em !important;
+        padding-bottom: 0.1em !important;
+        margin-bottom: 0.4rem !important;
     }
     
-    /* Hero title - Mobile: fixed sizes for consistency across devices */
+    /* Hero title - Mobile: compact sizes */
     .hero-title {
-        font-size: 1.1rem !important;
+        font-size: 0.75rem !important;
         line-height: 1.2 !important;
-        margin-bottom: 0.5rem !important;
-        padding: 0 0.5rem !important;
+        margin-bottom: 0.2rem !important;
+        padding: 0 !important;
     }
     
     .hero h1 {
-        font-size: 3.2rem !important; /* Fixed size for consistency */
-        margin-bottom: 0.3rem !important;
+        font-size: 2rem !important; /* Smaller for compact layout */
+        margin-bottom: 0.15rem !important;
         padding: 0;
         line-height: 1.0;
         max-width: 100%;
@@ -3222,10 +3216,10 @@ textarea {
     
     /* Hero subtitle - same style as name but smaller */
     .hero-subtitle {
-        font-size: 2rem !important; /* Fixed size */
+        font-size: 1.1rem !important; /* Smaller */
         color: var(--accent-gold) !important;
         letter-spacing: 0.04em !important;
-        margin-bottom: 1rem !important;
+        margin-bottom: 0.4rem !important;
         font-family: var(--font-classic) !important;
         font-weight: 500 !important;
         white-space: nowrap !important;
@@ -3233,65 +3227,62 @@ textarea {
     
     .tagline {
         font-family: var(--font-elegant) !important;
-        font-size: 1.15rem !important; /* Fixed size */
+        font-size: 0.8rem !important; /* Smaller */
         font-style: italic !important;
         letter-spacing: 0.5px !important;
         color: var(--text-muted) !important;
-        margin-bottom: 2rem !important;
+        margin-bottom: 0.5rem !important;
         padding: 0;
-        line-height: 1.6 !important;
+        line-height: 1.4 !important;
         max-width: 100%;
     }
     
-    /* Hero KPI line - Mobile: fixed sizes */
+    /* Hero KPI line - Mobile: compact sizes */
     .hero-kpis {
         font-family: var(--font-elegant) !important;
-        font-size: 1.05rem !important; /* Fixed size for consistency */
-        line-height: 1.25 !important;
+        font-size: 0.75rem !important; /* Smaller */
+        line-height: 1.2 !important;
         font-weight: 600 !important;
         font-style: italic !important;
-        letter-spacing: 0.5px !important;
+        letter-spacing: 0.3px !important;
         color: var(--text-muted) !important;
-        margin-bottom: 1rem !important;
+        margin-bottom: 0.4rem !important;
     }
     
-    /* Hero tagline - Mobile: fixed sizes */
+    /* Hero tagline - Mobile: compact sizes */
     .hero-tagline.tagline,
     .hero-tagline.tagline-small,
     p.hero-tagline {
         font-family: "Kaushan Script", cursive !important;
-        font-size: 1.25rem !important; /* Fixed size for consistency */
+        font-size: 0.85rem !important; /* Smaller */
         line-height: 1.15 !important;
         font-style: normal !important;
         font-weight: 400 !important;
         letter-spacing: 0.2px !important;
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
         color: var(--text-muted) !important;
-        padding-bottom: 0.15em !important;
-        margin-bottom: 1.5rem !important;
+        padding-bottom: 0.1em !important;
+        margin-bottom: 0.5rem !important;
     }
     
     .tagline-small {
-        font-size: 1.1rem !important; /* Fixed size */
-        margin-bottom: 2rem !important;
-        margin-top: -0.5rem !important;
-        padding: 0 0.5rem !important;
+        font-size: 0.75rem !important; /* Smaller */
+        margin-bottom: 0.5rem !important;
+        margin-top: -0.2rem !important;
+        padding: 0 !important;
     }
     
     .hero .btn,
     .hero .btn-cta-video {
-        margin: 0.5rem auto !important;
-        padding: 1rem 1.5rem !important;
-        font-size: 0.95rem !important;
+        margin: 0.25rem auto !important;
+        padding: 0.5rem 0.8rem !important; /* Smaller padding */
+        font-size: 0.7rem !important; /* Smaller font */
         width: auto;
-        max-width: 95%; /* More space for long text */
-        white-space: nowrap; /* Keep text on one line */
+        max-width: 90%;
+        white-space: nowrap;
         display: block !important;
         box-sizing: border-box;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
         text-align: center;
-        /* Same style as "Inquire Now" button - dark background with gold border */
         background-color: var(--accent-ink) !important;
         color: var(--text-primary) !important;
         border: 1px solid var(--accent-gold) !important;
@@ -3299,23 +3290,24 @@ textarea {
     
     /* Stack buttons on mobile - centered */
     .hero .btn + .btn {
-        margin-top: 0.6rem !important;
+        margin-top: 0.25rem !important;
         margin-left: auto !important;
         margin-right: auto !important;
     }
     
     /* Hero dash and role on mobile */
     .hero-dash {
-        font-size: 1.5rem;
-        margin: 0.1rem 0;
+        font-size: 0.8rem;
+        margin: 0.05rem 0;
+        display: none !important; /* Hide dash for compact layout */
     }
     
     .hero-role {
-        font-size: 1.8rem !important; /* Fixed size for consistency */
+        font-size: 1.1rem !important; /* Smaller */
         font-family: var(--font-display) !important;
         font-weight: 700 !important;
         letter-spacing: 0.04em !important;
-        margin-bottom: 1rem;
+        margin-bottom: 0.4rem;
     }
     
     /* Section titles - responsive, no overflow */
@@ -3332,7 +3324,13 @@ textarea {
     }
 
     .section {
-        padding: 4rem 0;
+        padding: 2.5rem 0;
+    }
+    
+    /* Pull first section closer to hero image */
+    #follow-me {
+        padding-top: 1.5rem !important;
+        margin-top: -2rem !important; /* Overlap with hero gradient */
     }
 
     .biography-content,
@@ -3585,19 +3583,7 @@ textarea {
         font-size: 1.5rem;
     }
     
-    /* Extra small screens - iPhone SE and similar */
-    .hero {
-        padding-top: 20vh !important; /* Content higher up but not on face */
-        padding-bottom: calc(1.5rem + env(safe-area-inset-bottom)) !important;
-    }
-    
-    /* Hero image - show full 2:3 image */
-    .hero-image img {
-        object-fit: contain !important; /* Show full image without cropping */
-        object-position: center top !important;
-        filter: brightness(0.5) contrast(1.1) !important;
-    }
-    
+    /* Extra small screens - consistent with compact hero layout */
     /* Biography and Lessons images on smaller screens */
     .bio-image {
         height: 260px !important;
@@ -3607,76 +3593,22 @@ textarea {
         height: 240px !important;
     }
     
+    /* Hero content slightly smaller on 576px */
     .hero-content {
-        padding: 0.8rem 0.8rem 1.5rem 0.8rem !important;
-        transform: scale(0.88) !important;
-        transform-origin: center top !important;
-    }
-    
-    /* Hero title - Extra small screens */
-    .hero-title {
-        font-size: clamp(0.9rem, 2vw, 1.1rem) !important;
-        line-height: 1.2 !important;
-        margin-bottom: 0.4rem !important;
+        bottom: 4% !important;
     }
     
     .hero h1 {
-        font-size: clamp(2.8rem, 11vw, 4rem) !important; /* Proportional to desktop */
-        margin-bottom: 0.3rem !important;
-        font-family: var(--font-classic) !important;
-        font-weight: 600 !important;
-        letter-spacing: normal !important;
-        color: #B8945A !important;
+        font-size: 1.8rem !important;
     }
     
     .hero-subtitle {
-        font-size: clamp(1.3rem, 5vw, 1.8rem) !important;
-        margin-bottom: 0.8rem !important;
-    }
-    
-    .hero-kpis {
-        font-family: var(--font-elegant) !important;
-        font-size: clamp(1rem, 3vw, 1.4rem) !important; /* Proportional to desktop */
-        line-height: 1.25 !important;
-        font-weight: 600 !important;
-        font-style: italic !important;
-        letter-spacing: 0.5px !important;
-        color: var(--text-muted) !important;
-    }
-    
-    .hero-tagline.tagline,
-    .hero-tagline.tagline-small,
-    p.hero-tagline {
-        font-family: "Kaushan Script", cursive !important;
-        font-size: 20.8px !important; /* Exact size from desktop */
-        line-height: 1.15 !important;
-        font-style: normal !important;
-        font-weight: 400 !important;
-        letter-spacing: 0.2px !important;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
-        color: var(--text-muted) !important;
-    }
-    
-    .tagline {
-        font-family: var(--font-elegant) !important;
-        font-size: clamp(0.9rem, 2.5vw, 1.1rem) !important;
-        font-style: italic !important;
-        letter-spacing: 0.5px !important;
-        color: var(--text-muted) !important;
-        margin-bottom: 1.5rem !important;
-    }
-    
-    .tagline-small {
-        font-size: clamp(0.9rem, 2.5vw, 1.1rem) !important;
-        margin-bottom: 1.5rem !important;
-        margin-top: -0.3rem !important;
+        font-size: 1rem !important;
     }
     
     .hero .btn {
-        padding: 0.9rem 1.2rem !important;
-        font-size: 0.85rem !important;
-        white-space: nowrap !important;
-        max-width: 98% !important;
+        padding: 0.45rem 0.7rem !important;
+        font-size: 0.65rem !important;
     }
 
     .videos-grid {
@@ -3697,23 +3629,6 @@ textarea {
 
 /* Very small screens - 480px and below */
 @media (max-width: 480px) {
-    .hero {
-        height: 100vh !important; /* Full viewport */
-        padding-top: 20vh !important; /* Content higher up but not on face */
-    }
-    
-    .hero-image {
-        height: calc(100vh - 60px) !important;
-        top: 60px !important; /* Start directly below menu bar */
-    }
-    
-    .hero-image img {
-        object-fit: contain !important; /* Show full 2:3 image without cropping */
-        object-position: center top !important;
-        transform: none !important;
-        filter: brightness(0.5) contrast(1.1) !important;
-    }
-    
     /* Smaller images on very small screens */
     .bio-image {
         height: 220px !important;
@@ -3723,50 +3638,32 @@ textarea {
         height: 200px !important;
     }
     
+    /* Hero content even smaller on 480px */
     .hero-content {
-        transform: scale(0.88) !important;
+        bottom: 3% !important;
+    }
+    
+    .hero h1 {
+        font-size: 1.6rem !important;
+    }
+    
+    .hero-subtitle {
+        font-size: 0.9rem !important;
     }
     
     .hero-kpis {
-        font-family: var(--font-elegant) !important;
-        font-size: clamp(0.95rem, 3vw, 1.3rem) !important; /* Proportional to desktop */
-        line-height: 1.25 !important;
-        font-weight: 600 !important;
-        font-style: italic !important;
-        letter-spacing: 0.5px !important;
-        color: var(--text-muted) !important;
+        font-size: 0.65rem !important;
     }
     
     .hero-tagline.tagline,
     .hero-tagline.tagline-small,
     p.hero-tagline {
-        font-family: "Kaushan Script", cursive !important;
-        font-size: 20.8px !important; /* Exact size from desktop */
-        line-height: 1.15 !important;
-        font-style: normal !important;
-        font-weight: 400 !important;
-        letter-spacing: 0.2px !important;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
-        color: var(--text-muted) !important;
-    }
-    
-    .hero h1 {
-        font-size: clamp(2.5rem, 10vw, 3.5rem) !important; /* Proportional to desktop */
-        font-family: var(--font-classic) !important;
-        font-weight: 600 !important;
-        letter-spacing: normal !important;
-        color: #B8945A !important;
-    }
-    
-    .hero-subtitle {
-        font-size: clamp(1.2rem, 4vw, 1.6rem) !important;
+        font-size: 0.75rem !important;
     }
     
     .hero .btn {
-        padding: 0.8rem 1rem !important;
-        font-size: 0.8rem !important;
-        white-space: nowrap !important;
-        max-width: 100% !important;
+        padding: 0.4rem 0.6rem !important;
+        font-size: 0.6rem !important;
     }
 }
 
