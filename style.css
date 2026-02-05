@@ -3327,9 +3327,9 @@ textarea {
         padding: 2.5rem 0;
     }
     
-    /* First section after hero - enough space for hero buttons */
+    /* First section after hero - compact gap, hero buttons stay visible */
     #follow-me {
-        padding-top: 5rem !important;
+        padding-top: 3rem !important;
         margin-top: 0 !important;
     }
 
