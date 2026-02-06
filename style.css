@@ -3187,7 +3187,7 @@ textarea {
     .hero-tagline.tagline,
     .hero-tagline.tagline-small {
         font-family: "Kaushan Script", cursive !important;
-        font-size: 0.85rem !important; /* Smaller for compact layout */
+        font-size: 0.95rem !important;
         font-style: normal !important;
         font-weight: 400 !important;
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
@@ -3196,16 +3196,16 @@ textarea {
         margin-bottom: 0.4rem !important;
     }
     
-    /* Hero title - Mobile: compact sizes */
+    /* Hero title - Mobile: slightly larger for readability */
     .hero-title {
-        font-size: 0.75rem !important;
+        font-size: 0.9rem !important;
         line-height: 1.2 !important;
         margin-bottom: 0.2rem !important;
         padding: 0 !important;
     }
     
     .hero h1 {
-        font-size: 2rem !important; /* Smaller for compact layout */
+        font-size: 2.5rem !important;
         margin-bottom: 0.15rem !important;
         padding: 0;
         line-height: 1.0;
@@ -3219,7 +3219,7 @@ textarea {
     
     /* Hero subtitle - same style as name but smaller */
     .hero-subtitle {
-        font-size: 1.1rem !important; /* Smaller */
+        font-size: 1.35rem !important;
         color: var(--accent-gold) !important;
         letter-spacing: 0.04em !important;
         margin-bottom: 0.4rem !important;
@@ -3257,7 +3257,7 @@ textarea {
     .hero-tagline.tagline-small,
     p.hero-tagline {
         font-family: "Kaushan Script", cursive !important;
-        font-size: 0.85rem !important; /* Smaller */
+        font-size: 0.95rem !important;
         line-height: 1.15 !important;
         font-style: normal !important;
         font-weight: 400 !important;
@@ -3278,8 +3278,8 @@ textarea {
     .hero .btn,
     .hero .btn-cta-video {
         margin: 0.25rem auto !important;
-        padding: 0.5rem 0.8rem !important; /* Smaller padding */
-        font-size: 0.7rem !important; /* Smaller font */
+        padding: 0.65rem 1.1rem !important;
+        font-size: 0.9rem !important;
         width: auto;
         max-width: 90%;
         white-space: nowrap;
@@ -3306,7 +3306,7 @@ textarea {
     }
     
     .hero-role {
-        font-size: 1.1rem !important; /* Smaller */
+        font-size: 1.25rem !important;
         font-family: var(--font-display) !important;
         font-weight: 700 !important;
         letter-spacing: 0.04em !important;
@@ -3315,7 +3315,7 @@ textarea {
     
     /* Section titles - responsive, no overflow */
     .section-title {
-        font-size: 1.8rem !important; /* Fixed size */
+        font-size: 1.8rem !important;
         word-wrap: break-word;
         overflow-wrap: break-word;
         hyphens: auto;
@@ -3324,6 +3324,10 @@ textarea {
         box-sizing: border-box;
         white-space: normal;
         line-height: 1.2;
+    }
+    /* "Discover More" section title - smaller on mobile */
+    #follow-me .section-title {
+        font-size: 1.35rem !important;
     }
 
     .section {
@@ -3641,16 +3645,16 @@ textarea {
     }
     
     .hero h1 {
-        font-size: 1.8rem !important;
+        font-size: 2.2rem !important;
     }
     
     .hero-subtitle {
-        font-size: 1rem !important;
+        font-size: 1.2rem !important;
     }
     
     .hero .btn {
-        padding: 0.45rem 0.7rem !important;
-        font-size: 0.65rem !important;
+        padding: 0.55rem 0.9rem !important;
+        font-size: 0.8rem !important;
     }
 
     .videos-grid {
@@ -3686,11 +3690,11 @@ textarea {
     }
     
     .hero h1 {
-        font-size: 1.6rem !important;
+        font-size: 1.95rem !important;
     }
     
     .hero-subtitle {
-        font-size: 0.9rem !important;
+        font-size: 1.1rem !important;
     }
     
     .hero-kpis {
@@ -3700,12 +3704,12 @@ textarea {
     .hero-tagline.tagline,
     .hero-tagline.tagline-small,
     p.hero-tagline {
-        font-size: 0.75rem !important;
+        font-size: 0.85rem !important;
     }
     
     .hero .btn {
-        padding: 0.4rem 0.6rem !important;
-        font-size: 0.6rem !important;
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.75rem !important;
     }
 }
 
